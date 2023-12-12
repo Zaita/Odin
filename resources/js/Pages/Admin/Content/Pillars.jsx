@@ -2,6 +2,8 @@ import React, { useRef, useState, Component } from 'react';
 import { router } from '@inertiajs/react'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import DownloadIcon from '@mui/icons-material/Download';
+import {Link} from '@inertiajs/react';
 
 import AdminPanel from '@/Layouts/AdminPanel';
 import ThemedButton from '@/Components/ThemedButton';
@@ -49,6 +51,7 @@ export default function Pillars(props) {
             <div className="font-bold">Actions</div>
         </div>
         {props.pillars?.data?.map((pillar, index) => {
+          let x = pillar.id;
           return (
           <div key={index} style={{borderBottom: "1px solid white"}} className="pt-1">
             <div className="w-1/6 float-left">{pillar.name}</div>
@@ -57,6 +60,9 @@ export default function Pillars(props) {
             <div> 
               <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.content.pillar.edit', [pillar.id]))}/> 
               <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(pillar)}/>
+              <a href={route('admin.content.pillar.download', x)}>
+                <DownloadIcon className="cursor-pointer"/>
+              </a>
             </div>
           </div>)
         })}       

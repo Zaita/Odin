@@ -12,12 +12,14 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use App\Models\Configuration;
 use App\Models\AuditLog;
+use App\Models\ActionField;
 use App\Models\InputField;
 use App\Models\Pillar;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
 use App\Http\Requests\AdminContentPillarUpdateRequest;
 use App\Http\Requests\InputFieldRequest;
+use App\Http\Requests\ActionFieldRequest;
 use App\Http\Requests\AdminSiteConfigUpdateRequest;
 use App\Http\Requests\QuestionnaireQuestionRequest;
 
@@ -37,21 +39,8 @@ class PillarController extends Controller
   }
 
   /**
-   * Delete a group. We have some protected groups that we don't
-   * allow to be removed as they are necessary for the approval
-   * flows 
-   */
-  public function delete(Request $request)  {  
-    AuditLog::Log("Content.Pillars.Delete", $request);
-    $id = $request->input('id', -1);
-    $pillar = Pillar::with(["questionnaire"])->findOrFail($id);
-    $pillar->questionnaire->delete();
-    $pillar->delete();
-    return Redirect::route('admin.content.pillars');
-  }
-
-  /**
-   * Show the add page
+   * Content -> Pillars -> Add
+   * Load the add screen
    */
   public function add(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
@@ -72,6 +61,41 @@ class PillarController extends Controller
     $p->save();
     return Redirect::route('admin.content.pillar.edit', $p->id);
   }
+
+  /**
+   * Delete a group. We have some protected groups that we don't
+   * allow to be removed as they are necessary for the approval
+   * flows 
+   */
+  public function delete(Request $request)  {  
+    AuditLog::Log("Content.Pillars.Delete", $request);
+    $id = $request->input('id', -1);
+    $pillar = Pillar::with(["questionnaire"])->findOrFail($id);
+    $pillar->questionnaire->delete();
+    $pillar->delete();
+    return Redirect::route('admin.content.pillars');
+  }
+
+  /**
+   * Download a pillar as a JSON file
+   */
+  public function download(Request $request, $pillarId)  {  
+    AuditLog::Log("Content.Pillar(${pillarId}).Download", $request);
+    return response()->streamDownload(
+      function () use ($pillarId) { 
+        $pillar = Pillar::with(["questionnaire", 
+        "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');},
+        "questionnaire.questions.inputFields",
+        "questionnaire.questions.actionFields",
+        ])->findOrFail($pillarId);
+        echo json_encode($pillar, JSON_PRETTY_PRINT);
+      }
+    ,'pillar.txt');
+  }
+
+
+
+  
 
     /**
    * **************************************************************************
@@ -154,7 +178,7 @@ class PillarController extends Controller
   /**
    * Update the order of our questions in the pillar
    */
-  public function pillar_questions_update(Request $request, $id) {
+  public function pillar_questions_reorder(Request $request, $id) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::with(["questionnaire", "questionnaire.questions"])->findOrFail($id);
     
@@ -206,9 +230,9 @@ class PillarController extends Controller
   }
   
   /**
-   * Update the content in one of our questions. 
+   * Save changes to a question 
    */
-  public function pillar_question_update(QuestionnaireQuestionRequest $request, $pillarId, $questionId) {
+  public function pillar_question_save(QuestionnaireQuestionRequest $request, $pillarId, $questionId) {
     AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Update", $request);
     $question = QuestionnaireQuestion::findOrFail($questionId);
     $question->update($request->validated());
@@ -225,17 +249,17 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($id);
     $question = QuestionnaireQuestion::with(['inputFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
     
-    return Inertia::render('Admin/Content/Pillars/Questions/Inputs', [
+    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/View', [
       'siteConfig' => $config,
       'pillar' => $pillar,
       'question' => $question,
     ]); 
   }
 
-    /**
+  /**
    * Update the order of the input fields for our question
    */
-  public function pillar_question_inputs_update(Request $request, $pillarId, $questionId) {
+  public function pillar_question_inputs_reorder(Request $request, $pillarId, $questionId) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
 
@@ -333,5 +357,94 @@ class PillarController extends Controller
     $inputField->delete();   
     
     return Redirect::route('admin.content.pillar.question.inputs', ["id" => $pillarId, "questionId" => $questionId]);
+  }
+
+  /**
+   * **************************************************************************
+   * The following section deals with working with actions on a question
+   * **************************************************************************
+   */
+  public function pillar_question_actions(Request $request, $pillarId, $questionId) {
+    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Actions", $request);
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $pillar = Pillar::findOrFail($pillarId);
+    $question = QuestionnaireQuestion::with(['actionFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
+    
+    return Inertia::render('Admin/Content/Pillars/Questions/Actions/View', [
+      'siteConfig' => $config,
+      'pillar' => $pillar,
+      'question' => $question,
+    ]); 
+  }
+
+  /**
+   * Update the order of the action fields for our question
+   */
+  public function pillar_question_actions_reorder(Request $request, $pillarId, $questionId) {
+    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Actions.Reorder", $request);
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $question = QuestionnaireQuestion::with('actionFields')->findOrFail($questionId);
+
+    $fields = $question->actionFields;
+    $newOrder = $request->input('newOrder'); 
+    for ($i = 0; $i < count($newOrder); $i++) {
+      for ($j = 0; $j < count($fields); $j++) {
+        if ($fields[$j]->id == $newOrder[$i]) {
+          $question->actionFields[$j]->sort_order = $i;
+          $question->actionFields[$j]->save();
+          continue 2;
+        }
+      }      
+    }
+
+    return Redirect::route('admin.content.pillar.question.actions', ["id" => $pillarId, "questionId" => $questionId]);
+  }
+
+    /**
+   * Load the Pillar->Questionnaire->Question->Action->Add Screen
+   */
+  public function pillar_question_action_add(Request $request, $pillarId, $questionId) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $pillar = Pillar::with(["questionnaire",  "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($pillarId);
+    $question = QuestionnaireQuestion::findOrFail($questionId);
+
+    $questionTitles = array([""]);
+    foreach($pillar->questionnaire->questions as $Actionquestion) {
+      array_push($questionTitles, $Actionquestion->title);
+    }
+
+    return Inertia::render('Admin/Content/Pillars/Questions/Actions/Add', [
+      'siteConfig' => $config,
+      'pillar' => $pillar,
+      'question' => $question,
+      'questionTitles' => $questionTitles,
+    ]); 
+  }
+
+    /**
+   * Handle the POST back adding a new Action Field to our Question
+   */
+  public function pillar_question_action_create(ActionFieldRequest $request, $pillarId, $questionId) {
+    AuditLog::Log("Content.Pillar.Question.Action.Create", $request);    
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $pillar = Pillar::findOrFail($pillarId);
+
+    $question = QuestionnaireQuestion::with('actionFields')->findOrFail($questionId);
+    
+    $newField = new ActionField($request->safe()->except("tasks"));
+    $taskArr = array();
+    $tasks = $request->input('tasks', []);
+    foreach($tasks as $task) {
+      array_push($taskArr, ["name" => $task["value"]]);
+    }       
+    
+    $newField->tasks = json_encode($taskArr);
+    $newField->sort_order = count($question->actionFields);
+    if (!$newField->isValid($question)) {
+      return back()->withInput()->withErrors($newField->errors);  
+    }
+    $question->actionFields()->save($newField);
+
+    return Redirect::route('admin.content.pillar.question.actions', ["id" => $pillarId, "questionId" => $questionId]);
   }
 };

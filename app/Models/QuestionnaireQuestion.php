@@ -11,21 +11,27 @@ use App\Models\ActionField;
 
 class QuestionnaireQuestion extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $table = 'questionnaire_questions';
+  protected $table = 'questionnaire_questions';
 
-    protected $fillable = [
-      'title',
-      'heading',
-      'description'
-    ];
+  protected $fillable = [
+    'title',
+    'heading',
+    'description'
+  ];
 
-    public function inputFields(): HasMany {
-      return $this->hasMany(InputField::class);
-    }
+  protected $hidden = [
+    "questionnaire_id",
+    "created_at",
+    "updated_at"
+  ];
 
-    public function actionFields(): HasMany {
-      return $this->hasMany(ActionField::class);
-    }
+  public function inputFields(): HasMany {
+    return $this->hasMany(InputField::class);
+  }
+
+  public function actionFields(): HasMany {
+    return $this->hasMany(ActionField::class);
+  }
 }

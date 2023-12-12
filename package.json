@@ -27,6 +27,7 @@
         "@mui/material": "^5.14.17",
         "react-contenteditable": "^3.3.7",
         "react-datepicker": "^4.21.0",
+        "react-select": "^5.8.0",
         "watch": "^0.13.0",
         "webpack": "^5.89.0"
     }

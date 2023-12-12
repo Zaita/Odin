@@ -11,34 +11,38 @@ use App\Models\Questionnaire;
 
 class Pillar extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+  protected $table = 'pillars';
 
-    protected $table = 'pillars';
+  protected $fillable = [
+      'name',
+      'caption',
+      'key_information',
+      'type',
+      'risk_calculation',
+      'icon',
+      'auto_approve',
+      'auto_approve_no_tasks',
+      'submission_expires',
+      'expire_after_dayes',
+      'sort_order',
+      'enabled',
+  ];
 
-    protected $fillable = [
-        'name',
-        'caption',
-        'key_information',
-        'type',
-        'risk_calculation',
-        'icon',
-        'auto_approve',
-        'auto_approve_no_tasks',
-        'submission_expires',
-        'expire_after_dayes',
-        'sort_order',
-        'enabled',
-    ];
+  protected $hidden = [
+    "sort_order",
+    "questionnaire_id",
+    "created_at",
+    "updated_at"
+  ];
 
-    protected $casts = [
-      'sort_order' => 'integer',
-      'enabled' => 'boolean',
+  protected $casts = [
+    'sort_order' => 'integer',
+    'enabled' => 'boolean',
+    "auto_approve" => "boolean",
+    "auto_approve_no_tasks" => "boolean",
+    "submission_expires" => "boolean",
   ];
 
   public function questionnaire(): BelongsTo {
