@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string("label");
             $table->string("action_type");
             $table->string("goto_question_title")->nullable();
-            $table->string("tasks")->nullable();
+            $table->json("tasks")->nullable();
+            $table->integer("sort_order")->default(999);
             $table->timestamps();
         });
     }

@@ -104,36 +104,38 @@ Route::middleware('can:isAdmin')->group(function() {
   Route::get('/admin/content/dashboard/pillars', [Admin_Content_Dashboard::class, 'pillars'])->name('admin.content.dashboard.pillars');
   Route::post('/admin/content/dashboard/pillars', [Admin_Content_Dashboard::class, 'updatePillarOrder'])->name('admin.content.dashboard.pillars.updateorder');
   Route::get('/admin/content/dashboard/tasks', [ContentDashboardController::class, 'tasks'])->name('admin.content.dashboard.tasks');
-  
+  // General Pillars
   Route::get('/admin/content/pillars', [Admin_Content_Pillar::class, 'index'])->name('admin.content.pillars');
   Route::get('/admin/content/pillars/add', [Admin_Content_Pillar::class, 'add'])->name('admin.content.pillars.add');
   Route::post('/admin/content/pillars/add', [Admin_Content_Pillar::class, 'create'])->name('admin.content.pillar.create');
   Route::get('/admin/content/pillars/edit/{id}', [Admin_Content_Pillar::class, 'edit'])->name('admin.content.pillar.edit');
   Route::post('/admin/content/pillars/save', [Admin_Content_Pillar::class, 'save'])->name('admin.content.pillar.save');   
   Route::post('/admin/content/pillars/delete', [Admin_Content_Pillar::class, 'delete'])->name('admin.content.pillars.delete');   
+  Route::get('/admin/content/pillar/download/{id}', [Admin_Content_Pillar::class, 'download'])->name('admin.content.pillar.download');   
+
+  // Editing a specific Pillar now
   Route::get('/admin/content/pillars/{id}/questions', [Admin_Content_Pillar::class, 'pillar_questions_index'])->name('admin.content.pillar.questions');
   Route::get('/admin/content/pillars/{id}/questions/add', [Admin_Content_Pillar::class, 'pillar_questions_add'])->name('admin.content.pillar.question.add');
   Route::post('/admin/content/pillars/{id}/questions/add', [Admin_Content_Pillar::class, 'pillar_questions_create'])->name('admin.content.pillar.question.create');
-  Route::post('/admin/content/pillars/{id}/questions/update', [Admin_Content_Pillar::class, 'pillar_questions_update'])->name('admin.content.pillar.questions.update');
+  Route::post('/admin/content/pillars/{id}/questions/reorder', [Admin_Content_Pillar::class, 'pillar_questions_reorder'])->name('admin.content.pillar.questions.reorder');
   // Editing a specific question now
   Route::post('/admin/content/pillars/{id}/questions/{questionId}/delete', [Admin_Content_Pillar::class, 'pillar_question_delete'])->name('admin.content.pillar.question.delete');
   Route::get('/admin/content/pillars/{id}/questions/{questionId}/edit', [Admin_Content_Pillar::class, 'pillar_question_edit'])->name('admin.content.pillar.question.edit');
-  Route::post('/admin/content/pillars/{id}/questions/{questionId}/update', [Admin_Content_Pillar::class, 'pillar_question_update'])->name('admin.content.pillar.question.update');
-
+  Route::post('/admin/content/pillars/{id}/questions/{questionId}/save', [Admin_Content_Pillar::class, 'pillar_question_save'])->name('admin.content.pillar.question.save');
+  // Question -> Inputs
   Route::get('/admin/content/pillars/{id}/question/{questionId}/inputs', [Admin_Content_Pillar::class, 'pillar_question_inputs'])->name('admin.content.pillar.question.inputs');
-  Route::post('/admin/content/pillars/{id}/question/{questionId}/inputs/update', [Admin_Content_Pillar::class, 'pillar_question_inputs_update'])->name('admin.content.pillar.question.inputs.update');
+  Route::post('/admin/content/pillars/{id}/question/{questionId}/inputs/reorder', [Admin_Content_Pillar::class, 'pillar_question_inputs_reorder'])->name('admin.content.pillar.question.inputs.reorder');
   Route::get('/admin/content/pillars/{id}/question/{questionId}/input/add', [Admin_Content_Pillar::class, 'pillar_question_input_add'])->name('admin.content.pillar.question.input.add');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/input/create', [Admin_Content_Pillar::class, 'pillar_question_input_create'])->name('admin.content.pillar.question.input.create');
   Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/edit', [Admin_Content_Pillar::class, 'pillar_question_input_edit'])->name('admin.content.pillar.question.input.edit');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/save', [Admin_Content_Pillar::class, 'pillar_question_input_save'])->name('admin.content.pillar.question.input.save');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/delete', [Admin_Content_Pillar::class, 'pillar_question_input_delete'])->name('admin.content.pillar.question.input.delete');
-  
-  
-  
-  
-    
+  // Question -> Actions
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/actions', [Admin_Content_Pillar::class, 'pillar_question_actions'])->name('admin.content.pillar.question.actions');
+  Route::post('/admin/content/pillars/{id}/question/{questionId}/actions/reorder', [Admin_Content_Pillar::class, 'pillar_question_actions_reorder'])->name('admin.content.pillar.question.actions.reorder');
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/action/add', [Admin_Content_Pillar::class, 'pillar_question_action_add'])->name('admin.content.pillar.question.action.add');
+  Route::post('/admin/content/pillars/{id}/question/{questionId}/action/create', [Admin_Content_Pillar::class, 'pillar_question_action_create'])->name('admin.content.pillar.question.action.create');
 
-  Route::get('/admin/content/pillars/{id}/questions/{questionId}/actions', [Admin_Content_Pillar::class, 'pillar_questions_actions'])->name('admin.content.pillar.question.actions');
 
   Route::get('/admin/content/pillars/{id}/tasks', [Admin_Content_Pillar::class, 'edit'])->name('admin.content.pillar.tasks');
 

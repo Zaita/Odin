@@ -28,6 +28,20 @@ class InputField extends Model
       'ticket_url'
     ];
 
+    protected $hidden = [
+      "questionnaire_question_id",
+      "created_at",
+      "updated_at",
+    ];
+
+    protected $casts = [
+      "required" => "boolean",
+      "product_name" => "boolean",
+      "business_owner" => "boolean",
+      "release_date" => "boolean",
+      "ticket_url" => "boolean",
+    ];
+
     /**
      * Check if this input field is a valid candidate for being added
      * to the question parameter

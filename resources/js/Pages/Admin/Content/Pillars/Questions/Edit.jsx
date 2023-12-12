@@ -85,7 +85,7 @@ export default function PillarEditQuestion(props) {
     [props.pillar.name, "admin.content.pillar.edit", props.pillar.id],
     ["Questions", "admin.content.pillar.questions", props.pillar.id],
     [props.question.title, "admin.content.pillar.question.edit", { id:props.pillar.id, questionId:props.question.id}],
-  ]
+  ] 
 
   let topMenuItems = [
     ["Question", "admin.content.pillar.question.edit", { id:props.pillar.id, questionId:props.question.id}],

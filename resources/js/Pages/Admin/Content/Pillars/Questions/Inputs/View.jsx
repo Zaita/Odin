@@ -1,28 +1,14 @@
 import React, { useRef, useState } from 'react';
 
 import AdminPanel from '@/Layouts/AdminPanel';
-import ThemedButton from '@/Components/ThemedButton';
 import InputList from '@/Components/Admin/Questionnaire/InputList';
-import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 
-
-export default function PillarEditQuestion(props) {  
+export default function InputsView(props) {  
   console.log("Admin.Content.Pillars.Questions.Inputs");  
-  let [saveErrors, setSaveErrors] = useState("");
-  let [saveOk, setSaveOk] = useState(null);
-  let userAnswers = useRef([]);
-
-  function handleChange(id, value) {
-    userAnswers.current[id] = value;
-  }
-  
-  function saveAnswersCallback() {
-    SaveAnswersWithId("admin.content.pillar.question.update", props.pillar.id, setSaveOk, setSaveErrors, userAnswers.current)
-  }
 
   let MyContent= <InputList
     addRoute="admin.content.pillar.question.input.add"
-    saveOrderRoute="admin.content.pillar.question.inputs.update"
+    saveOrderRoute="admin.content.pillar.question.inputs.reorder"
     editRoute="admin.content.pillar.question.input.edit"
     deleteRoute="admin.content.pillar.question.input.delete"
     question={props.question}
@@ -34,6 +20,7 @@ export default function PillarEditQuestion(props) {
     [props.pillar.name, "admin.content.pillar.edit", props.pillar.id],
     ["Questions", "admin.content.pillar.questions", props.pillar.id],
     [props.question.title, "admin.content.pillar.question.edit", { id:props.pillar.id, questionId:props.question.id}],
+    ["Inputs", "admin.content.pillar.question.actions", { id:props.pillar.id, questionId:props.question.id}],
   ]
 
   let topMenuItems = [

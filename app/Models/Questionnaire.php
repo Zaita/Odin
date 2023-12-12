@@ -21,10 +21,11 @@ class Questionnaire extends Model
       'type',
     ];
 
-    // public function questions(): BelongsTo {
-      // return $this->belongsTo(QuestionnaireQuestion::class);
-    // }
-
+    protected $hidden = [
+      "created_at",
+      "updated_at"
+    ];
+  
     public function questions(): HasMany {
       return $this->hasMany(QuestionnaireQuestion::class);
     }
@@ -58,7 +59,7 @@ class Questionnaire extends Model
             $f->required = $inputField->required;
             $f->min_length = $inputField->minLength;
             $f->max_length = $inputField->maxLength;
-            $f->place_holder = $inputField->placeHolder;
+            $f->placeholder = $inputField->placeHolder;
             $f->product_name = $inputField->productName;
             $f->business_owner = $inputField->businessOwner;
             $f->release_date = isset($inputField->releaseDate) ? isset($inputField->releaseDate) : false;
@@ -75,7 +76,7 @@ class Questionnaire extends Model
             $f->label = $actionField->label;
             $f->action_type = $actionField->actionType;
             $f->goto_question_title = isset($actionField->gotoQuestionTitle) ? $actionField->gotoQuestionTitle : null;
-            $f->tasks = isset($actionField->tasks) ? "" : null;
+            $f->tasks = isset($actionField->tasks) ? json_encode($actionField->tasks) : null;
             $f->save();
             printf("New Action Field: %s with id %d\n", $f->label, $f->id);
           }
