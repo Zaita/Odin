@@ -1,0 +1,346 @@
+{
+  "questionnaire": {
+    "name": "Proof of Concept",
+    "type": "Questionnaire",
+    "keyInformation": "<p>This questionnaire will ask you contextual questions about a proof of concept you would like to undertake. This is used to create a record of the experiment. A documentation trail must be created to ensure any potential risks associated with this experiment are appropriately documented and accepted.<\/p><p>A proof of concept generally must not include the use of any data that is classified, or contains personal information. If your proof of concept requires this to function, you will be required to get a security exemption as part of the SDLT process.<\/p><p>While it is unlikely that this submission will create any SDLT tasks, this will depend on the potential risk of your experiment. All tasks will need to be completed and\/or approved prior to starting your experiment.<\/p><p>If you do not complete this questionnaire within 14 days, it will automatically expire.<\/p>",
+    "bypassApproval": false,
+    "doesSubmissionExpire": "Yes",
+    "expireAfterDays ": 14,
+    "questions": [
+      {
+        "title": "Product Details",
+        "questionHeading": "Please enter details of the product",
+        "description": "Please enter the name, homepage and a contact email address for the product. If you do not have a contact within the product company, please put your own email address as point of contact.",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Product Name",
+            "inputType": "text",
+            "required": true,
+            "minLength": 3,
+            "maxLength": 0,
+            "placeHolder": "Product Name",
+            "isBusinessOwner": false,
+            "isProductName": true,
+            "isTicketLink": false
+          },
+          {
+            "label": "Product URL",
+            "inputType": "url",
+            "required": true,
+            "minLength": 6,
+            "maxLength": 0,
+            "placeHolder": "https:\/\/www.product.com",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          },
+          {
+            "label": "Contact Email",
+            "inputType": "email",
+            "required": true,
+            "minLength": 6,
+            "maxLength": 0,
+            "placeHolder": "person@product.com",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Business Owner",
+        "questionHeading": "Please enter details of the business owner for this proof of concept",
+        "description": "<p>When doing a new proof of concept it is important to ensure appropriate risk assessment on behalf of the organisation. The business owner is responsible for accepting the risks. The business owner is the person is who accountable for protecting any data that will be used during the experiment.<\/p><p>If all data used during the experiment will be development or test data, and does not contain any actual production\/classified\/personal information, then the business owner is likely going to be the development manager.<\/p><p>The business owner will be required to approve this submission before the experiment can begin.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Full Name",
+            "inputType": "text",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          },
+          {
+            "label": "Email",
+            "inputType": "email",
+            "required": true,
+            "minLength": 12,
+            "maxLength": 0,
+            "placeHolder": "person@example.co.nz",
+            "isBusinessOwner": true,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Proof of Concept or Trial",
+        "questionHeading": "Is this a proof of concept, or are you performing a product trial?",
+        "description": "<p>A Proof of Concept (POC) is testing product to prove a concept. After the experiment ends, all installation\/configurations and data will be destroyed.<\/p><p>A product trial will be used to test the validity of a specific product. A successful product trial may lead to continued use after completing the appropriate risk and security onboarding processes.<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Proof of Concept",
+            "actionType": "continue"
+          },
+          {
+            "label": "Software\/Product Trial",
+            "actionType": "continue"
+          }
+        ]
+      },
+      {
+        "title": "Product Description",
+        "questionHeading": "Please describe what the product does in plain English",
+        "description": "<p>Include description of the product's features, the ones you wish to use and how it will be implemented if accepted as a product to bring onboard.<\/p><p>Please try to describe this in a way that makes sense to the security staff reviewing this submission, and the business owner accepting any potential risks.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "Ensure you describe what the product does and what features we want to trial",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "SaaS or On-Premises",
+        "questionHeading": "Is this Software as a Service, or an On-Prem installation?",
+        "description": "<p>SaaS means that we do not have any control over the installation or configuration of the installation.<\/p><p>On-Premises means that we have control over how and where the product is deployed.<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Software as a Service",
+            "actionType": "continue"
+          },
+          {
+            "label": "On-Premises",
+            "actionType": "continue"
+          }
+        ]
+      },
+      {
+        "title": "Key Stakeholders",
+        "questionHeading": "Please list names and roles of key stakeholders",
+        "description": "<p>Key stakeholders are people who<\/p><ul>\n<li>Will use the product<\/li>\n<li>Will pay for the product<\/li>\n<li>Will have data\/information stored by the product<\/li>\n<li>Will have deliverables tied to the use of this product<\/li>\n<\/ul>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 10,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Firewall Changes",
+        "questionHeading": "Will you require firewall changes to be made to use this product?",
+        "description": "<p>Will this product require a direct connection to any of our systems that are not accessible via start HTTP\/S pathways?<\/p><p>If the product is going to be installed on-premises, then it will most likely need some form of firewall rule changes.<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue"
+          },
+          {
+            "label": "No",
+            "actionType": "goto",
+            "gotoQuestionTitle": "Description of Information"
+          },
+          {
+            "label": "I Don't Know",
+            "actionType": "goto",
+            "gotoQuestionTitle": "Description of Information"
+          }
+        ]
+      },
+      {
+        "title": " Firewall Information",
+        "questionHeading": "Please describe what firewall changes you might need",
+        "description": "<p>Please name the systems that need to talk and how. This doesn't have to be technically accurate, but an indication of what systems need to talk and how would be a good start for Infrastructure.<\/p><p>You will need to have a chat with the Infrastructure team after your submission has been approved to work through the required firewall rule changes.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "System A -> HTTP -> System B",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Description of Information",
+        "questionHeading": "Describe what information will be received, transmitted and stored by this product",
+        "description": "<p>Information is any and all data or information that the we receive, store or transmit.<\/p><p>Please ensure as much information as possible about information stored, transmitted or received by this product is documented.<\/p><p>Examples of this might be things like:<\/p><ul>\n<li>First names<\/li>\n<li>Addresses<\/li>\n<li>Login information<\/li>\n<li>Audit trail of actions<\/li>\n<\/ul>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 10,
+            "maxLength": 0,
+            "placeHolder": "Description of Data",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Data Safety",
+        "questionHeading": "Please describe how Information is protected or anonymised",
+        "description": "<p>Please describe any changes you will make to data before it is used by the product. Include how Personally Identifiable Information etc will be anonymised or cleansed before being used. If the data is being used in it's original state please note this.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 20,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Experiment Users",
+        "questionHeading": "Please list the names and roles of staff who will use this product during the experiment",
+        "description": "<p>Users are the people who will be using the product during experiment phase.<\/p><p>You do not need to list the users who would use this product in a full deployment, unless they are part of the experiment.<\/p><p>Please list individual users, not groups\/departments.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "Person A - Business Analyst",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Expected Outcomes",
+        "questionHeading": "Please describe the expected outcomes",
+        "description": "<p>Please list outcomes that will be used as success criteria for this experiment. The result of this experiment should be measured against these outcomes to determine if the product will be formerly adopted. <\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 20,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Evaluation Method",
+        "questionHeading": "Please describe how the outcomes of this trial will be evaluated?",
+        "description": "<p>Please describe the methodology that will be used to evaluate the outcomes of this trial. Will each of the expected outcomes be scored against known criteria? Or will it be based on gut feeling about the product?<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 10,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Time-Span",
+        "questionHeading": "How long will this proof of concept or trial last?",
+        "description": "Please note down how long the trial will last in days or weeks",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Time-Span",
+            "inputType": "text",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "2 weeks",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Start Date",
+        "questionHeading": "When does this proof of concept or trial begin?",
+        "description": "",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Start Date",
+            "inputType": "date",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "DD-MM-YYYY",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Other",
+        "questionHeading": "Is there any other information you'd like to submit with your request?",
+        "description": "<p>Please include information that might be relevant to a Security reviewer, and the Business Owner.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Information",
+            "inputType": "textarea",
+            "required": false,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      }
+    ]
+  }
+}

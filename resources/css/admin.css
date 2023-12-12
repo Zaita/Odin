@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: rgb(229, 229, 229) !important;
+}
+
+[type="text"], input:where(:not([type])), [type="email"], [type="url"], [type="password"], 
+[type="number"], [type="date"], [type="datetime-local"], [type="month"], [type="search"], 
+[type="tel"], [type="time"], [type="week"], [multiple], textarea, select,
+[contenteditable="true"] {
+  font-size: 12px !important;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px !important;;
+  height: 30px;
+  padding: 5px;
+}
+
+/* #input_field input,
+#input_field textarea,
+[contenteditable="true"] {
+  width: 800px;
+} */
+
+#input_field #error {
+  margin: 5px 0 5px;
+  font-size: 11px;
+  line-height: 12px;
+  font-weight: 500;
+  top: 2px;
+}
+#draggable_list {
+  padding: 10px;
+  border: 2px solid white;
+}
+
+#draggable_list li {
+  margin: 2px;
+  border: 2px solid grey;
+  font-size: 16px;
+}
+
+#breadcrumb::before {
+  content: ' / ';
+}
+
+#question_input_field {
+  padding: 10px;
+  border: 2px solid white;
+}

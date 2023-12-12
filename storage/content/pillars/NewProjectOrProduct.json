@@ -1,0 +1,370 @@
+{
+  "questionnaire": {
+    "name": "New Project or Product",
+    "type": "Questionnaire",
+    "keyInformation": "<p>This questionnaire will ask you contextual questions about the feature or product you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p><p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within the SDLT.<\/p><p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
+    "bypassApproval": false,
+    "doesSubmissionExpire": "Yes",
+    "expireAfterDays ": 14,
+    "questions": [
+      {
+        "title": "Product Information",
+        "questionHeading": "Please enter the name of the product and project manager",
+        "description": "<p>Please enter the name of the product and project manager. <\/p><p>The project manager maybe a delivery lead if this release is not being run as a formal project.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Product Name",
+            "inputType": "text",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": true,
+            "isTicketLink": false
+          },
+          {
+            "label": "Project\/Product Manager",
+            "inputType": "text",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Business Owner",
+        "questionHeading": "Please enter details of the business owner for the product",
+        "description": "<p>When deploying a new feature or product, it is important to ensure appropriate risks are assessed. The business owner is responsible for accepting the risks. The business owner is the person is who accountable for protecting our organisation from creating risks above tolerance.<\/p><p>The business owner will be required to approve this submission before this release can go into production.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Full Name",
+            "inputType": "text",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          },
+          {
+            "label": "Email",
+            "inputType": "email",
+            "required": true,
+            "minLength": 12,
+            "maxLength": 0,
+            "placeHolder": "person@example.co.nz",
+            "isBusinessOwner": true,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Design Documentation",
+        "questionHeading": "Please provide a link to the High-Level Design",
+        "description": "<p>Please provide a link to the high level design.<\/p><p>If you do not have a high level design, the security team will be unable to perform a security assessment and risk analysis of your product.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Link",
+            "inputType": "url",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Release Date",
+        "questionHeading": "What is your target release date for this solution?",
+        "description": "",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Date",
+            "inputType": "date",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Information Storage",
+        "questionHeading": "Does this product or release use new data?",
+        "description": "<p>New data is defined as fields, attributes or values that are not already captured and used by existing products\/features.<\/p><p>Capturing this information allows us to ensure we maintain a record of data we store and process. Where this information may contain personal information, we can ensure that new products and features adhere to local Privacy Legislation and our data retention policies.<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue",
+            "tasks": [
+              {
+                "name": "Information and Data Management Assessment"
+              }
+            ]
+          },
+          {
+            "label": "No",
+            "actionType": "goto",
+            "gotoQuestionTitle": null
+          }
+        ]
+      },
+      {
+        "title": "Information Classification",
+        "questionHeading": "Do you know the Information Classification already?",
+        "description": "<p>We classify data based on potential sensitivity and value to a malicious actor. Applying appropriate classifications allows us to maintain appropriate records of the data we hold, and the security controls we should be applying.<\/p><p>The SDLT will classify your data based on the New Zealand Government Information Classification guidelines.<\/p><p>If you are unsure, click \"No\" and the SDLT will generate your information classification for you as a task at the end of this questionnaire.<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue"
+          },
+          {
+            "label": "No",
+            "actionType": "goto",
+            "gotoQuestionTitle": "Personal Information",
+            "tasks": [
+              {
+                "name": "Information Classification"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Known Classification",
+        "questionHeading": "What is your information classification?",
+        "description": "<p>Please enter your information classification<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Classification",
+            "inputType": "text",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Personal Information",
+        "questionHeading": "Does this product store personal information (PI)?",
+        "description": "<p>Personal Information is defined as any information about an identifiable individual (i.e. a living, natural person; not companies\/charities\/trusts etc). The information doesn\u2019t need to identify a person by their name to be personal information, and it also doesn\u2019t need to be private or sensitive. As long as there\u2019s a reasonable chance that someone could be identified from the information - even if it\u2019s only one person that makes the link between the information and the individual, and even if it\u2019s only by linking it with other information - then it\u2019s personal information. This includes information about other staff members and our customers.<\/p><p>All systems created, managed and used by us that contain or use any form of Personal Information must go through a Privacy Threshold Assessment process. At the end of this questionnaire, a Privacy Threshold Assessment task will be completed. When completed, this task will be submitted to the Privacy Officers for review and approval.<\/p><p>&nbsp;<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue",
+            "tasks": [
+              {
+                "name": "Privacy Threshold Assessment"
+              }
+            ]
+          },
+          {
+            "label": "No",
+            "actionType": "continue"
+          }
+        ]
+      },
+      {
+        "title": "External Data",
+        "questionHeading": "Will data being transferred to an external party, cloud provider, or mobile app for storage or processing (e.g. Google\/Azure\/Amazon)",
+        "description": "<p>We must ensure we keep a record of what data we are transferring to external sources. This will ensure we can appropriately audit data access and respond to privacy related requests.<\/p><p>If data is being transferred outside of the corporate network; the answer is likely 'Yes'.<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue"
+          },
+          {
+            "label": "No",
+            "actionType": "goto",
+            "gotoQuestionTitle": "Public Facing Interfaces"
+          }
+        ]
+      },
+      {
+        "title": " Transferring Data",
+        "questionHeading": "How is the data being transferred to\/from the product?",
+        "description": "<p>Please document the technologies being used to transfer data (e.g. Web Forms, FTP, SCP, Email etc)<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Description",
+            "inputType": "text",
+            "required": false,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Data Storage Location",
+        "questionHeading": "Where will the data be physically located\/stored?",
+        "description": "<p>What countries and cities will the data be held in by this product?<\/p><p>Transferring data to different countries may subject us to different laws, especially with regards to Privacy.<\/p><p>Please list all countries where information will be transferred through, or stored in.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Locations",
+            "inputType": "textarea",
+            "required": true,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Existing Provider",
+        "questionHeading": "Has we used this service provider in this way before?",
+        "description": "<p>When engaging new providers of SaaS or Cloud Services, we want to ensure we complete a vendor security onboarding risk analysis.<\/p><p>If you answer \"No\", The SDLT will create a Vendor Assessment task for you or the vendor to complete. This provides us with some basic information on the security posture and support capabilities of the vendor.<\/p><p>If your product requires multiple new vendors, please complete a \"Cloud Product Onboarding\" submission for each.<\/p><p>&nbsp;<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue"
+          },
+          {
+            "label": "No",
+            "actionType": "continue",
+            "tasks": [
+              {
+                "name": "Third Party Assessment"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Public Facing Interfaces",
+        "questionHeading": "Does this product expose new public facing interfaces?",
+        "description": "<p>Will this solution be exposing new web-facing services? Including APIs through an existing API management platform (e.g. Mulesoft, CDI, CloudFlare, RedShield, API Gateway). We have an obligation to ensure that all information is kept safe, especially when that information is being provided to external parties through web-facing services.<\/p><p>If you answer \"Yes\", a Penetration Test task will be completed. You'll be asked to either conduct a penetration test on the services or provide a recently completed penetration test report and summary of remediation work that has been undertaken. More information about this is explained in the Penetration Test task.<\/p><p>&nbsp;<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue",
+            "tasks": [
+              {
+                "name": "Penetration Test"
+              }
+            ]
+          },
+          {
+            "label": "No",
+            "actionType": "continue"
+          }
+        ]
+      },
+      {
+        "title": "Firewall Changes",
+        "questionHeading": "Will you require firewall changes to be made to use this product?",
+        "description": "<p>If this product requires connections to\/from our systems that are not Web (e.g. Chrome\/Edge\/Firefox) the answer is probably Yes<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Yes",
+            "actionType": "continue"
+          },
+          {
+            "label": "No",
+            "actionType": "continue"
+          }
+        ]
+      },
+      {
+        "title": "Required Tasks",
+        "questionHeading": "Some tasks are required for this delivery",
+        "description": "<p>As you're doing a delivery of a new product or feature, our change management process requires the completion of some mandatory tasks.<\/p><p>These include:<\/p><p>1. A Security Risk Assessment<\/p><p>2. A Certification and Accreditation<\/p><p>The SDLT uses a new Digital Security Risk Assessment (DSRA) methodology. This is handled entirely within the SDLT and can be completed as part of the design process. This will negate the need for running any risk workshops, external audits or manual risk assessment processes.<\/p><p>If you are unfamiliar with this process, please click the \"Use DSRA Tutorial\" button.<\/p><p>If you are familiar with the DSRA process, please click \"I Understand\".<\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "I Understand",
+            "actionType": "continue",
+            "tasks": [
+              {
+                "name": "Initial Risk Impact Assessment"
+              },
+              {
+                "name": "Control Validation Audit"
+              },
+              {
+                "name": "Security Risk Assessment"
+              }
+            ]
+          },
+          {
+            "label": "Use DSRA Tutorial",
+            "actionType": "continue",
+            "tasks": [
+              {
+                "name": "Digital Security Risk Assessment Tutorial"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Other",
+        "questionHeading": "Is there any other information you'd like to submit with your application?",
+        "description": "<p>Please include information that might be relevant to a Security reviewer, and the Business Owner.<\/p>",
+        "answerFieldType": "input",
+        "answerInputFields": [
+          {
+            "label": "Information",
+            "inputType": "textarea",
+            "required": false,
+            "minLength": 0,
+            "maxLength": 0,
+            "placeHolder": "",
+            "isBusinessOwner": false,
+            "isProductName": false,
+            "isTicketLink": false
+          }
+        ]
+      },
+      {
+        "title": "Next Steps",
+        "questionHeading": "Next Steps",
+        "description": "<p>Next, you will need to review your answers to click \"Submit Questionnaire\".<\/p><p>If any tasks are required, these will be created and displayed for you to complete.<\/p><p>If no tasks are required, you will be able to click \"Submit for Approval\" to send your submission for approval.<\/p><p>&nbsp;<\/p><p><strong>Note: Once you complete the review step that is next, the submission will no longer expire. You will have the time required to complete all tasks before submitting the entire submission for approval.<\/strong><\/p>",
+        "answerFieldType": "action",
+        "answerActionFields": [
+          {
+            "label": "Review Answers",
+            "actionType": "continue"
+          }
+        ]
+      }
+    ]
+  }
+}
