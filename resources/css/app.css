@@ -1,0 +1,233 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: rgb(229, 229, 229) !important;
+}
+
+body a {
+  color: blue;
+}
+
+[type="text"], input:where(:not([type])), [type="email"], [type="url"], [type="password"], 
+[type="number"], [type="date"], [type="datetime-local"], [type="month"], [type="search"], 
+[type="tel"], [type="time"], [type="week"], [multiple], textarea, select {
+  font-size: 12px !important;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px !important;;
+  height: 30px;
+  padding: 5px;
+}
+
+#latest_submissions {
+  width: 60%;
+  margin: auto;
+}
+
+#latest_submissions #heading {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+#latest_submissions table {
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+#latest_submissions table tr th {
+  font-weight: 700;
+  text-align: left;
+}
+
+#inner_content {
+  margin: 0 auto;
+  max-width: 1140px;
+}
+
+#small_title {
+  padding-top: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+#smaller_title {
+  padding-top: 20px;
+  padding-bottom: 18px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+#pillar_start_user {
+  padding-bottom: 20px;
+  border-bottom: 2px solid hsla(0,0%,83%,.685);
+}
+
+#pillar_key_information {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+}
+
+#pillar_key_information_text {
+  background-color: white;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.57;
+  padding: 20px 20px 10px;
+  text-align: left;
+  width: 100%;
+}
+
+#pillar_key_information_text p {
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+#pillar_start_button {
+  align-content: end;
+  padding-bottom: 50px;
+  padding-top: 10px;
+}
+
+#inprogress_content {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-bottom: 10px;
+}
+
+#menu {
+  width: 277px;
+  align-items: flex-start;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-right: 19px;
+  padding: 25px;
+  min-height: 510px;
+}
+
+#menu #items {
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+#menu #items .leftBarItem {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#inprogress_right_panel {
+  background-color: white;
+  min-height: 510px;
+  padding: 25px 25px 70px;
+  position: relative; 
+  width: 840px;
+}
+
+#inprogress_right_panel #question_heading {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  margin-bottom: 20px;
+  white-space: pre-line;
+}
+
+#inprogress_right_panel #question_description {
+  line-height: 16px;
+  margin-bottom: 25px;
+}
+
+#inprogress_right_panel #question_description ul,
+#inprogress_right_panel #question_description p {
+  padding: revert;
+  margin: revert;
+  list-style: disc;
+}
+
+ #input_field #label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 13px;
+  margin-bottom: 5px;
+}
+
+#input_field input,
+#input_field textarea,
+#input_field date_picker_field,
+.react-datepicker__input-container input {
+  /* border-style: solid;
+  border-width: 1px;
+  border-radius: 5px !important;;
+  height: 30px;
+  padding: 5px; */
+}
+
+#input_field input,
+#input_field textarea {
+  width: 355px;
+}
+
+#inprogress_right_panel #input_field #error {
+  margin: 5px 0 20px;
+  font-size: 11px;
+  line-height: 12px;
+  font-weight: 500;
+  top: 2px;
+}
+
+#inprogress_right_panel #save_message {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+}
+
+#inprogress_right_panel #default_action {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+}
+
+#inner_content #review_responses {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#inner_content #review_actions {
+  padding-bottom: 20px;
+}
+
+#inner_content #review_responses #response {
+  background-color: white;
+  border: 2px solid #d9d9d9;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 70px;
+  padding: 20px;
+  word-break: break-word;
+  white-space: pre-line;
+}
+
+#submission_status {
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  display: inline-flex;
+  font-weight: 700;
+  padding: 10px 15px 10px 18px;
+  width: fit-content;
+}
+
