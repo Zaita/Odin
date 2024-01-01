@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('product_name')->default("");
             $table->date('release_date')->nullable();
             $table->string('ticket_link')->default("");
+            $table->string('business_owner')->nullable();
 
             // $table->json('email_status');
             // $table->string('ciso_approval_status');

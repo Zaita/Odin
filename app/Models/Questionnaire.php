@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\QuestionnaireQuestion;
 use App\Models\InputField;
@@ -31,13 +32,34 @@ class Questionnaire extends Model
     }
 
     /**
+     * Populate our variables from a JSON array
+     */
+    public function importFromJson($jsonArr) {
+      Log::Info("Questionnaire.importFromJson()");
+      // Strip our the extra JSON fields not related to this object
+      $relevantJson = array_filter($jsonArr, function($k) { 
+        return in_array($k, $this->fillable);
+      }, ARRAY_FILTER_USE_KEY);
+
+      $this->fill($relevantJson);  
+      $this->save();
+
+      foreach($jsonArr["questions"] as $question) {
+        $q = QuestionnaireQuestion::firstOrNew([
+          "questionnaire_id" => $this->id,
+          "title" => $question["title"]
+        ]);
+        $q->importFromJson($question, $this->id);
+      }
+    }
+
+    /**
      * Convert a JSON input string into a questionnaire
      */
-    public function importFromJson($jsonInput) {
+    public function importFromSDLTJson($jsonInput) {
       $this->name = $jsonInput->name;
       $this->type = $jsonInput->type;
       $this->save();
-      printf("New Questionnaire created '%s' with id: %d\n", $this->name, $this->id);
       
       $questionSortOrder = 0;
       foreach($jsonInput->questions as $question) {
@@ -49,7 +71,6 @@ class Questionnaire extends Model
         $q->sort_order = $questionSortOrder++;
         $q->save();
 
-        printf("New Question: %s created with id %d\n", $q->title, $q->id);
         if (isset($question->answerInputFields)) {
           foreach($question->answerInputFields as $inputField) {
             $f = new InputField();

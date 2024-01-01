@@ -320,14 +320,14 @@ class PillarController extends Controller
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($pillarId);
 
-    $questions = json_decode($pillar->questions, true);
-    $question = $questions[$questionId];
-    
+    $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
+    $inputField = InputField::findOrFail($inputId);
+
     return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Edit', [
       'siteConfig' => $config,
       'pillar' => $pillar,
       'question' => $question,
-      'field' => $question["answerInputFields"][$inputId]
+      'field' => $inputField
     ]); 
   }
 
@@ -337,12 +337,10 @@ class PillarController extends Controller
   public function pillar_question_input_save(InputFieldRequest $request, $pillarId, $questionId, $inputId) {
     AuditLog::Log("Content.Pillar.Question.Input.Save", $request);    
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $pillar = Pillar::findOrFail($pillarId);
 
-    $errors = array();
-    if (!$pillar->updateInputField($errors, $questionId, $inputId, $request)) {
-      return back()->withInput()->withErrors($pillar->errors);  
-    }
+    $inputField = InputField::findOrFail($inputId);
+    $inputField->update($request->validated());
+    $inputField->save();
 
     return Redirect::route('admin.content.pillar.question.inputs', ["id" => $pillarId, "questionId" => $questionId]);
   }
@@ -446,5 +444,23 @@ class PillarController extends Controller
     $question->actionFields()->save($newField);
 
     return Redirect::route('admin.content.pillar.question.actions', ["id" => $pillarId, "questionId" => $questionId]);
+  }
+
+  /**
+   * Load the Pillar->Questionnaire->Question->Actions->Edit Screen
+   */
+  public function pillar_question_action_edit(Request $request, $pillarId, $questionId, $actionId) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $pillar = Pillar::findOrFail($pillarId);
+
+    $questions = json_decode($pillar->questions, true);
+    $question = $questions[$questionId];
+    
+    return Inertia::render('Admin/Content/Pillars/Questions/Actions/Edit', [
+      'siteConfig' => $config,
+      'pillar' => $pillar,
+      'question' => $question,
+      'field' => $question["answerInputFields"][$actionId]
+    ]); 
   }
 };

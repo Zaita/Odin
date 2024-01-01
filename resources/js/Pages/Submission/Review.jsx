@@ -37,7 +37,7 @@ function Content(props) {
     <div id="inner_content">
       <div id="review_responses">
         {questions.map((question, index) => (
-          getQuestionContent(question.title, question.questionHeading, index+1)
+          getQuestionContent(question.title, question.heading, index+1)
           ))
         }
       </div>

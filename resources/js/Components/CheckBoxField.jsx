@@ -9,7 +9,7 @@ export default function CheckBoxField(props) {
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
   fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;
-  let label = props.field.required ? (<>{props.field.label} *</>) : props.field.label;  
+  let label = props.field.required ? (<>{props.field.label} *</>) : props.field.label; 
   let error = props.errors && fieldId in props.errors ? (<><ReportIcon/> {props.errors[fieldId]}</>) : "";
   
   /**

@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type');
+            $table->string('name')->unique();
+            $table->enum('type', ['questionnaire', 'security_risk_questionnaire', 'risk_assessment', 'control_validation_audit'])->default('questionnaire');
             $table->unsignedBigInteger('task_object_id');
-            $table->integer("sort_order");
             $table->timestamps();
         });
     }

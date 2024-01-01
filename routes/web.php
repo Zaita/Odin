@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Home\AuditLogController as Admin_Home_AuditLog;
 use App\Http\Controllers\Admin\ContentDashboardController;
 use App\Http\Controllers\Admin\Content\DashboardController as Admin_Content_Dashboard;
 use App\Http\Controllers\Admin\Content\PillarController as Admin_Content_Pillar;
+use App\Http\Controllers\Admin\Content\TaskController as Admin_Content_Task;
 use App\Http\Controllers\Admin\Security\GroupController as Admin_Security_Group;
 use App\Http\Controllers\Admin\Security\UserController as Admin_Security_User;
 use App\Http\Controllers\Admin\AdminController;
@@ -51,22 +52,22 @@ Route::middleware('auth')->group(function () {
 User Routes
 */
 Route::middleware('auth')->group(function () {
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/help', [HelpController::class, 'index'])->name('help');
-Route::get('/start/{pillarId}', [PillarController::class, 'start'])->name('pillar.start');
-Route::post('/start/{pillarId}', [SubmissionController::class, 'start'])->name('submission.start');
-Route::get('/view/{pillarId}', [SubmissionController::class, 'view'])->name('submission.view');
-Route::get('/inprogress/{uuid}', [SubmissionController::class, 'inProgress'])->name('submission.inprogress');
-Route::post('/inprogress/{uuid}', [SubmissionController::class, 'update'])->name('submission.update');
-Route::get('/review/{uuid}', [SubmissionController::class, 'review'])->name('submission.review');
-Route::get('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
-Route::get('/submitted/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.submitted');
+  Route::get('/', [HomeController::class, 'index'])->name('home');
+  Route::get('/help', [HelpController::class, 'index'])->name('help');
+  Route::get('/start/{pillarId}', [PillarController::class, 'start'])->name('pillar.start');
+  Route::post('/start/{pillarId}', [SubmissionController::class, 'start'])->name('submission.start');
+  Route::get('/view/{pillarId}', [SubmissionController::class, 'view'])->name('submission.view');
+  Route::get('/inprogress/{uuid}', [SubmissionController::class, 'inProgress'])->name('submission.inprogress');
+  Route::post('/inprogress/{uuid}', [SubmissionController::class, 'update'])->name('submission.update');
+  Route::get('/review/{uuid}', [SubmissionController::class, 'review'])->name('submission.review');
+  Route::get('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
+  Route::get('/submitted/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.submitted');
 });
 
 /*
 Admin Routes
 */
-Route::middleware('can:isAdmin')->group(function() {
+Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   Route::get('/admin', [AdminController::class, 'index'])->name('admin.home');
   Route::get('/admin/home/reports', [AdminController::class, 'reports'])->name('admin.home.reports');
   Route::get('/admin/home/auditlog', [Admin_Home_AuditLog::class, 'index'])->name('admin.home.auditlog');
@@ -135,11 +136,36 @@ Route::middleware('can:isAdmin')->group(function() {
   Route::post('/admin/content/pillars/{id}/question/{questionId}/actions/reorder', [Admin_Content_Pillar::class, 'pillar_question_actions_reorder'])->name('admin.content.pillar.question.actions.reorder');
   Route::get('/admin/content/pillars/{id}/question/{questionId}/action/add', [Admin_Content_Pillar::class, 'pillar_question_action_add'])->name('admin.content.pillar.question.action.add');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/action/create', [Admin_Content_Pillar::class, 'pillar_question_action_create'])->name('admin.content.pillar.question.action.create');
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/action/{actionId}/edit', [Admin_Content_Pillar::class, 'pillar_question_action_edit'])->name('admin.content.pillar.question.action.edit');
+
+  // Content -> Tasks
+  Route::get('/admin/content/tasks', [Admin_Content_Task::class, 'index'])->name('admin.content.tasks');
+  Route::get('/admin/content/tasks/add', [Admin_Content_Task::class, 'add'])->name('admin.content.task.add');
+  Route::post('/admin/content/tasks/add', [Admin_Content_Task::class, 'create'])->name('admin.content.task.create');
+  // Route::get('/admin/content/tasks/edit/{id}', [Admin_Content_Task::class, 'edit'])->name('admin.content.pillar.edit');
+  // Route::post('/admin/content/tasks/save', [Admin_Content_Task::class, 'save'])->name('admin.content.pillar.save');   
+  // Route::post('/admin/content/tasks/delete', [Admin_Content_Task::class, 'delete'])->name('admin.content.pillars.delete');   
+  Route::get('/admin/content/tasks/download/{id}', [Admin_Content_Task::class, 'download'])->name('admin.content.task.download');   
 
 
-  Route::get('/admin/content/pillars/{id}/tasks', [Admin_Content_Pillar::class, 'edit'])->name('admin.content.pillar.tasks');
 
-  Route::get('/admin/content/tasks', [AdminController::class, 'home'])->name('admin.content.tasks');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Route::get('/admin/pillars/tasks', [Admin_Content_Task::class, 'index'])->name('admin.content.pillar.tasks');
+
+  // Content -> Security Controls
   Route::get('/admin/content/securitycontrols', [AdminController::class, 'home'])->name('admin.content.securitycontrols');
 
   /**
