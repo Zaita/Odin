@@ -18,15 +18,13 @@ class Pillar extends Model
   protected $fillable = [
       'name',
       'caption',
-      'key_information',
-      'type',
-      'risk_calculation',
       'icon',
+      'key_information',
+      'risk_calculation',     
       'auto_approve',
       'auto_approve_no_tasks',
       'submission_expires',
       'expire_after_dayes',
-      'sort_order',
       'enabled',
   ];
 
@@ -51,36 +49,29 @@ class Pillar extends Model
 
   public $errors = array();
 
-    /**
-     * Construct our pillar
-     */
-    public function __construct(array $attributes = array()) {
-      parent::__construct($attributes);
-    }
+  /**
+   * Construct our pillar
+   */
+  public function __construct(array $attributes = array()) {
+    parent::__construct($attributes);
+  }
 
 
-    public function importFromJson($jsonInput) {         
-      $this->name = $jsonInput->name;
-      $this->caption = $jsonInput->caption;
-      $this->key_information = $jsonInput->key_information;
-      $this->type = $jsonInput->risk_calculation;
-      // $this->auto_approve = $json->
+  public function importFromJson($jsonArr) { 
+    Log::Info("pillar.importFromJson()");
+    // Strip our the extra JSON fields not related to this object
+    $relevantJson = array_filter($jsonArr, function($k) { 
+      return in_array($k, $this->fillable);
+    }, ARRAY_FILTER_USE_KEY);
 
-      // $table->id();
-      // $table->string('name');
-      // $table->string('caption');
-      // $table->enum('type', ['questionnaire', 'risk_questionnaire'])->default('questionnaire');
-      // $table->string('icon')->default('none');                       
-      // $table->text('key_information');
-      // $table->json('questions');      
-      // $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
-      // $table->boolean('auto_approve')->default(false);
-      // $table->boolean('auto_approve_no_tasks')->default(false);
-      // $table->boolean('submission_expires')->default(false);
-      // $table->unsignedInteger('expire_after_days')->default(0);                        
-      // $table->unsignedInteger('sort_order')->default(9999);
-      // $table->timestamps();
-    }
+    $this->fill($relevantJson);  
+
+    $q = Questionnaire::firstOrNew(["name" => $this->name]);
+    $q->importFromJson($jsonArr["questionnaire"]);
+    $this->questionnaire_id = $q->id;    
+
+    $this->save();
+  }
 
     /**
      * Override save to set the index on every question.
@@ -88,33 +79,7 @@ class Pillar extends Model
      * we're looking at editing them
      */
     public function sssave(array $options = []) {
-      /**
-       * Find/Replace some text from old SDLT language
-       */
-      // Log::Info(json_decode($this->questions));
-      // $questionText = $this->questions;
-      // $questionText = str_replace("isProductName", "productName", $questionText);
-      // $questionText = str_replace("isBusinessOwner", "businessOwner", $questionText);
-      // $questionText = str_replace("isTicketLink", "ticketUrl", $questionText);
 
-
-      
-      /**
-       * Add the index values to our questions and input fields
-       * based on the order we're saving them.
-       */
-      // $i = 0;
-      // $questions = json_decode($questionText);
-      // foreach($questions as &$question) {
-      //   $question->index = $i++;
-
-      //   if (isset($question->answerInputFields)) {
-      //     $inputIndex = 0;
-      //     foreach($question->answerInputFields as $inputField) {
-      //       $inputField->index = $inputIndex++;
-      //     }
-      //   }
-      // }
 
       /**
        * Validate some business logic
@@ -178,6 +143,9 @@ class Pillar extends Model
      * Update our answer action input field
      */
     public function updateInputField(&$errors, $questionId, $inputId, $request) {
+
+      // $inputField = 
+
       $questions = json_decode($this->questions, true);
       $question = $questions[$questionId];  
       $inputField = $question['answerInputFields'][$inputId];

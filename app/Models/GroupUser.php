@@ -17,5 +17,5 @@ class GroupUser extends Model
       'group_id',
   ];
 
- 
+  
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedInteger('expire_after_days')->default(0);                        
             $table->unsignedInteger('sort_order')->default(9999);
             $table->unsignedBigInteger('questionnaire_id');
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
 
             $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('cascade');

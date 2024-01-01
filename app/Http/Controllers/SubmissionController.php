@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use App\Models\Configuration;
 use App\Models\Pillar;
@@ -28,6 +29,11 @@ class SubmissionController extends Controller
       if (is_null($pillar)) {
         Log::emergency("Could not find a pillar with id ${pillarId} to create a new submission");
       }
+      $questionnaire = Questionnaire::with([
+        "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+        "questions.inputFields",
+        "questions.actionFields",
+        ])->findOrFail($pillar->questionnaire_id);
       
       $user = $request->user();
       $s = new Submission();
@@ -35,7 +41,7 @@ class SubmissionController extends Controller
       $s->submitter_name = $user->name;
       $s->submitter_email = $user->email;
       $s->pillar_name = $pillar->name;
-      $s->questionnaire_data = $pillar->questions;
+      $s->questionnaire_data = $questionnaire;
       $s->save();
 
       return Redirect::route('submission.inprogress', ['uuid' => $s->uuid]);   
@@ -106,14 +112,14 @@ class SubmissionController extends Controller
           $questionnaireData = json_decode($submission->questionnaire_data);
           foreach ($questionnaireData as $question) {
             if ($question->title == $currentQuestion) {
-              foreach($question->answerActionFields as $actionField) {
+              foreach($question->action_fields as $actionField) {
                 if ($actionField->label == $actionValue) {
-                  if ($actionField->actionType != "goto") {
+                  if ($actionField->action_type != "goto") {
                     break 2; // Stop both loops
                   }
                   // We have a go to
-                  $submission->handleGoto($submissionAnswers, $currentQuestion, $actionField->gotoQuestionTitle);
-                  $lastQuestion =  $actionField->gotoQuestionTitle;
+                  $submission->handleGoto($submissionAnswers, $currentQuestion, $actionField->goto_question_title);
+                  $lastQuestion =  $actionField->goto_question_title;
                 }
               }
               break;

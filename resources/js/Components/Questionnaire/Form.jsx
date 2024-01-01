@@ -40,9 +40,7 @@ export default function Form(props) {
   function saveAnswers(successCallback) {
     console.log("Form.saveAnswers()");
     console.log(userAnswers.current);
-    // console.log(data);
     router.visit(route('submission.update', [props.submission.uuid] ), {
-    // post(route('submission.update', [props.submission.uuid, 'x'] ), {
         method: "post",
         preserveScroll: true,
         preserveState: true,
@@ -122,10 +120,10 @@ export default function Form(props) {
   /**
    * 
    */
-  if (props.question.answerInputFields != null) {
-    props.question.answerInputFields.map((inputField, index) => {
+  if (props.question.input_fields != null) {
+    props.question.input_fields.map((inputField, index) => {
       let fieldKey = `fk_${props.question.title}_${inputField.label}`;
-      switch(inputField.inputType) {
+      switch(inputField.input_type) {
         case "text": 
         case "url":
         case "email":        
@@ -150,18 +148,19 @@ export default function Form(props) {
    */
   let actions = [];
   let defaultAction = "";
-  if (props.question.answerActionFields != null) {
-    props.question.answerActionFields.map((actionField) => {
-      switch(actionField.actionType) {
+  if (props.question.action_fields != null) {
+    props.question.action_fields.map((actionField) => {
+      switch(actionField.action_type) {
         case "continue":
           actions.push(<ThemedButton siteConfig={props.siteConfig} handleChange={handleChange} onClick={nextQuestion} children={actionField.label} selected={isActionSelected(actionField.label)} />);
           break;
         case "goto":
-          actions.push(<ThemedButton siteConfig={props.siteConfig} handleChange={handleChange} onClick={() => gotoQuestion(actionField.gotoQuestionTitle)} children={actionField.label} selected={isActionSelected(actionField.label)}/>);
+          actions.push(<ThemedButton siteConfig={props.siteConfig} handleChange={handleChange} onClick={() => gotoQuestion(actionField.goto_question_title)} children={actionField.label} selected={isActionSelected(actionField.label)}/>);
           break;          
       }
     });
-  } else {
+  } 
+  if (actions.length == 0) {
     // Default action to continue to next question
     defaultAction = (<ThemedButton siteConfig={props.siteConfig} onClick={nextQuestion} children="Next"/>);
   }
@@ -171,7 +170,7 @@ export default function Form(props) {
 
   return (
     <div id="inprogress_right_panel">
-      <div id="question_heading" style={{ color: props.siteConfig.themeHeaderColor }}>{props.questionIndex+1}. {props.question.questionHeading}</div>
+      <div id="question_heading" style={{ color: props.siteConfig.themeHeaderColor }}>{props.questionIndex+1}. {props.question.heading}</div>
       <div id="question_description" dangerouslySetInnerHTML={{__html: props.question.description}} />
       {inputs.map((element, index) => <div key={element[1]}>{element[0]}</div>)}      
       <div id="actions" className="flex">

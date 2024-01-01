@@ -47,7 +47,6 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-      // 'groups',
       'groups_string'      
     ];
 

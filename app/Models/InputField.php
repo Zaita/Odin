@@ -15,7 +15,6 @@ class InputField extends Model
     public $errors = array();
     
     protected $fillable = [
-      'question_id',
       'label',
       'required',
       'input_type',
@@ -41,6 +40,22 @@ class InputField extends Model
       "release_date" => "boolean",
       "ticket_url" => "boolean",
     ];
+
+  /**
+   * Import An InputField from JSON
+   */
+  public function importFromJson($jsonArr, $questionId) {
+    Log::Info("InputField.importFromJson()");
+
+    // Strip our the extra JSON fields not related to this object
+    $relevantJson = array_filter($jsonArr, function($k) { 
+      return in_array($k, $this->fillable);
+    }, ARRAY_FILTER_USE_KEY);
+
+    $this->fill($relevantJson);  
+    $this->questionnaire_question_id = $questionId;
+    $this->save();
+  }
 
     /**
      * Check if this input field is a valid candidate for being added
