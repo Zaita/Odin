@@ -8,9 +8,10 @@
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
-  "expire_after_days": 7,
+  "expire_after_days": 0,
+  "enabled": true,
   "questionnaire": {
-      "id": 5,
+      "id": 15,
       "name": "Product Release",
       "type": "questionnaire",
       "questions": [
@@ -22,13 +23,13 @@
               "sort_order": 0,
               "input_fields": [
                   {
-                      "id": 45,
+                      "id": 46,
                       "label": "Product Name",
                       "required": true,
                       "input_type": "text",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": true,
                       "business_owner": false,
                       "release_date": false,
@@ -36,13 +37,13 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 46,
+                      "id": 47,
                       "label": "Change Lead",
                       "required": true,
                       "input_type": "text",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "Bob Bobson",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -60,13 +61,13 @@
               "sort_order": 1,
               "input_fields": [
                   {
-                      "id": 47,
+                      "id": 48,
                       "label": "Full Name",
                       "required": true,
                       "input_type": "text",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -74,13 +75,13 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 48,
+                      "id": 49,
                       "label": "Email",
                       "required": true,
                       "input_type": "email",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "person@example.co.nz",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": true,
                       "release_date": false,
@@ -98,13 +99,13 @@
               "sort_order": 2,
               "input_fields": [
                   {
-                      "id": 49,
+                      "id": 50,
                       "label": "Ticket",
                       "required": true,
                       "input_type": "url",
                       "min_length": 0,
                       "max_length": 4096,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -135,7 +136,11 @@
                       "label": "No",
                       "action_type": "goto",
                       "goto_question_title": "Change Description",
-                      "tasks": "[{\"name\": \"Release Notes\"}]",
+                      "tasks": [
+                          {
+                              "name": "Release Notes"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -156,13 +161,13 @@
               "sort_order": 4,
               "input_fields": [
                   {
-                      "id": 50,
+                      "id": 51,
                       "label": "Links",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 4096,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -180,13 +185,13 @@
               "sort_order": 5,
               "input_fields": [
                   {
-                      "id": 51,
+                      "id": 52,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -204,13 +209,13 @@
               "sort_order": 6,
               "input_fields": [
                   {
-                      "id": 52,
+                      "id": 53,
                       "label": "Date",
                       "required": true,
                       "input_type": "release date",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -233,7 +238,11 @@
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Information and Data Management Assessment\"}]",
+                      "tasks": [
+                          {
+                              "name": "Information and Data Management Assessment"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -275,7 +284,11 @@
                       "label": "Different classification",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Information Classification\"}]",
+                      "tasks": [
+                          {
+                              "name": "Information Classification"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -283,7 +296,11 @@
                       "label": "I Don't Know",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Information Classification\"}]",
+                      "tasks": [
+                          {
+                              "name": "Information Classification"
+                          }
+                      ],
                       "sort_order": 999
                   }
               ]
@@ -301,7 +318,11 @@
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Privacy Threshold Assessment\"}]",
+                      "tasks": [
+                          {
+                              "name": "Privacy Threshold Assessment"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -335,7 +356,11 @@
                       "label": "No",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Privacy Threshold Assessment\"}]",
+                      "tasks": [
+                          {
+                              "name": "Privacy Threshold Assessment"
+                          }
+                      ],
                       "sort_order": 999
                   }
               ]
@@ -374,13 +399,13 @@
               "sort_order": 12,
               "input_fields": [
                   {
-                      "id": 53,
+                      "id": 54,
                       "label": "Locations",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -411,7 +436,11 @@
                       "label": "No",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Third Party Assessment\"}]",
+                      "tasks": [
+                          {
+                              "name": "Third Party Assessment"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -419,7 +448,11 @@
                       "label": "I Don't Know",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Third Party Assessment\"}]",
+                      "tasks": [
+                          {
+                              "name": "Third Party Assessment"
+                          }
+                      ],
                       "sort_order": 999
                   }
               ]
@@ -437,7 +470,14 @@
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Penetration Test\"}, {\"name\": \"Web Security Configuration\"}]",
+                      "tasks": [
+                          {
+                              "name": "Penetration Test"
+                          },
+                          {
+                              "name": "Web Security Configuration"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -489,7 +529,17 @@
                       "label": "Ok",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Initial Risk Impact Assessment\"}, {\"name\": \"Control Validation Audit\"}, {\"name\": \"Security Risk Assessment\"}]",
+                      "tasks": [
+                          {
+                              "name": "Initial Risk Impact Assessment"
+                          },
+                          {
+                              "name": "Control Validation Audit"
+                          },
+                          {
+                              "name": "Security Risk Assessment"
+                          }
+                      ],
                       "sort_order": 999
                   },
                   {
@@ -497,7 +547,11 @@
                       "label": "With Tutorial",
                       "action_type": "continue",
                       "goto_question_title": null,
-                      "tasks": "[{\"name\": \"Digital Security Risk Assessment Tutorial\"}]",
+                      "tasks": [
+                          {
+                              "name": "Digital Security Risk Assessment Tutorial"
+                          }
+                      ],
                       "sort_order": 999
                   }
               ]
@@ -536,13 +590,13 @@
               "sort_order": 18,
               "input_fields": [
                   {
-                      "id": 54,
+                      "id": 55,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -560,13 +614,13 @@
               "sort_order": 19,
               "input_fields": [
                   {
-                      "id": 55,
+                      "id": 56,
                       "label": "Users",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -584,13 +638,13 @@
               "sort_order": 20,
               "input_fields": [
                   {
-                      "id": 56,
+                      "id": 57,
                       "label": "Description",
                       "required": false,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,

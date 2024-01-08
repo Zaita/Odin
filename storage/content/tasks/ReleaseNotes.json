@@ -1,0 +1,39 @@
+{
+  "name": "Release Notes",
+  "type": "questionnaire",
+  "key_information": "",
+  "lock_when_complete": false,
+  "approval_required": false,
+  "risk_calculation": "zaita_approx",
+  "questions": [
+    {
+      "title": "Information",
+      "heading": "Information",
+      "description": "<p>This task requires that you provide the release notes for this change. This task has been spawned as you were unable to provide them at the time of completing the initial questionnaire.</p><p>&nbsp;</p>",
+      "action_fields": [
+        {
+          "label": "I Understand, Let's Start!",
+          "action_type": "continue"
+        }
+      ]
+    },
+    {
+      "title": "Release Notes",
+      "heading": "Please provide the release notes",
+      "description": "<p>Please provide the release notes.</p><p>You can copy+paste the contents of the release notes if they're small,</p><p>or</p><p>you can provide links to the release notes where they're accessible to the Security team for review on InfoHub or Confluence.</p>",
+      "input_fields": [
+        {
+          "label": "Notes",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 10,
+          "max_length": 4096,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    }
+  ]
+}

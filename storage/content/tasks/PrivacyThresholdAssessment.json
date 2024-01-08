@@ -1,0 +1,437 @@
+{
+  "name": "Privacy Threshold Assessment",
+  "type": "questionnaire",
+  "key_information": "",
+  "lock_when_complete": false,
+  "approval_required": false,
+  "risk_calculation": "zaita_approx",
+  "questions": [
+    {
+      "title": "Existing Policy Change",
+      "heading": "Does the project involve a substantial change to an existing policy, process or system that involves personal information",
+      "description": "Example: New legislation or policy that makes it compulsory to collect or disclose information\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Risk Register Activity",
+      "heading": "Does the project involve any practice or activity that is listed on a risk register kept by the Transport Agency",
+      "description": "Example: Practices or activities listed on the Transport Agency\u2019s risk register or health and safety register\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "New Collection of PII",
+      "heading": "Does the project involve a new collection of personal information ",
+      "description": "Example: Collecting information about individuals\u2019 location\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "New Way of Collecting PII",
+      "heading": "Does the project involve a new way of collecting personal information",
+      "description": "Example: Collecting information online rather than on paper forms\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Change in PII Storage",
+      "heading": "Does the project involve a change in the way personal information is stored or secured",
+      "description": "Example: Storing information in the cloud\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Sensitive Information",
+      "heading": "Does the project involve a change to how sensitive information is managed",
+      "description": "Example: Moving health or financial records to a new database\n\nIf No or your Information classification is not Sensitive, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Transferring PII Offshore",
+      "heading": "Does the project involve transferring personal information offshore or using a third-party contractor",
+      "description": "Example: Outsourcing the payroll function or storing information in the cloud\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Longer PII Retention",
+      "heading": "Does the project involve a decision to keep personal information for longer than you have previously",
+      "description": "Example: Changing IT backups to be kept for 10 years when you previously only stored them for 7\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "A New Use or Disclosure",
+      "heading": "Does the project involve a new use or disclosure of personal information that is already held",
+      "description": "Example: Sharing information with other parties in a new way\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Sharing or Matching",
+      "heading": "Does the project involve sharing or matching personal information held by different organisations or currently held in different datasets",
+      "description": "Example: Combining information with other information held on public registers, or sharing information to enable organisations to provide services jointly\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Individuals' Access",
+      "heading": "Does the project involve a change in policy that results in people having less access to information that you hold about them",
+      "description": "Example: Archiving documents after 6 months into a facility from which they can\u2019t be easily retrieved\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Identifying Individuals",
+      "heading": "Does the project involve establishing a new way of identifying individuals",
+      "description": "Example: A unique identifier, a biometric, or an online identity system\n\nIf No, please write No.\nIf Yes, please explain your response.\n",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Searching PII",
+      "heading": "Does the project involve introducing a new system for searching individuals\u2019 property, persons or premises",
+      "description": "Example: A phone company adopts a new policy of searching data in old phones that are handed in\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Surveillance",
+      "heading": "Does the project involve surveillance, tracking or monitoring of movements, behaviour or communications",
+      "description": "Example: Installing a new CCTV system\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Private Spaces",
+      "heading": "Does the project involve changes to your premises that will involve private spaces where clients or customers may disclose their personal information ",
+      "description": "Example: Changing the location of the reception desk, where people may discuss personal details\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Responses",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Regulatory Requirements",
+      "heading": "Does the project involve new regulatory requirements that could lead to compliance action against individuals on the basis of information about them ",
+      "description": "Example: Adding a new medical condition to the requirements of a drivers licence\n\nIf No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Other",
+      "heading": "Does the project involve anything else that may impact on privacy, such as bodily searches, or intrusions into physical space",
+      "description": "If No, please write No.\nIf Yes, please explain your response.",
+      "input_fields": [
+        {
+          "label": "Response",
+          "input_type": "textarea",
+          "required": true,
+          "min_length": 2,
+          "max_length": 0,
+          "placeholder": "",
+          "business_owner": false,
+          "product_name": false,
+          "ticket_url": false
+        }
+      ]
+    },
+    {
+      "title": "Risk Assessment",
+      "heading": "Did you answer 'Yes' to any of the previous questions?",
+      "description": "",
+      "action_fields": [
+        {
+          "label": "Yes",
+          "action_type": "continue"
+        },
+        {
+          "label": "No",
+          "action_type": "finish"
+        }
+      ]
+    },
+    {
+      "title": "Level of Information Handling",
+      "heading": "Please Define the level of information handling involved by this product",
+      "description": "Low \u2013 Minimal personal information will be handled\nMedium \u2013 A moderate amount of personal information (or information that could become personal information) will be handled\nHigh \u2013 A significant amount of personal information (or information that could become personal information) will be handled\n",
+      "action_fields": [
+        {
+          "label": "Low",
+          "action_type": "continue"
+        },
+        {
+          "label": "Medium",
+          "action_type": "continue"
+        },
+        {
+          "label": "High",
+          "action_type": "continue"
+        }
+      ]
+    },
+    {
+      "title": "Information Sensitivity",
+      "heading": "Sensitivity of the information (eg health, financial, race)",
+      "description": "Low \u2013 The information will not be sensitive\nMedium \u2013 The information may be considered to be sensitive\nHigh \u2013 The information will be highly sensitive",
+      "action_fields": [
+        {
+          "label": "Low",
+          "action_type": "continue"
+        },
+        {
+          "label": "Medium",
+          "action_type": "continue"
+        },
+        {
+          "label": "High",
+          "action_type": "continue"
+        }
+      ]
+    },
+    {
+      "title": "Significance of Changes",
+      "heading": "Significance of Changes",
+      "description": "Low \u2013 Only minor change to existing functions/activities\nMedium \u2013 Substantial change to existing functions/activities; or a new initiative\nHigh \u2013 Major overhaul of existing functions/activities; or a new initiative that\u2019s significantly different\n",
+      "action_fields": [
+        {
+          "label": "Low",
+          "action_type": "continue"
+        },
+        {
+          "label": "Medium",
+          "action_type": "continue"
+        },
+        {
+          "label": "High",
+          "action_type": "continue"
+        }
+      ]
+    },
+    {
+      "title": "Interaction With Others",
+      "heading": "Interaction With Others",
+      "description": "Low \u2013 No interaction with other agencies\nMedium \u2013 Interaction with one or two other agencies\nHigh \u2013 Extensive cross-agency (that is, government) interaction or cross-sectional (non-government and government) interaction\n",
+      "action_fields": [
+        {
+          "label": "Low",
+          "action_type": "continue"
+        },
+        {
+          "label": "Medium",
+          "action_type": "continue"
+        },
+        {
+          "label": "High",
+          "action_type": "continue"
+        }
+      ]
+    },
+    {
+      "title": "Public Impact",
+      "heading": "Public Impact",
+      "description": "Low \u2013 Minimal impact on the Transport Agency and clients\nMedium \u2013 Some impact on clients is likely due to changes to the handling of personal information; or the changes may raise public concern\nHigh \u2013 High impact on clients and the wider public, and concerns over aspects of project; or negative media is likely\n",
+      "action_fields": [
+        {
+          "label": "Low",
+          "action_type": "continue"
+        },
+        {
+          "label": "Medium",
+          "action_type": "continue"
+        },
+        {
+          "label": "High",
+          "action_type": "continue"
+        }
+      ]
+    },
+    {
+      "title": "Finish",
+      "heading": "Finish",
+      "description": "",
+      "action_fields": [
+        {
+          "label": "Finish",
+          "action_type": "finish"
+        }
+      ]
+    }
+  ]
+}
