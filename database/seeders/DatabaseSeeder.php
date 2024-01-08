@@ -8,6 +8,7 @@ use Database\Seeders\QuestionnaireSeeder;
 use Database\Seeders\PillarSeeder;
 use Database\Seeders\GroupSeeder;
 use Database\Seeders\GroupUserSeeder;
+use Database\Seeders\TaskSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
       $this->call([
         // QuestionnaireSeeder::class,
         PillarSeeder::class,
+        TaskSeeder::class,
         GroupSeeder::class,
         GroupUserSeeder::class
       ]);

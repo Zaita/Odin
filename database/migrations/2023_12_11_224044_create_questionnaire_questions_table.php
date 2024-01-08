@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();            
             $table->unsignedBigInteger('questionnaire_id');
             $table->string("title");
-            $table->string("heading");
+            $table->string("heading", 512);
             $table->text("description")->nullable();
             $table->integer("sort_order");
             $table->timestamps();

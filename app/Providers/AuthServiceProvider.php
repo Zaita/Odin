@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Log;
 
 use App\Policies\AdminPolicy;
 use App\Models\Group;
@@ -28,8 +29,9 @@ class AuthServiceProvider extends ServiceProvider
     {
       Gate::define('isAdmin', function ($user) {
         // Load our Administrators Group Id
-        $group = Group::firstOrNew(["name" => "Administrators"]);
+        $group = Group::firstOrNew(["name" => "Administrator"]);
         if (is_null($group->id)) {
+          Log::Info("No Administrator Group");
           return False; 
         }
 

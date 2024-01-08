@@ -48,7 +48,7 @@ export default function ActionList(props) {
    */
   let fieldList = [];
   {fields && fields.map && fields.map((field, index) => {
-    let tasks = field.tasks && JSON.parse(field.tasks);
+    let tasks = field.tasks;
     fieldList.push(
       <div style={{border: "1px solid white"}} className="pt-1 h-fit overflow-y-hidden">
         <div className="w-6 float-left"><DragIndicatorIcon/></div>

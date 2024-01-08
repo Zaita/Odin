@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
@@ -12,14 +14,43 @@ class Task extends Model
   protected $fillable = [
     'name',    
     'type',
-    'sort_order'
+    'lock_when_complete',
+    'approval_required',
+    'risk_calculation',
+    'approval_group',
+    'notification_group',
+    'sort_order',
   ];
 
   protected $hidden = [
+    "sort_order",
     "task_object_id",
     "created_at",
     "updated_at"
   ];
+
+  public function questionnaire(): BelongsTo {
+    return $this->belongsTo(Questionnaire::class);
+  }
+
+  /**
+   * Import a task from JSON
+   */
+  public function importFromJson($jsonArr) { 
+    Log::Info("task.importFromJson()");
+    // Strip our the extra JSON fields not related to this object
+    $relevantJson = array_filter($jsonArr, function($k) { 
+      return in_array($k, $this->fillable);
+    }, ARRAY_FILTER_USE_KEY);
+
+    $this->fill($relevantJson);  
+
+    $q = Questionnaire::firstOrNew(["name" => $this->name]);
+    $q->importFromJson($jsonArr);
+    $this->task_object_id = $q->id;    
+
+    $this->save();
+  }
 
   /**
    * If we've loaded a new Task object then it's likely during the import of JSON
