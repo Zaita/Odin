@@ -8,27 +8,28 @@
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
-  "expire_after_days": 7,
+  "expire_after_days": 0,
+  "enabled": true,
   "questionnaire": {
-      "id": 1,
+      "id": 2,
       "name": "Proof of Concept",
       "type": "questionnaire",
       "questions": [
           {
-              "id": 1,
+              "id": 7,
               "title": "Product Details",
               "heading": "Please enter details of the product",
               "description": "Please enter the name, homepage and a contact email address for the product. If you do not have a contact within the product company, please put your own email address as point of contact.",
               "sort_order": 0,
               "input_fields": [
                   {
-                      "id": 1,
+                      "id": 7,
                       "label": "Product Name",
                       "required": true,
                       "input_type": "text",
                       "min_length": 3,
                       "max_length": 0,
-                      "placeholder": "Product Name",
+                      "placeholder": null,
                       "product_name": true,
                       "business_owner": false,
                       "release_date": false,
@@ -36,13 +37,13 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 2,
+                      "id": 8,
                       "label": "Product URL",
                       "required": true,
                       "input_type": "url",
                       "min_length": 6,
                       "max_length": 0,
-                      "placeholder": "https:\/\/www.product.com",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -50,13 +51,13 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 3,
+                      "id": 9,
                       "label": "Contact Email",
                       "required": true,
                       "input_type": "email",
                       "min_length": 6,
                       "max_length": 0,
-                      "placeholder": "person@product.com",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -67,20 +68,20 @@
               "action_fields": []
           },
           {
-              "id": 2,
+              "id": 8,
               "title": "Business Owner",
               "heading": "Please enter details of the business owner for this proof of concept",
               "description": "<p>When doing a new proof of concept it is important to ensure appropriate risk assessment on behalf of the organisation. The business owner is responsible for accepting the risks. The business owner is the person is who accountable for protecting any data that will be used during the experiment.<\/p><p>If all data used during the experiment will be development or test data, and does not contain any actual production\/classified\/personal information, then the business owner is likely going to be the development manager.<\/p><p>The business owner will be required to approve this submission before the experiment can begin.<\/p>",
               "sort_order": 1,
               "input_fields": [
                   {
-                      "id": 4,
+                      "id": 10,
                       "label": "Full Name",
                       "required": true,
                       "input_type": "text",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -88,13 +89,13 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 5,
+                      "id": 11,
                       "label": "Email",
                       "required": true,
                       "input_type": "email",
                       "min_length": 12,
                       "max_length": 0,
-                      "placeholder": "person@example.co.nz",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": true,
                       "release_date": false,
@@ -105,7 +106,7 @@
               "action_fields": []
           },
           {
-              "id": 3,
+              "id": 9,
               "title": "Proof of Concept or Trial",
               "heading": "Is this a proof of concept, or are you performing a product trial?",
               "description": "<p>A Proof of Concept (POC) is testing product to prove a concept. After the experiment ends, all installation\/configurations and data will be destroyed.<\/p><p>A product trial will be used to test the validity of a specific product. A successful product trial may lead to continued use after completing the appropriate risk and security onboarding processes.<\/p>",
@@ -131,20 +132,20 @@
               ]
           },
           {
-              "id": 4,
+              "id": 10,
               "title": "Product Description",
               "heading": "Please describe what the product does in plain English",
               "description": "<p>Include description of the product's features, the ones you wish to use and how it will be implemented if accepted as a product to bring onboard.<\/p><p>Please try to describe this in a way that makes sense to the security staff reviewing this submission, and the business owner accepting any potential risks.<\/p>",
               "sort_order": 3,
               "input_fields": [
                   {
-                      "id": 6,
+                      "id": 12,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "Ensure you describe what the product does and what features we want to trial",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -155,7 +156,7 @@
               "action_fields": []
           },
           {
-              "id": 5,
+              "id": 11,
               "title": "SaaS or On-Premises",
               "heading": "Is this Software as a Service, or an On-Prem installation?",
               "description": "<p>SaaS means that we do not have any control over the installation or configuration of the installation.<\/p><p>On-Premises means that we have control over how and where the product is deployed.<\/p>",
@@ -181,20 +182,20 @@
               ]
           },
           {
-              "id": 6,
+              "id": 12,
               "title": "Key Stakeholders",
               "heading": "Please list names and roles of key stakeholders",
               "description": "<p>Key stakeholders are people who<\/p><ul>\n<li>Will use the product<\/li>\n<li>Will pay for the product<\/li>\n<li>Will have data\/information stored by the product<\/li>\n<li>Will have deliverables tied to the use of this product<\/li>\n<\/ul>",
               "sort_order": 5,
               "input_fields": [
                   {
-                      "id": 7,
+                      "id": 13,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
                       "min_length": 10,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -205,7 +206,7 @@
               "action_fields": []
           },
           {
-              "id": 7,
+              "id": 13,
               "title": "Firewall Changes",
               "heading": "Will you require firewall changes to be made to use this product?",
               "description": "<p>Will this product require a direct connection to any of our systems that are not accessible via start HTTP\/S pathways?<\/p><p>If the product is going to be installed on-premises, then it will most likely need some form of firewall rule changes.<\/p>",
@@ -239,164 +240,20 @@
               ]
           },
           {
-              "id": 8,
+              "id": 14,
               "title": " Firewall Information",
               "heading": "Please describe what firewall changes you might need",
               "description": "<p>Please name the systems that need to talk and how. This doesn't have to be technically accurate, but an indication of what systems need to talk and how would be a good start for Infrastructure.<\/p><p>You will need to have a chat with the Infrastructure team after your submission has been approved to work through the required firewall rule changes.<\/p>",
               "sort_order": 7,
               "input_fields": [
                   {
-                      "id": 8,
-                      "label": "Description",
-                      "required": true,
-                      "input_type": "textarea",
-                      "min_length": 0,
-                      "max_length": 0,
-                      "placeholder": "System A -> HTTP -> System B",
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 9,
-              "title": "Description of Information",
-              "heading": "Describe what information will be received, transmitted and stored by this product",
-              "description": "<p>Information is any and all data or information that the we receive, store or transmit.<\/p><p>Please ensure as much information as possible about information stored, transmitted or received by this product is documented.<\/p><p>Examples of this might be things like:<\/p><ul>\n<li>First names<\/li>\n<li>Addresses<\/li>\n<li>Login information<\/li>\n<li>Audit trail of actions<\/li>\n<\/ul>",
-              "sort_order": 8,
-              "input_fields": [
-                  {
-                      "id": 9,
-                      "label": "Description",
-                      "required": true,
-                      "input_type": "textarea",
-                      "min_length": 10,
-                      "max_length": 0,
-                      "placeholder": "Description of Data",
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 10,
-              "title": "Data Safety",
-              "heading": "Please describe how Information is protected or anonymised",
-              "description": "<p>Please describe any changes you will make to data before it is used by the product. Include how Personally Identifiable Information etc will be anonymised or cleansed before being used. If the data is being used in it's original state please note this.<\/p>",
-              "sort_order": 9,
-              "input_fields": [
-                  {
-                      "id": 10,
-                      "label": "Description",
-                      "required": true,
-                      "input_type": "textarea",
-                      "min_length": 20,
-                      "max_length": 0,
-                      "placeholder": "",
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 11,
-              "title": "Experiment Users",
-              "heading": "Please list the names and roles of staff who will use this product during the experiment",
-              "description": "<p>Users are the people who will be using the product during experiment phase.<\/p><p>You do not need to list the users who would use this product in a full deployment, unless they are part of the experiment.<\/p><p>Please list individual users, not groups\/departments.<\/p>",
-              "sort_order": 10,
-              "input_fields": [
-                  {
-                      "id": 11,
-                      "label": "Description",
-                      "required": true,
-                      "input_type": "textarea",
-                      "min_length": 0,
-                      "max_length": 0,
-                      "placeholder": "Person A - Business Analyst",
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 12,
-              "title": "Expected Outcomes",
-              "heading": "Please describe the expected outcomes",
-              "description": "<p>Please list outcomes that will be used as success criteria for this experiment. The result of this experiment should be measured against these outcomes to determine if the product will be formerly adopted. <\/p>",
-              "sort_order": 11,
-              "input_fields": [
-                  {
-                      "id": 12,
-                      "label": "Description",
-                      "required": true,
-                      "input_type": "textarea",
-                      "min_length": 20,
-                      "max_length": 0,
-                      "placeholder": "",
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 13,
-              "title": "Evaluation Method",
-              "heading": "Please describe how the outcomes of this trial will be evaluated?",
-              "description": "<p>Please describe the methodology that will be used to evaluate the outcomes of this trial. Will each of the expected outcomes be scored against known criteria? Or will it be based on gut feeling about the product?<\/p>",
-              "sort_order": 12,
-              "input_fields": [
-                  {
-                      "id": 13,
-                      "label": "Description",
-                      "required": true,
-                      "input_type": "textarea",
-                      "min_length": 10,
-                      "max_length": 0,
-                      "placeholder": "",
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 14,
-              "title": "Time-Span",
-              "heading": "How long will this proof of concept or trial last?",
-              "description": "Please note down how long the trial will last in days or weeks",
-              "sort_order": 13,
-              "input_fields": [
-                  {
                       "id": 14,
-                      "label": "Time-Span",
+                      "label": "Description",
                       "required": true,
-                      "input_type": "text",
+                      "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "2 weeks",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -408,19 +265,19 @@
           },
           {
               "id": 15,
-              "title": "Start Date",
-              "heading": "When does this proof of concept or trial begin?",
-              "description": "",
-              "sort_order": 14,
+              "title": "Description of Information",
+              "heading": "Describe what information will be received, transmitted and stored by this product",
+              "description": "<p>Information is any and all data or information that the we receive, store or transmit.<\/p><p>Please ensure as much information as possible about information stored, transmitted or received by this product is documented.<\/p><p>Examples of this might be things like:<\/p><ul>\n<li>First names<\/li>\n<li>Addresses<\/li>\n<li>Login information<\/li>\n<li>Audit trail of actions<\/li>\n<\/ul>",
+              "sort_order": 8,
               "input_fields": [
                   {
                       "id": 15,
-                      "label": "Start Date",
+                      "label": "Description",
                       "required": true,
-                      "input_type": "date",
-                      "min_length": 0,
+                      "input_type": "textarea",
+                      "min_length": 10,
                       "max_length": 0,
-                      "placeholder": "DD-MM-YYYY",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
@@ -432,19 +289,163 @@
           },
           {
               "id": 16,
+              "title": "Data Safety",
+              "heading": "Please describe how Information is protected or anonymised",
+              "description": "<p>Please describe any changes you will make to data before it is used by the product. Include how Personally Identifiable Information etc will be anonymised or cleansed before being used. If the data is being used in it's original state please note this.<\/p>",
+              "sort_order": 9,
+              "input_fields": [
+                  {
+                      "id": 16,
+                      "label": "Description",
+                      "required": true,
+                      "input_type": "textarea",
+                      "min_length": 20,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 17,
+              "title": "Experiment Users",
+              "heading": "Please list the names and roles of staff who will use this product during the experiment",
+              "description": "<p>Users are the people who will be using the product during experiment phase.<\/p><p>You do not need to list the users who would use this product in a full deployment, unless they are part of the experiment.<\/p><p>Please list individual users, not groups\/departments.<\/p>",
+              "sort_order": 10,
+              "input_fields": [
+                  {
+                      "id": 17,
+                      "label": "Description",
+                      "required": true,
+                      "input_type": "textarea",
+                      "min_length": 0,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 18,
+              "title": "Expected Outcomes",
+              "heading": "Please describe the expected outcomes",
+              "description": "<p>Please list outcomes that will be used as success criteria for this experiment. The result of this experiment should be measured against these outcomes to determine if the product will be formerly adopted. <\/p>",
+              "sort_order": 11,
+              "input_fields": [
+                  {
+                      "id": 18,
+                      "label": "Description",
+                      "required": true,
+                      "input_type": "textarea",
+                      "min_length": 20,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 19,
+              "title": "Evaluation Method",
+              "heading": "Please describe how the outcomes of this trial will be evaluated?",
+              "description": "<p>Please describe the methodology that will be used to evaluate the outcomes of this trial. Will each of the expected outcomes be scored against known criteria? Or will it be based on gut feeling about the product?<\/p>",
+              "sort_order": 12,
+              "input_fields": [
+                  {
+                      "id": 19,
+                      "label": "Description",
+                      "required": true,
+                      "input_type": "textarea",
+                      "min_length": 10,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 20,
+              "title": "Time-Span",
+              "heading": "How long will this proof of concept or trial last?",
+              "description": "Please note down how long the trial will last in days or weeks",
+              "sort_order": 13,
+              "input_fields": [
+                  {
+                      "id": 20,
+                      "label": "Time-Span",
+                      "required": true,
+                      "input_type": "text",
+                      "min_length": 0,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 21,
+              "title": "Start Date",
+              "heading": "When does this proof of concept or trial begin?",
+              "description": "",
+              "sort_order": 14,
+              "input_fields": [
+                  {
+                      "id": 21,
+                      "label": "Start Date",
+                      "required": true,
+                      "input_type": "date",
+                      "min_length": 0,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 22,
               "title": "Other",
               "heading": "Is there any other information you'd like to submit with your request?",
               "description": "<p>Please include information that might be relevant to a Security reviewer, and the Business Owner.<\/p>",
               "sort_order": 15,
               "input_fields": [
                   {
-                      "id": 16,
+                      "id": 22,
                       "label": "Information",
                       "required": false,
                       "input_type": "textarea",
                       "min_length": 0,
                       "max_length": 0,
-                      "placeholder": "",
+                      "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
