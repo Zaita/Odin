@@ -17,7 +17,7 @@ class QuestionnaireQuestionRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:128'],
-            'heading' => ['required', 'string', 'max:256'],
+            'heading' => ['required', 'string', 'max:512'],
             'description' => ['string', 'max:1024', 'nullable'],
         ];
     }

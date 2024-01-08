@@ -26,6 +26,10 @@ class ActionField extends Model
       "updated_at",
     ];
 
+    protected $casts = [
+      'tasks' => 'json'
+    ];
+
     public $errors = array();
 
   /**
@@ -49,10 +53,10 @@ class ActionField extends Model
      * as a placeholder
      */
     if (!is_null($this->tasks)) {
-      $tasks = json_decode($this->tasks);
+      $tasks = $this->tasks;
       foreach($tasks as $task) {
-        $t = Task::firstOrNew(["name" => $task->name]);
-        $t->defaultSetupIfNew($task->name);        
+        $t = Task::firstOrNew(["name" => $task["name"]]);
+        $t->defaultSetupIfNew($task["name"]);        
       }
     }
   }

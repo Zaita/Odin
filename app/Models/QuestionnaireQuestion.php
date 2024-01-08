@@ -52,20 +52,24 @@ class QuestionnaireQuestion extends Model
     $this->questionnaire_id = $questionnaireId;
     $this->save();
 
-    foreach($jsonArr["input_fields"] as $inputField) {
-      $f = InputField::firstOrNew([
-        "questionnaire_question_id" => $this->id,
-        "label" => $inputField["label"]
-      ]);
-      $f->importFromJson($inputField, $this->id);
+    if (array_key_exists("input_fields", $jsonArr)) {
+      foreach($jsonArr["input_fields"] as $inputField) {
+        $f = InputField::firstOrNew([
+          "questionnaire_question_id" => $this->id,
+          "label" => $inputField["label"]
+        ]);
+        $f->importFromJson($inputField, $this->id);
+      }
     }
 
-    foreach($jsonArr["action_fields"] as $actionField) {
-      $f = ActionField::firstOrNew([
-        "questionnaire_question_id" => $this->id,
-        "label" => $actionField["label"]
-      ]);
-      $f->importFromJson($actionField, $this->id);
+    if (array_key_exists("action_fields", $jsonArr)) {
+      foreach($jsonArr["action_fields"] as $actionField) {
+        $f = ActionField::firstOrNew([
+          "questionnaire_question_id" => $this->id,
+          "label" => $actionField["label"]
+        ]);
+        $f->importFromJson($actionField, $this->id);
+      }
     }
   }
 }

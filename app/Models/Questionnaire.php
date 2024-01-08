@@ -44,11 +44,17 @@ class Questionnaire extends Model
       $this->fill($relevantJson);  
       $this->save();
 
+      $sort_order = 0;
       foreach($jsonArr["questions"] as $question) {
         $q = QuestionnaireQuestion::firstOrNew([
           "questionnaire_id" => $this->id,
           "title" => $question["title"]
         ]);
+
+        if (!array_key_exists("sort_order", $question)) {
+           $question["sort_order"] = $sort_order++;
+        }
+
         $q->importFromJson($question, $this->id);
       }
     }
