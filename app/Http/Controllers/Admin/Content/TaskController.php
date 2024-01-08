@@ -13,7 +13,15 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Models\Configuration;
 use App\Models\AuditLog;
 use App\Models\Task;
+use App\Models\Group;
 use App\Http\Requests\TaskRequest;
+use App\Models\Questionnaire;
+use App\Models\QuestionnaireQuestion;
+use App\Http\Requests\AdminContentPillarUpdateRequest;
+use App\Http\Requests\InputFieldRequest;
+use App\Http\Requests\ActionFieldRequest;
+use App\Http\Requests\AdminSiteConfigUpdateRequest;
+use App\Http\Requests\QuestionnaireQuestionRequest;
 
 class TaskController extends Controller
 {
@@ -57,5 +65,67 @@ class TaskController extends Controller
     $obj->save();
 
     return Redirect::route('admin.content.tasks');
+  }
+
+  /**
+   * Content -> Tasks -> Edit
+   * Load edit screen for a task
+   */
+  public function edit(Request $request, $id) {
+    AuditLog::Log("Content.Task.Edit", $request);
+    $task = Task::findOrFail($id);     
+    
+    if ($task->type == "questionnaire") {
+      $groups = Group::all();
+      return Inertia::render('Admin/Content/Tasks/Questionnaire/Edit', [
+        'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+        'task' => $task,
+        'groups' => $groups,
+      ]); 
+    
+    } else {
+      return Redirect::route('admin.content.tasks');
+    }
+  }
+
+    /**
+   * Content -> Task -> Edit -> Questions
+   * Load questions for a task
+   */
+  public function questions(Request $request, $id) {
+    AuditLog::Log("Content.Task.Edit", $request);
+    $task = Task::findOrFail($id);
+      
+    if ($task->type == "questionnaire") {
+      $task->questionnaire = Questionnaire::with(["questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($task->task_object_id);
+      $groups = Group::all();
+      return Inertia::render('Admin/Content/Tasks/Questionnaire/Questions', [
+        'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+        'task' => $task,
+      ]); 
+    
+    } else {
+      return Redirect::route('admin.content.tasks');
+    }
+  }
+
+  /**
+   * GET Content -> Task -> Edit -> Questions -> Add
+   */
+  public function question_add(Request $request, $id) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $task = Task::findOrFail($id);
+    
+    if ($task->type == "questionnaire") {
+      $task->questionnaire = Questionnaire::with(["questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($task->task_object_id);
+      $groups = Group::all();
+      return Inertia::render('Admin/Content/Tasks/Questionnaire/Questions/Add', [
+        'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+        'task' => $task,
+      ]); 
+    
+    } else {
+      return Redirect::route('admin.content.tasks');
+    }
   }
 }

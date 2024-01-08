@@ -142,9 +142,13 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   Route::get('/admin/content/tasks', [Admin_Content_Task::class, 'index'])->name('admin.content.tasks');
   Route::get('/admin/content/tasks/add', [Admin_Content_Task::class, 'add'])->name('admin.content.task.add');
   Route::post('/admin/content/tasks/add', [Admin_Content_Task::class, 'create'])->name('admin.content.task.create');
-  // Route::get('/admin/content/tasks/edit/{id}', [Admin_Content_Task::class, 'edit'])->name('admin.content.pillar.edit');
-  // Route::post('/admin/content/tasks/save', [Admin_Content_Task::class, 'save'])->name('admin.content.pillar.save');   
-  // Route::post('/admin/content/tasks/delete', [Admin_Content_Task::class, 'delete'])->name('admin.content.pillars.delete');   
+  Route::get('/admin/content/task/edit/{id}', [Admin_Content_Task::class, 'edit'])->name('admin.content.task.edit');
+  // Content -> Task -> Questions
+  Route::get('/admin/content/task/{id}/questions', [Admin_Content_Task::class, 'questions'])->name('admin.content.task.questions');
+  Route::get('/admin/content/task/{id}/questions/add', [Admin_Content_Task::class, 'question_add'])->name('admin.content.task.question.add');
+  Route::post('/admin/content/task/{id}/questions/add', [Admin_Content_Task::class, 'question_create'])->name('admin.content.task.question.create');
+  Route::post('/admin/content/task/{id}/questions/reorder', [Admin_Content_Task::class, 'questions_reorder'])->name('admin.content.task.questions.reorder');
+
   Route::get('/admin/content/tasks/download/{id}', [Admin_Content_Task::class, 'download'])->name('admin.content.task.download');   
 
 

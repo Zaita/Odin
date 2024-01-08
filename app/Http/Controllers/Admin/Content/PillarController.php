@@ -139,7 +139,6 @@ class PillarController extends Controller
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::with(["questionnaire", 
       "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($id);
-    // "questionnaire.questions.inputFields", "questionnaire.questions.actionFields"])->findOrFail($id);
     
     return Inertia::render('Admin/Content/Pillars/Questions', [
       'siteConfig' => $config,

@@ -49,7 +49,7 @@ export default function CheckBoxField(props) {
         <div id="label" 
         style={{
           display: props.sideBySide ? "inline-block" : "block",
-          width: props.sideBySide ? "100px" : "auto",
+          width: props.sideBySide ? "125px" : "auto",
           }}> 
           <label htmlFor={fieldId}>{label}</label>
         </div>
