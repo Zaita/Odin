@@ -31,7 +31,7 @@ export default function TasksAdd(props) {
     "required" : true,
     "value": userAnswers.current["type"] ? userAnswers.current["type"] : "questionnaire"
   }
-  let typeOptions = ["questionnaire", "risk_questionnaire", "risk_assessment", "control_validation_audit"];
+  let typeOptions = ["questionnaire", "risk_questionnaire", "security_risk_assessment", "control_validation_audit"];
 
   function saveAnswersCallback() {
     SaveAnswers("admin.content.task.create", setSaveOk, setSaveErrors, userAnswers.current)

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->enum('type', ['questionnaire', 'security_risk_questionnaire', 'risk_assessment', 'control_validation_audit'])->default('questionnaire');
+            $table->enum('type', ['questionnaire', 'risk_questionnaire', 'security_risk_assessment', 'control_validation_audit'])->default('questionnaire');
             $table->boolean('lock_when_complete')->default(false);
             $table->boolean('approval_required')->default(false);
             $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
