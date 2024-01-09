@@ -1,19 +1,16 @@
 import React, { useRef, useState, Component } from 'react';
-import { router } from '@inertiajs/react'
 
 import AdminPanel from '@/Layouts/AdminPanel';
-import ThemedButton from '@/Components/ThemedButton';
 import QuestionsList from '@/Components/Admin/QuestionsList';
 
 export default function TaskQuestions(props) {  
-  let [saveErrors, setSaveErrors] = useState(props.errors ? props.errors : null);
-  let [saveOk, setSaveOk] = useState(null);
-
   let x = <QuestionsList
+    objectId={props.task.id}
     addRoute="admin.content.task.question.add"
-    saveOrderRoute="admin.content.pillar.task.update"
-    editRoute="admin.content.pillar.task.edit"
-    deleteRoute="admin.content.pillar.task.delete"
+    saveOrderRoute="admin.content.task.questions.reorder"
+    saveOrderParameters={props.task.id}
+    editRoute="admin.content.task.question.edit"
+    deleteRoute="admin.content.task.question.delete"
     questions={props.task.questionnaire.questions}
     {...props}
     />
