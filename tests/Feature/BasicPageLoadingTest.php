@@ -51,7 +51,7 @@ class BasicPageLoadingTest extends TestCase {
    */
   public function test_admin_home_page_with_admin_user(): void {
     $user = User::Factory()->create();
-    $group = Group::firstOrCreate(['name' => 'Administrators']);
+    $group = Group::firstOrCreate(['name' => 'Administrator']);
     $group->addUser($user->id);
 
     $response = $this->actingAs($user)->get('/admin');
