@@ -19,7 +19,7 @@ export default function QuestionsList(props) {
   let deleteTarget = useRef({});
   let [questions, setQuestions] = useState(props.questions);
 
-  let {addRoute, saveOrderRoute, editRoute, deleteRoute}  = {...props}
+  let {objectId, addRoute, saveOrderRoute, saveOrderParameters, editRoute, deleteRoute}  = {...props}
   
   let newQuestions = props.questions;
   if (newQuestions.length != questions.length) {
@@ -39,7 +39,7 @@ export default function QuestionsList(props) {
 
   function confirmedDeletion() {
     console.log("Deletion Confirmed");
-    SaveAnswersWithId(deleteRoute, {id:props.pillar.id, questionId:deleteTarget.current["id"]}, setSaveOk, setSaveErrors, deleteTarget.current);
+    SaveAnswersWithId(deleteRoute, {id:objectId, questionId:deleteTarget.current["id"]}, setSaveOk, setSaveErrors, deleteTarget.current);
     setDeleteDialogIsOpen(false)
   }
 
@@ -54,7 +54,7 @@ export default function QuestionsList(props) {
         <div className="w-1/6 float-left pt-1">{question.title}</div>
         <div className="w-4/6 float-left pt-1">{question.heading}</div>
         <div> 
-          <EditIcon className="cursor-pointer" onClick={() => router.get(route(editRoute, [props.pillar.id, question.id]))}/> 
+          <EditIcon className="cursor-pointer" onClick={() => router.get(route(editRoute, [objectId, question.id]))}/> 
           <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(question)}/>
         </div>
       </div>
@@ -93,14 +93,14 @@ export default function QuestionsList(props) {
     }
 
     // Save the new order
-    SaveAnswersWithId(saveOrderRoute, props.pillar.id, setSaveOk, setSaveErrors, newOrder);
+    SaveAnswersWithId(saveOrderRoute, saveOrderParameters, setSaveOk, setSaveErrors, newOrder);
   }
 
   return(
     <>
     <DeleteModal open={deleteDialogIsOpen} itemInfo={deleteTarget.current} onConfirm={confirmedDeletion}
       onCancel={() => setDeleteDialogIsOpen(false)} {...props}/>
-    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route(addRoute, props.pillar.id))} children="Add Question" className="mr-4"/>
+    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route(addRoute, objectId))} children="Add Question" className="mr-4"/>
     <span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span>
     <div>
       <div style={{borderBottom: "3px solid white"}}>&nbsp;</div>

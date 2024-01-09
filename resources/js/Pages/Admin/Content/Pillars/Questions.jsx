@@ -10,8 +10,10 @@ export default function Pillars(props) {
   let [saveOk, setSaveOk] = useState(null);
 
   let x = <QuestionsList
+    objectId={props.pillar.id}
     addRoute="admin.content.pillar.question.add"
-    saveOrderRoute="admin.content.pillar.questions.update"
+    saveOrderRoute="admin.content.pillar.questions.reorder"
+    saveOrderParameters={props.pillar.id}
     editRoute="admin.content.pillar.question.edit"
     deleteRoute="admin.content.pillar.question.delete"
     questions={props.pillar.questionnaire.questions}
