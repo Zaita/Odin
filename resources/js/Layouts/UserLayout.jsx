@@ -48,10 +48,10 @@ function Footer({siteConfig}) {
   );
 } 
 
-export default function UserLayout({ user, siteConfig, showSubheader = true, subheaderText="", selectedMenu = "", content = ""}) {
+export default function UserLayout({ user, siteConfig, breadcrumb=[], showSubheader = true, subheaderText="", selectedMenu = "", content = ""}) {
   const [selectedHeaderMenuItem, setSelectedHeaderMenuItem] = useState('Home');
 
-  let subheader = showSubheader ? <Subheader siteConfig={siteConfig} text={subheaderText} /> : "";
+  let subheader = showSubheader ? <Subheader siteConfig={siteConfig} breadcrumb={breadcrumb} text={subheaderText} /> : "";
 
   return (
     <div id="page" className="text-xs" style={{

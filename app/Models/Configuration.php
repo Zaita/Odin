@@ -29,8 +29,7 @@ class Configuration extends Model
       "themeSubheaderColor" => "#AB0000",
       "themeSubheaderTextColor" => "#FFFFFF",
       "themeBreadcrumbColor" => "#ADADAD",
-      "themeHyperlinkColor" => "#000EA8",
-      "themeTextColor" => "#000000",
+      "themeHyperlinkColor" => "#FF9933",
       "logoPath" => "/images/sdlt_base_logo.png",
       "subHeaderImagePath" => "/images/subheader.jpg"
     );

@@ -8,70 +8,40 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Pillar;
 use App\Models\Questionnaire;
+use App\Models\ApprovalFlow;
 
 class PillarSeeder extends Seeder
 {
+  protected $sortOrder = 0;
+
+  protected function load_pillar($name) {
+    $fileName = "storage/content/pillars/${name}.json";
+    $file = fopen($fileName, "r") or die("Unable to open file!");
+    $json = json_decode(fread($file,filesize($fileName)), true);
+    fclose($file);
+    
+    $approvalFlow = ApprovalFlow::where('id', '>', 0)->first();
+
+    $p = Pillar::firstOrNew(["name" => $json["name"]]);
+    $p->importFromJson($json);
+    $p->sort_order = $this->sortOrder++;
+    $p->approval_flow_id = $approvalFlow->id;
+    $p->save();
+  }
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-      $sortOrder = 0;
 
       // Risk Profile
-      $fileName = "storage/content/pillars/RiskProfile.json";
-      $file = fopen($fileName, "r") or die("Unable to open file!");
-      $json = json_decode(fread($file,filesize($fileName)), true);
-      fclose($file);
-
-      $p = Pillar::firstOrNew(["name" => $json["name"]]);
-      $p->importFromJson($json);
-      $p->sort_order = $sortOrder++;
-      $p->save();
-
-      // Proof of Concept
-      $fileName = "storage/content/pillars/ProofOfConcept.json";
-      $file = fopen($fileName, "r") or die("Unable to open file!");
-      $json = json_decode(fread($file,filesize($fileName)), true);
-      fclose($file);
-
-      $p = Pillar::firstOrNew(["name" => $json["name"]]);
-      $p->importFromJson($json);
-      $p->sort_order = $sortOrder++;
-      $p->save();
-      
-      // Cloud Product Onboarding
-      $fileName = "storage/content/pillars/CloudProductOnboarding.json";
-      $file = fopen($fileName, "r") or die("Unable to open file!");
-      $json = json_decode(fread($file,filesize($fileName)), true);
-      fclose($file);
-
-      $p = Pillar::firstOrNew(["name" => $json["name"]]);
-      $p->importFromJson($json);
-      $p->sort_order = $sortOrder++;
-      $p->save();
-
-      // New Project or Product
-      $fileName = "storage/content/pillars/NewProjectOrProduct.json";
-      $file = fopen($fileName, "r") or die("Unable to open file!");
-      $json = json_decode(fread($file,filesize($fileName)), true);
-      fclose($file);
-
-      $p = Pillar::firstOrNew(["name" => $json["name"]]);
-      $p->importFromJson($json);
-      $p->sort_order = $sortOrder++;
-      $p->save();
-
-      // Product Release
-      $fileName = "storage/content/pillars/ProductRelease.json";
-      $file = fopen($fileName, "r") or die("Unable to open file!");
-      $json = json_decode(fread($file,filesize($fileName)), true);
-      fclose($file);
-
-      $p = Pillar::firstOrNew(["name" => $json["name"]]);
-      $p->importFromJson($json);
-      $p->sort_order = $sortOrder++;
-      $p->save();      
+      $this->load_pillar("Test");
+      $this->load_pillar("RiskProfile");
+      $this->load_pillar("ProofOfConcept");
+      $this->load_pillar("CloudProductOnboarding");
+      $this->load_pillar("NewProjectOrProduct");
+      $this->load_pillar("ProductRelease");
     }
 }
 

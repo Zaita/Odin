@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import DatePicker from "react-datepicker";
+import ReportIcon from '@mui/icons-material/Report';
 
 export default function DatePickerField(props) {
   const [value, setValue] = useState(props.value);

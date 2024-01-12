@@ -40,7 +40,7 @@ export default function Form(props) {
   function saveAnswers(successCallback) {
     console.log("Form.saveAnswers()");
     console.log(userAnswers.current);
-    router.visit(route('submission.update', [props.submission.uuid] ), {
+    router.visit(route(props.updateRoute, [props.uuid] ), {
         method: "post",
         preserveScroll: true,
         preserveState: true,
@@ -51,7 +51,8 @@ export default function Form(props) {
         onSuccess: (page) => {
           console.log("Saved Successfully");
           userAnswers.current = []; // clear these for next form
-          props.updateAnswersCallback(JSON.parse(page.props.submission.answer_data));
+          props.updateAnswersCallback(JSON.parse(page.props.answer_data));
+          setSaveErrors(null);
           successCallback();
         },
         onError: (errors) => {

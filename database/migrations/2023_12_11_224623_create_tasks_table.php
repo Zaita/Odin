@@ -17,10 +17,13 @@ return new class extends Migration
             $table->enum('type', ['questionnaire', 'risk_questionnaire', 'security_risk_assessment', 'control_validation_audit'])->default('questionnaire');
             $table->boolean('lock_when_complete')->default(false);
             $table->boolean('approval_required')->default(false);
+            $table->boolean('show_information_screen')->default(true);
             $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
             $table->unsignedBigInteger('approval_group')->nullable();
             $table->unsignedBigInteger('notification_group')->nullable();
             $table->unsignedBigInteger('task_object_id');
+            $table->string("time_to_complete")->nullable();
+            $table->string("time_to_review")->nullable();
             $table->integer("sort_order")->default(999);
             $table->timestamps();
 

@@ -24,10 +24,13 @@ return new class extends Migration
             $table->unsignedInteger('expire_after_days')->default(0);                        
             $table->unsignedInteger('sort_order')->default(9999);
             $table->unsignedBigInteger('questionnaire_id');
+            $table->unsignedBigInteger('approval_flow_id')->nullable();
             $table->boolean('enabled')->default(true);
+            $table->text('tasks')->nullable();
             $table->timestamps();
 
-            $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('cascade');
+            $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->restrictOnDelete();
+            $table->foreign('approval_flow_id')->references('id')->on('approval_flows')->restrictOnDelete();
         });
     }
 

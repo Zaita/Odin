@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('submitter_name');
             $table->string('submitter_email');
             $table->string('pillar_name');
+            $table->json('pillar_data');
+            $table->json('approval_flow_data');
             $table->json('questionnaire_data');
             $table->json('answer_data');
             $table->string('product_name')->default("");

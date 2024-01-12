@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext, useRef, Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 import Menu from './Questionnaire/Menu';
@@ -9,8 +9,8 @@ export default function Questionnaire(props) {
 
   const [menu, setMenu] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState("");
-  const [questions, setQuestions] = useState(JSON.parse(props.submission.questionnaire_data));
-  const [answers, setAnswers] = useState(JSON.parse(props.submission.answer_data));
+  const [questions, setQuestions] = useState(props.questionData);
+  const [answers, setAnswers] = useState(props.answerData);
 
   // Init our data structures
   useEffect(() => {
@@ -78,7 +78,10 @@ export default function Questionnaire(props) {
           updateAnswersCallback={setAnswers}
           question={currentQuestion}
           questionIndex={currentQuestionIndex.current} 
-          answers={answers} {...props}/>
+          answers={answers} 
+          updateRoute={props.updateRoute}
+          uuid={props.uuid}
+          {...props}/>
       </div>
     </div>
   );

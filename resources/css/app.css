@@ -21,23 +21,26 @@ body a {
   padding: 5px;
 }
 
-#latest_submissions {
+#content_box, #latest_submissions, #submissions {
   width: 60%;
   margin: auto;
 }
 
-#latest_submissions #heading {
+#latest_submissions #heading,
+#submissions #heading {
   font-size: 14px;
   font-weight: 700;
   margin-top: 15px;
   margin-bottom: 15px;
 }
-#latest_submissions table {
+#latest_submissions table,
+#submissions table {
   width: 100%;
   background-color: #FFFFFF;
 }
 
-#latest_submissions table tr th {
+#latest_submissions table tr th,
+#submissions table tr th {
   font-weight: 700;
   text-align: left;
 }
@@ -231,3 +234,12 @@ body a {
   width: fit-content;
 }
 
+#task_list, #approvals_list {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 13px;
+}
+
+#breadcrumb::before {
+  content: ' / ';
+}

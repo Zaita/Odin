@@ -27,7 +27,14 @@ function Content({auth, siteConfig, pillar}) {
 }
 
 export default function Start(props) {
+  let breadcrumb = [
+    ["Home", "home"],    
+    ["Start Submission", route().current(), props.pillar.id],
+  ]
+
   return (
-    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="New Submission" content={<Content {...props}/>} />
+    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="New Submission" 
+      breadcrumb={breadcrumb} 
+      content={<Content {...props}/>} />
   );
 }
