@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+
+use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
+use App\Models\TaskSubmission;
 
 $uuid = Str::uuid()->toString();
 
@@ -28,7 +32,8 @@ class Submission extends Model
 
     protected $appends = [
       'tasks_completed',
-      'created_at_short'
+      'created_at_short',
+      'nice_status'
     ];
 
     // protected $casts = [
@@ -47,23 +52,26 @@ class Submission extends Model
 
 
   /**
-   * Get the status of all the tasks for this submission so 
-   * we can report it on the submissions and summary pages.
-   */
-  protected function getTasksStatuses() { 
-    if ($this->status == "in_progress") {
-      return "n/a";
-    }
-
-    return "0/0";
-  }
-
-  /**
    * Bind simple attribute for Model to use.
    */
   protected function TasksCompleted() : Attribute {
+    $x = function() { 
+      if ($this->status == "in_progress") {
+        return "-"; // Not ready to show task statuses
+      }
+  
+      $taskList = TaskSubmission::where(["submission_id" => $this->id])->get();
+      $complete = 0;
+      $total = count($taskList);
+      foreach($taskList as $task) {
+        if ($task->status == "complete" || $task->status == "approved") {
+          $complete++;
+        }
+      }
+      return sprintf("%d/%d", $complete, $total);
+    };
     return Attribute::make(
-      get: fn (null $value) => $this->getTasksStatuses(),
+      get: fn (null $value) => $x(),
     );
   }
 
@@ -74,6 +82,23 @@ class Submission extends Model
     return Attribute::make(
       get: fn (null $value) => date_format($this->created_at, "d/m/Y"),
     );
+  }
+
+  protected function NiceStatus() : Attribute {
+    return Attribute::make(
+      get: fn (null $value) => $this->nice_status(),
+    );
+  }
+
+  /**
+   * We're overriding the pillar_data method so that we can remove a bunch of fluff
+   */
+  public function setPillarDataAttribute($pillar) {
+    unset($pillar->icon);
+    unset($pillar->key_information);
+    unset($pillar->key_information);
+    unset($pillar->enabled);
+    $this->attributes['pillar_data'] = json_encode($pillar);
   }
 
   /**
@@ -89,7 +114,6 @@ class Submission extends Model
 
     $answers = [];
     foreach($questionnaire->questions as $question) {
-    // foreach($questionData as $question) {
       $newAnswer = array();
       $newAnswer["question"] = $question->title;
       $newAnswer["status"] = "incomplete";
@@ -136,9 +160,12 @@ class Submission extends Model
     foreach($targetQuestion->input_fields as $inputField) { 
       $label = $inputField->label;
 
-      $value = $newAnswerValues[$label];
+      $value = isset($newAnswerValues[$label]) ? $newAnswerValues[$label] : null;
       if (isset($inputField->required) && $inputField->required && ($value == null || $value == "")) {
         $errors[$label] = "$label is a required field";
+        continue;
+      }
+      if ( (!isset($inputField->required) || !$inputField->required) && ($value == null || $value == "") ) {
         continue;
       }
       if (isset($inputField->min_length) && $inputField->min_length > 0 && (strlen($value) < $inputField->min_length)) {
@@ -250,5 +277,98 @@ class Submission extends Model
     Log::Info("isLastQuestion: False");
     return false;
   }
-}
 
+  /**
+   * Handle the user submitting their questionnaire from a Review into a submit 
+   */
+  public function submit() {
+    /**
+     * Step 1: Create Task Submissions for any tasks that are assigned to the Pillar
+     */
+    $pillarData = json_decode($this->pillar_data);
+    $tasks = json_decode($pillarData->tasks);
+    foreach($tasks as $task) {
+      $taskObj = Task::where(["name" => $task->name])->first();
+      Log::Info($taskObj->id);
+
+      if ($taskObj->type == "questionnaire") {
+        $questionnaire = Questionnaire::with([
+          "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+          "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
+          "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
+          ])->findOrFail($taskObj->task_object_id);
+
+        $taskObj->questionnaire = $questionnaire;
+      }
+
+      $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
+      $taskSubmission->name = $taskObj->name;
+      $taskSubmission->submission_id = $this->id;
+      $taskSubmission->task_type = $taskObj->type;
+      $taskSubmission->task_data = $taskObj;
+      $taskSubmission->save();
+    }
+
+    $this->status = "submitted";
+    $this->save();
+
+    return true;
+  }
+
+  /**
+   * Send this submission through for approval. 
+   * We first need to check conditions to ensure all tasks have been completed.
+   */
+  public function submitForApproval() {
+    if ($this->task_count() != $this->completed_task_count()) {
+      $this->errors["submit"] = "Not all tasks have been completed";
+      return false;
+    }
+
+    $this->status = "waiting_for_approval";
+    $this->save();
+    return true;
+  }
+
+  /**
+   * Return a nice status for our submission
+   */
+  public function nice_status() {
+    $status = $this->status;
+    if ($status == "in_progress") {
+      return "In progress";
+    
+    } else if ($status == "submitted") {
+      $taskList = TaskSubmission::where(["submission_id" => $this->id])->get();
+      $complete = 0;
+      $total = count($taskList);
+      foreach($taskList as $task) {
+        if ($task->status == "complete" || $task->status == "approved") {
+          $complete++;
+        }
+      }
+
+      if ($complete < $total) {
+        return "Tasks to complete";
+      }
+      
+      return "Ready to submit";
+    
+    } else if ($status == "waiting_for_approval") {
+      return "Waiting for approval";
+    }
+
+    return "-";
+  }
+
+  protected function task_count() {
+    $taskList = TaskSubmission::where(["submission_id" => $this->id])->get();
+    return count($taskList);
+  }
+
+  protected function completed_task_count() {
+    $taskList = TaskSubmission::where(["submission_id" => $this->id,])
+      ->whereIn('status', ['complete', 'approved'])->get();
+    return count($taskList);
+  }
+}

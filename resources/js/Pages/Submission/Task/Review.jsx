@@ -5,8 +5,8 @@ import { router } from '@inertiajs/react'
 import ThemedButton from '@/Components/ThemedButton';
 
 function Content(props) {
-  let questions = JSON.parse(props.submission.questionnaire_data);
-  let answers = JSON.parse(props.submission.answer_data);
+  let questions = props.questions;
+  let answers = JSON.parse(props.task.answer_data);
 
   function getQuestionContent(questionTitle, questionHeading, index) {
     let userResponses = [];    
@@ -43,26 +43,29 @@ function Content(props) {
       </div>
       <div id="review_actions">
         <ThemedButton siteConfig={props.siteConfig} className="ml-2"
-          onClick={() => {router.visit(route('submission.inprogress', [props.submission.uuid], {}))}} 
+          onClick={() => {router.visit(route('submission.task.inprogress', [props.task.uuid], {}))}} 
           >Edit</ThemedButton>
         {/* <ThemedButton siteConfig={props.siteConfig} className="ml-2">PDF</ThemedButton> */}
         <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
-        onClick={() => {router.get(route('submission.submit', [props.submission.uuid], {}))}} 
+        onClick={() => {router.get(route('submission.task.submit', [props.task.uuid], {}))}} 
         >Submit Questionnaire</ThemedButton>
       </div>
     </div>
   )
 }
 
-export default function Review(props) {
+export default function SubmissionTaskReview(props) {
+  let productName = props.submission.product_name ? props.submission.product_name : "-";
+
   let breadcrumb = [
     ["Home", "home"],    
-    ["Current submission", "submission.inprogress", props.submission.uuid],
-    ["Review", "submission.review", props.submission.uuid],
+    ["Submissions", "submissions"],
+    [productName, "submission.submitted", props.submission.uuid],
+    [props.task.name, "submission.task.review", props.task.uuid]
   ]
 
   return (
-    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="Review Submission" 
+    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="Review Task" 
       breadcrumb={breadcrumb}
       content={<Content {...props} />}/>
     );

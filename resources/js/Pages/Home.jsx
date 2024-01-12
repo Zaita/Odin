@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 import UserLayout from '@/Layouts/UserLayout';
-import Submissions from './Home/Submissions';
+import LatestSubmissions from './Home/LatestSubmissions';
 
 import BugReportIcon from '@mui/icons-material/BugReport';
 import SecurityIcon from '@mui/icons-material/Security';
@@ -28,7 +28,7 @@ function Content(props) {
         <PillarList siteConfig={props.siteConfig} pillars={props.pillars}/>
         </div>  
       </div> 
-      <Submissions latestSubmissions={props.latestSubmissions}/>
+      <LatestSubmissions {...props}/>
     </div>
     </>
   );

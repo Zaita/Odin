@@ -18,12 +18,6 @@ body {
   padding: 5px;
 }
 
-/* #input_field input,
-#input_field textarea,
-[contenteditable="true"] {
-  width: 800px;
-} */
-
 #input_field #error {
   margin: 5px 0 5px;
   font-size: 11px;
@@ -49,4 +43,25 @@ body {
 #question_input_field {
   padding: 10px;
   border: 2px solid white;
+}
+
+#submissions {
+  width: 100%;
+  margin: auto;
+}
+
+#submissions #heading {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+#submissions table {
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+#submissions table tr th {
+  font-weight: 700;
+  text-align: left;
 }

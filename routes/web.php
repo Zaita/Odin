@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Content\PillarController as Admin_Content_Pillar;
 use App\Http\Controllers\Admin\Content\TaskController as Admin_Content_Task;
 use App\Http\Controllers\Admin\Security\GroupController as Admin_Security_Group;
 use App\Http\Controllers\Admin\Security\UserController as Admin_Security_User;
+use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Submissions;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AdminSiteConfigurationController;
 use App\Http\Controllers\HomeController;
@@ -53,7 +54,10 @@ User Routes
 */
 Route::middleware('auth')->group(function () {
   Route::get('/', [HomeController::class, 'index'])->name('home');
-  Route::get('/help', [HelpController::class, 'index'])->name('help');
+  Route::get('/submissions', [HomeController::class, 'submissions'])->name('submissions');
+  Route::get('/approvals', [HomeController::class, 'approvals'])->name('approvals');
+  Route::get('/help', [HomeController::class, 'help'])->name('help');
+  
   Route::get('/start/{pillarId}', [PillarController::class, 'start'])->name('pillar.start');
   Route::post('/start/{pillarId}', [SubmissionController::class, 'start'])->name('submission.start');
   Route::get('/view/{pillarId}', [SubmissionController::class, 'view'])->name('submission.view');
@@ -62,6 +66,15 @@ Route::middleware('auth')->group(function () {
   Route::get('/review/{uuid}', [SubmissionController::class, 'review'])->name('submission.review');
   Route::get('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
   Route::get('/submitted/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.submitted');
+  Route::post('/submitforapproval/{uuid}', [SubmissionController::class, 'submitForApproval'])->name('submission.submitforapproval');
+
+  Route::get('/task/{uuid}', [SubmissionController::class, 'task_index'])->name('submission.task');
+  Route::post('/task/start/{uuid}', [SubmissionController::class, 'task_start'])->name('submission.task.start');
+  Route::get('/task/inprogress/{uuid}', [SubmissionController::class, 'task_inprogress'])->name('submission.task.inprogress');
+  Route::post('/task/inprogress/{uuid}', [SubmissionController::class, 'task_update'])->name('submission.task.update');
+  Route::get('/task/review/{uuid}', [SubmissionController::class, 'task_review'])->name('submission.task.review');
+  Route::get('/task/submit/{uuid}', [SubmissionController::class, 'task_submit'])->name('submission.task.submit');
+  Route::get('/task/submitted/{uuid}', [SubmissionController::class, 'task_submitted'])->name('submission.task.submitted');
 });
 
 /*
@@ -165,7 +178,16 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   // Content -> Tasks -> Questions -> Question -> Actions
   Route::get('/admin/content/task/{id}/question/{questionId}/actions', [Admin_Content_Task::class, 'question_actions'])->name('admin.content.task.question.actions');
 
-
+  /**
+   * Submissions
+   *  -> Overview
+   *  -> Lifecycle
+   *  -> Tasks
+   */
+  // Submissions -> Overview
+  Route::get('/admin/records/submissions', [Admin_Records_Submissions::class, 'index'])->name('admin.records.submissions');
+  Route::get('/admin/records/submission/{id}', [Admin_Records_Submissions::class, 'view'])->name('admin.records.submission.view');
+  Route::get('/admin/records/submissions/download', [Admin_Records_Submissions::class, 'index'])->name('admin.records.submission.download');
   
 
 

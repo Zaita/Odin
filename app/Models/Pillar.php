@@ -26,11 +26,13 @@ class Pillar extends Model
       'submission_expires',
       'expire_after_dayes',
       'enabled',
+      'tasks',
   ];
 
   protected $hidden = [
     "sort_order",
     "questionnaire_id",
+    "approval_flow_id",
     "created_at",
     "updated_at"
   ];
@@ -41,6 +43,7 @@ class Pillar extends Model
     "auto_approve" => "boolean",
     "auto_approve_no_tasks" => "boolean",
     "submission_expires" => "boolean",
+    "tasks" => "string"
   ];
 
   public function questionnaire(): BelongsTo {
@@ -63,6 +66,23 @@ class Pillar extends Model
     $relevantJson = array_filter($jsonArr, function($k) { 
       return in_array($k, $this->fillable);
     }, ARRAY_FILTER_USE_KEY);
+    
+    /**
+     * Check if the associated tasks exists or not.
+     * If they don't exist, we'll create a blank questionnaire
+     * as a placeholder
+     */
+    if (isset($jsonArr["tasks"])) {
+      $tasks = $jsonArr["tasks"];
+      foreach($tasks as $task) {
+        $t = Task::firstOrNew(["name" => $task["name"]]);
+        $t->defaultSetupIfNew($task["name"]);        
+      }
+
+      $relevantJson["tasks"] = json_encode($jsonArr["tasks"]);
+    } else {
+      $relevantJson["tasks"] = "{}";
+    }
 
     $this->fill($relevantJson);  
 
