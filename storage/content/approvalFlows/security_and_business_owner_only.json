@@ -1,0 +1,14 @@
+{
+  "name": "Security and business owner only",
+  "stages": [
+    {
+      "type": "group",
+      "target": "!!SecurityArchitects",
+      "approval_type": "endorsement"
+    },
+    {
+      "type": "business_owner",
+      "approval_type": "approval"
+    }
+  ]
+}

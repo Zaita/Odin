@@ -15,7 +15,7 @@ export default function LatestSubmissions(props) {
         <div className="w-1/12 font-bold">Actions</div>
       </div>
       {props.latestSubmissions.map((submission, index) => (
-        <div className="w-full flex bg-white mb-0 p-1">
+        <div className="w-full flex bg-white mb-0 p-1" key={index}>
           <div className="w-2/12">{submission.created_at_short}</div>
           <div className="w-2/12">{submission.pillar_name}</div>
           <div className="w-3/12">{submission.product_name}</div>

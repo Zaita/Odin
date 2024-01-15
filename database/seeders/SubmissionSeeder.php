@@ -31,46 +31,47 @@ class SubmissionSeeder extends Seeder
 
       $approvalFlow = ApprovalFlow::findOrFail($pillar->approval_flow_id);
 
-      for ($i = 0; $i < 5; $i++) {
-        $s = new Submission();
-        $s->user_id = $user->id;
-        $s->submitter_name = $user->name;
-        $s->submitter_email = $user->email;
-        $s->pillar_name = $pillar->name;
-        $s->product_name = sprintf("Product %d", $i);
-        $s->pillar_data = $pillar;
-        $s->approval_flow_data = $approvalFlow;
-        $s->questionnaire_data = $questionnaire;        
-        $s->save();
-      }
+      // for ($i = 0; $i < 5; $i++) {
+      //   $s = new Submission();
+      //   $s->submitter_id = $user->id;
+      //   $s->submitter_name = $user->name;
+      //   $s->submitter_email = $user->email;
+      //   $s->pillar_name = $pillar->name;
+      //   $s->product_name = sprintf("Product %d", $i);
+      //   $s->pillar_data = $pillar;
+      //   $s->approval_flow_data = $approvalFlow;
+      //   $s->questionnaire_data = $questionnaire;    
+      //   $s->status = "in_progress";    
+      //   $s->save();
+      // }
 
-      for ($i = 0; $i < 5; $i++) {
-        $s = new Submission();
-        $s->user_id = $user->id;
-        $s->submitter_name = $user->name;
-        $s->submitter_email = $user->email;
-        $s->pillar_name = $pillar->name;
-        $s->product_name = sprintf("Product %d", $i);
-        $s->pillar_data = $pillar;
-        $s->approval_flow_data = $approvalFlow;
-        $s->questionnaire_data = $questionnaire;
-        $s->status = "submitted";
-        $s->save();
-      }
+      // for ($i = 0; $i < 5; $i++) {
+      //   $s = new Submission();
+      //   $s->submitter_id = $user->id;
+      //   $s->submitter_name = $user->name;
+      //   $s->submitter_email = $user->email;
+      //   $s->pillar_name = $pillar->name;
+      //   $s->product_name = sprintf("Product %d", $i);
+      //   $s->pillar_data = $pillar;
+      //   $s->approval_flow_data = $approvalFlow;
+      //   $s->questionnaire_data = $questionnaire;
+      //   $s->status = "submitted";
+      //   $s->save();
+      // }
 
-      for ($i = 0; $i < 5; $i++) {
-        $s = new Submission();
-        $s->user_id = $user->id;
-        $s->submitter_name = $user->name;
-        $s->submitter_email = $user->email;
-        $s->pillar_name = $pillar->name;
-        $s->product_name = sprintf("Product %d", $i);
-        $s->pillar_data = $pillar;
-        $s->approval_flow_data = $approvalFlow;
-        $s->questionnaire_data = $questionnaire;
-        $s->status = "approved";
-        $s->save();
-      }
+      // for ($i = 0; $i < 5; $i++) {
+      //   $s = new Submission();
+      //   $s->submitter_id = $user->id;
+      //   $s->submitter_name = $user->name;
+      //   $s->submitter_email = $user->email;
+      //   $s->pillar_name = $pillar->name;
+      //   $s->product_name = sprintf("Product %d", $i);
+      //   $s->pillar_data = $pillar;
+      //   $s->approval_flow_data = $approvalFlow;
+      //   $s->questionnaire_data = $questionnaire;
+      //   $s->status = "approved";
+      //   $s->save();
+      // }
     }
 }
 

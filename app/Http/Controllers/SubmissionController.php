@@ -21,6 +21,23 @@ use App\Objects\QuestionnaireObject;
 class SubmissionController extends Controller
 {
   /**
+   * GET: /start/{pillarId}
+   * 
+   * Load the key information screen for a pillar so the user may 
+   * read the content and click start
+   */
+  public function information(Request $request, $pillarId) {
+    Log::Info("pillar.information(${pillarId})");
+    $pillar = Pillar::findOrFail($pillarId);    
+    $config = json_decode(Configuration::GetSiteConfig()->value);    
+
+    return Inertia::render('Start', [
+      'siteConfig' => $config,
+      'pillar' => $pillar,
+    ]);   
+  }
+
+  /**
    * This method will take the pillarId and create a new submission
    * with the contents of the questionnaire and pillar. Because we bind a 
    * submission to the version of the pillar at the point of starting it,
@@ -41,14 +58,7 @@ class SubmissionController extends Controller
 
     $user = $request->user();
     $s = new Submission();
-    $s->user_id = $user->id;
-    $s->submitter_name = $user->name;
-    $s->submitter_email = $user->email;
-    $s->pillar_name = $pillar->name;
-    $s->questionnaire_data = $questionnaire;
-    $s->pillar_data = $pillar;
-    $s->approval_flow_data = $approvalFlow;
-    $s->save();
+    $s->initAndSave($pillar, $user, $questionnaire);
 
     return Redirect::route('submission.inprogress', ['uuid' => $s->uuid]);   
   }
@@ -58,18 +68,25 @@ class SubmissionController extends Controller
    */
   public function view(Request $request, $uuid) {
     $submission = Submission::where('uuid', $uuid)->first();
-    if ($submission->status == "in_progress") {
-      return Redirect::route('submission.inprogress', ['uuid' => $uuid]);   
-    } else if ($submission->status == "submitted") {
-      return Redirect::route('submission.submitted', ['uuid' => $uuid]);   
-    }
+    switch($submission->status) {
+      case "in_progress":
+        return Redirect::route('submission.inprogress', ['uuid' => $uuid]);   
+      case "submitted":
+      case "waiting_for_approval":
+      case "approved":
+      case "denied":
+        return Redirect::route('submission.submitted', ['uuid' => $uuid]);   
+    }    
   }
   /**
    * This method will load the questionnaire submission for the current uuid.
    */
   public function inProgress(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $submission = Submission::where('uuid', $uuid)->first();
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
 
     return Inertia::render('Submission/InProgress', [
       'siteConfig' => $config,
@@ -82,7 +99,10 @@ class SubmissionController extends Controller
    */
   public function update(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $submission = Submission::where('uuid', $uuid)->first();
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
     
     $errors = array();
 
@@ -156,7 +176,10 @@ class SubmissionController extends Controller
    */
   public function review(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $submission = Submission::where('uuid', $uuid)->first();
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
 
     return Inertia::render('Submission/Review', [
       'siteConfig' => $config,
@@ -169,11 +192,15 @@ class SubmissionController extends Controller
    */
   public function submit(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $submission = Submission::where('uuid', $uuid)->first();
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
 
     if (!$submission->submit()) {
       return back()->withInput()->withErrors($submission->errors); 
     }
+
     return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]);
   }
 
@@ -182,15 +209,30 @@ class SubmissionController extends Controller
    */
   public function submitted(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $submission = Submission::where('uuid', $uuid)->first();
+    $submission = Submission::with(['approval_stages'])
+      ->where('uuid', $uuid)->first();
     // TODO: If not right status, redirect elsewhere
     $tasks = TaskSubmission::where(['submission_id' => $submission->id])->get();
+
+    $user = $request->user();
+    $secureToken = $request->input('secure_token', '');
+
+    Log::Info("--> Submitted Load");
+    $isAnApprover = $submission->isAnApprover($user);
+    Log::Info(sprintf("- Is an approver? %b", $isAnApprover));
+    $canBeAssigned = $submission->canAssignUser($user);
+    Log::Info(sprintf("- Can be assigned? %b", $canBeAssigned));
+    $canApproveWithType = $submission->canApproveWithType($user, $secureToken);
+    Log::Info(sprintf("- Can approve with type? %s", $canApproveWithType));
 
     return Inertia::render('Submission/Submitted', [
       'siteConfig' => $config,
       'submission' => $submission,
       'tasks' => $tasks,
-      'status' => $submission->nice_status()
+      'status' => $submission->nice_status(),
+      'is_an_approver' => $isAnApprover,
+      'can_be_assigned' => $submission->canAssignUser($user),
+      'can_approve_with_type' => $submission->canApproveWithType($user, $secureToken)
     ]); 
   }
 
@@ -199,15 +241,67 @@ class SubmissionController extends Controller
    */
   public function submitForApproval(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    $submission = Submission::where('uuid', $uuid)->first();
-    $tasks = TaskSubmission::where(['submission_id' => $submission->id])->get();
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
 
+    $tasks = TaskSubmission::where(['submission_id' => $submission->id])->get();
     if (!$submission->submitForApproval()) {
       return back()->withInput()->withErrors($submission->errors); 
     }
 
     return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]); 
   }
+
+  /**
+   * POST /submission/assigntome/{uuid}
+   * 
+   * Assign the submission to the current user
+   */
+  public function assignToMe(Request $request, $uuid) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $submission = Submission::where('uuid', $uuid)->first();
+    $user = $request->user();
+    $secureToken = $request->input('secure_token', '');
+
+    if (!$submission->assignToUser($user, $secureToken)) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
+
+    return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]); 
+  }
+
+  /**
+   * 
+   */
+  public function sendBackForChanges(Request $request, $uuid) { 
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $submission = Submission::where('uuid', $uuid)->first();
+    $user = $request->user();
+
+    $submission->status = "submitted";
+    $submission->save();
+    return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]); 
+  }
+
+  /**
+   * Handle /approve/{uuid}
+   * where the current user is attempting to approve part of the submission
+   */
+  public function approve(Request $request, $uuid) { 
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $submission = Submission::where('uuid', $uuid)->first();
+    $user = $request->user();
+
+    if (!$submission->approve($user)) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
+
+    return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]); 
+  }
+  
+  public function deny(Request $request, $uuid) { }
 
   /**
    * Handle the user loading the task url /task/{uuid} 

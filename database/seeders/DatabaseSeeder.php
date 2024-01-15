@@ -25,6 +25,37 @@ class DatabaseSeeder extends Seeder
         'password' => bcrypt('admin'),
       ]);
 
+      \App\Models\User::factory()->create([
+        'name' => 'Scott User',
+        'email' => 'user@zaita.com',
+        'password' => bcrypt('admin'),
+      ]);
+
+      \App\Models\User::factory()->create([
+        'name' => 'Scott Collab',
+        'email' => 'collab@zaita.com',
+        'password' => bcrypt('admin'),
+      ]);
+
+      \App\Models\User::factory()->create([
+        'name' => 'Scott SecArch',
+        'email' => 'sec@zaita.com',
+        'password' => bcrypt('admin'),
+      ]);
+
+      \App\Models\User::factory()->create([
+        'name' => 'Scott CISO',
+        'email' => 'ciso@zaita.com',
+        'password' => bcrypt('admin'),
+      ]);
+
+      \App\Models\User::factory()->create([
+        'name' => 'Scott BO',
+        'email' => 'bo@zaita.com',
+        'password' => bcrypt('admin'),
+      ]);
+
+
       \App\Models\User::factory(50)->create();
 
       $this->call([

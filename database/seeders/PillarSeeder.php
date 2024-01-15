@@ -14,13 +14,13 @@ class PillarSeeder extends Seeder
 {
   protected $sortOrder = 0;
 
-  protected function load_pillar($name) {
+  protected function load_pillar($name, $approvalFlow = "Security only") {
     $fileName = "storage/content/pillars/${name}.json";
     $file = fopen($fileName, "r") or die("Unable to open file!");
     $json = json_decode(fread($file,filesize($fileName)), true);
     fclose($file);
     
-    $approvalFlow = ApprovalFlow::where('id', '>', 0)->first();
+    $approvalFlow = ApprovalFlow::where(['name' => $approvalFlow])->first();
 
     $p = Pillar::firstOrNew(["name" => $json["name"]]);
     $p->importFromJson($json);
@@ -36,12 +36,16 @@ class PillarSeeder extends Seeder
     {
 
       // Risk Profile
-      $this->load_pillar("Test");
+      $this->load_pillar("Test", "Security only");
       $this->load_pillar("RiskProfile");
       $this->load_pillar("ProofOfConcept");
       $this->load_pillar("CloudProductOnboarding");
       $this->load_pillar("NewProjectOrProduct");
       $this->load_pillar("ProductRelease");
+
+      // $p = Pillar::firstOrNew(["name" => "Test"]);
+      // $p->approval_flow_id = ApprovalFlow::where(['name' => "Security only"])->first()->id;
+      // $p->save();
     }
 }
 

@@ -1,0 +1,20 @@
+{
+  "name": "Two stage approval with CISO endorsement",
+  "stages": [
+    {
+      "type": "group",
+      "target": "!!SecurityArchitects",
+      "approval_type": "endorsement"
+    },
+    {
+      "type": "group",
+      "target": "!!ChiefInformationSecurityOfficer",
+      "approval_type": "endorsement",
+      "wait_for_approval" : false
+    },
+    {
+      "type": "business_owner",
+      "approval_type": "approval"
+    }
+  ]
+}

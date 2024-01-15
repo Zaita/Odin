@@ -88,6 +88,8 @@ class Pillar extends Model
 
     $q = Questionnaire::firstOrNew(["name" => $this->name]);
     $q->importFromJson($jsonArr["questionnaire"]);
+    $q->name = $this->name; // Override name with Pillar name
+    $q->save();
     $this->questionnaire_id = $q->id;    
 
     $this->save();

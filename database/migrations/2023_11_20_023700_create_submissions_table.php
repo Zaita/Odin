@@ -15,30 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('status');
             $table->string('uuid');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('submitter_id');
             $table->string('submitter_name');
             $table->string('submitter_email');
             $table->string('pillar_name');
             $table->json('pillar_data');
-            $table->json('approval_flow_data');
             $table->json('questionnaire_data');
             $table->json('answer_data');
             $table->string('product_name')->default("");
             $table->date('release_date')->nullable();
             $table->string('ticket_link')->default("");
             $table->string('business_owner')->nullable();
-
-            // $table->json('email_status');
-            // $table->string('ciso_approval_status');
-            // $table->string('')
-            // $table->json('ciso_approval_metadata');
-            // $table->String('security_approval_status');
-            // $table->json('security_approval_data');
-            // $table->string('business_owner_approval_status');
-            // $table->json('business_owner_approval_data');
+            $table->unsignedBigInteger('approval_stage')->default(0);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('submitter_id')->references('id')->on('users');
         });
     }
 
