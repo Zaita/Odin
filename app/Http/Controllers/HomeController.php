@@ -54,13 +54,33 @@ class HomeController extends Controller
     ]);
   }
 
+  /**
+   * GET /approvals
+   * 
+   * Load a list of submissions that can be approved by the current user
+   */
   public function approvals(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
+    $user = $request->user();
+    $approvableSubmissions = array();
+    $submissions = Submission::where(['status' => 'waiting_for_approval'])->get();
+    foreach($submissions as $submission) {
+      if ($submission->canAssignUser($user) || $submission->canApproveWithType($user, null)) {
+        array_push($approvableSubmissions, $submission);
+      }
+    }
+    
     return Inertia::render('Approvals', [
       'siteConfig' => $config,
+      'submissions' => $approvableSubmissions
     ]);    
   }
 
+  /**
+   * GET /help
+   * 
+   * Display help information
+   */
   public function help(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Help', [
