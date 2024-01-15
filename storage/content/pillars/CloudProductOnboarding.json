@@ -3,7 +3,7 @@
   "name": "Cloud Product Onboarding",
   "caption": "I want to use a cloud of SaaS product",
   "icon": "download",
-  "key_information": "<p>This questionnaire will ask you contextual questions about a cloud product you wish to use.&nbsp; This is used to create a record of the vendor completing our security on-boarding process. A documentation trail must be created to ensure any potential risks associated with this vendor and product are documented and accepted.<\/p><p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within the SDLT.<\/p><p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
+  "key_information": "<p>This questionnaire will ask you contextual questions about a cloud product you wish to use.&nbsp; This is used to create a record of the vendor completing our security on-boarding process. A documentation trail must be created to ensure any potential risks associated with this vendor and product are documented and accepted.<\/p><p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p><p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
   "risk_calculation": "none",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
