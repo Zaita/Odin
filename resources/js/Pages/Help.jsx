@@ -9,7 +9,7 @@ export default function Submissions(props) {
       <div id="content_box" className="mt-5">
         <div>Title: {props.siteConfig.title} </div>
         <div>footerText: {props.siteConfig.footerText}</div>
-        <div>sdltEmail: {props.siteConfig.sdltEmail}</div>
+        <div>odinEmail: {props.siteConfig.odinEmail}</div>
         <div>securityTeamEmail: {props.siteConfig.securityTeamEmail}</div>
         <div>logoPath: {props.siteConfig.logoPath}</div>
         <div>subHeaderImagePath: {props.siteConfig.subHeaderImagePath}</div>

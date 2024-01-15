@@ -18,9 +18,9 @@ class Configuration extends Model
     ];
 
     protected static $defaultSiteConfigValues = array(
-      "title" => "SDLT",
+      "title" => "Odin",
       "footerText" => "Copyright (c) 2023 Scott Rasmussen (github/zaita)",
-      "sdltEmail" => "sdlt@example.com",
+      "odinEmail" => "odin@example.com",
       "securityTeamEmail" => "security@example.com",
       "themeBgColor" => "#E5E5E5",
       "themeTextColor" => "#000000",
@@ -30,7 +30,7 @@ class Configuration extends Model
       "themeSubheaderTextColor" => "#FFFFFF",
       "themeBreadcrumbColor" => "#ADADAD",
       "themeHyperlinkColor" => "#FF9933",
-      "logoPath" => "/images/sdlt_base_logo.png",
+      "logoPath" => "/images/odin_base_logo.png",
       "subHeaderImagePath" => "/images/subheader.jpg"
     );
 
@@ -63,7 +63,7 @@ class Configuration extends Model
      * 
      */
     protected static $defaultDashboardValues = array(
-      "title" => "Welcome to the SDLT",
+      "title" => "Welcome to Odin",
       "titleText" => "Some silly title text",
       "submission" => "Create a new submission",
     );

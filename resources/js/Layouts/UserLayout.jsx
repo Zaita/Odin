@@ -25,7 +25,7 @@ function Header({user, siteConfig, selectedMenu}) {
   return(
     <div id="header" style={{"height" : "50px", "backgroundColor": siteConfig.themeHeaderColor}} className="flex align-middle items-center">
       <Link href="/">
-      <div id="logo" className="text-white"><img src={siteConfig.logoPath} style={{height: "36px", marginLeft: "8px", verticalAlign: "middle"}} alt="SDLT Logo"/></div>
+      <div id="logo" className="text-white"><img src={siteConfig.logoPath} style={{height: "36px", marginLeft: "8px", verticalAlign: "middle"}} alt="Odin Logo"/></div>
       </Link>
       <div className="inline-flex mr-0 ml-auto">
         <span className="text-white pr-2">{user?.email}</span>

@@ -17,7 +17,7 @@ class GroupSeeder extends Seeder
     {
       $record = Group::create(
         ['name' => "Administrator",
-        'description' => "Full access to the SDLT"
+        'description' => "Full access to Odin"
         ]
       );
       $record = Group::create(

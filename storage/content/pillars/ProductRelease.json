@@ -3,7 +3,7 @@
   "name": "Product Release",
   "caption": "I want to release a change to an existing product",
   "icon": "bug",
-  "key_information": "<p>This questionnaire will ask you contextual questions about the change you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p>\n<p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within the SDLT.<\/p>\n<p>The number and amount of tasks created will be tailored based on the complexity and risk level of your change. A low risk and low complexity change will likely not have any required tasks.<\/p>\n<p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
+  "key_information": "<p>This questionnaire will ask you contextual questions about the change you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p>\n<p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p>\n<p>The number and amount of tasks created will be tailored based on the complexity and risk level of your change. A low risk and low complexity change will likely not have any required tasks.<\/p>\n<p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
   "risk_calculation": "none",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
@@ -267,7 +267,7 @@
               "id": 62,
               "title": "Information Classification",
               "heading": "Do you know the Information Classification already?",
-              "description": "<p>We classify data based on potential sensitivity and value to a malicious actor. Applying appropriate classifications allows us to maintain appropriate records of the data we hold, and the security controls we should be applying.<\/p><p>The SDLT will classify your data based on the New Zealand Government Information Classification guidelines.<\/p><p>If you are unsure, click \"No\" and the SDLT will generate your information classification for you as a task at the end of this questionnaire.<\/p>",
+              "description": "<p>We classify data based on potential sensitivity and value to a malicious actor. Applying appropriate classifications allows us to maintain appropriate records of the data we hold, and the security controls we should be applying.<\/p><p>Odin will classify your data based on the New Zealand Government Information Classification guidelines.<\/p><p>If you are unsure, click \"No\" and Odin will generate your information classification for you as a task at the end of this questionnaire.<\/p>",
               "sort_order": 8,
               "input_fields": [],
               "action_fields": [
@@ -520,7 +520,7 @@
               "id": 70,
               "title": "Security Risk Assessment",
               "heading": "Security Risk Assessment Required",
-              "description": "<p>As this change is a significant change, you will be required to complete a Digital Security Risk Assessment.<\/p>\n<p>The SDLT uses a new Digital Security Risk Assessment (DSRA) methodology. If you're familiar with this approach and do not need the Tutorial please click 'Ok'. If you would like the Tutorial to give you some background information on how to use the DSRA please click the 'With Tutorial' button.<\/p>",
+              "description": "<p>As this change is a significant change, you will be required to complete a Digital Security Risk Assessment.<\/p>\n<p>Odin uses a new Digital Security Risk Assessment (DSRA) methodology. If you're familiar with this approach and do not need the Tutorial please click 'Ok'. If you would like the Tutorial to give you some background information on how to use the DSRA please click the 'With Tutorial' button.<\/p>",
               "sort_order": 16,
               "input_fields": [],
               "action_fields": [

@@ -21,7 +21,7 @@ function Content(props) {
     <SubHeader siteConfig={props.siteConfig}/>
     <div style={{backgroundColor: props.siteConfig.themeBgColor, color: props.siteConfig.themeTextColor, minHeight: "600px"}} className="pt-5 items-center">
       <div id="title-box" className="w-3/5 text-xl font-extrabold mb-4 text-left ml-auto mr-auto">{props.dashboard.title}</div>
-      <div id="sdlt-description" className="w-3/5 text-xs ml-auto mr-auto" dangerouslySetInnerHTML={{__html: props.dashboard.titleText}} />
+      <div id="odin-description" className="w-3/5 text-xs ml-auto mr-auto" dangerouslySetInnerHTML={{__html: props.dashboard.titleText}} />
       <div id="create-text" className="w-3/5 text-m font-extrabold mb-4 text-left ml-auto mr-auto pt-5">{props.dashboard.submission}</div>
       <div id="pillars" style={{marginBottom: "40px", maxWidth: "1600px"}} className="ml-auto mr-auto">
         <div id="pillar-row" style={{marginTop: "20px", justifyContent: "space-evenly"}} className="flex">
