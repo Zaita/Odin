@@ -11,12 +11,8 @@ use App\Models\Group;
 
 class ApprovalFlowSeeder extends Seeder
 {
-  /**
-   * Run the database seeds.
-   */
-  public function run(): void
-  {
-    $fileName = "storage/content/approvalFlows/default.json";
+  protected function load_approval_flow($name) {
+    $fileName = "storage/content/approvalFlows/${name}.json";
     $file = fopen($fileName, "r") or die("Unable to open file!");
     $stringValue = fread($file,filesize($fileName));
     $stringValue = str_replace("!!SecurityArchitects", "Security Architect", $stringValue);
@@ -26,9 +22,17 @@ class ApprovalFlowSeeder extends Seeder
 
     // Risk Profile
     $approvalFlow = new ApprovalFlow();
-    $approvalFlow->name = "Default 2-Stage";
-    $approvalFlow->details = json_encode($json);
+    $approvalFlow->importFromJson($json);
     $approvalFlow->save(); 
+  }
+  /**
+   * Run the database seeds.
+   */
+  public function run(): void
+  {
+    $this->load_approval_flow("two_stage_with_ciso_endorsement");
+    $this->load_approval_flow("security_only");
+    $this->load_approval_flow("security_and_business_owner_only");   
   }
 }
 

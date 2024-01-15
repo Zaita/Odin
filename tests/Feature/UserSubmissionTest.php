@@ -27,7 +27,7 @@ class UserSubmissionTest extends TestCase {
   /**
    * Check that we can load the /start page for our Proof of Concept Pillar
    */
-  public function test_proof_of_concept_start_page(): void {
+  public function test_loading_start_page(): void {
     $response = $this->actingAs(self::$user)->get('/start/2');
     $response->assertInertia(fn (Assert $page) => $page
         ->component("Start")
@@ -35,14 +35,24 @@ class UserSubmissionTest extends TestCase {
         ->has("siteConfig")
         ->has("pillar")
         ->where("pillar.id", 2)
-        ->where("pillar.name", "Proof of Concept")
+        ->where("pillar.name", "Test Two Step Approval Flow")
+    );
+
+    $response = $this->actingAs(self::$user)->get('/start/1');
+    $response->assertInertia(fn (Assert $page) => $page
+        ->component("Start")
+        ->has("ziggy.location")
+        ->has("siteConfig")
+        ->has("pillar")
+        ->where("pillar.id", 1)
+        ->where("pillar.name", "Test Single-Step Approval Flow")
     );
   }
 
   /**
    * CHeck that we can create a new submission
    */
-  public function test_proof_of_concept_create_new_submission(): void {
+  public function test_create_new_submission(): void {
     $this->assertDatabaseCount('submissions', 0);
     $response = $this->actingAs(self::$user)->post('/start/2');
     $this->assertDatabaseCount('submissions', 1);
@@ -54,7 +64,7 @@ class UserSubmissionTest extends TestCase {
   /**
    * Check that we can load the inprogress screen for our new submission
    */
-  public function test_proof_of_concept_load_inprogress_screen() : void {
+  public function test_load_inprogress_screen() : void {
     $this->assertDatabaseCount('submissions', 0);
     $response = $this->actingAs(self::$user)->post('/start/2');
     $this->assertDatabaseCount('submissions', 1);

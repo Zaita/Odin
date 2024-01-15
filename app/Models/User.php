@@ -82,4 +82,12 @@ class User extends Authenticatable
       return $this->belongsToMany(Group::class);
   }
 
+  public function isInGroup($groupName) {
+    foreach ($this->groupMembership as $group) {
+      if ($groupName == $group->name) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

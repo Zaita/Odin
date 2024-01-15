@@ -1,0 +1,10 @@
+{
+  "name": "Security only",
+  "stages": [
+    {
+      "type": "group",
+      "target": "!!SecurityArchitects",
+      "approval_type": "approval"
+    }    
+  ]
+}

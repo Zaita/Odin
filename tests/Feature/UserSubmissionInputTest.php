@@ -30,19 +30,8 @@ class UserSubmissionInputTest extends TestCase {
     self::$user = User::Factory()->create();
 
     // Load Our Test Pillar for these tests
-    $fileName = "storage/content/testdata/UnitTest01Pillar.json";
-    $file = fopen($fileName, "r") or die("Unable to open file!");
-    $json = json_decode(fread($file,filesize($fileName)), true);
-    fclose($file);
-
-    $p = Pillar::firstOrNew(["name" => $json["name"]]);
-    $p->importFromJson($json);
-    $p->sort_order = 999;
-    $p->save();
-
-    $this->assertDatabaseCount('pillars', 6);
-
-    $this->id = $p->id;
+    $this->assertDatabaseCount('pillars', 4);
+    $this->id = Pillar::where(["name" => "Test All Input Types"])->first()->id;
   }
 
   /**
@@ -58,7 +47,7 @@ class UserSubmissionInputTest extends TestCase {
         ->has("siteConfig")
         ->has("pillar")
         ->where("pillar.id", $id)
-        ->where("pillar.name", "Unit Test 01")
+        ->where("pillar.name", "Test All Input Types")
     );
 
     $response = $this->actingAs(self::$user)->post("/start/${id}");
@@ -78,8 +67,8 @@ class UserSubmissionInputTest extends TestCase {
         ->has("ziggy.location")
         ->has("siteConfig")
         ->has("pillar")
-        ->where("pillar.id", 6)
-        ->where("pillar.name", "Unit Test 01")
+        ->where("pillar.id", $id)
+        ->where("pillar.name", "Test All Input Types")
     );
   }
 

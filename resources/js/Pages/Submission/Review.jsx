@@ -47,7 +47,7 @@ function Content(props) {
           >Edit</ThemedButton>
         {/* <ThemedButton siteConfig={props.siteConfig} className="ml-2">PDF</ThemedButton> */}
         <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
-        onClick={() => {router.get(route('submission.submit', [props.submission.uuid], {}))}} 
+        onClick={() => {router.post(route('submission.submit', [props.submission.uuid], {}))}} 
         >Submit Questionnaire</ThemedButton>
       </div>
     </div>

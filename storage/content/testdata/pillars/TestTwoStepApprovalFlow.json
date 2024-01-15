@@ -1,0 +1,44 @@
+{
+  "name": "Test Two Step Approval Flow",
+  "caption": "Testing Basic Functionality",
+  "icon": "lightbulb",
+  "key_information": "No key information",
+  "risk_calculation": "none",
+  "auto_approve": true,
+  "auto_approve_no_tasks": true,
+  "submission_expires": true,
+  "expire_after_days": 7,
+  "enabled": true,
+  "questionnaire": {
+      "name": "Test",
+      "type": "questionnaire",
+      "questions": [
+          {
+              "title": "Q1",
+              "heading": "Q1",
+              "description": "Q1",
+              "sort_order": 0,
+              "input_fields": [
+                {
+                  "label": "Product Name",
+                  "required": true,
+                  "input_type": "text",
+                  "min_length": 3,
+                  "max_length": 0,
+                  "product_name": true
+                },
+                {
+                  "label": "Business Owner",
+                  "required": true,
+                  "input_type": "email",
+                  "min_length": 3,
+                  "max_length": 0,
+                  "business_owner": true
+                }                
+              ],
+              "action_fields": []
+          }          
+      ]
+  },
+  "tasks": []  
+}

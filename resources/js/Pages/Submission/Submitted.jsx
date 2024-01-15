@@ -8,11 +8,14 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import GppBadIcon from '@mui/icons-material/GppBad';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
-import ReportIcon from '@mui/icons-material/Report';
 
 import ThemedButton from '@/Components/ThemedButton';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ApprovalBox from '@/Components/Submission/ApprovalBox';
+import SubmitForApprovalButton from '@/Components/Submission/SubmitForApprovalButton';
+import AssignToMeButton from '@/Components/Submission/AssignToMeButton';
+import ApproveOrEndorseButton from '@/Components/Submission/ApproveOrEndorseButton';
+import EditAndPDFButton from '@/Components/Submission/EditAndPDFButton';
 
 function Content(props) {
   function getStatusIcon(status) {
@@ -49,7 +52,7 @@ function Content(props) {
         return (<><HourglassBottomIcon style={{width: "34px", color: "blue"}}/>Awaiting approval</>);
       case "approved":
         return (<><VerifiedUserIcon style={{width: "34px", color: "green"}}/>Approved</>);
-        case "not_approved":
+      case "not_approved":
           return (<><GppBadIcon style={{width: "34px", color: "red"}}/>Not approved</>);       
       case "complete":
         return (<><VerifiedUserIcon style={{width: "34px", color: "green"}}/>Complete</>);    
@@ -58,22 +61,40 @@ function Content(props) {
     return "-";
   }
 
-  function SubmitForApprovalButton() {
-    if (props.status != "Ready to submit") {
-      return (<></>);
+  /**
+   * Get the Task List object. If there are no tasks, then display a message that there are no
+   * tasks and the submission can be sent for approval straight away
+   */
+  function TaskList() {
+    if (props.tasks.length == 0) {
+      return (
+        <div className="w-full flex bg-white mb-1 p-2">
+          <p><i>
+            This submission requires no extra tasks to be completed. If you are ready to send it through for approval,
+            please click the 'Submit for Approval' button below.
+          </i></p>
+        </div>
+      );
     }
 
+    // There are tasks to be completed.
     return (
       <>
-        <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
-        onClick={() => {router.post(route('submission.submitforapproval', [props.submission.uuid], {}))}} 
-        >Submit For Approval</ThemedButton>    
-        <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p>    
+      {props.tasks.map((task, index) => {
+        return (
+          <div key={index} className="w-full flex bg-white mb-1 p-2">
+            <div className="w-3/12 pt-2">{task.name}</div>
+            <div className="w-2/12 pt-2">{task.time_to_complete}</div>
+            <div className="w-2/12 pt-2">{task.time_to_review}</div>
+            <div className="w-2/12 pt-2">{task.approved_by}</div>
+            <div className="w-2/12">{getNiceTaskStatus(task.status)}</div>
+            <div className="w-1/12"><ChevronRightIcon onClick={() => {router.get(route('submission.task', [task.uuid], {}))}}/></div>                    
+          </div>
+        );
+      })}
       </>
     );
   }
-
-  let error = props.errors && "submit" in props.errors ? (<><ReportIcon/> {props.errors["submit"]}</>) : "";
 
   return (
     <div id="inner_content">
@@ -112,35 +133,19 @@ function Content(props) {
             <div className="w-2/12 font-bold">Task status</div>
             <div className="w-1/12 font-bold">Actions</div>
           </div>
-          
-          {props.tasks.map((task, index) => {
-            return (
-              <div key={index} className="w-full flex bg-white mb-1 p-2">
-                <div className="w-3/12 pt-1">{task.name}</div>
-                <div className="w-2/12 pt-1">{task.time_to_complete}</div>
-                <div className="w-2/12 pt-1">{task.time_to_review}</div>
-                <div className="w-2/12 pt-1">{task.approved_by}</div>
-                <div className="w-2/12 pt-1">{getNiceTaskStatus(task.status)}</div>
-                <div className="w-1/12"><ChevronRightIcon 
-                  onClick={() => {router.get(route('submission.task', [task.uuid], {}))}} 
-                  /></div>                    
-              </div>
-            );
-          })}
+          <TaskList/>
+
       </div>
       <ApprovalBox {...props}/>
       <div id="bottom">
         <div className="inline-block w-1/2">
-          <ThemedButton siteConfig={props.siteConfig} className="ml-2"
-          onClick={() => {router.visit(route('submission.inprogress', [props.submission.uuid], {}))}} 
-          >Edit</ThemedButton>
-          <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
-          onClick={() => {router.get(route('submission.submit', [props.submission.uuid], {}))}} 
-          >PDF</ThemedButton>
+          <EditAndPDFButton {...props}/>
         </div>
         <div className="inline-block w-1/2">
           <span className="float-right">
-              {<SubmitForApprovalButton/>}
+              {<SubmitForApprovalButton {...props}/>}
+              {<AssignToMeButton {...props}/>}
+              {<ApproveOrEndorseButton {...props}/>}
             </span>
         </div>
       </div>
@@ -158,7 +163,7 @@ export default function Submitted(props) {
     [productName, "submission.submitted", props.submission.uuid]
   ]
   return (
-    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText={productName} 
+    <UserLayout user={props.auth.user} siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText={productName} 
     breadcrumb={breadcrumb}
     content={<Content {...props} />}/>
     );

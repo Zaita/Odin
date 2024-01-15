@@ -57,16 +57,23 @@ Route::middleware('auth')->group(function () {
   Route::get('/submissions', [HomeController::class, 'submissions'])->name('submissions');
   Route::get('/approvals', [HomeController::class, 'approvals'])->name('approvals');
   Route::get('/help', [HomeController::class, 'help'])->name('help');
+  Route::get('/error', [HomeController::class, 'error'])->name('error');
   
-  Route::get('/start/{pillarId}', [PillarController::class, 'start'])->name('pillar.start');
+  Route::get('/start/{pillarId}', [SubmissionController::class, 'information'])->name('submission.information');
   Route::post('/start/{pillarId}', [SubmissionController::class, 'start'])->name('submission.start');
   Route::get('/view/{pillarId}', [SubmissionController::class, 'view'])->name('submission.view');
   Route::get('/inprogress/{uuid}', [SubmissionController::class, 'inProgress'])->name('submission.inprogress');
   Route::post('/inprogress/{uuid}', [SubmissionController::class, 'update'])->name('submission.update');
   Route::get('/review/{uuid}', [SubmissionController::class, 'review'])->name('submission.review');
-  Route::get('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
+  Route::post('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
   Route::get('/submitted/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.submitted');
   Route::post('/submitforapproval/{uuid}', [SubmissionController::class, 'submitForApproval'])->name('submission.submitforapproval');
+  Route::post('/assigntome/{uuid}', [SubmissionController::class, 'assignToMe'])->name('submission.assigntome');
+  Route::post('/downloadpdf/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.downloadpdf');
+
+  Route::post('/sendback/{uuid}', [SubmissionController::class, 'sendBackForChanges'])->name('submission.sendback');
+  Route::post('/deny/{uuid}', [SubmissionController::class, 'deny'])->name('submission.deny');
+  Route::post('/approve/{uuid}', [SubmissionController::class, 'approve'])->name('submission.approve');
 
   Route::get('/task/{uuid}', [SubmissionController::class, 'task_index'])->name('submission.task');
   Route::post('/task/start/{uuid}', [SubmissionController::class, 'task_start'])->name('submission.task.start');

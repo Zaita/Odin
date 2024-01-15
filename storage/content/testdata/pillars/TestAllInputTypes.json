@@ -1,6 +1,6 @@
 {
   "id": 6,
-  "name": "Unit Test 01",
+  "name": "Test All Input Types",
   "caption": "Test each input type",
   "icon": "none",
   "key_information": "Pillar to unit test each input type",

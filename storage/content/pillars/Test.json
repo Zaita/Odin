@@ -26,15 +26,19 @@
                   "min_length": 3,
                   "max_length": 0,
                   "product_name": true
-                }
+                },
+                {
+                  "label": "Business Owner",
+                  "required": true,
+                  "input_type": "email",
+                  "min_length": 3,
+                  "max_length": 0,
+                  "business_owner": true
+                }                
               ],
               "action_fields": []
           }          
       ]
   },
-  "tasks": [
-    {
-      "name": "Web Security Configuration"
-    }
-  ]  
+  "tasks": []  
 }

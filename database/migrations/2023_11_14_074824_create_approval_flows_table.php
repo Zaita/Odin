@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('approval_flows', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->json('details');
+            $table->string('name');            
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pillars');        
+        Schema::dropIfExists('approval_flows');        
     }
 };

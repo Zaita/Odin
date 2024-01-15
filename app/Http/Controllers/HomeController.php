@@ -14,6 +14,13 @@ use App\Models\Submission;
 
 class HomeController extends Controller
 {
+  public function error(Request $request) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    return Inertia::render('Error', [
+      'siteConfig' => $config,
+    ]); 
+  }
+
   public function index(Request $request) {
     Log::Info("Loading Home");
     $pillars = Pillar::all();
