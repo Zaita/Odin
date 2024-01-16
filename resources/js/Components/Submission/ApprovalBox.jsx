@@ -9,7 +9,7 @@ export default function ApprovalBox(props) {
    */
   if (props.submission.status == "submitted") {
     return (
-      <div id="approvals_list" className="mb-6 mt-6 pt-6" style={{borderTop: "2px solid #d9d9d9"}}>
+      <div id="approvals_list" className="mb-2 mt-2 pt-2" style={{borderTop: "2px solid #d9d9d9"}}>
         <div className="text-base font-bold mb-3">Approvals</div>
         <div className="w-3/5 flex bg-white mb-1 p-2">
           <i>Note: Required endorsements and approvals will be shown once all tasks have been complete and submission 
@@ -82,7 +82,7 @@ export default function ApprovalBox(props) {
   }
 
   return (
-      <div id="approvals_list" className="mb-6 mt-6 pt-6" style={{borderTop: "2px solid #d9d9d9"}}>
+      <div id="approvals_list" className="mb-2 mt-2 pt-2" style={{borderTop: "2px solid #d9d9d9"}}>
       <div className="text-base font-bold mb-3">Approvals</div>
       <div className="w-3/5 flex bg-white mb-1 p-2">
         <div className="w-4/12 font-bold">Role</div>
