@@ -25,10 +25,12 @@
         "@fontsource/roboto": "^5.0.8",
         "@mui/icons-material": "^5.14.16",
         "@mui/material": "^5.14.17",
-        "react-contenteditable": "^3.3.7",
+        "draft-js": "^0.11.7",
+        "draftjs-to-html": "^0.9.1",
+        "html-to-draftjs": "^1.5.0",
         "react-datepicker": "^4.21.0",
+        "react-draft-wysiwyg": "^1.15.0",
         "react-select": "^5.8.0",
-        "watch": "^0.13.0",
         "webpack": "^5.89.0"
     }
 }
