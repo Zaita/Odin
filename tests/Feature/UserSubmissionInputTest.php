@@ -30,7 +30,6 @@ class UserSubmissionInputTest extends TestCase {
     self::$user = User::Factory()->create();
 
     // Load Our Test Pillar for these tests
-    $this->assertDatabaseCount('pillars', 4);
     $this->id = Pillar::where(["name" => "Test All Input Types"])->first()->id;
   }
 

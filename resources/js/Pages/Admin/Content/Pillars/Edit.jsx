@@ -7,6 +7,7 @@ import ThemedButton from '@/Components/ThemedButton';
 import DropdownField from '@/Components/DropdownField';
 
 import { SaveAnswers } from '@/Components/Admin/SaveAnswers';
+import RichTextAreaField from '@/Components/RichTextAreaField';
 
 export default function EditPillars(props) {  
   console.log("Admin.Content.Pillars.Edit");
@@ -76,7 +77,7 @@ export default function EditPillars(props) {
           </div>
           {/* Key Information */}
           <div className="w-full">
-            <TextAreaField field={keyInformationField} value={keyInformationField.value} submitCallback={saveAnswersCallback}
+            <RichTextAreaField field={keyInformationField} value={keyInformationField.value} submitCallback={saveAnswersCallback}
                   handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="200px" dbFormat runInit/>
           </div>
           {/* Type */}

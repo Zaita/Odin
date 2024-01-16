@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import UserLayout from '@/Layouts/UserLayout';
 import { router, Link } from '@inertiajs/react'
 import ChevronRightIcon  from '@mui/icons-material/ChevronRight';
@@ -8,16 +8,19 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import GppBadIcon from '@mui/icons-material/GppBad';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
+import ReportIcon from '@mui/icons-material/Report';
 
-import ThemedButton from '@/Components/ThemedButton';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ApprovalBox from '@/Components/Submission/ApprovalBox';
 import SubmitForApprovalButton from '@/Components/Submission/SubmitForApprovalButton';
 import AssignToMeButton from '@/Components/Submission/AssignToMeButton';
 import ApproveOrEndorseButton from '@/Components/Submission/ApproveOrEndorseButton';
 import EditAndPDFButton from '@/Components/Submission/EditAndPDFButton';
+import AddCollaboratorModal from '@/Components/Submission/AddCollaborator';
 
 function Content(props) {
+  let [addCollabDialogIsOpen, setAddCollabDialogIsOpen] = useState(false);
+
   function getStatusIcon(status) {
     switch(status) {
       case "In progress":
@@ -96,8 +99,16 @@ function Content(props) {
     );
   }
 
+  function openDialog(e) {
+    e.preventDefault();
+    setAddCollabDialogIsOpen(true)
+  }
+
+  let error = props.errors && "error" in props.errors ? (<><ReportIcon/> {props.errors["error"]}</>) : "";
+
   return (
     <div id="inner_content">
+      <AddCollaboratorModal open={addCollabDialogIsOpen} onCancel={() => setAddCollabDialogIsOpen(false)} {...props}/>
       <div id="heading" className="text-lg mb-6 pt-5 font-bold">Submission details</div>
       <div id="summary" className="flex">
         <div id="summary_text" className="w-1/2">
@@ -119,8 +130,25 @@ function Content(props) {
       </div>
       <div id="collaborators" className="mb-6 mt-6 pt-6" style={{borderTop: "2px solid #d9d9d9"}}>
         <div className="text-base font-bold mb-3">Collaborators</div>
-        <div>You can add people to help complete your submission. Please contact the security team for more information.</div>
-        <div id="add_collaborators">+ Add Collaborators</div>
+        <div className="flex">
+          <div className=" w-1/2">
+            <div>You can add people to help complete your submission.</div>
+            <div> Please contact the security team for more information.</div>
+            <div id="add_collaborators"><Link href={void(0)} onClick={(e) => openDialog(e)}>+ Add Collaborators</Link></div>
+          </div>
+          <div className="w-1/2">
+            <div><b>Assigned collaborators:</b></div>
+            <div>
+            {
+              props.collaborators?.map((collaborator, index) => {
+                return(
+                  <div key={"collab_" + index}>{collaborator.user.name}</div>
+                );
+              })
+            }
+            </div>
+          </div>          
+        </div>
       </div>
       <div id="task_list" className="mb-6 mt-6 pt-6" style={{borderTop: "2px solid #d9d9d9"}}>
         <div className="text-base font-bold mb-3">Tasks</div>
@@ -137,6 +165,7 @@ function Content(props) {
 
       </div>
       <ApprovalBox {...props}/>
+      <div><p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> </div>
       <div id="bottom">
         <div className="inline-block w-1/2">
           <EditAndPDFButton {...props}/>

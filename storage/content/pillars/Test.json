@@ -40,5 +40,9 @@
           }          
       ]
   },
-  "tasks": []  
+  "tasks": [
+    { 
+      "name": "One Question Task"
+    }
+  ]  
 }

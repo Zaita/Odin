@@ -1,0 +1,21 @@
+{
+  "name": "One Question Task",
+  "type": "questionnaire",
+  "key_information": "<p>This task ensures the web facing services have been checked against some good tools for security compliance.</p>",
+  "lock_when_complete": false,
+  "approval_required": false,
+  "risk_calculation": "zaita_approx",
+  "questions": [
+    {
+      "title": "Information",
+      "heading": "What is Web Security Configuration?",
+      "description": "<p>One question task</p>",
+      "action_fields": [
+        {
+          "label": "Finish Task",
+          "action_type": "continue"
+        }
+      ]
+    }  
+  ]
+}

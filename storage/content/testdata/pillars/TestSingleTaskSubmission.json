@@ -1,5 +1,5 @@
 {
-  "name": "Test Two Step Approval Flow",
+  "name": "Test Single Task Submission",
   "caption": "Testing Basic Functionality",
   "icon": "lightbulb",
   "key_information": "No key information",
@@ -40,5 +40,9 @@
           }          
       ]
   },
-  "tasks": []  
+  "tasks": [
+    {
+      "name": "One Question Task"
+    }
+  ]  
 }

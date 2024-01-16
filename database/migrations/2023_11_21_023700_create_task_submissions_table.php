@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('status');
             $table->string('uuid');
             $table->unsignedBigInteger('submission_id');
+            $table->unsignedBigInteger('submitter_id')->nullable();
             $table->string('submitter_name')->nullable();
             $table->string('submitter_email')->nullable();
             $table->string('task_type');
+            $table->boolean('show_information_screen')->default(true);
             $table->json('task_data');
             $table->json('answer_data');
             $table->unsignedBigInteger('approver_id')->nullable();
@@ -28,6 +30,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('submission_id')->references('id')->on('submissions');
+            $table->foreign('submitter_id')->references('id')->on('users');
             $table->foreign('approver_id')->references('id')->on('users');            
         });
     }
