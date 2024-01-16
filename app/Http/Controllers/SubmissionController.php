@@ -15,8 +15,12 @@ use App\Models\Questionnaire;
 use App\Models\Submission;
 use App\Models\Task;
 use App\Models\TaskSubmission;
+use App\Models\User;
+use App\Models\SubmissionCollaborator;
 
 use App\Objects\QuestionnaireObject;
+
+use App\Http\Requests\CollaboratorAddRequest;
 
 class SubmissionController extends Controller
 {
@@ -225,9 +229,12 @@ class SubmissionController extends Controller
     $canApproveWithType = $submission->canApproveWithType($user, $secureToken);
     Log::Info(sprintf("- Can approve with type? %s", $canApproveWithType));
 
+    $collaborators = SubmissionCollaborator::with('user')->where(['submission_id' => $submission->id])->get();
+
     return Inertia::render('Submission/Submitted', [
       'siteConfig' => $config,
       'submission' => $submission,
+      'collaborators' => $collaborators,
       'tasks' => $tasks,
       'status' => $submission->nice_status(),
       'is_an_approver' => $isAnApprover,
@@ -304,6 +311,32 @@ class SubmissionController extends Controller
   public function deny(Request $request, $uuid) { }
 
   /**
+   * POST /submission/{uuid}/collaborator/add
+   * 
+   * Add a collaborator to our submission. A collaborator is someone who can
+   * complete tasks on behalf of the submitter.
+   */
+  public function addCollaborator(CollaboratorAddRequest $request, $uuid) {
+    $errors = array();
+
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      $errors["email"] = "You do not have permission to add collaborators";
+    
+    } else {
+      $email = $request->input('email');
+      $user = User::where(['email' => $email])->first();
+      if ($user == null) {
+        $errors["email"] = "User could not be found. Have they logged in before?";
+      } else {
+        $s = SubmissionCollaborator::firstOrCreate(['submission_id' => $submission->id, 'user_id' => $user->id]);
+      }
+    }
+
+    return back()->withInput()->withErrors($errors); 
+  }
+
+  /**
    * Handle the user loading the task url /task/{uuid} 
    * based on task status
    */
@@ -311,14 +344,35 @@ class SubmissionController extends Controller
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
     $submission = Submission::where('id', $task->submission_id)->first();
-        
-    // if ($task->status == "ready_to_start") {
-      return Inertia::render("Submission/Task/Information", [
-        'siteConfig' => $config,
-        'submission' => $submission,
-        'task' => $task,
-      ]);
-    // }
+    
+    // Task is ready to start.
+    if ($task->status == "ready_to_start") {
+      if (!$submission->canWorkOnTask($request->user())) {
+        return back()->withInput()->withErrors($submission->errors); 
+      }
+      
+      if ($task->show_information_screen) {
+        return Inertia::render("Submission/Task/Information", [
+          'siteConfig' => $config,
+          'submission' => $submission,
+          'task' => $task,
+        ]);
+      } 
+    
+      // Skip the show information screen and set task to in_progress
+      $task->status = "in_progress";
+      $task->save();  
+      return Redirect::route('submission.task.inprogress', ['uuid' => $task->uuid]); 
+
+    } else if ($task->status == "in_progress") {
+      Redirect::route('submission.task.inprogress', ['uuid' => $task->uuid]); 
+    } else if ($task->status == "in_review") {
+      Redirect::route('submission.task.review', ['uuid' => $task->uuid]); 
+    } else if ($task->status == "waiting_for_approval") {
+      Redirect::route('submission.task.submitted', ['uuid' => $task->uuid]); 
+    } else if ($task->status == "complete" || $task->status == "approved" || $task->status == "denied") {
+      return Redirect::route('submission.task.view', ['uuid' => $task->uuid]); 
+    }
   }
 
   /**
@@ -332,11 +386,17 @@ class SubmissionController extends Controller
    * This method will update the Task submission entry to "in_progress"
    * and redirect.
    */
-  public function task_start(Request $request, $uuid) { 
+  public function task_start(Request $request, $uuid) {     
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
+
+    // Verify user can work on this submission (is submitter or collaborator)
+    $submission = Submission::where('id', $task->submission_id)->first();
+    if (!$submission->canWorkOnTask($request->user())) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
+
     $task->status = "in_progress";
-    $task->save();
-        
+    $task->save();        
     return Redirect::route('submission.task.inprogress', ['uuid' => $task->uuid]);  
   }
 
@@ -348,7 +408,12 @@ class SubmissionController extends Controller
   public function task_inprogress(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
+
+    // Verify user can work on this submission (is submitter or collaborator)
     $submission = Submission::where('id', $task->submission_id)->first();
+    if (!$submission->canWorkOnTask($request->user())) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
 
     return Inertia::render('Submission/Task/InProgress', [
       'siteConfig' => $config,
@@ -363,12 +428,18 @@ class SubmissionController extends Controller
   public function task_update(Request $request, $uuid) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
+
+    // Verify user can work on this submission (is submitter or collaborator)
     $submission = Submission::where('id', $task->submission_id)->first();
+    if (!$submission->canWorkOnTask($request->user())) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
     
     $questionnaire = new QuestionnaireObject($task->task_data, $task->answer_data, true);
 
     // Get user inputs
     $actionValue= null;
+    $newAnswerValues = array();
     $currentQuestion = $request->input('question', '');
     $userAnswers = $request->input('answers', []);
     foreach($userAnswers as $field => $value) {
@@ -406,7 +477,12 @@ class SubmissionController extends Controller
   public function task_review(Request $request, $uuid) { 
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
+
+    // Verify user can work on this submission (is submitter or collaborator)
     $submission = Submission::where('id', $task->submission_id)->first();
+    if (!$submission->canWorkOnTask($request->user())) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
 
     $questions = json_decode($task->task_data);
     $questions = $questions->questionnaire->questions;
@@ -427,25 +503,63 @@ class SubmissionController extends Controller
    */
   public function task_submit(Request $request, $uuid) { 
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
+    // Verify user can work on this submission (is submitter or collaborator)
     $submission = Submission::where('id', $task->submission_id)->first();
+    if (!$submission->canWorkOnTask($request->user())) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
 
+    $task->submitter_id = $request->user()->id;
+    $task->submitter_name = $request->user()->name;
+    $this->submitter_email = $request->user()->email;
     $task->status = "complete";
     $task->save();
 
     return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]);    
   }
 
-
+  /**
+   * GET /task/submitted/{uuid}
+   * 
+   * This is where we can see the task once it has been completed by the submitter or
+   * a collaborator. Generally this is used to view answers, but it's also the screen
+   * used to approve tasks by a task approver
+   */
   public function task_submitted(Request $request, $uuid) { 
-    // $config = json_decode(Configuration::GetSiteConfig()->value);
-    // $submission = Submission::where('uuid', $uuid)->first();
-    // // TODO: If not right status, redirect elsewhere
-    // $tasks = TaskSubmission::where(['submission_id' => $submission->id])->get();
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $task = TaskSubmission::where(['uuid' => $uuid])->first();
+    $submission = Submission::where('id', $task->submission_id)->first();
 
-    // return Inertia::render('Submission/Submitted', [
-    //   'siteConfig' => $config,
-    //   'submission' => $submission,
-    //   'tasks' => $tasks,
-    // ]); 
+    $questions = json_decode($task->task_data);
+    $questions = $questions->questionnaire->questions;
+
+    return Inertia::render('Submission/Task/Submitted', [
+      'siteConfig' => $config,
+      'submission' => $submission,
+      'questions' => $questions,
+      'task' => $task,
+    ]); 
+  }
+
+    /**
+   * GET /task/view/{uuid}
+   * 
+   * This is where we can see the task once it has been completed by the submitter or
+   * a collaborator. This is used as a view only, not for approving
+   */
+  public function task_view(Request $request, $uuid) { 
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $task = TaskSubmission::where(['uuid' => $uuid])->first();
+    $submission = Submission::where('id', $task->submission_id)->first();
+
+    $questions = json_decode($task->task_data);
+    $questions = $questions->questionnaire->questions;
+
+    return Inertia::render('Submission/Task/View', [
+      'siteConfig' => $config,
+      'submission' => $submission,
+      'questions' => $questions,
+      'task' => $task,
+    ]); 
   }
 }

@@ -1,11 +1,9 @@
 import React, { useRef, useState } from 'react';
 
-import AdminPanel from '@/Layouts/AdminPanel';
 import TextField from '@/Components/TextField';
-import TextAreaField from '@/Components/TextAreaField';
 import ThemedButton from '@/Components/ThemedButton';
-
 import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
+import RichTextAreaField from '@/Components/RichTextAreaField';
 
 export default function QuestionEdit(props) {  
   let [saveErrors, setSaveErrors] = useState("");
@@ -64,7 +62,7 @@ export default function QuestionEdit(props) {
         </div>
         {/* Description */}
         <div className="w-full">
-        <TextAreaField field={descriptionField} value={descriptionField.value} submitCallback={saveAnswersCallback}
+        <RichTextAreaField field={descriptionField} value={descriptionField.value} submitCallback={saveAnswersCallback}
               handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="200px" camalCase/>
         </div>           
       </div>

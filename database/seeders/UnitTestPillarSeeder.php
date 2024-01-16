@@ -38,6 +38,7 @@ class UnitTestPillarSeeder extends Seeder
     $this->load_pillar("TestTwoStepApprovalFlow", "Security and business owner only");
     $this->load_pillar("TestAllInputTypes", "Security and business owner only");
     $this->load_pillar("TestTwoStepApprovalWithCISO", "Two stage approval with CISO endorsement");
+    $this->load_pillar("TestSingleTaskSubmission", "Security only");
   }
 }
 

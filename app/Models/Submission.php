@@ -17,6 +17,7 @@ use App\Models\QuestionnaireQuestion;
 use App\Models\SubmissionApprovalFlowStage;
 use App\Models\TaskSubmission;
 use App\Models\User;
+use App\Models\SubmissionCollaborator;
 
 class Submission extends Model
 {
@@ -43,6 +44,10 @@ class Submission extends Model
 
   public function approval_stages(): HasMany {
     return $this->hasMany(SubmissionApprovalFlowStage::class);
+  }
+
+  public function collaborators(): HasMany {
+    return $this->hasMany(SubmissionCollaborator::class);
   }
 
   /**
@@ -680,5 +685,24 @@ class Submission extends Model
     // Send emails
   }
 
+  /**
+   * Determine if the user requesting the task can work on it or not.
+   * 
+   * The following people are allowed to work on a task on a submission
+   * 1. The submitter
+   * 2. An assigned collaborator
+   */
+  public function canWorkOnTask($user) {
+    if ($user->id == $this->submitter_id) {
+      return true;
+    }
+
+    if (SubmissionCollaborator::where(['submission_id' => $this->id, 'user_id' => $user->id])->first() != null) {
+      return true;
+    }
+
+    $this->errors["error"] = "You do not have access to complete tasks on this submission";
+    return false;    
+  }
 
 }

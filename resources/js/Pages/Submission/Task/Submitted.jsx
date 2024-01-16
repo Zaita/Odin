@@ -43,29 +43,26 @@ function Content(props) {
       </div>
       <div id="review_actions">
         <ThemedButton siteConfig={props.siteConfig} className="ml-2"
-          onClick={() => {router.visit(route('submission.task.inprogress', [props.task.uuid], {}))}} 
-          >Edit</ThemedButton>
+          onClick={() => {router.visit(route('submission.submitted', [props.submission.uuid], {}))}} 
+          >Back to submission</ThemedButton>
         {/* <ThemedButton siteConfig={props.siteConfig} className="ml-2">PDF</ThemedButton> */}
-        <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
-        onClick={() => {router.post(route('submission.task.submit', [props.task.uuid], {}))}} 
-        >Submit Questionnaire</ThemedButton>
       </div>
     </div>
   )
 }
 
-export default function SubmissionTaskReview(props) {
+export default function SubmissionTaskSubmitted(props) {
   let productName = props.submission.product_name ? props.submission.product_name : "-";
 
   let breadcrumb = [
     ["Home", "home"],    
     ["Submissions", "submissions"],
     [productName, "submission.submitted", props.submission.uuid],
-    [props.task.name, "submission.task.review", props.task.uuid]
+    [props.task.name, "submission.task.submitted", props.task.uuid]
   ]
 
   return (
-    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="Review Task" 
+    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText={props.task.name}
       breadcrumb={breadcrumb}
       content={<Content {...props} />}/>
     );

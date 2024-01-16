@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/submitforapproval/{uuid}', [SubmissionController::class, 'submitForApproval'])->name('submission.submitforapproval');
   Route::post('/assigntome/{uuid}', [SubmissionController::class, 'assignToMe'])->name('submission.assigntome');
   Route::post('/downloadpdf/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.downloadpdf');
+  Route::post('/submission/{uuid}/collaborators/add', [SubmissionController::class, 'addCollaborator'])->name('submission.collaborator.add');
 
   Route::post('/sendback/{uuid}', [SubmissionController::class, 'sendBackForChanges'])->name('submission.sendback');
   Route::post('/deny/{uuid}', [SubmissionController::class, 'deny'])->name('submission.deny');
@@ -80,9 +81,10 @@ Route::middleware('auth')->group(function () {
   Route::get('/task/inprogress/{uuid}', [SubmissionController::class, 'task_inprogress'])->name('submission.task.inprogress');
   Route::post('/task/inprogress/{uuid}', [SubmissionController::class, 'task_update'])->name('submission.task.update');
   Route::get('/task/review/{uuid}', [SubmissionController::class, 'task_review'])->name('submission.task.review');
-  Route::get('/task/submit/{uuid}', [SubmissionController::class, 'task_submit'])->name('submission.task.submit');
+  Route::post('/task/submit/{uuid}', [SubmissionController::class, 'task_submit'])->name('submission.task.submit');
   Route::get('/task/submitted/{uuid}', [SubmissionController::class, 'task_submitted'])->name('submission.task.submitted');
-});
+  Route::get('/task/view/{uuid}', [SubmissionController::class, 'task_view'])->name('submission.task.view');
+  });
 
 /*
 Admin Routes

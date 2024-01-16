@@ -35,7 +35,7 @@ class HomePageLoadingTest extends TestCase {
    * Check that the admin page requires a login
    */
   public function test_home_page_pillar_count(): void {
-    $this->assertDatabaseCount('pillars', 4);
+    $this->assertDatabaseCount('pillars', 5);
 
     $user = User::Factory()->create();
 

@@ -14,6 +14,17 @@ use App\Models\QuestionnaireQuestion;
 
 $uuid = Str::uuid()->toString();
 
+/**
+ * Task Submission:
+ * 
+ * Possible states:
+ * - ready_to_start
+ * - in_progress
+ * - complete
+ * - waiting_for_approval
+ * - approved
+ * - denied
+ */
 class TaskSubmission extends Model
 {
     use HasFactory;
