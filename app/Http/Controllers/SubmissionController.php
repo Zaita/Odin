@@ -244,6 +244,25 @@ class SubmissionController extends Controller
   }
 
   /**
+   * This method will load the questionnaire submission for the current uuid.
+   */
+  public function edit(Request $request, $uuid) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
+
+    if ($submission->status != "submitted") {
+      return redirect()->route("error")->withErrors(["error" => "Submission cannot be edited"]);
+    }
+
+    $submission->status = "in_progress";
+    $submission->save();
+    return Redirect::route('submission.inprogress', ['uuid' => $submission->uuid]);
+  }
+
+  /**
    * POST /submitforapproval/{uuid}
    */
   public function submitForApproval(Request $request, $uuid) {

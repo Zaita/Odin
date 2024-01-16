@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/review/{uuid}', [SubmissionController::class, 'review'])->name('submission.review');
   Route::post('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
   Route::get('/submitted/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.submitted');
+  Route::get('/edit/{uuid}', [SubmissionController::class, 'edit'])->name('submission.edit');
   Route::post('/submitforapproval/{uuid}', [SubmissionController::class, 'submitForApproval'])->name('submission.submitforapproval');
   Route::post('/assigntome/{uuid}', [SubmissionController::class, 'assignToMe'])->name('submission.assigntome');
   Route::post('/downloadpdf/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.downloadpdf');
