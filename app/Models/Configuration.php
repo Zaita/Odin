@@ -22,6 +22,7 @@ class Configuration extends Model
       "footerText" => "Copyright (c) 2023 Scott Rasmussen (github/zaita)",
       "odinEmail" => "odin@example.com",
       "securityTeamEmail" => "security@example.com",
+      "themeLoginBgColor" => "#333333",
       "themeBgColor" => "#E5E5E5",
       "themeTextColor" => "#000000",
       "themeHeaderColor" => "#800000",
