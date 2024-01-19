@@ -11,10 +11,9 @@ use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Su
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AdminSiteConfigurationController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\HelpController;
-use App\Http\Controllers\PillarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\OAuth2Controller;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,6 +37,9 @@ Route::get('/welcome', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('login/okta', [OAuth2Controller::class, 'redirectToIdp'])->name('login.okta');
+Route::get('authorization-code/callback', [OAuth2Controller::class, 'handleIdpCallback']);
 
 Route::get('/landing', function () {
     return Inertia::render('landing');

@@ -7,12 +7,16 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 function MenuIcon({content, icon, selectedMenu, siteConfig, url}) {
+  let style = "flex flex-row pl-4 pr-4 justify-center items-center cursor-pointer text-xs"
+  style = content == "" ? "flex flex-row justify-center items-center cursor-pointer text-xs" : style
+
   return(
     <Link href={url} 
       style={{height: "50px", backgroundColor: selectedMenu == content ? siteConfig.themeSubheaderColor : siteConfig.themeHeaderColor}}
-      className="flex flex-row, pl-4 pr-4 justify-center items-center cursor-pointer text-xs">
+      className={style}>
       <div style={{color: siteConfig.themeHeaderTextColor}}>
         <div style={{height: "18px", width: "18px", marginRight: "5px", marginTop: "-1px", fontSize: "18px"}} className="float-left">{icon}</div>
         {content}
@@ -33,7 +37,8 @@ function Header({user, siteConfig, selectedMenu}) {
         <MenuIcon content="Submissions" url="/submissions" icon={<FormatListBulletedIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
         <MenuIcon content="Approvals" url="/approvals" icon={<GppGoodIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
         <MenuIcon content="Help" url="/help" icon={<HelpIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
-        <MenuIcon content="Log out" url="/logout" icon={<LogoutIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>          
+        <MenuIcon content="" url="/profile" icon={<AccountBoxIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
+        <MenuIcon content="" url="/logout" icon={<LogoutIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>          
       </div>
     </div>
   );
