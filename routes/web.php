@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Content\TaskController as Admin_Content_Task;
 use App\Http\Controllers\Admin\Security\GroupController as Admin_Security_Group;
 use App\Http\Controllers\Admin\Security\UserController as Admin_Security_User;
 use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Submissions;
+use App\Http\Controllers\Admin\Configuration\RiskController as Admin_Configuration_Risks;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AdminSiteConfigurationController;
 use App\Http\Controllers\HomeController;
@@ -241,7 +242,17 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   Route::get('/admin/configuration/site', [AdminSiteConfigurationController::class, 'index'])->name('admin.configuration.siteconfig');
   Route::patch('/admin/configuration/site', [AdminSiteConfigurationController::class, 'update'])->name('admin.configuration.siteconfig.update');
   Route::get('/admin/configuration/email', [AdminController::class, 'home'])->name('admin.configuration.email');
-  Route::get('/admin/configuration/risks', [AdminController::class, 'home'])->name('admin.configuration.risks');
+  // Configuration -> Risks
+  Route::get('/admin/configuration/risks', [Admin_Configuration_Risks::class, 'index'])->name('admin.configuration.risks');
+  Route::get('/admin/content/risks/add', [Admin_Configuration_Risks::class, 'add'])->name('admin.configuration.risk.add');
+  Route::post('/admin/content/risks/add', [Admin_Configuration_Risks::class, 'create'])->name('admin.configuration.risk.create');
+  Route::get('/admin/content/risks/edit/{id}', [Admin_Configuration_Risks::class, 'edit'])->name('admin.configuration.risk.edit');
+  Route::post('/admin/content/risks/save/{id}', [Admin_Configuration_Risks::class, 'save'])->name('admin.configuration.risk.save');
+  Route::post('/admin/content/risks/delete', [Admin_Configuration_Risks::class, 'delete'])->name('admin.configuration.risk.delete');   
+
+
+
+  
   Route::get('/admin/configuration/sso', [AdminController::class, 'home'])->name('admin.configuration.sso');
 });
 
