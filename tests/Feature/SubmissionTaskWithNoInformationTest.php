@@ -33,7 +33,8 @@ class SubmissionTaskWithNoInformationTest extends TestCase {
   }
 
   /**
-   * Test creating a submission and completing the created task
+   * Test creating a submission and completing the created task.
+   * This task specifically won't have an information screen
    * Then approve it as the Security Architect
    */
   public function test_submission_with_task_but_no_information() : void {
