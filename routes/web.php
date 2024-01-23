@@ -245,6 +245,8 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   Route::post('/admin/configuration/settings', [Admin_Configuration_SiteSettings::class, 'save'])->name('admin.configuration.settings.save');
   Route::get('/admin/configuration/settings/theme', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.theme');
   Route::post('/admin/configuration/settings/theme', [Admin_Configuration_SiteSettings::class, 'theme_save'])->name('admin.configuration.settings.theme.save');
+  Route::get('/admin/configuration/settings/images', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.images');
+  Route::get('/admin/configuration/settings/alert', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.alert');
 
   // Configuration -> Email
   Route::get('/admin/configuration/email', [AdminController::class, 'home'])->name('admin.configuration.email');

@@ -42,8 +42,8 @@ export default function SiteConfiguration(props) {
   let topMenuItems = [
     [ "Global", "admin.configuration.settings"],
     [ "Theme", "admin.configuration.settings.theme"],
-    [ "Images", "admin.content.dashboard"],
-    [ "Alert", "admin.content.dashboard"]
+    [ "Images", "admin.configuration.settings.images"],
+    [ "Alert", "admin.configuration.settings.alert"]
   ];
 
   return (

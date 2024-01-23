@@ -4,46 +4,86 @@ import AdminPanel from '@/Layouts/AdminPanel';
 import AddEdit from '@/Components/Admin/AddEdit';
 
 export default function SiteConfiguration(props) {
-  let saveRoute = "admin.configuration.settings.save"
+  let saveRoute = "admin.configuration.settings.theme.save"
   let inputs = [];
 
   inputs.push({
-    "label" : "Title",
+    "label" : "Login BG Color",
     "placeholder": "",
     "required": true,
-    "type" : "text",
-    "value": props.siteConfig.title
+    "type" : "color",
+    "value": props.siteConfig.theme_login_bg_color
   });
   
   inputs.push({
-    "label" : "Odin Email",
+    "label" : "BG Color",
     "placeholder": "",
     "required": true,
-    "type" : "email",
-    "value": props.siteConfig.odin_email
+    "type" : "color",
+    "value": props.siteConfig.theme_bg_color
   });
 
   inputs.push({
-    "label" : "Security Team Email",
+    "label" : "Text Color",
     "placeholder": "",
     "required": true,
-    "type" : "email",
-    "value": props.siteConfig.securityTsecurity_team_emaileamEmail
+    "type" : "color",
+    "value": props.siteConfig.theme_text_color
   });
 
   inputs.push({
-    "label" : "Footer Text",
+    "label" : "Header Color",
     "placeholder": "",
     "required": true,
-    "type" : "text",
-    "value": props.siteConfig.footer_text
+    "type" : "color",
+    "value": props.siteConfig.theme_header_color
   });
-  
+
+  inputs.push({
+    "label" : "Header Text Color",
+    "placeholder": "",
+    "required": true,
+    "type" : "color",
+    "value": props.siteConfig.theme_header_text_color
+  });
+
+  inputs.push({
+    "label" : "Subheader Color",
+    "placeholder": "",
+    "required": true,
+    "type" : "color",
+    "value": props.siteConfig.theme_subheader_color
+  });
+
+  inputs.push({
+    "label" : "Subheader Text Color",
+    "placeholder": "",
+    "required": true,
+    "type" : "color",
+    "value": props.siteConfig.theme_subheader_text_color
+  });
+
+  inputs.push({
+    "label" : "Breadcrumb Color",
+    "placeholder": "",
+    "required": true,
+    "type" : "color",
+    "value": props.siteConfig.theme_breadcrumb_color
+  });
+
+  inputs.push({
+    "label" : "Hyperlink Color",
+    "placeholder": "",
+    "required": true,
+    "type" : "color",
+    "value": props.siteConfig.theme_hyperlink_color
+  });
+
   let topMenuItems = [
-    [ "Global", "admin.content.dashboard"],
-    [ "Theme", "admin.content.dashboard"],
-    [ "Images", "admin.content.dashboard"],
-    [ "Alert", "admin.content.dashboard"]
+    [ "Global", "admin.configuration.settings"],
+    [ "Theme", "admin.configuration.settings.theme"],
+    [ "Images", "admin.configuration.settings.images"],
+    [ "Alert", "admin.configuration.settings.alert"]
   ];
 
   return (
