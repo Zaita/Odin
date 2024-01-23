@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\Content\TaskController as Admin_Content_Task;
 use App\Http\Controllers\Admin\Security\GroupController as Admin_Security_Group;
 use App\Http\Controllers\Admin\Security\UserController as Admin_Security_User;
 use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Submissions;
+use App\Http\Controllers\Admin\Configuration\SiteSettingsController as Admin_Configuration_SiteSettings;
+use App\Http\Controllers\Admin\Configuration\EmailController as Admin_Configuration_Email;
 use App\Http\Controllers\Admin\Configuration\RiskController as Admin_Configuration_Risks;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AdminSiteConfigurationController;
@@ -238,21 +240,22 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   /**
    * Configuration
    */
-  Route::get('/admin/configuration', [AdminController::class, 'home'])->name('admin.configuration');
-  Route::get('/admin/configuration/site', [AdminSiteConfigurationController::class, 'index'])->name('admin.configuration.siteconfig');
-  Route::patch('/admin/configuration/site', [AdminSiteConfigurationController::class, 'update'])->name('admin.configuration.siteconfig.update');
+  // Configuration -> Settings
+  Route::get('/admin/configuration/settings', [Admin_Configuration_SiteSettings::class, 'index'])->name('admin.configuration.settings');
+  Route::post('/admin/configuration/settings', [Admin_Configuration_SiteSettings::class, 'save'])->name('admin.configuration.settings.save');
+  Route::get('/admin/configuration/settings/theme', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.theme');
+  Route::post('/admin/configuration/settings/theme', [Admin_Configuration_SiteSettings::class, 'theme_save'])->name('admin.configuration.settings.theme.save');
+
+  // Configuration -> Email
   Route::get('/admin/configuration/email', [AdminController::class, 'home'])->name('admin.configuration.email');
   // Configuration -> Risks
   Route::get('/admin/configuration/risks', [Admin_Configuration_Risks::class, 'index'])->name('admin.configuration.risks');
-  Route::get('/admin/content/risks/add', [Admin_Configuration_Risks::class, 'add'])->name('admin.configuration.risk.add');
-  Route::post('/admin/content/risks/add', [Admin_Configuration_Risks::class, 'create'])->name('admin.configuration.risk.create');
-  Route::get('/admin/content/risks/edit/{id}', [Admin_Configuration_Risks::class, 'edit'])->name('admin.configuration.risk.edit');
-  Route::post('/admin/content/risks/save/{id}', [Admin_Configuration_Risks::class, 'save'])->name('admin.configuration.risk.save');
-  Route::post('/admin/content/risks/delete', [Admin_Configuration_Risks::class, 'delete'])->name('admin.configuration.risk.delete');   
-
-
-
-  
+  Route::get('/admin/configuration/risks/add', [Admin_Configuration_Risks::class, 'add'])->name('admin.configuration.risk.add');
+  Route::post('/admin/configuration/risks/add', [Admin_Configuration_Risks::class, 'create'])->name('admin.configuration.risk.create');
+  Route::get('/admin/configuration/risks/edit/{id}', [Admin_Configuration_Risks::class, 'edit'])->name('admin.configuration.risk.edit');
+  Route::post('/admin/configuration/risks/save/{id}', [Admin_Configuration_Risks::class, 'save'])->name('admin.configuration.risk.save');
+  Route::post('/admin/configuration/risks/delete', [Admin_Configuration_Risks::class, 'delete'])->name('admin.configuration.risk.delete');   
+  // Configuration -> Single Sign-On  
   Route::get('/admin/configuration/sso', [AdminController::class, 'home'])->name('admin.configuration.sso');
 });
 

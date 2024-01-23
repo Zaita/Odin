@@ -39,8 +39,8 @@ export default function TextAreaField(props) {
       <div id="label"><label htmlFor={fieldId}>{label}</label></div>
       <textarea className="bg-white" id={fieldId} value={value} 
         placeholder={props.field.placeHolder} onChange={handleChange} 
-        style={{borderColor: props.siteConfig.themeHeaderColor, height: newHeight, width: "100%"}}/>   
-      <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> 
+        style={{borderColor: props.siteConfig.theme_header_color, height: newHeight, width: "100%"}}/>   
+      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
     </div>
   )
 }

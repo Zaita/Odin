@@ -25,14 +25,14 @@ export default function Submissions(props) {
               <div className="w-2/12">{submission.tasks_completed}</div>
               <div className="w-2/12">{submission.nice_status}</div>
               <div className="w-1/12">
-                  <Link href={"/view/" + submission.uuid} style={{color: props.siteConfig.themeHyperlinkColor}}><ChevronRightIcon/></Link>
+                  <Link href={"/view/" + submission.uuid} style={{color: props.siteConfig.theme_hyperlink_color}}><ChevronRightIcon/></Link>
               </div>
             </div>
           ))}
         </div>
         <div id="pagination_navbar" className="text-center pt-2 mb-5" >
           {props.submissions.links.map((link, index) => 
-            <Link style={{color: props.siteConfig.themeHyperlinkColor}} key={index} href={link.url}>
+            <Link style={{color: props.siteConfig.theme_hyperlink_color}} key={index} href={link.url}>
               <span className="pr-1 pl-1" dangerouslySetInnerHTML={{__html: link.label}}/>
             </Link>)}
         </div>

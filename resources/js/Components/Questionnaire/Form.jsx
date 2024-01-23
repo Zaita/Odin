@@ -171,13 +171,13 @@ export default function Form(props) {
 
   return (
     <div id="inprogress_right_panel">
-      <div id="question_heading" style={{ color: props.siteConfig.themeHeaderColor }}>{props.questionIndex+1}. {props.question.heading}</div>
+      <div id="question_heading" style={{ color: props.siteConfig.theme_header_color }}>{props.questionIndex+1}. {props.question.heading}</div>
       <div id="question_description" dangerouslySetInnerHTML={{__html: props.question.description}} />
       {inputs.map((element, index) => <div key={element[1]}>{element[0]}</div>)}      
       <div id="actions" className="flex">
         {actions.map((element, index) => <div key={index} className="float-left pr-2 mb-20">{element}</div>)}   
       </div>
-      <div id="save_message" className="mt-2"><ErrorOutlineIcon style={{ color: props.siteConfig.themeHeaderColor }}/> Your answers will be saved when you continue to the next question.</div>  
+      <div id="save_message" className="mt-2"><ErrorOutlineIcon style={{ color: props.siteConfig.theme_header_color }}/> Your answers will be saved when you continue to the next question.</div>  
       <div id="default_action">{defaultAction}</div>
   </div>
   );

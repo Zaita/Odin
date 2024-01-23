@@ -15,9 +15,9 @@ function MenuIcon({content, icon, selectedMenu, siteConfig, url}) {
 
   return(
     <Link href={url} 
-      style={{height: "50px", backgroundColor: selectedMenu == content ? siteConfig.themeSubheaderColor : siteConfig.themeHeaderColor}}
+      style={{height: "50px", backgroundColor: selectedMenu == content ? siteConfig.theme_subheader_color : siteConfig.theme_header_color}}
       className={style}>
-      <div style={{color: siteConfig.themeHeaderTextColor}}>
+      <div style={{color: siteConfig.theme_header_text_color}}>
         <div style={{height: "18px", width: "18px", marginRight: "5px", marginTop: "-1px", fontSize: "18px"}} className="float-left">{icon}</div>
         {content}
       </div>
@@ -27,9 +27,9 @@ function MenuIcon({content, icon, selectedMenu, siteConfig, url}) {
 
 function Header({user, siteConfig, selectedMenu}) {
   return(
-    <div id="header" style={{"height" : "50px", "backgroundColor": siteConfig.themeHeaderColor}} className="flex align-middle items-center">
+    <div id="header" style={{"height" : "50px", "backgroundColor": siteConfig.theme_header_color}} className="flex align-middle items-center">
       <Link href="/">
-      <div id="logo" className="text-white"><img src={siteConfig.logoPath} style={{height: "36px", marginLeft: "8px", verticalAlign: "middle"}} alt="Odin Logo"/></div>
+      <div id="logo" className="text-white"><img src={siteConfig.logo_path} style={{height: "36px", marginLeft: "8px", verticalAlign: "middle"}} alt="Odin Logo"/></div>
       </Link>
       <div className="inline-flex mr-0 ml-auto">
         <span className="text-white pr-2">{user?.email}</span>
@@ -47,9 +47,9 @@ function Header({user, siteConfig, selectedMenu}) {
 function Footer({siteConfig}) {
   return(
     <div id="footer" 
-      style={{height: "72px", paddingTop: "25px", backgroundColor: siteConfig.themeHeaderColor, color: siteConfig.themeHeaderTextColor}} 
+      style={{height: "72px", paddingTop: "25px", backgroundColor: siteConfig.theme_header_color, color: siteConfig.theme_header_text_color}} 
       className="align-middle items-center text-center text-xs align justify-center">
-      {siteConfig.footerText}
+      {siteConfig.footer_text}
     </div>
   );
 } 
@@ -61,7 +61,7 @@ export default function UserLayout({ user, siteConfig, breadcrumb=[], showSubhea
 
   return (
     <div id="page" className="text-xs" style={{
-        backgroundColor: siteConfig.themeBgColor,
+        backgroundColor: siteConfig.theme_bg_color,
         fontSize: "12px",
         fontFamily: "Roboto",
         fontWeight: "400",
@@ -70,7 +70,7 @@ export default function UserLayout({ user, siteConfig, breadcrumb=[], showSubhea
         }}>
       <Header user={user} siteConfig={siteConfig} selectedMenu={selectedMenu}/>     
       {subheader}
-      <div id="content" style={{minHeight: "200px", backgroundColor: siteConfig.themeBgColor}}>
+      <div id="content" style={{minHeight: "200px", backgroundColor: siteConfig.theme_bg_color}}>
         {content}
       </div>
       <Footer siteConfig={siteConfig}/>

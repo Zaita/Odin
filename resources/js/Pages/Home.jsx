@@ -11,7 +11,7 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 function SubHeader({siteConfig}) {
   return(
-    <div id="homepage-subheader" style={{ backgroundImage: `url(${siteConfig.subHeaderImagePath})`, height: "150px"}}></div>
+    <div id="homepage-subheader" style={{ backgroundImage: `url(${siteConfig.subheader_image_path})`, height: "150px"}}></div>
   );
 }
 
@@ -19,7 +19,7 @@ function Content(props) {
   return(
     <>
     <SubHeader siteConfig={props.siteConfig}/>
-    <div style={{backgroundColor: props.siteConfig.themeBgColor, color: props.siteConfig.themeTextColor, minHeight: "600px"}} className="pt-5 items-center">
+    <div style={{backgroundColor: props.siteConfig.theme_bg_color, color: props.siteConfig.theme_text_color, minHeight: "600px"}} className="pt-5 items-center">
       <div id="title-box" className="w-3/5 text-xl font-extrabold mb-4 text-left ml-auto mr-auto">{props.dashboard.title}</div>
       <div id="odin-description" className="w-3/5 text-xs ml-auto mr-auto" dangerouslySetInnerHTML={{__html: props.dashboard.titleText}} />
       <div id="create-text" className="w-3/5 text-m font-extrabold mb-4 text-left ml-auto mr-auto pt-5">{props.dashboard.submission}</div>
@@ -58,9 +58,9 @@ class PillarList extends React.Component {
     <>
       {this.sortedList.map((p, index) => 
         <Link key={index} href={"/start/" + p.id} className="inline bg-white" style={{width: "170px", height: "170px", lineHeight: "13px", boxShadow: "0 4px 10px rgba(0,63,100,.12)"}}>
-          <div style={{color: this.props.siteConfig.themeHeaderColor, marginTop: "29px", fontSize: "13px", fontWeight: "900"}}  className="text-center">{p.name}</div>
-          <div style={{color: this.props.siteConfig.themeHeaderColor, marginTop: "25px"}} className="justify-center flex">{this.icon(p.icon)}</div>
-          <div style={{color: this.props.siteConfig.themeTextColor, fontSize: "11px", paddingRight: "25px", paddingLeft: "25px"}}
+          <div style={{color: this.props.siteConfig.theme_header_color, marginTop: "29px", fontSize: "13px", fontWeight: "900"}}  className="text-center">{p.name}</div>
+          <div style={{color: this.props.siteConfig.theme_header_color, marginTop: "25px"}} className="justify-center flex">{this.icon(p.icon)}</div>
+          <div style={{color: this.props.siteConfig.theme_text_color, fontSize: "11px", paddingRight: "25px", paddingLeft: "25px"}}
             className="text-center">{p.caption}</div>
         </Link>      
       )}

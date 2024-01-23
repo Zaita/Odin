@@ -30,11 +30,11 @@ export default function ThemedButton({ className = '', disabled, siteConfig,  ch
           }
 
           style={{
-            backgroundColor: (hover || props.selected ? siteConfig.themeHeaderColor : siteConfig.themeHeaderTextColor),
-            color: (hover || props.selected ? siteConfig.themeHeaderTextColor : siteConfig.themeHeaderColor),
+            backgroundColor: (hover || props.selected ? siteConfig.theme_header_color : siteConfig.theme_header_text_color),
+            color: (hover || props.selected ? siteConfig.theme_header_text_color : siteConfig.theme_header_color),
             borderStyle: "solid",
             borderWidth: "2px",
-            borderColor: siteConfig.themeHeaderColor
+            borderColor: siteConfig.theme_header_color
           }}
 
           autoFocus={props.autofocus}

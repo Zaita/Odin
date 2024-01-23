@@ -72,18 +72,18 @@ export default function MultiSelectField(props) {
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
-            borderColor: props.siteConfig.themeHeaderColor, 
+            borderColor: props.siteConfig.theme_header_color, 
             width: newWidth
           }),
           container: (baseStyles, state) => ({
             ...baseStyles,
             display: "inline-block",
-            borderColor: props.siteConfig.themeHeaderColor, 
+            borderColor: props.siteConfig.theme_header_color, 
             width: newWidth
           }),
           }}        
         />
-      <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> 
+      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
     </div>
   )
 }

@@ -1,9 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { HexColorPicker } from "react-colorful";
+
 import ReportIcon from '@mui/icons-material/Report';
 import camalCase from "@/Utilities/camal.jsx"
 import dbFormat from '@/Utilities/dbFormat';
 
-export default function TextField(props) {
+export default function ColorField(props) {
   const [value, setValue] = useState(props.value != undefined ? props.value : "");
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
@@ -53,8 +55,8 @@ export default function TextField(props) {
         }}> 
         <label htmlFor={fieldId}>{label}</label>
       </div>
-      <input type={type} className="bg-white" name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress}
-        placeholder={props.field.placeHolder} onChange={handleChange}
+      <HexColorPicker  type={type} className="bg-white" name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress}
+        onChange={handleChange}
         style={{
           borderColor: props.siteConfig.theme_header_color,
           width: props.sideBySide ? "400px" : "355px"
