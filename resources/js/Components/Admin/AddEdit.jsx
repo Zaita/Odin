@@ -4,6 +4,7 @@ import ColorField from '../ColorField';
 import TextField from '@/Components/TextField';
 import TextAreaField from '@/Components/TextAreaField';
 import ThemedButton from '@/Components/ThemedButton';
+import RichTextAreaField from '@/Components/RichTextAreaField';
 
 import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 
@@ -45,6 +46,12 @@ export default function AddEdit(props) {
       case "color":
         inputs.push(<ColorField field={inputField} value={inputField.value} 
           handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} dbFormat runInit/>)
+        break;
+      case "richtextedit":
+      case "richtexteditor":
+      case "richtext":
+        inputs.push(<RichTextAreaField field={inputField} value={inputField.value} submitCallback={saveAnswersCallback}
+          handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="200px" dbFormat runInit/>)
         break;
     }
   });
