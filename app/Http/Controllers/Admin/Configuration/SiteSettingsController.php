@@ -9,9 +9,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Configuration;
-use App\Models\AuditLog;
-use App\Models\Risk;
 use App\Http\Requests\SiteSettingsRequest;
+use App\Http\Requests\ThemeRequest;
 
 class SiteSettingsController extends Controller
 {
@@ -34,17 +33,22 @@ class SiteSettingsController extends Controller
       return Redirect::route('admin.configuration.settings');
   }
 
+  /**
+   * GET /Admin/Configuration/Settings/Theme
+   */
   public function theme(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Configuration/Settings/Theme', [
       'siteConfig' => $config,
     ]); 
   }
-
   
-  public function theme_save(SiteSettingsRequest $request): RedirectResponse
+  /**
+   * POST /Admin/Configuration/Settings/Theme
+   */
+  public function theme_save(ThemeRequest $request): RedirectResponse
   {
-      Configuration::UpdateSiteConfig($request->validated());
+      Configuration::UpdateTheme($request->validated());
       return Redirect::route('admin.configuration.settings.theme');
   }
 };

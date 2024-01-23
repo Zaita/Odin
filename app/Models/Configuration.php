@@ -60,6 +60,25 @@ class Configuration extends Model
       $siteConfig->save();
     }
 
+    
+    public static function UpdateTheme(array $fields) {
+      $siteConfig = Configuration::GetSiteConfig();
+      $json = json_decode($siteConfig->value);
+
+      $json->theme_login_bg_color = $fields["login_bg_color"];
+      $json->theme_bg_color = $fields["bg_color"];
+      $json->theme_text_color = $fields["text_color"];
+      $json->theme_header_color = $fields["header_color"];
+      $json->theme_header_text_color = $fields["header_text_color"];
+      $json->theme_subheader_color = $fields["subheader_color"];
+      $json->theme_subheader_text_color = $fields["subheader_text_color"];
+      $json->theme_breadcrumb_color = $fields["breadcrumb_color"];
+      $json->theme_hyperlink_color = $fields["hyperlink_color"];            
+
+      $siteConfig->value = json_encode($json);
+      $siteConfig->save();
+    }
+
     /**
      * 
      */

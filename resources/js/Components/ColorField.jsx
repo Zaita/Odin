@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { HexColorPicker } from "react-colorful";
+// import { HexColorPicker } from "react-colorful";
+import { ChromePicker } from 'react-color'
 
 import ReportIcon from '@mui/icons-material/Report';
 import camalCase from "@/Utilities/camal.jsx"
@@ -14,6 +15,11 @@ export default function ColorField(props) {
   let error = props.errors && fieldId in props.errors ? (<><ReportIcon/> {props.errors[fieldId]}</>) : "";
   let type = props.type ? props.type : "text";
   
+  /**
+   * How to setup popup later:
+   * http://casesandberg.github.io/react-color/#examples
+   */
+
   /**
    * 
    */
@@ -31,9 +37,9 @@ export default function ColorField(props) {
    * our form is completely user-defined.
    * @param {event} e 
    */
-  function handleChange(e) {
-    props.handleChange(fieldId, e.target.value);
-    setValue(e.target.value);
+  function handleChange(newValue) {
+    props.handleChange(fieldId, newValue.hex);
+    setValue(newValue.hex);
   }
 
   // Run once after object loads.
@@ -55,7 +61,7 @@ export default function ColorField(props) {
         }}> 
         <label htmlFor={fieldId}>{label}</label>
       </div>
-      <HexColorPicker  type={type} className="bg-white" name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress}
+      <ChromePicker  type={type} className="bg-white" name={camalCase(fieldId)} id={fieldId} color={value} onKeyUp={handleKeyPress}
         onChange={handleChange}
         style={{
           borderColor: props.siteConfig.theme_header_color,
