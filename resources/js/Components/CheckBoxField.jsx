@@ -56,10 +56,10 @@ export default function CheckBoxField(props) {
         <input type="checkbox" className="bg-white" name={camalCase(fieldId)} id={fieldId} onKeyUp={handleKeyPress}
           placeholder={props.field.placeHolder} onChange={handleChange} defaultChecked={props.field.value}
           style={{
-            borderColor: props.siteConfig.themeHeaderColor,
+            borderColor: props.siteConfig.theme_header_color,
           }}
           autoComplete={camalCase(fieldId)}/>   
-        <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> 
+        <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
       </div>
     )
   } else {

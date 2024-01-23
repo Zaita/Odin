@@ -38,7 +38,7 @@ export default function Login(props) {
 
       <form onSubmit={submit}>
         <div>
-          <InputLabel htmlFor="email" value="Email" style={{color: props.siteConfig.themeTextColor}} />
+          <InputLabel htmlFor="email" value="Email" style={{color: props.siteConfig.theme_text_color}} />
 
           <TextInput
             id="email"
@@ -51,8 +51,8 @@ export default function Login(props) {
             onChange={(e) => setData('email', e.target.value)}
             style={{
               backgroundColor: "#FFFFFF",
-              borderColor: props.siteConfig.themeHeaderColor,
-              color: props.siteConfig.themeTextColor
+              borderColor: props.siteConfig.theme_header_color,
+              color: props.siteConfig.theme_text_color
             }}
           />
 
@@ -60,7 +60,7 @@ export default function Login(props) {
         </div>
 
         <div className="mt-4">
-          <InputLabel htmlFor="password" value="Password" style={{color: props.siteConfig.themeTextColor}} />
+          <InputLabel htmlFor="password" value="Password" style={{color: props.siteConfig.theme_text_color}} />
 
           <TextInput
             id="password"
@@ -72,8 +72,8 @@ export default function Login(props) {
             onChange={(e) => setData('password', e.target.value)}
             style={{
               backgroundColor: "#FFFFFF",
-              borderColor: props.siteConfig.themeHeaderColor,
-              color: props.siteConfig.themeTextColor
+              borderColor: props.siteConfig.theme_header_color,
+              color: props.siteConfig.theme_text_color
             }}
           />
 
@@ -88,8 +88,8 @@ export default function Login(props) {
               onChange={(e) => setData('remember', e.target.checked)}
               style={{
                 backgroundColor: "#FFFFFF",
-                borderColor: props.siteConfig.themeHeaderColor,
-                color: props.siteConfig.themeTextColor
+                borderColor: props.siteConfig.theme_header_color,
+                color: props.siteConfig.theme_text_color
               }}
             />
             <span className="ms-2 text-sm">Remember me</span>
@@ -101,7 +101,7 @@ export default function Login(props) {
             <Link
               href={route('password.request')}
               className="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
-              style={{color: props.siteConfig.themeHyperlinkColor }}
+              style={{color: props.siteConfig.theme_header_color }}
             >
               Forgot your password?
             </Link>
@@ -110,7 +110,7 @@ export default function Login(props) {
           <Link
               href={route('login.okta')}
               className="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ml-2"
-              style={{color: props.siteConfig.themeHyperlinkColor }}
+              style={{color: props.siteConfig.theme_hyperlink_color }}
             >
               SSO
             </Link>
@@ -119,11 +119,11 @@ export default function Login(props) {
 
           <PrimaryButton className="ms-4" disabled={processing}
             style={{
-              backgroundColor: props.siteConfig.themeHeaderColor,
-              color: props.siteConfig.themeHeaderTextColor,
+              backgroundColor: props.siteConfig.theme_header_color,
+              color: props.siteConfig.theme_header_text_color,
               borderStyle: "solid",
               borderWidth: "2px",
-              borderColor: props.siteConfig.themeHeaderColor
+              borderColor: props.siteConfig.theme_header_color
             }}>
             Log in
           </PrimaryButton>

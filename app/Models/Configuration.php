@@ -19,20 +19,20 @@ class Configuration extends Model
 
     protected static $defaultSiteConfigValues = array(
       "title" => "Odin",
-      "footerText" => "Copyright (c) 2023 Scott Rasmussen (github/zaita)",
-      "odinEmail" => "odin@example.com",
-      "securityTeamEmail" => "security@example.com",
-      "themeLoginBgColor" => "#333333",
-      "themeBgColor" => "#E5E5E5",
-      "themeTextColor" => "#000000",
-      "themeHeaderColor" => "#800000",
-      "themeHeaderTextColor" => "#FFFFFF",
-      "themeSubheaderColor" => "#AB0000",
-      "themeSubheaderTextColor" => "#FFFFFF",
-      "themeBreadcrumbColor" => "#ADADAD",
-      "themeHyperlinkColor" => "#FF9933",
-      "logoPath" => "/images/odin_base_logo.png",
-      "subHeaderImagePath" => "/images/subheader.jpg"
+      "footer_text" => "Copyright (c) 2023 Scott Rasmussen (github/zaita)",
+      "odin_email" => "odin@example.com",
+      "security_team_email" => "security@example.com",
+      "theme_login_bg_color" => "#333333",
+      "theme_bg_color" => "#E5E5E5",
+      "theme_text_color" => "#000000",
+      "theme_header_color" => "#800000",
+      "theme_header_text_color" => "#FFFFFF",
+      "theme_subheader_color" => "#AB0000",
+      "theme_subheader_text_color" => "#FFFFFF",
+      "theme_breadcrumb_color" => "#ADADAD",
+      "theme_hyperlink_color" => "#FF9933",
+      "logo_path" => "/images/odin_base_logo.png",
+      "subheader_image_path" => "/images/subheader.jpg"
     );
 
     public static function GetSiteConfig() {
@@ -52,9 +52,9 @@ class Configuration extends Model
       $json = json_decode($siteConfig->value);
 
       $json->title = $fields["title"];
-      $json->footerText = $fields["footerText"];
+      $json->footer_text = $fields["footer_text"];
       $json->alternateEmail = array_key_exists('alternateEmail', $fields) ? $fields["alternateEmail"]: '';
-      $json->securityTeamEmail = $fields["securityTeamEmail"];
+      $json->security_team_email = $fields["security_team_email"];
 
       $siteConfig->value = json_encode($json);
       $siteConfig->save();

@@ -60,7 +60,7 @@ export default function RichTextAreaField(props) {
           editorClassName="editorClassName"
           onEditorStateChange={handleChange}         
         />
-        <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> 
+        <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
       </div>
     </div>
   )

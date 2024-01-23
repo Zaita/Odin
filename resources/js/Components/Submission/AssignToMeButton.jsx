@@ -24,7 +24,7 @@ export default function AssignToMeButton(props) {
       <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
       onClick={() => {router.post(route('submission.assigntome', [props.submission.uuid], {}))}} 
       >Assign to me</ThemedButton>    
-      <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p>    
+      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p>    
     </>
   );
 }

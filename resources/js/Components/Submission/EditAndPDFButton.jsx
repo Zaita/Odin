@@ -9,9 +9,9 @@ export default function EditAndPDFButton(props) {
       onClick={() => {router.get(route('submission.edit', [props.submission.uuid], {}))}} 
       >Edit</ThemedButton>
 
-      <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
+      {/* <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
       onClick={() => {router.get(route('submission.downloadpdf', [props.submission.uuid], {}))}} 
-      >PDF</ThemedButton>
+      >PDF</ThemedButton> */}
     </>)
   }
 

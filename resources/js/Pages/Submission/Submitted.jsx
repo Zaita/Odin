@@ -76,7 +76,7 @@ function Content(props) {
       </div>
       <TaskList {...props}/>
       <ApprovalBox {...props}/>
-      <div><p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> </div>
+      <div><p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> </div>
       <div id="bottom">
         <div className="inline-block w-1/2">
           <EditAndPDFButton {...props}/>

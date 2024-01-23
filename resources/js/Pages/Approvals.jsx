@@ -24,7 +24,7 @@ export default function Approvals(props) {
               <div className="w-2/12">{submission.tasks_completed}</div>
               <div className="w-2/12">{submission.submitter_name}</div>
               <div className="w-1/12">
-                  <Link href={"/view/" + submission.uuid} style={{color: props.siteConfig.themeHyperlinkColor}}><ChevronRightIcon/></Link>
+                  <Link href={"/view/" + submission.uuid} style={{color: props.siteConfig.theme_hyperlink_color}}><ChevronRightIcon/></Link>
               </div>
             </div>
           ))}

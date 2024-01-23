@@ -45,7 +45,7 @@ export default function Menu({ user, siteConfig}) {
             <ParentMenu name="Service Inventory" url="admin.services" icon={<DnsIcon/>}/>
             <SubMenu name="Accreditations" url="admin.services.accreditations"/>
             <ParentMenu name="Configuration" url="admin.configuration" icon={<EngineeringIcon/>}/>
-            <SubMenu name="Site Settings" url="admin.configuration.siteconfig"/>
+            <SubMenu name="Settings" url="admin.configuration.settings"/>
             <SubMenu name="Email" url="admin.configuration.email"/>
             <SubMenu name="Risks" url="admin.configuration.risks"/>
             <SubMenu name="Single Sign-On" url="admin.configuration.sso"/>

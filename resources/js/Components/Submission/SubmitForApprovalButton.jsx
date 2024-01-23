@@ -22,7 +22,7 @@ export default function SubmitForApprovalButton(props) {
       <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
       onClick={() => {router.post(route('submission.submitforapproval', [props.submission.uuid], {}))}} 
       >Submit For Approval</ThemedButton>    
-      <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p>    
+      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p>    
     </>
   );
 }

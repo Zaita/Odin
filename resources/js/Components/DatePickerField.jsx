@@ -39,12 +39,12 @@ export default function DatePickerField(props) {
       <div id="label"><label htmlFor={props.field.label}>{label}</label></div>
       <style>{`
         .react-datepicker__input-container input {
-          border: 1px solid ${props.siteConfig.themeHeaderColor};
+          border: 1px solid ${props.siteConfig.theme_header_color};
         }     
       `}    
       </style>
       <DatePicker id={props.field.label} dateFormat="dd/MM/yyyy" selected={selected} onChange={(date) => handleChange(date)} dropdownMode="scroll" withPortal/>
-      <p id="error" style={{color: props.siteConfig.themeSubheaderColor}}>{error}</p> 
+      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
     </div>
   )
 }
