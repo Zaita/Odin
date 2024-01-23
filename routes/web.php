@@ -249,7 +249,15 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function() {
   Route::get('/admin/configuration/settings/alert', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.alert');
 
   // Configuration -> Email
-  Route::get('/admin/configuration/email', [AdminController::class, 'home'])->name('admin.configuration.email');
+  Route::get('/admin/configuration/email', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email');
+  Route::get('/admin/configuration/email/start', [Admin_Configuration_Email::class, 'start'])->name('admin.configuration.email.start');
+  Route::post('/admin/configuration/email/start', [Admin_Configuration_Email::class, 'start'])->name('admin.configuration.email.start.save');
+  Route::get('/admin/configuration/email/summary', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email.summary');
+  Route::get('/admin/configuration/email/submitted', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email.submitted');
+  Route::get('/admin/configuration/email/alltaskscomplete', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email.alltaskscomplete');
+  Route::get('/admin/configuration/email/approval', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email.approval');
+  Route::get('/admin/configuration/email/tasks', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email.tasks');
+
   // Configuration -> Risks
   Route::get('/admin/configuration/risks', [Admin_Configuration_Risks::class, 'index'])->name('admin.configuration.risks');
   Route::get('/admin/configuration/risks/add', [Admin_Configuration_Risks::class, 'add'])->name('admin.configuration.risk.add');

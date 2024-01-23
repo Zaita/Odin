@@ -16,7 +16,7 @@ export default function RichTextAreaField(props) {
     editable: true
   });
 
-  const blocksFromHtml = htmlToDraft(props.value);
+  const blocksFromHtml = htmlToDraft(props.value != null ? props.value : "");
   const { contentBlocks, entityMap } = blocksFromHtml;
   const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
   const [editorState, setEditorState] = useState(EditorState.createWithContent(contentState));
@@ -44,9 +44,11 @@ export default function RichTextAreaField(props) {
     // Re-Populate after a fresh load/render
     // This is because programatically changing field value
     // in a form error won't trigger onChange
-    const rawContentState = convertToRaw(editorState.getCurrentContent());
-    const markup = draftToHtml(rawContentState);
-    props.handleChange(fieldId, markup);
+    if (editorState.getCurrentContent() != null && editorState.getCurrentContent() != "") {
+      const rawContentState = convertToRaw(editorState.getCurrentContent());
+      const markup = draftToHtml(rawContentState);
+      props.handleChange(fieldId, markup);
+    }
   })
 
   return (
