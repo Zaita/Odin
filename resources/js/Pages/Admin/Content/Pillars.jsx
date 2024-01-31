@@ -44,7 +44,8 @@ export default function Pillars(props) {
         onCancel={cancelledDeletion}
         {...props}/>
       <div>
-        <div style={{borderBottom: "3px solid white"}}>
+        <div className="pb-2 border-b-2"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-1/6 float-left font-bold">Name</div>
             <div className="w-2/6 float-left font-bold">Caption</div>
             <div className="w-5/12 float-left font-bold">On Dashboard?</div> 
@@ -53,7 +54,8 @@ export default function Pillars(props) {
         {props.pillars?.data?.map((pillar, index) => {
           let x = pillar.id;
           return (
-          <div key={index} style={{borderBottom: "1px solid white"}} className="pt-1">
+          <div key={index} className="pt-1 border-b"
+            style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-1/6 float-left">{pillar.name}</div>
             <div className="w-2/6 float-left">{pillar.caption}</div>
             <div className="w-5/12 float-left inline-block">Yes</div>

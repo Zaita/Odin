@@ -13,13 +13,13 @@ function Content(props) {
     answers.answers.map((response) => {
       if (response.question == questionTitle) {
         if (response.status == "not_applicable") {
-          userResponses.push(<div key={index} className="pl-7">not applicable</div>)
+          userResponses.push(<div key={index} className="pl-7"><i>not applicable</i></div>)
         } else {
           response.data.map((answer, index) => {
-            if (answer.value.includes("\n")) {
+            if (answer.value?.includes("\n")) {
               userResponses.push(<div key={index} className="pl-7">{answer.value}</div>)
             } else {
-              userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span> - {answer.value}</div>)
+              userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {answer.value ? answer.value : "-"}</div>)
             }
           })
         }

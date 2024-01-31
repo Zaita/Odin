@@ -12,6 +12,7 @@ use Database\Seeders\GroupUserSeeder;
 use Database\Seeders\TaskSeeder;
 use Database\Seeders\SubmissionSeeder;
 use Database\Seeders\RiskSeeder;
+use Database\Seeders\ReportSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -66,7 +67,9 @@ class DatabaseSeeder extends Seeder
         RiskSeeder::class,
         PillarSeeder::class,
         TaskSeeder::class,
-        SubmissionSeeder::class
+        SubmissionSeeder::class,
+        ReportSeeder::class,
+
       ]);
     }
 }

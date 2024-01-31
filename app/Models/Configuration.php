@@ -32,7 +32,49 @@ class Configuration extends Model
       "theme_breadcrumb_color" => "#ADADAD",
       "theme_hyperlink_color" => "#FF9933",
       "logo_path" => "/images/odin_base_logo.png",
-      "subheader_image_path" => "/images/subheader.jpg"
+      "subheader_image_path" => "/images/subheader.jpg"      
+    );
+
+    // protected static $defaultAdminSiteConfigValues = array(
+    //   "admin_logo_path" => "/images/odin_base_logo.png",
+    //   "theme_admin_bg_color" => "#E3EAFA",
+    //   "theme_admin_help_bg_color" => "#E3EAFA",
+    //   "theme_admin_help_text_color" => "#658CE9",
+    //   "theme_admin_menu_bg_color" => "#658CE9",
+    //   "theme_admin_menu_logout_border_color" => "#400000",
+    //   "theme_admin_menu_parent_text_color" => "#E3EAFA",
+    //   "theme_admin_menu_text_color" => "#E3EAFA",
+    //   "theme_admin_menu_selected_bg_color" => "#E3EAFA",
+    //   "theme_admin_menu_selected_text_color" => "#658CE9",
+    //   "theme_admin_topmenu_bg_color" => "#658CE9",
+    //   "theme_admin_topmenu_breadcrumb_color" => "#E3EAFA",
+    //   "theme_admin_topmenu_border_color" => "#658CE9",
+    //   "theme_admin_topmenu_item_border_color" => "#FFFFFF",
+    //   "theme_admin_topmenu_item_text_color" => "#E3EAFA",
+    //   "theme_admin_content_bg_color" => "#FFFFFF",
+    //   "theme_admin_content_text_color" => "#000000",      
+    //   "theme_admin_content_spacer" => "#658CE9",
+    // );
+
+    protected static $defaultAdminSiteConfigValues = array(
+      "admin_logo_path" => "/images/odin_base_logo.png",
+      "theme_admin_bg_color" => "#092635",
+      "theme_admin_help_bg_color" => "#E4DEBE",
+      "theme_admin_help_text_color" => "#E4DEBE",
+      "theme_admin_menu_bg_color" => "#092635",
+      "theme_admin_menu_logout_border_color" => "#9EC8B9",
+      "theme_admin_menu_parent_text_color" => "#9EC8B9",
+      "theme_admin_menu_text_color" => "#9EC8B9",
+      "theme_admin_menu_selected_bg_color" => "#9EC8B9",
+      "theme_admin_menu_selected_text_color" => "#092635",
+      "theme_admin_topmenu_bg_color" => "#092635",
+      "theme_admin_topmenu_breadcrumb_color" => "#9EC8B9",
+      "theme_admin_topmenu_border_color" => "#9EC8B9",
+      "theme_admin_topmenu_item_border_color" => "#9EC8B9",
+      "theme_admin_topmenu_item_text_color" => "#9EC8B9",
+      "theme_admin_content_bg_color" => "#9EC8B9",
+      "theme_admin_content_text_color" => "#000000",      
+      "theme_admin_content_spacer" => "#1B4242",
     );
 
     public static function GetSiteConfig() {
@@ -44,7 +86,10 @@ class Configuration extends Model
         $config->save();
       }
 
+      $x = json_decode($config->value, true);
+      $config->value = json_encode(array_merge($x, Configuration::$defaultAdminSiteConfigValues));
       return $config;
+      // return $config;
     }
 
     public static function UpdateSiteConfig(array $fields) {

@@ -30,5 +30,25 @@ class GroupSeeder extends Seeder
         'description' => "Chief Information Security Officer Approver"
         ]
       );
+      $record = Group::create(
+        ['name' => "Read Only Admin",
+        'description' => "Admin who can read, but not modify any content"
+        ]
+      );
+      $record = Group::create(
+        ['name' => "Content Administrator",
+        'description' => "Administrator who can modify content (pillars, questionnaires, tasks). Cannot modify approval flows"
+        ]
+      );
+      $record = Group::create(
+        ['name' => "Report Viewer",
+        'description' => "Can log in to admin portal and view reports only"
+        ]
+      );
+      $record = Group::create(
+        ['name' => "Audit Log Viewer",
+        'description' => "Can log in to admin portal and view audit logs"
+        ]
+      );
     }
 }

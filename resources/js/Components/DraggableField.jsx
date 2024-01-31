@@ -10,7 +10,7 @@ import { useState, useEffect, createContext, useContext, Fragment } from 'react'
   updatedOrder: []
  }
  
- const DragToReorderList = ({items, callback}) => {
+ const DragToReorderList = ({items, callback, siteConfig}) => {
   
   const [list, setList] = useState(items);
   const [dragAndDrop, setDragAndDrop] = useState(initialDnDState);
@@ -129,7 +129,14 @@ import { useState, useEffect, createContext, useContext, Fragment } from 'react'
         
         // onDragLeave={onDragLeave}
         
-        className={dragAndDrop && dragAndDrop.draggedTo=== Number(index) ? "dropArea" : ""}        
+        className={dragAndDrop && dragAndDrop.draggedTo=== Number(index) ? "dropArea" : ""}   
+        
+        style={{
+          padding: "2px",
+          borderColor: siteConfig.theme_admin_content_spacer,
+          borderWidth: "1px",
+          marginBottom: "2px",
+        }}
         >
          {item}
        </li>

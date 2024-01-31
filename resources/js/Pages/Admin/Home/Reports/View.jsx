@@ -1,25 +1,28 @@
 import React from 'react';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import {Link} from '@inertiajs/react';
 
 import AdminPanel from '@/Layouts/AdminPanel';
 
-export default function Reports(props) {  
+export default function ReportView(props) {  
   function MyContent() {
     return (
       <>
       <div>
       <div className="pb-2 border-b-2"
           style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
-            <div className="w-11/12 float-left font-bold">Report:</div>
-            <div className="font-bold">Actions:</div> 
+            <div className="w-11/12 font-bold">Report: {props.title}</div>
         </div>
-        {props.reports.map((report, index) => {
+
+        <div className="pt-1 pb-1 border-b"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
+            {props.header.map((field) => <div className="w-2/12 inline-block font-bold">{field}</div>)}
+        </div>
+              
+        {props.rows.map((row, index) => {
           return (
             <div key={index} className="pt-1 pb-1 border-b"
             style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
-            <div className="w-11/12 float-left">{report.name}</div>
-            <div><Link href={"/admin/home/report/" + report.id}><PlayArrowIcon/></Link></div>
+              {row.map((field) => <div className="w-2/12 inline-block">{field}</div>)}
           </div>)
         })} 
       </div>  
