@@ -1,4 +1,5 @@
-import React, { useRef, useState, Component } from 'react';
+import React from 'react';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import AdminPanel from '@/Layouts/AdminPanel';
 
@@ -8,17 +9,21 @@ export default function AuditLog(props) {
     return (
       <>
       <div>
-        <div style={{borderBottom: "3px solid white"}}>
-            <div className="w-1/2 float-left font-bold">Action:</div>
-            <div className="w-1/5 float-left font-bold">User:</div>
-            <div className="font-bold">Timestamp:</div> 
+      <div className="pb-2 border-b-2"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
+            <div className="w-6/12 float-left font-bold">Event:</div>
+            <div className="w-2/12 float-left font-bold">User:</div>
+            <div className="w-2/12 float-left font-bold">Timestamp:</div> 
+            <div className="font-bold">Actions:</div> 
         </div>
         {props.auditLog.data.map((audit, index) => {
           return (
-            <div key={index} style={{borderBottom: "1px solid white"}} className="pt-1">
-            <div className="w-1/2 float-left">{audit.action}</div>
-            <div className="w-1/5 float-left">{audit.user_name} ({audit.user_email})</div>
-            <div>{audit.created_at}</div>
+            <div key={index} className="pt-1 pb-1 border-b"
+            style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
+            <div className="w-6/12 float-left">{audit.action}</div>
+            <div className="w-2/12 float-left">{audit.user_name} ({audit.user_email})</div>
+            <div className="w-2/12 float-left">{audit.created_at}</div>
+            <div><VisibilityIcon/></div>
           </div>)
         })} 
         <div id="pagination_navbar" className="text-center pt-2" >

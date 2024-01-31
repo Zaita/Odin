@@ -14,7 +14,7 @@ use App\Models\Pillar;
 class AdminController extends Controller
 {
     public function index(Request $request) {
-      $config = Configuration::GetSiteConfig()->value;
+      $config = json_decode(Configuration::GetSiteConfig()->value);
 
       return Inertia::render('Admin/Home', [
         'siteConfig' => $config
@@ -22,7 +22,7 @@ class AdminController extends Controller
     }
 
     public function reports(Request $request) {
-      $config = Configuration::GetSiteConfig()->value;
+      $config = json_decode(Configuration::GetSiteConfig()->value);
 
       return Inertia::render('Admin/Home/Reports', [
         'siteConfig' => $config
@@ -30,14 +30,14 @@ class AdminController extends Controller
     }
 
     public function security(Request $request) {
-      $config = Configuration::GetSiteConfig()->value;
+      $config = json_decode(Configuration::GetSiteConfig()->value);
       return Inertia::render('Admin/Security', [
         'siteConfig' => $config
       ]);
     }
 
     public function content(Request $request) {
-      $config = Configuration::GetSiteConfig()->value;
+      $config = json_decode(Configuration::GetSiteConfig()->value);
       $pillars = Pillar::all();
       return Inertia::render('Admin/Content', [
         'pillars' => $pillars,

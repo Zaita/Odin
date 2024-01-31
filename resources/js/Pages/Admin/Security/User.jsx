@@ -42,7 +42,8 @@ export default function User(props) {
         onCancel={cancelledDeletion}
         {...props}/>
       <div>
-        <div style={{borderBottom: "3px solid white"}}>
+      <div className="pb-2 border-b-2"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-1/6 float-left font-bold">User Name</div>
             <div className="w-1/6 float-left font-bold">Email</div>
             <div className="w-6/12 float-left font-bold">Groups</div> 
@@ -50,15 +51,17 @@ export default function User(props) {
         </div>
         {props.users && props.users.data.map && props.users.data.map((user, index) => {
           return (
-          <div key={index} style={{borderBottom: "1px solid white"}} className="pt-1">
-            <div className="w-1/6 float-left">{user.name}</div>
-            <div className="w-1/6 float-left">{user.email}</div>
-            <div className="w-6/12 float-left inline-block">{user.groups_string}</div>
-            <div> 
-              <EditIcon onClick={() => router.get(route('admin.security.users.edit', [user.id]))}/> 
-              <DeleteForeverIcon onClick={() => openConfirmationModal(user)}/>
+            <div key={index} className="pt-1 border-b"
+              style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
+              <div className="w-1/6 float-left">{user.name}</div>
+              <div className="w-1/6 float-left">{user.email}</div>
+              <div className="w-6/12 float-left inline-block">{user.groups_string}</div>
+              <div> 
+                <EditIcon onClick={() => router.get(route('admin.security.users.edit', [user.id]))}/> 
+                <DeleteForeverIcon onClick={() => openConfirmationModal(user)}/>
+              </div>
             </div>
-          </div>)
+          )
         })}       
       </div> 
       <div id="pagination_navbar" className="text-center pt-2" >

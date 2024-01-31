@@ -19,7 +19,7 @@ export default function QuestionsList(props) {
   let deleteTarget = useRef({});
   let [questions, setQuestions] = useState(props.questions);
 
-  let {objectId, addRoute, saveOrderRoute, saveOrderParameters, editRoute, deleteRoute}  = {...props}
+  let {siteConfig, objectId, addRoute, saveOrderRoute, saveOrderParameters, editRoute, deleteRoute}  = {...props}
   
   let newQuestions = props.questions;
   if (newQuestions.length != questions.length) {
@@ -104,10 +104,10 @@ export default function QuestionsList(props) {
     <span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span>
     <div>
       <div style={{borderBottom: "3px solid white"}}>&nbsp;</div>
-      <DraggableList items={questionList} callback={sortCallback}/>          
+      <DraggableList siteConfig={siteConfig} items={questionList} callback={sortCallback}/>          
     </div>    
     <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
-      <ThemedButton siteConfig={props.siteConfig} onClick={SaveOrder} children="Save Question Order" className="mr-4"/>
+      <ThemedButton siteConfig={siteConfig} onClick={SaveOrder} children="Save Question Order" className="mr-4"/>
       <span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span>
     </div>          
     </>

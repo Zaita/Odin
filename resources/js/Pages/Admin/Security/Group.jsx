@@ -42,7 +42,8 @@ export default function Group(props) {
         onCancel={cancelledDeletion}
         {...props}/>
       <div>
-        <div style={{borderBottom: "3px solid white"}}>
+        <div className="pb-2 border-b-2"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-2/6 float-left font-bold">Group Name</div>
             <div className="w-3/6 float-left font-bold">Description</div>
             <div className="w-1/12 float-left font-bold">Users</div> 
@@ -50,9 +51,10 @@ export default function Group(props) {
         </div>
         {props.groups && props.groups.map && props.groups.map((group, index) => {
           return (
-          <div key={index} style={{borderBottom: "1px solid white"}} className="pt-1">
+          <div key={index} className="pt-1 border-b"
+            style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-2/6 float-left">{group.name}</div>
-            <div className="w-3/6 float-left">{group.description ? group.description : "n/a"}</div>
+            <div className="w-3/6 float-left">{group.description ? group.description : "-"}</div>
             <div className="w-1/12 float-left">{group.users}</div>
             <div> 
               <EditIcon onClick={() => router.get(route('admin.security.groups.edit', [group.id]))}/> 

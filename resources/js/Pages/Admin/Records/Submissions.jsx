@@ -13,16 +13,19 @@ export default function SubmissionsOverview(props) {
     let niceStatus = "";
     switch(status) {
       case "in_progress":
-        niceStatus = "In Progress";
+        niceStatus = "In progress";
         break;
       case "in_review":
-        niceStatus = "Awaiting Submit";
+        niceStatus = "Awaiting submit";
         break;
       case "submitted":
-        niceStatus = "Awaiting Task Completion";
+        niceStatus = "Awaiting task completion";
         break;
+      case "waiting_for_approval":
+          niceStatus = "Waiting for approval";
+          break;        
       default:
-        niceStatus = "n/a";
+        niceStatus = "-";
     }
     return niceStatus;
   }
@@ -32,30 +35,30 @@ export default function SubmissionsOverview(props) {
       <>      
       <div id="submissions" className="mt-5">
         <div id="submission_box">
-          <table>
-            <thead>
-            <tr>
-              <th>Date Created</th>
-              <th>Pillar</th>
-              <th>Product Name</th>
-              <th>Tasks Completed</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="pb-2 border-b-2"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
+            <div className="w-1/12 float-left font-bold">Date Created</div>
+            <div className="w-2/12 float-left font-bold">Pillar</div>
+            <div className="w-3/12 float-left font-bold">Product Name</div>
+            <div className="w-2/12 float-left font-bold">Submitter</div> 
+            <div className="w-1/12 float-left font-bold">Tasks Completed</div>
+            <div className="w-2/12 float-left font-bold">Status</div>
+            <div className="font-bold">Actions</div>
+        </div>          
           {props.submissions.data.map((submission, index) => (
-            <tr key={index}>
-              <td>{submission.created_at}</td>
-              <td>{submission.pillar_name}</td>
-              <td>{submission.product_name}</td>
-              <td>{submission.tasks_completed}</td>
-              <td>{getNiceStatus(submission.status)}</td>
-              <td><Link href={"/admin/records/submission/" + submission.id}><ChevronRightIcon/></Link></td>            
-            </tr>
+          <div key={index} className="pt-1 border-b"
+            style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
+            <div className="w-1/12 float-left">{submission.created_at_short}</div>
+            <div className="w-2/12 float-left">{submission.pillar_name}</div>
+            <div className="w-3/12 float-left">{submission.product_name ? submission.product_name : "-"}</div> 
+            <div className="w-2/12 float-left">{submission.submitter_name}</div>
+            <div className="w-1/12 float-left">{submission.tasks_completed}</div>
+            <div className="w-2/12 float-left">{getNiceStatus(submission.status)}</div>
+            <div>
+            <Link href={"/admin/records/submission/" + submission.id}><ChevronRightIcon/></Link>
+            </div>
+          </div>               
           ))}
-          </tbody>
-          </table>          
         </div>
         <div id="pagination_navbar" className="text-center pt-2" >
           <div className="float-left" style={{fontSize: "11px"}}>Displaying entries {props.submissions.from} to {props.submissions.to} of {props.submissions.total}</div>
@@ -66,13 +69,19 @@ export default function SubmissionsOverview(props) {
     );
   }
 
-  let actionMenuItems = [];
+  let topMenuItems = [
+    ["In Progress", "admin.records.submissions"],
+    ["Waiting for Approval", "admin.records.submissions"],
+    ["Approved", "admin.records.submissions"],
+    ["Denied", "admin.records.submissions"],    
+    ["Expired", "admin.records.submissions"],
+  ]
 
   let breadcrumb = [
     ["Submissions", "admin.records.submissions"],
   ]
 
   return (
-    <AdminPanel {...props} topMenuItems={[]} actionMenuItems={actionMenuItems} breadcrumb={breadcrumb} content={<MyContent props/>}/>
+    <AdminPanel {...props} topMenuItems={topMenuItems} actionMenuItems={[]} breadcrumb={breadcrumb} content={<MyContent props/>}/>
   );
 }

@@ -43,7 +43,8 @@ export default function Tasks(props) {
         onCancel={cancelledDeletion}
         {...props}/>
       <div>
-        <div style={{borderBottom: "3px solid white"}}>
+        <div className="pb-2 border-b-2"
+          style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-2/6 float-left font-bold">Name</div>
             <div className="w-7/12 float-left font-bold">Type</div>
             <div className="font-bold">Actions</div>
@@ -51,7 +52,8 @@ export default function Tasks(props) {
         {props.tasks?.data?.map((task, index) => {
           let x = task.id;
           return (
-          <div key={index} style={{borderBottom: "1px solid white"}} className="pt-1">
+            <div key={index} className="pt-1 border-b"
+              style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-2/6 float-left">{task.name}</div>
             <div className="w-7/12 float-left">{task.type}</div>
             <div> 

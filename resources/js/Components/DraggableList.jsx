@@ -9,7 +9,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
   updatedOrder: []
  }
  
- const DragToReorderList = ({items, callback}) => {
+ const DragToReorderList = ({items, callback, siteConfig}) => {
   
   const [list, setList] = useState(items);
   const [dragAndDrop, setDragAndDrop] = useState(initialDnDState);
@@ -120,7 +120,14 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
         
         // onDragLeave={onDragLeave}
         
-        className={dragAndDrop && dragAndDrop.draggedTo=== Number(index) ? "dropArea" : ""}        
+        className={dragAndDrop && dragAndDrop.draggedTo=== Number(index) ? "dropArea" : ""}    
+        
+        style={{
+          padding: "2px",
+          borderColor: siteConfig.theme_admin_content_spacer,
+          borderWidth: "1px",
+          marginBottom: "2px",
+        }}
         >
          <span id="icon"><DragIndicatorIcon/></span>
          <span id="item_name">{item.name}</span>   

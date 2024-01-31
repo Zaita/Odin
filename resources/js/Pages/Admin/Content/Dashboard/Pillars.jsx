@@ -1,5 +1,6 @@
 import React, { useRef, useState, Component } from 'react';
 import { router } from '@inertiajs/react'
+import HelpIcon from '@mui/icons-material/Help';
 
 import AdminPanel from '@/Layouts/AdminPanel';
 import DraggableList from "@/Components/DraggableList";
@@ -50,16 +51,22 @@ export default function Dashboard(props) {
     return (
     <>
       <div>
-        <div className="pl-2 h-10 align-middle border-2 border-white border-solid mb-3">
-            Drag pillars to re-order them on the dashboard:
+        <div className="p-2 h-20 border-2 border-solid mb-3 rounded-md inline-block w-auto"
+          style={{
+            backgroundColor: props.siteConfig.theme_admin_help_bg_color,
+            textColor: props.siteConfig.theme_admin_help_text_color,
+            borderColor: props.siteConfig.theme_admin_content_spacer}}>
+          <HelpIcon fontSize="large"/>
+            Drag pillars in the list below to re-order them on the main dashboard screen.<br/>
+            You will need to save changes. Once saved, new order is published immediately.
         </div>
         <div className="overflow-y-auto w-5/6 mb-2">
           <div>            
-          <DraggableList items={props.pillars} callback={sortCallback}/>
+          <DraggableList items={props.pillars} callback={sortCallback} siteConfig={props.siteConfig}/>
           </div>
         </div>
-        <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
-        <ThemedButton siteConfig={props.siteConfig} onClick={saveAnswers} children="Save"/>
+        <div id="bottom_menu" className="h-10 pt-2">
+        <ThemedButton siteConfig={props.siteConfig} onClick={saveAnswers} children="Update Order"/>
         <p>{saveOk}</p>
         </div>
       </div>
