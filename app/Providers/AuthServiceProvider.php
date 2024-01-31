@@ -22,23 +22,56 @@ class AuthServiceProvider extends ServiceProvider
         //
     ];
 
+    protected function isUserInAnyGroup($user, array $groups) {
+      foreach( $groups as $group ) {
+        if ($user->isInGroup($group)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     /**
      * Register any authentication / authorization services.
+     * 
+     * - Administrator
+     * - Read Only Administrator
+     * - Content Administrator
+     * - Audit Log Viewer
+     * - Report Viewer
      */
     public function boot(): void
     {
-      Gate::define('isAdmin', function ($user) {
-        // Load our Administrators Group Id
-        $group = Group::firstOrNew(["name" => "Administrator"]);
-        if (is_null($group->id)) {
-          Log::Info("No Administrator Group");
-          return False; 
-        }
-
-        $groupId = $group->id;
-        $userId = $user->id;
-        return GroupUser::where(["user_id" => $userId, "group_id" => $groupId])->count() == 1;        
+      Gate::define('isAdministrator', function ($user) {
+        return $this->isUserInAnyGroup($user, ["Administrator"]);       
       });
+
+      Gate::define('isReadOnlyAdministrator', function($user) {
+        return $this->isUserInAnyGroup($user, ["Read Only Administrator", "Content Administrator", "Administrator"]);
+      });
+
+      Gate::define('isContentAdministrator', function($user) {
+        return $this->isUserInAnyGroup($user, ["Content Administrator", "Administrator"]);
+      });
+
+      Gate::define('isAuditLogViewer', function($user) {
+        return $this->isUserInAnyGroup($user, ["Audit Log Viewer", "Read Only Administrator", "Administrator"]);
+      });
+
+      Gate::define('isReportViewer', function($user) {
+        return $this->isUserInAnyGroup($user, ["Report Viewer", "Read Only Administrator", "Administrator",]);
+      });
+      
+      Gate::define('isAnyAdmin', function($user) {
+        return $this->isUserInAnyGroup($user, ["Administrator", "Read Only Administrator",
+        "Content Administrator", "Audit Log Viewer", "Report Viewer"]);
+      });
+
+      Gate::define('block', function($user) {
+        return false;
+      });
+      
     }
 }
 
