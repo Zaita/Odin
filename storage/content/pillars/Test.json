@@ -34,7 +34,57 @@
                   "min_length": 3,
                   "max_length": 0,
                   "business_owner": true
-                }                
+                },
+                {
+                  "label": "Checkbox Text",
+                  "required": true,
+                  "input_type": "checkbox",
+                  "checkbox_options" : [
+                    { 
+                      "label": "Option 1",
+                      "value": "Option 1",
+                      "risks" : [
+                        {
+                          "name" : "Information Disclosure",
+                          "likelihood" : "2",
+                          "likelihood_penalty" : "10",
+                          "impact" : "2",
+                          "impact_penalty" : "10"
+                        },
+                        {
+                          "name" : "Information Modification",
+                          "likelihood" : "3",
+                          "likelihood_penalty" : "30"
+                        },  
+                        {
+                          "name" : "Information Loss",
+                          "impact" : "4",
+                          "impact_penalty" : "40"
+                        }                                                
+                      ]
+                    },
+                    { 
+                      "label": "Option 2",
+                      "value": "Option 2",
+                      "risks" : [
+                        {
+                          "name" : "Information Modification",
+                          "likelihood" : "3",
+                          "likelihood_penalty" : "30"
+                        },  
+                        {
+                          "name" : "Information Loss",
+                          "impact" : "4",
+                          "impact_penalty" : "40"
+                        }                                                
+                      ]
+                    },
+                    { 
+                      "label": "Option 3",
+                      "value": "Option 3"                      
+                    }                                          
+                  ]                  
+                }                 
               ],
               "action_fields": []
           }          

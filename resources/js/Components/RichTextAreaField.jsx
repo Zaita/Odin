@@ -54,15 +54,26 @@ export default function RichTextAreaField(props) {
   return (
     <div id="input_field">
       <div id="label"><label htmlFor={fieldId}>{label}</label></div>
-      <div className="w-2/3 bg-white overflow-auto" style={{height: "400px"}}>
+      <div className="w-2/3" 
+        style={{
+          backgroundColor: props.siteConfig.theme_input_bg_color,
+          color: props.siteConfig.theme_input_text_color,
+          borderColor: props.siteConfig.theme_input_border_color,          
+          
+          }}>
         <Editor
           editorState={editorState}
           toolbarClassName="toolbarClassName"
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
-          onEditorStateChange={handleChange}         
-        />
-        <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
+          onEditorStateChange={handleChange}   
+          editorStyle={{ 
+            backgroundColor: props.siteConfig.theme_input_bg_color,
+            color: props.siteConfig.theme_input_text_color,
+            borderColor: props.siteConfig.theme_input_border_color,                                   
+            }}
+          />
+        <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
       </div>
     </div>
   )

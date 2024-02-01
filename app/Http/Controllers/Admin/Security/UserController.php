@@ -24,15 +24,13 @@ class UserController extends Controller
    */
   public function index(Request $request) {
     AuditLog::Log("Security.User.User", $request);
-    $config = json_decode(Configuration::GetSiteConfig()->value);
-
     $users = User::orderBy('created_at')->paginate(20);
     // Grab any errors from the a failed create/save/delete
     $errors = $request->session()->get('errors') ?? null;
     $request->session()->forget('errors');
     
     return Inertia::render('Admin/Security/User', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'users' => $users,
       'errors' => $errors
     ]); 
@@ -63,9 +61,8 @@ class UserController extends Controller
    * Show the add page
    */
   public function add(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Security/User/Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 
@@ -91,7 +88,7 @@ class UserController extends Controller
     AuditLog::Log("Security.User.Edit", $request);
     $user = User::findOrFail($id); 
     return Inertia::render('Admin/Security/User/Edit', [
-      'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+      'siteConfig' => Configuration::site_config(),
       'user' => $user
     ]); 
   }

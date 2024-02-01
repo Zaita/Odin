@@ -54,7 +54,7 @@ export default function Dashboard(props) {
         <div className="p-2 h-20 border-2 border-solid mb-3 rounded-md inline-block w-auto"
           style={{
             backgroundColor: props.siteConfig.theme_admin_help_bg_color,
-            textColor: props.siteConfig.theme_admin_help_text_color,
+            color: props.siteConfig.theme_admin_help_text_color,
             borderColor: props.siteConfig.theme_admin_content_spacer}}>
           <HelpIcon fontSize="large"/>
             Drag pillars in the list below to re-order them on the main dashboard screen.<br/>

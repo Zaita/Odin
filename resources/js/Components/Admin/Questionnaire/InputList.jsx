@@ -108,7 +108,7 @@ export default function InputList(props) {
     <span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span>
     <div>
       <div style={{borderBottom: "3px solid white"}}>&nbsp;</div>
-      <DraggableList items={inputList} callback={sortCallback}/>          
+      <DraggableList siteConfig={props.siteConfig} items={inputList} callback={sortCallback}/>          
     </div>    
     <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
       <ThemedButton siteConfig={props.siteConfig} onClick={SaveOrder} children="Save Input Field Order" className="mr-4"/>

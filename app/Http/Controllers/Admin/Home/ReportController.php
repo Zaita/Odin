@@ -18,22 +18,20 @@ class ReportController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $reports = Report::all();
     
     return Inertia::render('Admin/Home/Reports', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'reports' => $reports
     ]); 
   }
 
   public function execute(Request $request, $id) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $report = Report::findOrFail($id);
     $report->execute();
 
     return Inertia::render('Admin/Home/Reports/View', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'title' => $report->name,
       'header' => $report->header,
       'rows' => $report->rows,

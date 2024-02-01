@@ -20,16 +20,16 @@ class SubmissionSeeder extends Seeder
      */
     public function run(): void
     {
-      $user = User::where('email', 'admin@zaita.com')->first();
+      // $user = User::where('email', 'admin@zaita.com')->first();
 
-      $pillar = Pillar::where("name", "Proof of Concept")->first();     
-      $questionnaire = Questionnaire::with([
-        "questions" => function(Builder $q) {$q->orderBy('sort_order');},
-        "questions.inputFields",
-        "questions.actionFields",
-        ])->findOrFail($pillar->questionnaire_id);
+      // $pillar = Pillar::where("name", "Proof of Concept")->first();     
+      // $questionnaire = Questionnaire::with([
+      //   "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+      //   "questions.inputFields",
+      //   "questions.actionFields",
+      //   ])->findOrFail($pillar->questionnaire_id);
 
-      $approvalFlow = ApprovalFlow::findOrFail($pillar->approval_flow_id);
+      // $approvalFlow = ApprovalFlow::findOrFail($pillar->approval_flow_id);
 
       // for ($i = 0; $i < 5; $i++) {
       //   $s = new Submission();

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->boolean("release_date")->nullable();
             $table->boolean('ticket_url')->nullable();
             $table->integer("sort_order")->default(999);
+            $table->json('config')->nullable();
             $table->timestamps();
         });
     }

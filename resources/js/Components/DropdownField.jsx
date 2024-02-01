@@ -54,13 +54,19 @@ export default function DropdownField(props) {
         <label htmlFor={fieldId}>{label}</label>
       </div>
       <select className="bg-white" name={camalCase(fieldId)} id={fieldId} onKeyUp={handleKeyPress}
-        onChange={handleChange} style={{borderColor: props.siteConfig.theme_header_color, width: newWidth}}
+        onChange={handleChange} 
+        style={{
+          backgroundColor: props.siteConfig.theme_input_bg_color,
+          color: props.siteConfig.theme_input_text_color,
+          borderColor: props.siteConfig.theme_input_border_color,
+          width: newWidth
+        }}
         value={value}>   
         {props.options.map((option, index) => 
         (<option key={index} label={option} value={option}/>)
         )}
       </select>
-      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
+      <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
     </div>
   )
 }

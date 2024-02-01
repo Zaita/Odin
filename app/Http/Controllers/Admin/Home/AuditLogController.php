@@ -17,11 +17,10 @@ class AuditLogController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $auditLog = AuditLog::orderByDesc('created_at')->paginate(20);
     
     return Inertia::render('Admin/Home/AuditLog', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'auditLog' => $auditLog
     ]); 
   }

@@ -19,10 +19,9 @@ class DashboardController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $dashboard = json_decode(Configuration::GetDashboardConfig()->value);
     return Inertia::render('Admin/Content/Dashboard', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'dashboard' => $dashboard
     ]); 
   }
@@ -41,10 +40,9 @@ class DashboardController extends Controller
    * Handle the default GET of / for this controller
    */
   public function pillars(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillars = Pillar::where('id', '>', 0)->orderBy('sort_order')->get();
     return Inertia::render('Admin/Content/Dashboard/Pillars', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillars' => $pillars
     ]); 
   }

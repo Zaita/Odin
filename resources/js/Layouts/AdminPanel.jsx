@@ -10,7 +10,7 @@ export default function AdminPanel({auth, siteConfig, topMenuItems=[], actionMen
     <div id="adminPanel" className='h-screen w-screen text-xs' style={{backgroundColor: siteConfig.theme_admin_bg_color}}>   
       <div className="flex h-full">
         <Menu user={auth.user} siteConfig={siteConfig}/>
-        <div className="block w-full">
+        <div className="block w-full overflow-x-hidden">
           <TopMenu siteConfig={siteConfig} topMenuItems={topMenuItems} breadcrumb={breadcrumb}/>
           {actionMenu}
           <div className="pt-2 pl-2 pb-2 pr-2">
