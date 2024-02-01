@@ -4,6 +4,7 @@ import camalCase from "@/Utilities/camal.jsx"
 import dbFormat from '@/Utilities/dbFormat';
 
 export default function TextField(props) {
+  const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState(props.value != undefined ? props.value : "");
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
@@ -56,11 +57,18 @@ export default function TextField(props) {
       <input type={type} className="bg-white" name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress}
         placeholder={props.field.placeHolder} onChange={handleChange}
         style={{
-          borderColor: props.siteConfig.theme_header_color,
-          width: props.sideBySide ? "400px" : "355px"
+          backgroundColor: props.siteConfig.theme_input_bg_color,
+          color: props.siteConfig.theme_input_text_color,
+          borderColor: props.siteConfig.theme_input_border_color,
+          width: props.sideBySide ? "400px" : "355px",
+          boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none",          
+          
         }}
-        autoComplete={camalCase(fieldId)}/>   
-      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
+        autoComplete={camalCase(fieldId)}
+        onBlur={() => setIsFocused(false)}
+        onFocus={() => setIsFocused(true)}
+        />   
+      <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
     </div>
   )
 }

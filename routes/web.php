@@ -182,6 +182,11 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/edit', [Admin_Content_Pillar::class, 'pillar_question_input_edit'])->name('admin.content.pillar.question.input.edit');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/save', [Admin_Content_Pillar::class, 'pillar_question_input_save'])->name('admin.content.pillar.question.input.save');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/delete', [Admin_Content_Pillar::class, 'pillar_question_input_delete'])->name('admin.content.pillar.question.input.delete');
+  // Content -> Pillars -> Pillar -> Questions -> Question -> Inputs -> Checkbox(type)
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/add', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_add'])->name('admin.content.pillar.question.input.checkbox.add');
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/edit', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_edit'])->name('admin.content.pillar.question.input.checkbox.edit');
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/delete', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_delete'])->name('admin.content.pillar.question.input.checkbox.delete');
+
   // Content -> Pillars -> Pillar -> Questions -> Question -> Actions
   Route::get('/admin/content/pillars/{id}/question/{questionId}/actions', [Admin_Content_Pillar::class, 'pillar_question_actions'])->name('admin.content.pillar.question.actions');
   Route::post('/admin/content/pillars/{id}/question/{questionId}/actions/reorder', [Admin_Content_Pillar::class, 'pillar_question_actions_reorder'])->name('admin.content.pillar.question.actions.reorder');

@@ -21,13 +21,12 @@ export default function AnswerInputField(props) {
   }
 
   function saveAnswersCallback() {
-    userAnswers.current["pillarId"] = props.pillar.id;
     userAnswers.current["questionId"] = props.question.index;
     userAnswers.current["inputId"] = props.field.index;
 
     let answers = [];
     answers[props.field.index] = userAnswers.current;
-    SaveAnswersWithId("admin.content.pillar.question.input.update", {id:props.pillar.id, questionId:props.question.index}, 
+    SaveAnswersWithId(props.saveRoute, props.saveRouteParameters, 
     setSaveOk, errorCallback, answers);
   }
 
@@ -100,6 +99,11 @@ export default function AnswerInputField(props) {
     "visibility" : inputTypeField.value == "date"    
   }
 
+  let configOutput = <></>;
+  if (inputTypeField.field?.inputType == "checkbox") {
+    
+  }
+
   return (
     <div>      
       <div id="question_input_field" className="w-full">
@@ -158,6 +162,9 @@ export default function AnswerInputField(props) {
                 handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} camalCase sideBySide/>
           </div>   
           {/* ----- */}                             
+        </div>
+        <div>
+          {configOutput}
         </div>
         <div id="bottom_menu" className="h-10 pt-2">
         <ThemedButton siteConfig={props.siteConfig} onClick={saveAnswersCallback} children="Save Changes"/>

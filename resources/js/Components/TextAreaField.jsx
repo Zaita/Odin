@@ -6,6 +6,7 @@ import dbFormat from '@/Utilities/dbFormat';
 
 export default function TextAreaField(props) {
   const [value, setValue] = useState(props.value);
+  const [isFocused, setIsFocused] = useState(false);
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
   fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;
@@ -39,8 +40,17 @@ export default function TextAreaField(props) {
       <div id="label"><label htmlFor={fieldId}>{label}</label></div>
       <textarea className="bg-white" id={fieldId} value={value} 
         placeholder={props.field.placeHolder} onChange={handleChange} 
-        style={{borderColor: props.siteConfig.theme_header_color, height: newHeight, width: "100%"}}/>   
-      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
+        style={{
+          backgroundColor: props.siteConfig.theme_input_bg_color,
+          color: props.siteConfig.theme_input_text_color,
+          borderColor: props.siteConfig.theme_input_border_color,
+          boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none",          
+          height: newHeight,
+          width: "100%"}}
+          onBlur={() => setIsFocused(false)}
+          onFocus={() => setIsFocused(true)}
+          />   
+      <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
     </div>
   )
 }

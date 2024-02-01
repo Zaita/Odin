@@ -23,15 +23,13 @@ class GroupController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
-
     $groups = Group::get();
     // Grab any errors from the a failed create/save/delete
     $errors = $request->session()->get('errors') ?? null;
     $request->session()->forget('errors');
     
     return Inertia::render('Admin/Security/Group', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'groups' => $groups,
       'errors' => $errors
     ]); 
@@ -61,9 +59,8 @@ class GroupController extends Controller
    * Show the add page
    */
   public function add(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Security/Group/Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 
@@ -90,7 +87,7 @@ class GroupController extends Controller
     } 
 
     return Inertia::render('Admin/Security/Group/Edit', [
-      'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+      'siteConfig' => Configuration::site_config(),
       'group' => $group
     ]); 
   }

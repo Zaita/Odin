@@ -6,10 +6,6 @@ body {
   background-color: rgb(229, 229, 229) !important;
 }
 
-body a {
-  color: blue;
-}
-
 [type="text"], input:where(:not([type])), [type="email"], [type="url"], [type="password"], 
 [type="number"], [type="date"], [type="datetime-local"], [type="month"], [type="search"], 
 [type="tel"], [type="time"], [type="week"], [multiple], textarea, select {
@@ -20,6 +16,11 @@ body a {
   height: 30px;
   padding: 5px;
 }
+
+[type="text"]:focus {
+  --tw-ring-color: unset;
+}
+
 
 #content_box, #latest_submissions, #submissions {
   width: 60%;
@@ -167,17 +168,6 @@ body a {
   font-weight: 500;
   line-height: 13px;
   margin-bottom: 5px;
-}
-
-#input_field input,
-#input_field textarea,
-#input_field date_picker_field,
-.react-datepicker__input-container input {
-  /* border-style: solid;
-  border-width: 1px;
-  border-radius: 5px !important;;
-  height: 30px;
-  padding: 5px; */
 }
 
 #input_field input,

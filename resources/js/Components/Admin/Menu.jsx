@@ -138,7 +138,7 @@ return (
         <SubMenu name="Security Controls" url="admin.content.securitycontrols"/>
         <ParentMenu name="Records" url="admin.records" icon={<GradingIcon/>}/>
         <SubMenu name="Submissions" url="admin.records.submissions"/>
-        <SubMenu name="Tasks" url="admin.submissions.tasks"/>
+        <SubMenu name="Tasks" url="admin.records.submissions"/>
         <ParentMenu name="Service Inventory" url="admin.services" icon={<DnsIcon/>}/>
         <SubMenu name="Accreditations" url="admin.services.accreditations"/>
         <ParentMenu name="Configuration" url="admin.configuration" icon={<EngineeringIcon/>}/>

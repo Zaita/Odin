@@ -15,8 +15,10 @@ use App\Models\AuditLog;
 use App\Models\ActionField;
 use App\Models\InputField;
 use App\Models\Pillar;
+use App\Models\Risk;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
+use App\Models\CheckboxOption;
 use App\Http\Requests\AdminContentPillarUpdateRequest;
 use App\Http\Requests\InputFieldRequest;
 use App\Http\Requests\ActionFieldRequest;
@@ -29,11 +31,10 @@ class PillarController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillars = Pillar::orderBy('created_at')->paginate(20);
     
     return Inertia::render('Admin/Content/Pillars', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillars' => $pillars
     ]); 
   }
@@ -43,9 +44,8 @@ class PillarController extends Controller
    * Load the add screen
    */
   public function add(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Content/Pillars/Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 
@@ -112,7 +112,7 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($id); 
         
     return Inertia::render('Admin/Content/Pillars/Edit', [
-      'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar
     ]); 
   }
@@ -136,12 +136,11 @@ class PillarController extends Controller
    * Load the list of questions for the pillar
    */
   public function pillar_questions_index(Request $request, $id) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::with(["questionnaire", 
       "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($id);
     
     return Inertia::render('Admin/Content/Pillars/Questions', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
     ]); 
   }
@@ -150,11 +149,10 @@ class PillarController extends Controller
    * Load the add screen for adding a new question to a pillar
    */
   public function pillar_questions_add(Request $request, $id) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($id);
     
     return Inertia::render('Admin/Content/Pillars/Questions/Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
     ]); 
   }
@@ -164,7 +162,6 @@ class PillarController extends Controller
    * input supplied in the request
    */
   public function pillar_questions_create(QuestionnaireQuestionRequest $request, $id) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::with(["questionnaire", "questionnaire.questions"])->findOrFail($id);
 
     $newQuestion = new QuestionnaireQuestion($request->validated());
@@ -178,7 +175,6 @@ class PillarController extends Controller
    * Update the order of our questions in the pillar
    */
   public function pillar_questions_reorder(Request $request, $id) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::with(["questionnaire", "questionnaire.questions"])->findOrFail($id);
     
     $questions = $pillar->questionnaire->questions;
@@ -217,12 +213,11 @@ class PillarController extends Controller
    * Load the edit screen for adding a new question to a pillar
    */
   public function pillar_question_edit(Request $request, $id, $questionId) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($id);
     $question = QuestionnaireQuestion::findorFail($questionId);
     
     return Inertia::render('Admin/Content/Pillars/Questions/Edit', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
     ]); 
@@ -243,13 +238,12 @@ class PillarController extends Controller
    * Load our "Inputs" screen for a question
    */
   public function pillar_question_inputs(Request $request, $id, $questionId) {
-    AuditLog::Log("Content.Pillar(${id}).Question(${questionId}).Inputs", $request);
-    $config = json_decode(Configuration::GetSiteConfig()->value);
+    AuditLog::Log("Content.Pillar($id).Question($questionId).Inputs", $request);
     $pillar = Pillar::findOrFail($id);
     $question = QuestionnaireQuestion::with(['inputFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
     
     return Inertia::render('Admin/Content/Pillars/Questions/Inputs/View', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
     ]); 
@@ -259,7 +253,6 @@ class PillarController extends Controller
    * Update the order of the input fields for our question
    */
   public function pillar_question_inputs_reorder(Request $request, $pillarId, $questionId) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
 
     $inputFields = $question->inputFields;
@@ -281,12 +274,11 @@ class PillarController extends Controller
    * Load the Pillar->Questionnaire->Question->Inputs->Add Screen
    */
   public function pillar_question_input_add(Request $request, $pillarId, $questionId) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::findOrFail($questionId);
 
     return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
     ]); 
@@ -297,7 +289,6 @@ class PillarController extends Controller
    */
   public function pillar_question_input_create(InputFieldRequest $request, $pillarId, $questionId) {
     AuditLog::Log("Content.Pillar.Question.Input.Create", $request);    
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($pillarId);
 
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
@@ -316,17 +307,19 @@ class PillarController extends Controller
    * Load the Pillar->Questionnaire->Question->Inputs->Edit Screen
    */
   public function pillar_question_input_edit(Request $request, $pillarId, $questionId, $inputId) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($pillarId);
 
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
-    $inputField = InputField::findOrFail($inputId);
+    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);
+
+    $risks = Risk::all();
 
     return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Edit', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
-      'field' => $inputField
+      'field' => $inputField,
+      'risks' => $risks,
     ]); 
   }
 
@@ -335,8 +328,6 @@ class PillarController extends Controller
    */
   public function pillar_question_input_save(InputFieldRequest $request, $pillarId, $questionId, $inputId) {
     AuditLog::Log("Content.Pillar.Question.Input.Save", $request);    
-    $config = json_decode(Configuration::GetSiteConfig()->value);
-
     $inputField = InputField::findOrFail($inputId);
     $inputField->update($request->validated());
     $inputField->save();
@@ -348,12 +339,68 @@ class PillarController extends Controller
    * Handle the POST back to delete an input field on our question
    */
   public function pillar_question_input_delete(Request $request, $pillarId, $questionId, $inputId) {
-    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Input(${inputId}).Delete", $request);    
-    $config = json_decode(Configuration::GetSiteConfig()->value);
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Input(${inputId}).Delete", $request);    
     $inputField = InputField::findOrFail($inputId);
     $inputField->delete();   
     
     return Redirect::route('admin.content.pillar.question.inputs', ["id" => $pillarId, "questionId" => $questionId]);
+  }
+
+  /**
+   * GET /admin/content/pillars/{pillarId}/question/{questionId}/inputs/{inputId}/checkbox/add
+   * Return the page for adding a new checkbox option
+   */
+  public function pillar_question_input_checkbox_add(Request $request, $pillarId, $questionId, $inputId) { 
+    $pillar = Pillar::findOrFail($pillarId);
+
+    $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
+    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);
+
+    $risks = Risk::all();
+
+    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox/AddEdit', [
+      'siteConfig' => Configuration::site_config(),
+      'pillar' => $pillar,
+      'question' => $question,
+      'field' => $inputField,
+      'risks' => $risks,
+    ]);
+  }
+
+  /**
+   * GET /admin/content/pillars/{pillarId}/question/{questionId}/inputs/{inputId}/checkbox/{optionId}/edit
+   */
+  public function pillar_question_input_checkbox_edit(Request $request, $pillarId, $questionId, $inputId) {     
+    $pillar = Pillar::findOrFail($pillarId);
+    $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
+    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);    
+    $risks = Risk::all();
+    $optionId = $request->input('optionId', null);
+    $option = CheckBoxOption::findOrFail($optionId);
+
+    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox/AddEdit', [
+      'siteConfig' => Configuration::site_config(),
+      'pillar' => $pillar,
+      'question' => $question,
+      'input' => $inputField,
+      'option' => $option,
+      'risks' => $risks,
+    ]);
+  }
+
+  /**
+   * POST /admin/content/pillars/{pillarId}/question/{questionId}/inputs/{inputId}/checkbox/delete
+   * The request parameter is the Id of the checkbox option
+   */
+  public function pillar_question_input_checkbox_delete(Request $request, $pillarId, $questionId, $inputId) { 
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Input($inputId).CheckBoxOption.Delete", $request);    
+    $optionId = $request->input('checkbox_option_id', null);
+    if (!is_null($optionId)) {
+      $option = CheckBoxOption::findOrFail($optionId);
+      $option->delete();
+    }
+
+    return Redirect::route('admin.content.pillar.question.input.edit', ["id" => $pillarId, "questionId" => $questionId, "inputId" => $inputId]);
   }
 
   /**
@@ -362,13 +409,12 @@ class PillarController extends Controller
    * **************************************************************************
    */
   public function pillar_question_actions(Request $request, $pillarId, $questionId) {
-    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Actions", $request);
-    $config = json_decode(Configuration::GetSiteConfig()->value);
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Actions", $request);
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::with(['actionFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
     
     return Inertia::render('Admin/Content/Pillars/Questions/Actions/View', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
     ]); 
@@ -378,8 +424,7 @@ class PillarController extends Controller
    * Update the order of the action fields for our question
    */
   public function pillar_question_actions_reorder(Request $request, $pillarId, $questionId) {
-    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Actions.Reorder", $request);
-    $config = json_decode(Configuration::GetSiteConfig()->value);
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Actions.Reorder", $request);
     $question = QuestionnaireQuestion::with('actionFields')->findOrFail($questionId);
 
     $fields = $question->actionFields;
@@ -401,7 +446,6 @@ class PillarController extends Controller
    * Load the Pillar->Questionnaire->Question->Action->Add Screen
    */
   public function pillar_question_action_add(Request $request, $pillarId, $questionId) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::with(["questionnaire",  "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($pillarId);
     $question = QuestionnaireQuestion::findOrFail($questionId);
 
@@ -411,7 +455,7 @@ class PillarController extends Controller
     }
 
     return Inertia::render('Admin/Content/Pillars/Questions/Actions/Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
       'questionTitles' => $questionTitles,
@@ -423,7 +467,6 @@ class PillarController extends Controller
    */
   public function pillar_question_action_create(ActionFieldRequest $request, $pillarId, $questionId) {
     AuditLog::Log("Content.Pillar.Question.Action.Create", $request);    
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($pillarId);
 
     $question = QuestionnaireQuestion::with('actionFields')->findOrFail($questionId);
@@ -449,14 +492,13 @@ class PillarController extends Controller
    * Load the Pillar->Questionnaire->Question->Actions->Edit Screen
    */
   public function pillar_question_action_edit(Request $request, $pillarId, $questionId, $actionId) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $pillar = Pillar::findOrFail($pillarId);
 
     $questions = json_decode($pillar->questions, true);
     $question = $questions[$questionId];
     
     return Inertia::render('Admin/Content/Pillars/Questions/Actions/Edit', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
       'field' => $question["answerInputFields"][$actionId]

@@ -11,7 +11,7 @@ export default function Reports(props) {
       <div>
       <div className="pb-2 border-b-2"
           style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
-            <div className="w-11/12 float-left font-bold">Report:</div>
+            <div className="w-11/12 float-left font-bold">Available Reports:</div>
             <div className="font-bold">Actions:</div> 
         </div>
         {props.reports.map((report, index) => {

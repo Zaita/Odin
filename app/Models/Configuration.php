@@ -31,6 +31,15 @@ class Configuration extends Model
       "theme_subheader_text_color" => "#FFFFFF",
       "theme_breadcrumb_color" => "#ADADAD",
       "theme_hyperlink_color" => "#FF9933",
+      "theme_btn_bg_color" => "#FFFFFF",
+      "theme_btn_text_color" => "#800000",
+      "theme_btn_hover_bg_color" => "#800000",
+      "theme_btn_hover_text_color" => "#FFFFFF",
+      "theme_input_bg_color" => "#FFFFFF",
+      "theme_input_text_color" => "#000000",
+      "theme_input_border_color" => "#800000",
+      "theme_input_focus_border_color" => "#FF9933",
+      "theme_error_text_color" => "#FF0000",    
       "logo_path" => "/images/odin_base_logo.png",
       "subheader_image_path" => "/images/subheader.jpg"      
     );
@@ -77,8 +86,65 @@ class Configuration extends Model
       "theme_admin_content_spacer" => "#1B4242",
     );
 
+    public static function site_config() {
+      $base = Configuration::$defaultSiteConfigValues;
+      $admin = Configuration::$defaultAdminSiteConfigValues;
+
+      $result = array_merge($base, $admin);
+      $result = json_decode(json_encode($result));
+    
+      // Light Mode
+      $color1 = "#FFFFFF";
+      $color2 = "#777777";
+      $color3 = "#555555";
+      $color4 = "#FFFFFF";
+
+      // Dark Mode
+      $color1 = "#000000";
+      $color2 = "#999999";
+      $color3 = "#333333";
+      $color4 = "#FFFFFF";
+
+      // Colour Mode
+      // $color1 = "#12372A";
+      // $color2 = "#ADBC9F";
+      // $color3 = "#436850";
+      // $color4 = "#FBFADA";
+
+      $result->theme_admin_bg_color = $color2;
+      $result->theme_admin_help_bg_color = $color1;
+      $result->theme_admin_help_text_color = $color2;
+      $result->theme_admin_menu_bg_color = $color1;
+      $result->theme_admin_menu_logout_border_color = $color2;
+      $result->theme_admin_menu_parent_text_color = $color2;
+      $result->theme_admin_menu_text_color = $color2;
+      $result->theme_admin_menu_selected_bg_color = $color2;
+      $result->theme_admin_menu_selected_text_color = $color1;
+      $result->theme_admin_topmenu_bg_color = $color1;
+      $result->theme_admin_topmenu_breadcrumb_color = $color2;
+      $result->theme_admin_topmenu_border_color = $color2;
+      $result->theme_admin_topmenu_item_border_color = $color2;
+      $result->theme_admin_topmenu_item_text_color = $color2;
+      $result->theme_admin_content_bg_color = $color3;
+      $result->theme_admin_content_text_color = $color4;
+      $result->theme_admin_content_spacer = $color4;
+
+      $result->theme_btn_bg_color = $color3;
+      $result->theme_btn_text_color = $color4;
+      $result->theme_btn_hover_bg_color = $color4;
+      $result->theme_btn_hover_text_color = $color3;
+      $result->theme_input_bg_color = $color3;
+      $result->theme_input_text_color = $color4;
+      $result->theme_input_border_color = $color4;
+      // $result->theme_input_focus_border_color = "#00FFFF";
+      $result->theme_error_text_color = "#FF8888";
+
+
+      return $result;
+    }
+
     public static function GetSiteConfig() {
-      $config = Configuration::where('label', 'site_configuration')->first();
+      $config = null; //Configuration::where('label', 'site_configuration')->first();
       if (is_null($config)) {
         $config = new Configuration();
         $config->label = "site_configuration";
