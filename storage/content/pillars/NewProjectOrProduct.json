@@ -4,7 +4,7 @@
   "caption": "I want to get my product\/feature approved for release",
   "icon": "shield",
   "key_information": "<p>This questionnaire will ask you contextual questions about the feature or product you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p><p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p><p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
-  "risk_calculation": "none",
+  "approval_flow" : "Security only",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,

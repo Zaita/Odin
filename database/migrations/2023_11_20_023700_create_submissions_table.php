@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('submitter_name');
             $table->string('submitter_email');
             $table->string('pillar_name');
+            $table->enum('type', ['questionnaire', 'risk_questionnaire'])->default('questionnaire');            
+            $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
             $table->json('pillar_data');
             $table->json('questionnaire_data');
             $table->json('answer_data');

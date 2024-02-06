@@ -146,8 +146,7 @@ export default function EditInputField(props) {
   let checkboxOptionsList = [];
   if (inputTypeField.value == "checkbox") {    
     props.field.checkbox_options.map((option, key) => {
-    let editParameters = props.routeParameters;
-    editParameters.optionId = option.id;
+    let editParameters = {id:props.pillar.id, questionId:props.question.id, inputId:props.field.id, optionId:option.id};
     checkboxOptionsList.push(
       <div className="pt-1 h-fit overflow-y-hidden"
         style={{

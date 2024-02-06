@@ -16,11 +16,11 @@ export default function PillarQuestionsInputsCheckboxAddEdit(props) {
   ] 
 
   let EditScreen = <InputCheckBoxAddEdit 
-      saveRoute="admin.content.pillar.question.input.save"      
+      saveRoute="admin.content.pillar.question.input.checkbox.save"      
       addCheckboxRoute="admin.content.pillar.question.input.checkbox.add"
       editCheckboxRoute="admin.content.pillar.question.input.checkbox.edit"
       deleteCheckboxRoute="admin.content.pillar.question.input.checkbox.delete"
-      routeParameters={{id:props.pillar.id, questionId:props.question.id, inputId:props.input.id}}
+      routeParameters={{id:props.pillar.id, questionId:props.question.id, inputId:props.field.id, optionId:props.option.id}}
       {...props}/>; 
 
   return (

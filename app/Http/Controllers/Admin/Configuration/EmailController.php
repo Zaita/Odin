@@ -44,7 +44,7 @@ class EmailController extends Controller
    */
   public function start(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    return Inertia::render('Admin/Configuration/Email/Start', [
+    return Inertia::render('Admin/Configuration/Email.Start', [
       'siteConfig' => $config,
     ]); 
   }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
-            $table->boolean('sso')->default(true);
+            $table->string('authentication_method')->default('username/password');
             $table->text('token')->nullable();
             $table->timestamps();
         });

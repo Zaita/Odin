@@ -13,6 +13,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Models\Configuration;
 use App\Models\AuditLog;
 use App\Models\ActionField;
+use App\Models\ApprovalFlow;
 use App\Models\InputField;
 use App\Models\Pillar;
 use App\Models\Risk;
@@ -109,11 +110,18 @@ class PillarController extends Controller
    */
   public function edit(Request $request, $id) {
     AuditLog::Log("Content.Pillar.Edit", $request);
-    $pillar = Pillar::findOrFail($id); 
-        
+    $pillar = Pillar::with(["questionnaire", "approval_flow"])->findOrFail($id); 
+
+    $approvalFlows = ApprovalFlow::select("name")->get();
+    $approvalFlowOptions = array();
+    foreach( $approvalFlows as $approvalFlow ) {
+      array_push($approvalFlowOptions, $approvalFlow->name);
+    }
+
     return Inertia::render('Admin/Content/Pillars/Edit', [
       'siteConfig' => Configuration::site_config(),
-      'pillar' => $pillar
+      'pillar' => $pillar,
+      'approvalFlowOptions' => $approvalFlowOptions,
     ]); 
   }
 
@@ -124,11 +132,19 @@ class PillarController extends Controller
     AuditLog::Log("Content.Pillar.Save", $request);
     $id = $request->input('id', -1);
     $pillar = Pillar::findOrFail($id); 
-    $pillar->update($request->safe()->except("type"));
+    $pillar->update($request->safe()->except(["type", "risk_calculation"]));
+    
+    $questionnaire = Questionnaire::findOrFail($pillar->questionnaire_id);
+    $questionnaire->update($request->safe()->only(["type","risk_calculation"]));
+    $questionnaire->save();
+
+    $approvalFlowId = ApprovalFlow::where(["name" => $request->input('approval_flow')])->first()->id;
+    $pillar->approval_flow_id = $approvalFlowId;
     
     if (!$pillar->save()) {
       return back()->withInput()->withErrors($pillar->errors);
     }
+
     return Redirect::route('admin.content.pillar.edit', $id);
   }
 
@@ -348,44 +364,51 @@ class PillarController extends Controller
 
   /**
    * GET /admin/content/pillars/{pillarId}/question/{questionId}/inputs/{inputId}/checkbox/add
-   * Return the page for adding a new checkbox option
+   * Add a new option to our checkbox. Don't bother loading an Add page, they can edit it
+   * afterwards.
    */
   public function pillar_question_input_checkbox_add(Request $request, $pillarId, $questionId, $inputId) { 
-    $pillar = Pillar::findOrFail($pillarId);
+    $option = new CheckBoxOption();
+    $option->input_field_id = $inputId;
+    $option->label = "New Option";
+    $option->value = "New Option";
+    $option->risks = "{}";
+    $option->sort_order = 999;
+    $option->save();
 
-    $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
-    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);
-
-    $risks = Risk::all();
-
-    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox/AddEdit', [
-      'siteConfig' => Configuration::site_config(),
-      'pillar' => $pillar,
-      'question' => $question,
-      'field' => $inputField,
-      'risks' => $risks,
-    ]);
+    return Redirect::route('admin.content.pillar.question.input.edit', 
+      ["id" => $pillarId, "questionId" => $questionId, "inputId" => $inputId]);
   }
 
   /**
    * GET /admin/content/pillars/{pillarId}/question/{questionId}/inputs/{inputId}/checkbox/{optionId}/edit
    */
-  public function pillar_question_input_checkbox_edit(Request $request, $pillarId, $questionId, $inputId) {     
+  public function pillar_question_input_checkbox_edit(Request $request, $pillarId, $questionId, $inputId, $optionId) {     
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
     $inputField = InputField::with("checkbox_options")->findOrFail($inputId);    
-    $risks = Risk::all();
-    $optionId = $request->input('optionId', null);
+    $risks = Risk::all();    
     $option = CheckBoxOption::findOrFail($optionId);
 
     return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox/AddEdit', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
-      'input' => $inputField,
+      'field' => $inputField,
       'option' => $option,
       'risks' => $risks,
     ]);
+  }
+
+  /**
+   * POST /admin/content/pillars/{pillarId}/question/{questionId}/inputs/{inputId}/checkbox/{optionId}/save
+   */
+  public function pillar_question_input_checkbox_save(Request $request, $pillarId, $questionId, $inputId, $optionId) {     
+    Log::Info("pillar_question_input_checkbox_save");
+    $option = CheckBoxOption::findOrFail($optionId);
+    $option->validateAnswers($request->all());
+
+    return back()->withInput()->withErrors($option->errors);
   }
 
   /**

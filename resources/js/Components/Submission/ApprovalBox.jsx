@@ -12,9 +12,8 @@ export default function ApprovalBox(props) {
       <div id="approvals_list" className="mb-2 mt-2 pt-2" style={{borderTop: "2px solid #d9d9d9"}}>
         <div className="text-base font-bold mb-3">Approvals</div>
         <div className="w-3/5 flex bg-white mb-1 p-2">
-          <i>Note: Required endorsements and approvals will be shown once all tasks have been complete and submission 
-            has been sent for approval.
-          </i>
+          Note: Required endorsements and approvals will be shown once all tasks have been complete and submission 
+          has been sent for approval.          
         </div>
       </div>
     );

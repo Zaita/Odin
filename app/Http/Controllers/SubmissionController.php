@@ -55,8 +55,11 @@ class SubmissionController extends Controller
     $questionnaire = Questionnaire::with([
       "questions" => function(Builder $q) {$q->orderBy('sort_order');},
       "questions.inputFields",
-      "questions.actionFields",
+      "questions.inputFields.checkbox_options",
+      "questions.actionFields"      
       ])->findOrFail($pillar->questionnaire_id);
+
+    Log::Info($questionnaire);
     
     $approvalFlow = ApprovalFlow::findOrFail($pillar->approval_flow_id);
 
@@ -202,6 +205,7 @@ class SubmissionController extends Controller
     }
 
     if (!$submission->submit()) {
+      Log::Info("Error when submitting");
       return back()->withInput()->withErrors($submission->errors); 
     }
 
@@ -247,7 +251,6 @@ class SubmissionController extends Controller
    * This method will load the questionnaire submission for the current uuid.
    */
   public function edit(Request $request, $uuid) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
     if ($submission == null) {
       return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
@@ -266,7 +269,6 @@ class SubmissionController extends Controller
    * POST /submitforapproval/{uuid}
    */
   public function submitForApproval(Request $request, $uuid) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
     if ($submission == null) {
       return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
@@ -286,7 +288,6 @@ class SubmissionController extends Controller
    * Assign the submission to the current user
    */
   public function assignToMe(Request $request, $uuid) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where('uuid', $uuid)->first();
     $user = $request->user();
     $secureToken = $request->input('secure_token', '');
@@ -302,7 +303,6 @@ class SubmissionController extends Controller
    * 
    */
   public function sendBackForChanges(Request $request, $uuid) { 
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where('uuid', $uuid)->first();
     $user = $request->user();
 
@@ -316,7 +316,6 @@ class SubmissionController extends Controller
    * where the current user is attempting to approve part of the submission
    */
   public function approve(Request $request, $uuid) { 
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where('uuid', $uuid)->first();
     $user = $request->user();
 

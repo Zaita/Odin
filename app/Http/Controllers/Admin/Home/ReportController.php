@@ -30,7 +30,7 @@ class ReportController extends Controller
     $report = Report::findOrFail($id);
     $report->execute();
 
-    return Inertia::render('Admin/Home/Reports/View', [
+    return Inertia::render('Admin/Home/Reports.View', [
       'siteConfig' => Configuration::site_config(),
       'title' => $report->name,
       'header' => $report->header,

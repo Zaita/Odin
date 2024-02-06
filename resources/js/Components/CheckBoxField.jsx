@@ -43,7 +43,7 @@ export default function CheckBoxField(props) {
     }
   })
 
-  if (props.field.visibility) {
+  if (true || props.field.visibility) {
     return (
       <div id="input_field">
         <div id="label" 

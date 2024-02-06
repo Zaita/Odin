@@ -14,6 +14,7 @@ use Database\Seeders\TaskSeeder;
 use Database\Seeders\SubmissionSeeder;
 use Database\Seeders\RiskSeeder;
 use Database\Seeders\ReportSeeder;
+use Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,46 +23,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-      \App\Models\User::factory()->create([
-        'name' => 'admin',
-        'email' => 'admin@zaita.com',
-        'password' => bcrypt('admin'),
-      ]);
-
-      \App\Models\User::factory()->create([
-        'name' => 'Scott User',
-        'email' => 'user@zaita.com',
-        'password' => bcrypt('user'),
-      ]);
-
-      \App\Models\User::factory()->create([
-        'name' => 'Scott Collab',
-        'email' => 'collab@zaita.com',
-        'password' => bcrypt('collab'),
-      ]);
-
-      \App\Models\User::factory()->create([
-        'name' => 'Scott SecArch',
-        'email' => 'sec@zaita.com',
-        'password' => bcrypt('sec'),
-      ]);
-
-      \App\Models\User::factory()->create([
-        'name' => 'Scott CISO',
-        'email' => 'ciso@zaita.com',
-        'password' => bcrypt('ciso'),
-      ]);
-
-      \App\Models\User::factory()->create([
-        'name' => 'Scott BO',
-        'email' => 'bo@zaita.com',
-        'password' => bcrypt('bo'),
-      ]);
-
-
-      \App\Models\User::factory(50)->create();
-
       $this->call([
+        UserSeeder::class,
         GroupSeeder::class,
         GroupUserSeeder::class,
         ApprovalFlowSeeder::class,
@@ -70,7 +33,6 @@ class DatabaseSeeder extends Seeder
         TaskSeeder::class,
         SubmissionSeeder::class,
         ReportSeeder::class,
-
       ]);
     }
 }

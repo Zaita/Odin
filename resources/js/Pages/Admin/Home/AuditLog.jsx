@@ -1,4 +1,5 @@
 import React from 'react';
+import { router } from '@inertiajs/react'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import AdminPanel from '@/Layouts/AdminPanel';
@@ -23,7 +24,7 @@ export default function AuditLog(props) {
             <div className="w-6/12 float-left">{audit.action}</div>
             <div className="w-2/12 float-left">{audit.user_name} ({audit.user_email})</div>
             <div className="w-2/12 float-left">{audit.created_at}</div>
-            <div><VisibilityIcon/></div>
+            <div> <VisibilityIcon className="cursor-pointer" onClick={() => router.get(route('admin.home.auditlog.view', [audit.id]))}/></div>
           </div>)
         })} 
         <div id="pagination_navbar" className="text-center pt-2" >
@@ -35,7 +36,11 @@ export default function AuditLog(props) {
     );
   }
 
+  let breadcrumb = [
+    ["Audit Log", "admin.home.auditlog"],
+  ];
+
   return (
-    <AdminPanel {...props} content={<MyContent props/>}/>
+    <AdminPanel {...props} breadcrumb={breadcrumb} content={<MyContent props/>}/>
   );
 }

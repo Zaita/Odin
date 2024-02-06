@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\Admin\Home\AuditLogController as Admin_Home_AuditLog;
 use App\Http\Controllers\Admin\Home\ReportController as Admin_Home_Report;
-use App\Http\Controllers\Admin\ContentDashboardController;
 use App\Http\Controllers\Admin\Content\DashboardController as Admin_Content_Dashboard;
 use App\Http\Controllers\Admin\Content\PillarController as Admin_Content_Pillar;
 use App\Http\Controllers\Admin\Content\TaskController as Admin_Content_Task;
 use App\Http\Controllers\Admin\Security\GroupController as Admin_Security_Group;
 use App\Http\Controllers\Admin\Security\UserController as Admin_Security_User;
 use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Submissions;
-use App\Http\Controllers\Admin\Configuration\SiteSettingsController as Admin_Configuration_SiteSettings;
+use App\Http\Controllers\Admin\Configuration\SettingsController as Admin_Configuration_Settings;
 use App\Http\Controllers\Admin\Configuration\EmailController as Admin_Configuration_Email;
 use App\Http\Controllers\Admin\Configuration\RiskController as Admin_Configuration_Risks;
 use App\Http\Controllers\Admin\AdminController;
@@ -127,6 +126,7 @@ Route::middleware(['auth', 'can:isReportViewer'])->group(function() {
 Route::middleware(['auth', 'can:isAuditLogViewer'])->group(function() {
   // Home -> Audit Log
   Route::get('/admin/home/auditlog', [Admin_Home_AuditLog::class, 'index'])->name('admin.home.auditlog');
+  Route::get('/admin/home/auditlog/{auditId}', [Admin_Home_AuditLog::class, 'view'])->name('admin.home.auditlog.view');
 });
 
 /**
@@ -134,14 +134,14 @@ Route::middleware(['auth', 'can:isAuditLogViewer'])->group(function() {
  */
 Route::middleware(['auth', 'can:isReadOnlyAdministrator'])->group(function() {
   // Security -> Users
-  Route::get('/admin/security', [AdminController::class, 'security'])->name('admin.security');
+  Route::get('/admin/security', [AdminController::class, 'index'])->name('admin.security');
   Route::get('/admin/security/users', [Admin_Security_User::class, 'index'])->name('admin.security.users');
   // Security -> Groups
   Route::get('/admin/security/groups', [Admin_Security_Group::class, 'index'])->name('admin.security.groups');
   // Content -> Dashboard
   Route::get('/admin/content/dashboard', [Admin_Content_Dashboard::class, 'index'])->name('admin.content.dashboard');
   Route::get('/admin/content/dashboard/pillars', [Admin_Content_Dashboard::class, 'pillars'])->name('admin.content.dashboard.pillars');
-  Route::get('/admin/content/dashboard/tasks', [ContentDashboardController::class, 'tasks'])->name('admin.content.dashboard.tasks');
+  Route::get('/admin/content/dashboard/tasks', [Admin_Content_Dashboard::class, 'tasks'])->name('admin.content.dashboard.tasks');
   // Content -> Pillars
   Route::get('/admin/content/pillars', [Admin_Content_Pillar::class, 'index'])->name('admin.content.pillars');
   Route::get('/admin/content/pillars/edit/{id}', [Admin_Content_Pillar::class, 'edit'])->name('admin.content.pillar.edit');
@@ -184,8 +184,9 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   Route::post('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/delete', [Admin_Content_Pillar::class, 'pillar_question_input_delete'])->name('admin.content.pillar.question.input.delete');
   // Content -> Pillars -> Pillar -> Questions -> Question -> Inputs -> Checkbox(type)
   Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/add', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_add'])->name('admin.content.pillar.question.input.checkbox.add');
-  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/edit', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_edit'])->name('admin.content.pillar.question.input.checkbox.edit');
-  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/delete', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_delete'])->name('admin.content.pillar.question.input.checkbox.delete');
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/{optionId}/edit', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_edit'])->name('admin.content.pillar.question.input.checkbox.edit');
+  Route::post('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/{optionId}/save', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_save'])->name('admin.content.pillar.question.input.checkbox.save');
+  Route::get('/admin/content/pillars/{id}/question/{questionId}/input/{inputId}/checkbox/{optionId}/delete', [Admin_Content_Pillar::class, 'pillar_question_input_checkbox_delete'])->name('admin.content.pillar.question.input.checkbox.delete');
 
   // Content -> Pillars -> Pillar -> Questions -> Question -> Actions
   Route::get('/admin/content/pillars/{id}/question/{questionId}/actions', [Admin_Content_Pillar::class, 'pillar_question_actions'])->name('admin.content.pillar.question.actions');
@@ -248,12 +249,12 @@ Route::middleware(['auth', 'can:isAdministrator'])->group(function() {
   Route::get('/admin/security/groups/edit/{id}', [Admin_Security_Group::class, 'edit'])->name('admin.security.groups.edit');  
   Route::post('/admin/security/groups/save', [Admin_Security_Group::class, 'save'])->name('admin.security.groups.save');  
   // Configuration -> Settings
-  Route::get('/admin/configuration/settings', [Admin_Configuration_SiteSettings::class, 'index'])->name('admin.configuration.settings');
-  Route::post('/admin/configuration/settings', [Admin_Configuration_SiteSettings::class, 'save'])->name('admin.configuration.settings.save');
-  Route::get('/admin/configuration/settings/theme', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.theme');
-  Route::post('/admin/configuration/settings/theme', [Admin_Configuration_SiteSettings::class, 'theme_save'])->name('admin.configuration.settings.theme.save');
-  Route::get('/admin/configuration/settings/images', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.images');
-  Route::get('/admin/configuration/settings/alert', [Admin_Configuration_SiteSettings::class, 'theme'])->name('admin.configuration.settings.alert');
+  Route::get('/admin/configuration/settings', [Admin_Configuration_Settings::class, 'index'])->name('admin.configuration.settings');
+  Route::post('/admin/configuration/settings', [Admin_Configuration_Settings::class, 'save'])->name('admin.configuration.settings.save');
+  Route::get('/admin/configuration/settings/theme', [Admin_Configuration_Settings::class, 'theme'])->name('admin.configuration.settings.theme');
+  Route::post('/admin/configuration/settings/theme', [Admin_Configuration_Settings::class, 'theme_save'])->name('admin.configuration.settings.theme.save');
+  Route::get('/admin/configuration/settings/images', [Admin_Configuration_Settings::class, 'theme'])->name('admin.configuration.settings.images');
+  Route::get('/admin/configuration/settings/alert', [Admin_Configuration_Settings::class, 'theme'])->name('admin.configuration.settings.alert');
   // Configuration -> Email
   Route::get('/admin/configuration/email', [Admin_Configuration_Email::class, 'index'])->name('admin.configuration.email');
   Route::get('/admin/configuration/email/start', [Admin_Configuration_Email::class, 'start'])->name('admin.configuration.email.start');

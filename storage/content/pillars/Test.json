@@ -2,8 +2,8 @@
   "name": "Test",
   "caption": "Testing Basic Functionality",
   "icon": "lightbulb",
-  "key_information": "No key information",
-  "risk_calculation": "none",
+  "key_information": "No key information",  
+  "approval_flow" : "Security only",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
@@ -11,7 +11,8 @@
   "enabled": true,
   "questionnaire": {
       "name": "Test",
-      "type": "questionnaire",
+      "type": "risk_questionnaire",
+      "risk_calculation": "zaita_approx",
       "questions": [
           {
               "title": "Q1",
@@ -43,40 +44,51 @@
                     { 
                       "label": "Option 1",
                       "value": "Option 1",
-                      "risks" : [
-                        {
-                          "name" : "Information Disclosure",
-                          "likelihood" : "2",
-                          "likelihood_penalty" : "10",
-                          "impact" : "2",
-                          "impact_penalty" : "10"
+                      "risks" : {
+                        "Information loss": {
+                          "likelihood": "0",
+                          "likelihood_penalty": "0"
                         },
-                        {
-                          "name" : "Information Modification",
-                          "likelihood" : "3",
-                          "likelihood_penalty" : "30"
-                        },  
-                        {
-                          "name" : "Information Loss",
-                          "impact" : "4",
-                          "impact_penalty" : "40"
-                        }                                                
-                      ]
+                        "Information disclosure": {
+                          "likelihood": "2",
+                          "likelihood_penalty": "10"
+                        },
+                        "Information modification": {
+                          "likelihood": "3",
+                          "likelihood_penalty": "30"
+                        },
+                        "Degraded service performance": {
+                          "likelihood": "0",
+                          "likelihood_penalty": "0"
+                        },
+                        "Harm to, or loss of human life": {
+                          "likelihood": "0",
+                          "likelihood_penalty": "0"
+                        },
+                        "Sustained service unavailability": {
+                          "likelihood": "0",
+                          "likelihood_penalty": "0"
+                        }
+                      }                      
                     },
                     { 
                       "label": "Option 2",
                       "value": "Option 2",
                       "risks" : [
                         {
-                          "name" : "Information Modification",
-                          "likelihood" : "3",
-                          "likelihood_penalty" : "30"
-                        },  
-                        {
-                          "name" : "Information Loss",
-                          "impact" : "4",
-                          "impact_penalty" : "40"
-                        }                                                
+                          "Information loss": {
+                            "likelihood": "0",
+                            "likelihood_penalty": "0"
+                          },
+                          "Information disclosure": {
+                            "likelihood": "2",
+                            "likelihood_penalty": "10"
+                          },
+                          "Information modification": {
+                            "likelihood": "3",
+                            "likelihood_penalty": "30"
+                          }
+                        }                                           
                       ]
                     },
                     { 

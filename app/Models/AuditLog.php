@@ -27,7 +27,7 @@ class AuditLog extends Model
         'action' => $action,
         'user_name' => $user->name,
         'user_email' => $user->email,
-        'request' => json_encode($request->all())
+        'request' => json_encode($request->except(["password"]))
         ]
       );
     }

@@ -1,27 +1,58 @@
 import React, { useRef, useState } from 'react';
+import ReportIcon from '@mui/icons-material/Report';
+
 import SimpleTextField from '@/Components/SimpleTextField';
 import TextField from "@/Components/TextField";
 import ThemedButton from "@/Components/ThemedButton";
+import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 
 export default function InputCheckBoxAddEdit(props) {
   let [renderFlag, setRenderFlag] = useState(false);
-  let [errors, saveErrors] = useState(false);
-  let options = useRef([]);
+  let [saveOk, setSaveOk] = useState([]);
+  let [errors, setErrors] = useState([]);
+  let userAnswers = useRef([]);
+
+  function getValue(targetProp, label) {
+    if (userAnswers.current[label] == null) 
+      userAnswers.current[label] = targetProp;
+    return userAnswers.current[label] ? userAnswers.current[label] : (targetProp ?  targetProp : "");
+  }
+
+  function checkError(risk, field) {
+    if (risk + "||" + field in props.errors) {
+      return (<p id="error" style={{color: props.siteConfig.theme_error_text_color}}>
+          <ReportIcon/> {props.errors[risk + "||" + field]}
+        </p>)
+    }
+
+    return <></>;
+  }
+
+  let risks = JSON.parse(props.option.risks);  
+  function getRiskValue(riskName, field) {
+
+    if (risks && risks[riskName] && risks[riskName][field]) {
+      return risks[riskName][field];
+    }
+
+    return "0";
+  }
 
   function handleChange(id, value) {
-  
+    userAnswers.current[id] = value;
   }
   
   function saveCallback() {
+    SaveAnswersWithId(props.saveRoute, props.routeParameters, setSaveOk, setErrors, userAnswers.current);
+  }
 
-  }
-  let field = {
+  let labelField = {
     "label" : "Label",
-    "value" : ""
+    "value" : getValue(props.option.label, "label")
   }
-  let field2 = {
+  let valueField = {
     "label" : "Value",
-    "value" : ""
+    "value" : getValue(props.option.value, "value")
   }
 
   return (
@@ -29,12 +60,12 @@ export default function InputCheckBoxAddEdit(props) {
       <div>
         <div className="inline-block w-3/5">
           <div className="inline-block w-10/12">
-          <TextField field={field} value={field.value} submitCallback={saveCallback}
-                    handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} dbFormat sideBySide/>
+            <TextField field={labelField} value={labelField.value} submitCallback={saveCallback}
+                      handleChange={handleChange} errors={errors} siteConfig={props.siteConfig} camalCase sideBySide/>
           </div>
           <div className="inline-block w-10/12">
-          <TextField field={field2} value={field2.value} submitCallback={saveCallback}
-                    handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} dbFormat sideBySide/>
+            <TextField field={valueField} value={valueField.value} submitCallback={saveCallback}
+                      handleChange={handleChange} errors={errors} siteConfig={props.siteConfig} camalCase sideBySide/>
           </div>          
           <div>
             <div className="inline-block w-4/12 font-bold">Risk name</div>
@@ -46,24 +77,33 @@ export default function InputCheckBoxAddEdit(props) {
           <div>
             {props.risks.map((risk, rIndex) => <div key={"risk" + rIndex} className="mb-1 mt-1">
               <div className="inline-block w-4/12">{risk.name}</div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "_likelihood"} value={risk.likelihood} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} dbFormat sideBySide/>
+              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||likelihood"} value={getRiskValue(risk.name, "likelihood")} 
+                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
               </div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "_likelihood"} value={risk.likelihood} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} dbFormat sideBySide/>
+              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||likelihood_penalty"} value={getRiskValue(risk.name, "likelihood_penalty")} 
+                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
               </div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "_likelihood"} value={risk.likelihood} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} dbFormat sideBySide/>
+              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||impact"} value={getRiskValue(risk.name, "impact")} 
+                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
               </div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "_likelihood"} value={risk.likelihood} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} dbFormat sideBySide/>
+              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||impact_penalty"} value={getRiskValue(risk.name, "impact_penalty")} 
+                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
+              </div>
+              <div>
+                {checkError(risk.name, "likelihood")}
+                {checkError(risk.name, "likelihood_penalty")}
+                {checkError(risk.name, "impact")}
+                {checkError(risk.name, "impact_penalty")}                
               </div>
             </div>)}
           </div>
         </div>
       </div>
+      {/* <div> */}
+        {/* {Object.entries(props.errors).length != 0 && props.errors?.map((error, index) => <li key={"error_" + index}>{error}</li>)} */}
+      {/* </div> */}
       <div className="pt-1">
-        <ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/>
+        <ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/><p>{saveOk}</p>
       </div>
     </div>
   );

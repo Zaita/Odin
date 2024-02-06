@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use App\Models\ApprovalFlow;
 use App\Models\Questionnaire;
 
 class Pillar extends Model
@@ -20,7 +21,6 @@ class Pillar extends Model
       'caption',
       'icon',
       'key_information',
-      'risk_calculation',     
       'auto_approve',
       'auto_approve_no_tasks',
       'submission_expires',
@@ -48,6 +48,10 @@ class Pillar extends Model
 
   public function questionnaire(): BelongsTo {
     return $this->belongsTo(Questionnaire::class);
+  }
+
+  public function approval_flow(): BelongsTo {
+    return $this->belongsTo(ApprovalFlow::class);
   }
 
   public $errors = array();
@@ -91,6 +95,12 @@ class Pillar extends Model
     $q->name = $this->name; // Override name with Pillar name
     $q->save();
     $this->questionnaire_id = $q->id;    
+
+    /**
+     * Grab our approval flow
+     */
+    $approvalFlow = ApprovalFlow::where(['name' => $jsonArr["approval_flow"]])->first();
+    $this->approval_flow_id = $approvalFlow->id;
 
     $this->save();
   }
