@@ -29,7 +29,7 @@ class UserController extends Controller
     $errors = $request->session()->get('errors') ?? null;
     $request->session()->forget('errors');
     
-    return Inertia::render('Admin/Security/User', [
+    return Inertia::render('Admin/Security/Users', [
       'siteConfig' => Configuration::site_config(),
       'users' => $users,
       'errors' => $errors
@@ -61,7 +61,7 @@ class UserController extends Controller
    * Show the add page
    */
   public function add(Request $request) {
-    return Inertia::render('Admin/Security/User/Add', [
+    return Inertia::render('Admin/Security/User.Add', [
       'siteConfig' => Configuration::site_config(),
     ]); 
   }
@@ -87,7 +87,7 @@ class UserController extends Controller
   public function edit(Request $request, $id) {
     AuditLog::Log("Security.User.Edit", $request);
     $user = User::findOrFail($id); 
-    return Inertia::render('Admin/Security/User/Edit', [
+    return Inertia::render('Admin/Security/User.Edit', [
       'siteConfig' => Configuration::site_config(),
       'user' => $user
     ]); 

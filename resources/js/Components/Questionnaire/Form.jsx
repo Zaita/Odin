@@ -6,10 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import TextField from '../TextField';
 import TextAreaField from '../TextAreaField';
 import DatePickerField from '../DatePickerField';
+import Form_CheckBox from './Form.CheckBox';
 import ThemedButton from '../ThemedButton';
 
 export default function Form(props) { 
-  let userAnswers = useRef([]);
+  let userAnswers = useRef({});
   let [saveErrors, setSaveErrors] = useState("");
   let inputs = [];  
 
@@ -30,6 +31,13 @@ export default function Form(props) {
   function handleChange(id, value) {
     userAnswers.current[id] = value;
   };
+  function handleSubChange(id, subId, value) {
+    if (userAnswers.current[id] == undefined) {
+      userAnswers.current[id] = {};
+    }
+    userAnswers.current[id][subId] = value;
+  };
+
 
   /**
    * Save the answers. This is called when a question in our submission is completed.
@@ -51,7 +59,9 @@ export default function Form(props) {
         onSuccess: (page) => {
           console.log("Saved Successfully");
           userAnswers.current = []; // clear these for next form
-          props.updateAnswersCallback(JSON.parse(page.props.answer_data));
+          if (page.props.answer_data) {
+            props.updateAnswersCallback(JSON.parse(page.props.answer_data));
+          }
           setSaveErrors(null);
           successCallback();
         },
@@ -139,7 +149,11 @@ export default function Form(props) {
         case "date":          
           inputs.push([<DatePickerField field={inputField} value={getAnswer(inputField.label)} 
             handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
-          break;        
+          break;   
+        case "checkbox":
+          inputs.push([<Form_CheckBox field={inputField} values={getAnswer(inputField.label)}
+            handleChange={handleSubChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
+          break;
       }
     });
   }

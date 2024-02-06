@@ -18,6 +18,7 @@ class AdminContentPillarUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:128', 'min:3'],
             'caption' => ['required', 'string', 'max:512', 'min:1'],
             'type' => ['required', 'string', 'max:40', 'min:1', Rule::in(['questionnaire', 'risk_questionnaire'])],
+            'approval_flow' => ['required', 'string','max:128','min:3'],
             'key_information' => ['required', 'string', 'max:1024', "min:2"],
             'risk_calculation' => ['required', 'string', 'max:40', Rule::in(['none', 'zaita_approx', 'highest_value'])],
         ];

@@ -16,8 +16,18 @@ function Content(props) {
           userResponses.push(<div key={index} className="pl-7"><i>not applicable</i></div>)
         } else {
           response.data.map((answer, index) => {
-            if (answer.value?.includes("\n")) {
-              userResponses.push(<div key={index} className="pl-7">{answer.value}</div>)
+            if (typeof(answer.value) == "string" && answer.value?.includes("\n")) {
+              userResponses.push(<div key={index} className="pl-7">{answer.value}</div>);
+
+            } else if (typeof answer.value == "object") {
+              let output = [];
+              Object.entries(answer.value).map(([key, val], index) => {
+                if (val) {
+                  output.push(<p key={"cb"+key+index}>- {key}</p>)
+                }
+              });
+              userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {output}</div>);
+
             } else {
               userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {answer.value ? answer.value : "-"}</div>)
             }
@@ -26,11 +36,19 @@ function Content(props) {
     }});
     
     return(
-      <div id="response" key={index}>
+    <div id="response" key={index}>
         <div id="heading" className="font-extrabold">{index}. {questionHeading}</div>
         {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
       </div>
     )
+  }
+
+  function getRiskTable() {
+    if (pillar.risk_calculation == "none") {
+      return <></>
+    }
+
+    return <p>RISK TABLE</p>
   }
 
   return (
@@ -41,6 +59,7 @@ function Content(props) {
           ))
         }
       </div>
+      <div>{getRiskTable}</div>
       <div id="review_actions">
         <ThemedButton siteConfig={props.siteConfig} className="ml-2"
           onClick={() => {router.visit(route('submission.inprogress', [props.submission.uuid], {}))}} 

@@ -68,5 +68,10 @@ class DashboardController extends Controller
     return Redirect::route('admin.content.dashboard.pillars');
   }
 
+  
+  public function tasks(Request $request) {    
+    return Redirect::route('admin.content.dashboard.pillars');
+  }
+
 
 };

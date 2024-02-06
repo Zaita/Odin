@@ -35,7 +35,7 @@ class RiskController extends Controller
    */
   public function add(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    return Inertia::render('Admin/Configuration/Risks/Add', [
+    return Inertia::render('Admin/Configuration/Risks.Add', [
       'siteConfig' => $config,
     ]); 
   }
@@ -79,7 +79,7 @@ class RiskController extends Controller
     AuditLog::Log("Configuration.Risk.Edit", $request);
     $risk = Risk::findOrFail($id);
         
-    return Inertia::render('Admin/Configuration/Risks/Edit', [
+    return Inertia::render('Admin/Configuration/Risks.Edit', [
       'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
       'risk' => $risk
     ]); 

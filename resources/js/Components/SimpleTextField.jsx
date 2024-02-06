@@ -45,7 +45,7 @@ export default function SimpleTextField(props) {
       <input type="text" className="bg-white" name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress} onChange={handleChange}
         style={{
           borderColor: siteConfig.theme_header_color,
-          width: props.sideBySide ? "100px" : "355px"
+          width: "100px"
         }}
         autoComplete={camalCase(fieldId)}/>   
     </div>

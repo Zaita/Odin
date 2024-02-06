@@ -106,38 +106,74 @@ class Configuration extends Model
       $color4 = "#FFFFFF";
 
       // Colour Mode
-      // $color1 = "#12372A";
-      // $color2 = "#ADBC9F";
-      // $color3 = "#436850";
-      // $color4 = "#FBFADA";
+      $color1 = "#12372A";
+      $color2 = "#ADBC9F";
+      $color3 = "#436850";
+      $color4 = "#FBFADA";
 
-      $result->theme_admin_bg_color = $color2;
-      $result->theme_admin_help_bg_color = $color1;
-      $result->theme_admin_help_text_color = $color2;
-      $result->theme_admin_menu_bg_color = $color1;
-      $result->theme_admin_menu_logout_border_color = $color2;
-      $result->theme_admin_menu_parent_text_color = $color2;
-      $result->theme_admin_menu_text_color = $color2;
-      $result->theme_admin_menu_selected_bg_color = $color2;
-      $result->theme_admin_menu_selected_text_color = $color1;
-      $result->theme_admin_topmenu_bg_color = $color1;
-      $result->theme_admin_topmenu_breadcrumb_color = $color2;
-      $result->theme_admin_topmenu_border_color = $color2;
-      $result->theme_admin_topmenu_item_border_color = $color2;
-      $result->theme_admin_topmenu_item_text_color = $color2;
-      $result->theme_admin_content_bg_color = $color3;
-      $result->theme_admin_content_text_color = $color4;
-      $result->theme_admin_content_spacer = $color4;
+      // $color1 = "#092635";
+      // $color2 = "#9EC8B9";
+      // $color3 = "#092635";
+      // $color4 = "#9EC8B9";
 
-      $result->theme_btn_bg_color = $color3;
-      $result->theme_btn_text_color = $color4;
-      $result->theme_btn_hover_bg_color = $color4;
-      $result->theme_btn_hover_text_color = $color3;
-      $result->theme_input_bg_color = $color3;
-      $result->theme_input_text_color = $color4;
-      $result->theme_input_border_color = $color4;
-      // $result->theme_input_focus_border_color = "#00FFFF";
-      $result->theme_error_text_color = "#FF8888";
+      $colorMode = 1;
+      
+      if ($colorMode == 1) {
+        $result->theme_admin_bg_color = $color1;
+        $result->theme_admin_help_bg_color = $color1;
+        $result->theme_admin_help_text_color = $color2;
+        $result->theme_admin_menu_bg_color = $color1;
+        $result->theme_admin_menu_logout_border_color = $color2;
+        $result->theme_admin_menu_parent_text_color = $color2;
+        $result->theme_admin_menu_text_color = $color2;
+        $result->theme_admin_menu_selected_bg_color = $color2;
+        $result->theme_admin_menu_selected_text_color = $color1;
+        $result->theme_admin_topmenu_bg_color = $color1;
+        $result->theme_admin_topmenu_breadcrumb_color = $color2;
+        $result->theme_admin_topmenu_border_color = $color2;
+        $result->theme_admin_topmenu_item_border_color = $color2;
+        $result->theme_admin_topmenu_item_text_color = $color2;
+        $result->theme_admin_content_bg_color = $color2;
+        $result->theme_admin_content_text_color = $color1;
+        $result->theme_admin_content_spacer = $color1;
+  
+        $result->theme_btn_bg_color = $color4;
+        $result->theme_btn_text_color = $color3;
+        $result->theme_btn_hover_bg_color = $color3;
+        $result->theme_btn_hover_text_color = $color4;
+        $result->theme_input_bg_color = $color3;
+        $result->theme_input_text_color = $color4;
+        $result->theme_input_border_color = $color4;
+        $result->theme_error_text_color = "#880000";
+      } else {
+        $result->theme_admin_bg_color = $color2;
+        $result->theme_admin_help_bg_color = $color1;
+        $result->theme_admin_help_text_color = $color2;
+        $result->theme_admin_menu_bg_color = $color1;
+        $result->theme_admin_menu_logout_border_color = $color2;
+        $result->theme_admin_menu_parent_text_color = $color2;
+        $result->theme_admin_menu_text_color = $color2;
+        $result->theme_admin_menu_selected_bg_color = $color2;
+        $result->theme_admin_menu_selected_text_color = $color1;
+        $result->theme_admin_topmenu_bg_color = $color1;
+        $result->theme_admin_topmenu_breadcrumb_color = $color2;
+        $result->theme_admin_topmenu_border_color = $color2;
+        $result->theme_admin_topmenu_item_border_color = $color2;
+        $result->theme_admin_topmenu_item_text_color = $color2;
+        $result->theme_admin_content_bg_color = $color3;
+        $result->theme_admin_content_text_color = $color4;
+        $result->theme_admin_content_spacer = $color4;
+
+        $result->theme_btn_bg_color = $color3;
+        $result->theme_btn_text_color = $color4;
+        $result->theme_btn_hover_bg_color = $color4;
+        $result->theme_btn_hover_text_color = $color3;
+        $result->theme_input_bg_color = $color3;
+        $result->theme_input_text_color = $color4;
+        $result->theme_input_border_color = $color4;
+        // $result->theme_input_focus_border_color = "#00FFFF";
+        $result->theme_error_text_color = "#FF8888";
+      }
 
 
       return $result;

@@ -69,6 +69,8 @@ class Submission extends Model
     $this->submitter_name = $user->name;
     $this->submitter_email = $user->email;
     $this->pillar_name = $pillar->name;
+    $this->type = $questionnaire->type;
+    $this->risk_calculation = $questionnaire->risk_calculation;
     $this->questionnaire_data = $questionnaire;
     $this->pillar_data = $pillar;
     $this->status = "in_progress";
@@ -190,6 +192,10 @@ class Submission extends Model
 
     // Loop over each answerInputField in our questionnaire
     foreach($targetQuestion->input_fields as $inputField) { 
+      if ($inputField->input_type == "checkbox") {
+        continue; // no validation to do on checkboxs
+      }
+
       $label = $inputField->label;
 
       $value = isset($newAnswerValues[$label]) ? $newAnswerValues[$label] : null;
@@ -315,8 +321,8 @@ class Submission extends Model
    */
   public function submit() {
     if ($this->status == "submitted") {
-      $this->errors["error"] = "Submission has been submitted already";
-      return false;
+      Log::Info("Failed to submit submission, it was already in a submitted state");
+      return true;
     }
     /**
      * Step 1: Create Task Submissions for any tasks that are assigned to the Pillar

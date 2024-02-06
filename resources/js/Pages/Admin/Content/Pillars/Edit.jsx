@@ -41,17 +41,23 @@ export default function EditPillars(props) {
     "value": props.pillar?.key_information ? props.pillar.key_information : ""
   }
 
+  let approvalFlowField = {
+    "label": "Approval Flow",
+    "required" : true,
+    "value": props.pillar?.approval_flow.name ? props.pillar.approval_flow.name : "undefined"
+  }
+  
   let typeField = {
     "label": "Type",
     "required" : true,
-    "value": props.pillar?.type ? props.pillar.type : "questionnaire"
+    "value": props.pillar?.questionnaire.type ? props.pillar.questionnaire.type : "questionnaire"
   }
   let typeOptions = ["questionnaire", "risk_questionnaire"];
 
   let riskCalculationField = {
     "label": "Risk Calculation",
     "required" : true,
-    "value": props.pillar?.risk_calculation ? props.pillar.risk_calculation : "none"
+    "value": props.pillar?.questionnaire.risk_calculation ? props.pillar.questionnaire.risk_calculation : "none"
   }
   let riskCalculationOptions = ["none", "zaita_approx", "highest_value"];
 
@@ -80,6 +86,11 @@ export default function EditPillars(props) {
             <RichTextAreaField field={keyInformationField} value={keyInformationField.value} submitCallback={saveAnswersCallback}
                   handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="200px" dbFormat runInit/>
           </div>
+          {/* Approval Flow */}
+          <div className="w-full">
+            <DropdownField field={approvalFlowField} value={approvalFlowField.value} submitCallback={saveAnswersCallback}
+                handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} options={props.approvalFlowOptions} dbFormat runInit/>
+          </div>            
           {/* Type */}
           <div className="w-full">
             <DropdownField field={typeField} value={typeField.value} submitCallback={saveAnswersCallback}
@@ -92,9 +103,9 @@ export default function EditPillars(props) {
           </div>            
         </div>
       </div>
-      <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
-        <ThemedButton siteConfig={props.siteConfig} onClick={saveAnswersCallback} children="Save"/>
-        <p>{saveOk}</p>
+      <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
+        <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveAnswersCallback} children="Save"/></div>
+        <div className="pl-2 font-bold">{saveOk}</div>
       </div> 
       </>
     );

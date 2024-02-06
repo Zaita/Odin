@@ -12,7 +12,7 @@ use App\Models\Configuration;
 use App\Http\Requests\SiteSettingsRequest;
 use App\Http\Requests\ThemeRequest;
 
-class SiteSettingsController extends Controller
+class SettingsController extends Controller
 {
   /**
    * GET /Admin/Configuration/Settings
@@ -38,7 +38,7 @@ class SiteSettingsController extends Controller
    */
   public function theme(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
-    return Inertia::render('Admin/Configuration/Settings/Theme', [
+    return Inertia::render('Admin/Configuration/Settings.Theme', [
       'siteConfig' => $config,
     ]); 
   }

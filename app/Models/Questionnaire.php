@@ -20,6 +20,7 @@ class Questionnaire extends Model
     protected $fillable = [
       'name',
       'type',
+      'risk_calculation',     
     ];
 
     protected $hidden = [
@@ -110,5 +111,4 @@ class Questionnaire extends Model
         }
       }
     }
-
 }

@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('caption');
             $table->string('icon')->default('none');                       
-            $table->text('key_information');
-            $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
+            $table->text('key_information');            
             $table->boolean('auto_approve')->default(false);
             $table->boolean('auto_approve_no_tasks')->default(false);
             $table->boolean('submission_expires')->default(false);

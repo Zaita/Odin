@@ -28,7 +28,7 @@ class GroupController extends Controller
     $errors = $request->session()->get('errors') ?? null;
     $request->session()->forget('errors');
     
-    return Inertia::render('Admin/Security/Group', [
+    return Inertia::render('Admin/Security/Groups', [
       'siteConfig' => Configuration::site_config(),
       'groups' => $groups,
       'errors' => $errors
@@ -59,7 +59,7 @@ class GroupController extends Controller
    * Show the add page
    */
   public function add(Request $request) {
-    return Inertia::render('Admin/Security/Group/Add', [
+    return Inertia::render('Admin/Security/Group.Add', [
       'siteConfig' => Configuration::site_config(),
     ]); 
   }
@@ -86,7 +86,7 @@ class GroupController extends Controller
       return Redirect::route('admin.security.groups');
     } 
 
-    return Inertia::render('Admin/Security/Group/Edit', [
+    return Inertia::render('Admin/Security/Group.Edit', [
       'siteConfig' => Configuration::site_config(),
       'group' => $group
     ]); 

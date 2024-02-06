@@ -4,7 +4,7 @@
   "caption": "Perform a standalone risk profile analysis",
   "icon": "message",
   "key_information": "<p>This questionnaire will ask you contextual questions about a potential delivery. This is used to create a high level risk profile of a potential project or product. This technique can be used early in the planning to appropriate scope security resourcing and engagement<\/p>\n<p>A risk profile is a useful tool for organisations that have large or long running delivery timelines and want to embrace increased planning and engagement.<\/p>\n<p>The questions here are only some sample questions. You should customise these for your organisation if you wish to implement a Risk Profile process.<\/p>\n<p>This questionnaire will not create any Odin tasks and the submission will automatically be marked as approved<\/p>\n<p>If you do not complete this questionnaire within 14 days, it will automatically expire<\/p>",
-  "risk_calculation": "none",
+  "approval_flow" : "Security only",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
@@ -14,6 +14,7 @@
       "id": 1,
       "name": "Risk Profile",
       "type": "risk_questionnaire",
+      "risk_calculation": "highest_value",
       "questions": [
           {
               "id": 1,
