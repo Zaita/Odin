@@ -1,68 +1,44 @@
 import React, { useRef, useState } from 'react';
 
 import AdminPanel from '@/Layouts/AdminPanel';
-import Admin_TextField from '@/Components/Admin/Inputs/Admin.TextField';
-import ThemedButton from '@/Components/ThemedButton';
-import { SaveAnswers } from '@/Components/Admin/SaveAnswers';
+import Admin_AddScreen from '@/Components/Admin/Admin.AddScreen';
 
-export default function UserAdd(props) {  
-  let [errors, setErrors] = useState("");
-  let [saveOk, setSaveOk] = useState(null);
-  let userAnswers = useRef([]);
-
-  function handleChange(id, value) {
-    userAnswers.current[id] = value;
-  }
-
+export default function Security_User_Add(props) {  
   let nameField = { 
     "label" : "Name",
+    "type": "textfield",
     "placeholder": "Full name",
     "required": true,
-    "value": userAnswers.current["name"],
   }
 
   let emailField = { 
     "label": "Email",
+    "type": "textfield",
     "placeholder": "name@example.com",
     "required": true,
-    "value": userAnswers.current["email"],
   }
 
   let passwordField = { 
     "label": "Password",
+    "type": "textfield",
     "placeholder": "****",
-    "required": true,
-    "value": userAnswers.current["password"],
+    "required": false,
   }
 
-  function saveCallback() {
-    SaveAnswers("admin.security.users.create", setSaveOk, setErrors, userAnswers.current)
-  }
+  let inputFields = [];
+  inputFields.push(nameField);
+  inputFields.push(emailField);
+  inputFields.push(passwordField);
 
-  let inputProps = {submitCallback:saveCallback, handleChange, errors, siteConfig:props.siteConfig, dbFormat:true, sideBySide:true}
-
-  function MyContent() {
-    return (
-      <div className="pt-1 pb-2">
-        <div className="font-bold">Add New User</div>
-        <div className="inline-block w-11/12">
-          <Admin_TextField field={nameField} {...inputProps}/>
-          <Admin_TextField field={emailField} {...inputProps}/>
-          <Admin_TextField field={passwordField} {...inputProps}/>
-        </div>
-        <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
-          <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Create"/></div>
-          <div className="pl-2 font-bold">{saveOk}</div>
-        </div> 
-      </div>
-    );
-  }
+  let myContent = <Admin_AddScreen {...props} inputFields={inputFields} 
+  createRoute="admin.security.user.create"
+  title="Add New User"/>
 
   let breadcrumb = [
     ["Users", "admin.security.users"]
   ]
 
   return (
-    <AdminPanel {...props} breadcrumb={breadcrumb} topMenuItems={[]} actionMenuItems={[]} content={<MyContent props/>}/>
+    <AdminPanel {...props} topMenuItems={[]} actionMenuItems={[]} breadcrumb={breadcrumb} content={myContent}/>
   );
 }

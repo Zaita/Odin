@@ -252,12 +252,13 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
  */
 Route::middleware(['auth', 'can:isAdministrator'])->group(function() {
   // Security -> Users  
-  Route::post('/admin/security/users/delete', [Admin_Security_User::class, 'delete'])->name('admin.security.users.delete');
-  Route::get('/admin/security/users/add', [Admin_Security_User::class, 'add'])->name('admin.security.users.add');  
-  Route::post('/admin/security/users/add', [Admin_Security_User::class, 'create'])->name('admin.security.users.create');
-  Route::get('/admin/security/users/edit/{id}', [Admin_Security_User::class, 'edit'])->name('admin.security.users.edit');  
-  Route::post('/admin/security/users/groupadd', [Admin_Security_User::class, 'addToGroup'])->name('admin.security.users.groups.add');  
-  Route::post('/admin/security/users/save', [Admin_Security_User::class, 'save'])->name('admin.security.users.save');  
+  Route::post('/admin/security/user/delete', [Admin_Security_User::class, 'delete'])->name('admin.security.user.delete');
+  Route::get('/admin/security/user/add', [Admin_Security_User::class, 'add'])->name('admin.security.user.add');  
+  Route::post('/admin/security/user/add', [Admin_Security_User::class, 'create'])->name('admin.security.user.create');
+  Route::get('/admin/security/user/{id}/edit', [Admin_Security_User::class, 'edit'])->name('admin.security.user.edit');  
+  Route::post('/admin/security/user/{id}/save', [Admin_Security_User::class, 'save'])->name('admin.security.user.save');  
+  Route::post('/admin/security/users/groupadd', [Admin_Security_User::class, 'addToGroup'])->name('admin.security.user.groups.add');  
+  
   // Security -> Groups
   Route::post('/admin/security/groups/delete', [Admin_Security_Group::class, 'delete'])->name('admin.security.groups.delete');
   Route::get('/admin/security/groups/add', [Admin_Security_Group::class, 'add'])->name('admin.security.groups.add');  

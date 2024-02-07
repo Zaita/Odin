@@ -7,11 +7,12 @@ import ThemedButton from '@/Components/ThemedButton';
 import DropdownField from '@/Components/DropdownField';
 
 import { SaveAnswers, SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
+import Admin_EditScreen from '@/Components/Admin/Admin.EditScreen';
 
 export default function EditPillars(props) {  
   console.log("Admin.Content.SecurityCatalogue.Add");  
   let [saveErrors, setSaveErrors] = useState("");
-  let [saveOk, setSaveOk] = useState(null);
+  let [saveOk, setSaveOk] = useState(props.saveOk);
   let userAnswers = useRef([]);
 
   function handleChange(id, value) {
@@ -20,46 +21,26 @@ export default function EditPillars(props) {
 
   let nameField = { 
     "label" : "Name",
-    "placeholder": "",
+    "type" : "textfield",
     "required": true,
-    "value": userAnswers.current["name"] ? userAnswers.current["name"] : props.catalogue.name,
+    "value": props.catalogue.name,
   }
 
   let descriptionField = { 
-    "label": "Description",
-    "placeholder": "",
+    "label" : "Description",
+    "type" : "textfield",
     "required": false,
-    "value": userAnswers.current["description"] ? userAnswers.current["description"] : props.catalogue.description,
-  }
- 
-  function saveAnswersCallback() {
-    SaveAnswersWithId("admin.content.securitycatalogue.save", props.catalogue.id, setSaveOk, setSaveErrors, userAnswers.current)
+    "value": props.catalogue.description,
   }
 
-  function MyContent() {
-    return (
-      <>
-      <div className="flex">
-        <div className="overflow-y-auto w-5/6">
-          {/* Title */}
-          <div className="w-full">
-          <TextField field={nameField} value={nameField.value} submitCallback={saveAnswersCallback}
-                handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} camalCase runInit/>
-          </div>
-          {/* Description */}
-          <div className="w-full">
-          <TextField field={descriptionField} value={descriptionField.value} submitCallback={saveAnswersCallback}
-                handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="65px" camalCase runInit/>
-          </div>                    
-        </div>
-      </div>
-      <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
-        <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveAnswersCallback} children="Save"/></div>
-        <div className="pl-2 font-bold">{saveOk}</div>
-      </div> 
-      </>
-    );
-  }
+  let inputFields = [];
+  inputFields.push(nameField);
+  inputFields.push(descriptionField);
+
+  let myContent = <Admin_EditScreen {...props} inputFields={inputFields} 
+    saveRoute="admin.content.securitycatalogue.save"
+    saveRouteParameters={props.catalogue.id}
+    title="Modify Security Catalogue"/>
 
   let breadcrumb = [
     ["Security Catalogues", "admin.content.securitycatalogues"],
@@ -72,6 +53,6 @@ export default function EditPillars(props) {
   ]
 
   return (
-    <AdminPanel {...props} topMenuItems={topMenuItems} actionMenuItems={[]} breadcrumb={breadcrumb} content={<MyContent props/>}/>
+    <AdminPanel {...props} topMenuItems={topMenuItems} actionMenuItems={[]} breadcrumb={breadcrumb} content={myContent}/>
   );
 }

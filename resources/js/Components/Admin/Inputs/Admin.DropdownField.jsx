@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react';
 import ReportIcon from '@mui/icons-material/Report';
 import camalCase from "@/Utilities/camal.jsx"
-import dbFormat from '@/Utilities/dbFormat';
+import dbFormat from "@/Utilities/dbFormat.jsx"
 
-export default function Admin_TextField(props) {
+export default function Admin_DropdownField(props) {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState(props.field.value);
+  const [value, setValue] = useState(props.field.value ? props.field.value : props.options[0]);
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
   fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;
   let label = props.field.required ? (<>{props.field.label} *</>) : props.field.label;  
   let error = props.errors && fieldId in props.errors ? (<><ReportIcon/> {props.errors[fieldId]}</>) : "";
-  let type = props.type ? props.type : "text";
-  
+
   /**
    * 
    */
@@ -31,11 +30,10 @@ export default function Admin_TextField(props) {
    * @param {event} e 
    */
   function handleChange(e) {
-    props.handleChange(fieldId, e.target.value);
+    props.handleChange(fieldId, e.target.value, false);
     setValue(e.target.value);
   }
 
-  // Run once after object loads.
   useEffect(() => {
     // Re-Populate after a fresh load/render
     // This is because programatically changing field value
@@ -54,20 +52,21 @@ export default function Admin_TextField(props) {
         }}> 
         <label htmlFor={fieldId}>{label}</label>
       </div>
-      <input type={type} name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress}
-        placeholder={props.field.placeholder} onChange={handleChange}
+      <select className="bg-white" name={camalCase(fieldId)} id={fieldId} onKeyUp={handleKeyPress}
+        onChange={handleChange} 
         style={{
           backgroundColor: props.siteConfig.theme_input_bg_color,
           color: props.siteConfig.theme_input_text_color,
           borderColor: props.siteConfig.theme_input_border_color,
           width: props.sideBySide ? "500px" : "355px",
-          boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none",          
-          
+          boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none",    
         }}
-        autoComplete={camalCase(fieldId)}
+        value={value}
         onBlur={() => setIsFocused(false)}
         onFocus={() => setIsFocused(true)}
-        />   
+        >   
+          {props.options.map((option, index) => (<option key={index} label={option} value={option}/>))}
+      </select>
       <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
     </div>
   )
