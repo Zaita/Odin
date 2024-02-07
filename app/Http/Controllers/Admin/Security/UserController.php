@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\UniqueConstraintViolationException;
 
 use App\Models\Configuration;
 use App\Models\AuditLog;
@@ -23,16 +24,10 @@ class UserController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    AuditLog::Log("Security.User.User", $request);
-    $users = User::orderBy('created_at')->paginate(20);
-    // Grab any errors from the a failed create/save/delete
-    $errors = $request->session()->get('errors') ?? null;
-    $request->session()->forget('errors');
-    
+    AuditLog::Log("Security.Users.User", $request);
     return Inertia::render('Admin/Security/Users', [
       'siteConfig' => Configuration::site_config(),
-      'users' => $users,
-      'errors' => $errors
+      'users' => User::orderBy('created_at')->paginate(20),
     ]); 
   }
 
@@ -70,15 +65,15 @@ class UserController extends Controller
    * Create a new Security Group
    */
   public function create(AdminSecurityUserRequest $request) : RedirectResponse {
-    AuditLog::Log("Security.User.Add", $request);    
-    $user = User::firstOrNew($request->safe()->only(['email']));
-    if ($user->exists) {
-        $request->session()->flash('errors', "User with email {$user->email} already exists");
-    } else {
-      User::create($request->validated());
-    }    
+    AuditLog::Log("Security.User.Add", $request);   
+
+    try {    
+      $user = User::create($request->validated());
+    } catch (UniqueConstraintViolationException $e) {
+      return back()->withErrors(["save" => "Create Failed: User email has already been registered"]);
+    }
     
-    return Redirect::route('admin.security.users');
+    return Redirect::route('admin.security.user.edit', $user->id)->with('saveOk', 'New user added successfully');
   }
 
   /**
@@ -96,12 +91,18 @@ class UserController extends Controller
   /**
    * Save changes to our existing group
    */
-  public function save(AdminSecurityUserEditRequest $request) : RedirectResponse {
+  public function save(AdminSecurityUserEditRequest $request, $id) : RedirectResponse {
     AuditLog::Log("Security.User.Save", $request);
-    $id = $request->input('id', -1);
-    $user = User::findOrFail($id); 
-    $user->update($request->validated());
-    return Redirect::route('admin.security.users');
+
+    try {    
+      $user = User::findOrFail($id); 
+      $user->update($request->validated());
+      $user->save();
+    } catch (UniqueConstraintViolationException $e) {
+      return back()->withErrors(["save" => "Save Failed: User email has already been registered"]);
+    }
+    
+    return Redirect::route('admin.security.user.edit', $id);
   }
 
   /**

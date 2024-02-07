@@ -45,7 +45,14 @@ class PillarController extends Controller
    * Load the add screen
    */
   public function add(Request $request) {
-    return Inertia::render('Admin/Content/Pillars/Add', [
+    $approvalFlows = ApprovalFlow::select("name")->get();
+    $approvalFlowOptions = array();
+    foreach( $approvalFlows as $approvalFlow ) {
+      array_push($approvalFlowOptions, $approvalFlow->name);
+    }
+
+    return Inertia::render('Admin/Content/Pillars/Pillar.Add', [
+      'approvalFlowOptions' => $approvalFlowOptions,
       'siteConfig' => Configuration::site_config(),
     ]); 
   }
@@ -55,10 +62,13 @@ class PillarController extends Controller
    */
   public function create(AdminContentPillarUpdateRequest $request) : RedirectResponse {
     AuditLog::Log("Content.Pillars.Add", $request);    
+    $approvalFlowId = ApprovalFlow::where(["name" => $request->input('approval_flow')])->first()->id;
+
     $q = Questionnaire::create($request->safe()->only(['name', 'type']));
     $p = new Pillar();
-    $p->fill($request->safe()->except("type"));
-    $p->questionnaire_id = $q->id;
+    $p->fill($request->safe()->except("type", "approval_flow"));
+    $p->questionnaire_id = $q->id;   
+    $p->approval_flow_id = $approvalFlowId;    
     $p->save();
     return Redirect::route('admin.content.pillar.edit', $p->id);
   }
@@ -118,7 +128,7 @@ class PillarController extends Controller
       array_push($approvalFlowOptions, $approvalFlow->name);
     }
 
-    return Inertia::render('Admin/Content/Pillars/Edit', [
+    return Inertia::render('Admin/Content/Pillars/Pillar.Edit', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'approvalFlowOptions' => $approvalFlowOptions,

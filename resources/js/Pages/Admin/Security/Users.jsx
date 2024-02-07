@@ -24,7 +24,7 @@ export default function User(props) {
 
   function confirmedDeletion() {
     console.log("Deletion Confirmed");
-    SaveAnswers("admin.security.users.delete", setSaveOk, setSaveErrors, deleteTarget.current);
+    SaveAnswers("admin.security.user.delete", setSaveOk, setSaveErrors, deleteTarget.current);
     setDialogIsOpen(false)
   }
 
@@ -57,7 +57,7 @@ export default function User(props) {
               <div className="w-1/6 float-left">{user.email}</div>
               <div className="w-6/12 float-left inline-block">{user.groups_string}</div>
               <div> 
-                <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.security.users.edit', [user.id]))}/> 
+                <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.security.user.edit', [user.id]))}/> 
                 <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(user)}/>
               </div>
             </div>
@@ -73,8 +73,8 @@ export default function User(props) {
   }
 
   let actionMenuItems = [
-    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.users.add'))} children="Add User"/>,
-    <><span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span></>,
+    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.user.add'))} children="Add User"/>,
+    // <><span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span></>,
   ];
 
   let breadcrumb = [

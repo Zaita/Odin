@@ -11,6 +11,7 @@ import camalCase from "@/Utilities/camal.jsx"
 import dbFormat from '@/Utilities/dbFormat';
 
 export default function Admin_RichTextAreaField(props) {
+  const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState({
     html: props.value,
     editable: true
@@ -55,7 +56,9 @@ export default function Admin_RichTextAreaField(props) {
       <div id="label" className="float-left inline-block w-48">
         <label htmlFor={fieldId}>{label}</label>
       </div>
-      <div className="inline-block w-auto">
+      <div className="inline-block w-auto" 
+        style={{borderColor: props.siteConfig.theme_input_border_color}}
+        >
         <Editor
           editorState={editorState}
           toolbarClassName="toolbarClassName"
@@ -65,8 +68,21 @@ export default function Admin_RichTextAreaField(props) {
           editorStyle={{ 
             backgroundColor: props.siteConfig.theme_input_bg_color,
             color: props.siteConfig.theme_input_text_color,
-            borderColor: props.siteConfig.theme_input_border_color,                                   
+            borderColor: props.siteConfig.theme_input_border_color, 
+            borderWidth: "0px 1px 1px 1px",  
+            boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none",                                               
+            marginTop: "0px",
             }}
+          toolbarStyle={{ 
+            backgroundColor: props.siteConfig.theme_input_bg_color,
+            color: props.siteConfig.theme_input_text_color,
+            borderColor: props.siteConfig.theme_input_border_color, 
+            borderWidth: "1px 1px 0px 1px",  
+            marginBottom: "0px",
+            boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none",                                               
+            }}
+          onBlur={() => setIsFocused(false)}
+          onFocus={() => setIsFocused(true)}            
           />
         </div>
         <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 

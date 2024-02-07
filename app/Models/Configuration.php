@@ -94,22 +94,22 @@ class Configuration extends Model
       $result = json_decode(json_encode($result));
     
       // Light Mode
-      $color1 = "#FFFFFF";
-      $color2 = "#777777";
-      $color3 = "#555555";
-      $color4 = "#FFFFFF";
+      $color1 = "#800000";
+      $color2 = "#FFFFFF";
+      $color3 = "#FFFFFF";
+      $color4 = "#000000";
 
       // Dark Mode
-      $color1 = "#000000";
-      $color2 = "#999999";
-      $color3 = "#333333";
-      $color4 = "#FFFFFF";
+      // $color1 = "#000000";
+      // $color2 = "#999999";
+      // $color3 = "#333333";
+      // $color4 = "#FFFFFF";
 
       // Colour Mode
-      $color1 = "#12372A";
-      $color2 = "#ADBC9F";
-      $color3 = "#436850";
-      $color4 = "#FBFADA";
+      // $color1 = "#12372A";
+      // $color2 = "#ADBC9F";
+      // $color3 = "#436850";
+      // $color4 = "#FBFADA";
 
       // $color1 = "#092635";
       // $color2 = "#9EC8B9";
@@ -134,7 +134,7 @@ class Configuration extends Model
         $result->theme_admin_topmenu_item_border_color = $color2;
         $result->theme_admin_topmenu_item_text_color = $color2;
         $result->theme_admin_content_bg_color = $color2;
-        $result->theme_admin_content_text_color = $color1;
+        $result->theme_admin_content_text_color = $color4;
         $result->theme_admin_content_spacer = $color1;
   
         $result->theme_btn_bg_color = $color4;

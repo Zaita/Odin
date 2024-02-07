@@ -59,7 +59,7 @@ export default function DropdownField(props) {
           backgroundColor: props.siteConfig.theme_input_bg_color,
           color: props.siteConfig.theme_input_text_color,
           borderColor: props.siteConfig.theme_input_border_color,
-          width: newWidth
+          width: newWidth          
         }}
         value={value}>   
         {props.options.map((option, index) => 

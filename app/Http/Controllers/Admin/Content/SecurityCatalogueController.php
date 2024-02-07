@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\UniqueConstraintViolationException;
 
 use App\Models\Configuration;
 use App\Models\AuditLog;
@@ -47,9 +48,13 @@ class SecurityCatalogueController extends Controller
    */
   public function create(AdminSecurityCatalogueRequest $request) : RedirectResponse {
     AuditLog::Log("Content.SecurityCatalogue.Add", $request);    
-    $sc = SecurityCatalogue::create($request->validated());    
-    $sc->save();
-    return Redirect::route('admin.content.securitycatalogue.edit', $sc->id);
+    try {    
+      $sc = SecurityCatalogue::create($request->validated());
+    } catch (UniqueConstraintViolationException $e) {
+      return back()->withErrors(["save" => "Create Failed: Security catalogue name has already been used"]);
+    }
+
+    return Redirect::route('admin.content.securitycatalogue.edit', $sc->id)->with('saveOk', 'New security catalogue added successfully');
   }
 
   /**
@@ -98,6 +103,7 @@ class SecurityCatalogueController extends Controller
     return Inertia::render('Admin/Content/SecurityCatalogues/Catalogue.Edit', [
       'siteConfig' => Configuration::site_config(),
       'catalogue' => SecurityCatalogue::findOrFail($id),
+      'saveOk' => $request->session()->get('saveOk'),
     ]); 
   }
 
@@ -107,9 +113,14 @@ class SecurityCatalogueController extends Controller
    */
   public function save(AdminSecurityCatalogueRequest $request, $id) : RedirectResponse {
     AuditLog::Log("Content.SecurityCatalogue.Save", $request);
-    $sc = SecurityCatalogue::findOrFail($id);
-    $sc->update($request->validated());
-    $sc->save();
+    try {    
+      $sc = SecurityCatalogue::findOrFail($id);
+      $sc->update($request->validated());
+      $sc->save();
+    } catch (UniqueConstraintViolationException $e) {
+      return back()->withErrors(["save" => "Save Failed: Security catalogue name has already been used"]);
+    }
+    
     return Redirect::route('admin.content.securitycatalogue.edit', $id);
   }
 
@@ -151,7 +162,7 @@ class SecurityCatalogueController extends Controller
     
     $sc->updateRisks($request->all());
     
-    return Redirect::route('admin.content.securitycatalogue.controls', $id);
+    return Redirect::route('admin.content.securitycatalogue.controls', $id)->with('saveOk', 'New pillar added successfully');
   }
 
 };
