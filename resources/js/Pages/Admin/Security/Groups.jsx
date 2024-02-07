@@ -67,14 +67,16 @@ export default function Group(props) {
     );
   }
 
-  let topMenuItems = []
   let actionMenuItems = [
     <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.groups.add'))} children="Add Group"/>,
     <><span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span></>,
   ];
-    
+
+  let breadcrumb = [
+    ["Groups", "admin.security.groups"]
+  ]
 
   return (
-    <AdminPanel {...props} topMenuItems={topMenuItems} actionMenuItems={actionMenuItems} content={<MyContent props/>}/>
+    <AdminPanel {...props} breadcrumb={breadcrumb} topMenuItems={[]} actionMenuItems={actionMenuItems} content={<MyContent props/>}/>
   );
 }

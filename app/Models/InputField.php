@@ -69,7 +69,7 @@ class InputField extends Model
          * Check if this input type is a checkbox, if so. Create
          * the checkbox_options
          */
-        echo (sprintf("Input Type: %s\n", $this->input_type));
+        // echo (sprintf("Input Type: %s\n", $this->input_type));
         if ($this->input_type == "checkbox" && !is_null($jsonArr["checkbox_options"])) {
             $options = $jsonArr["checkbox_options"];
             foreach ($options as $checkbox_option) {

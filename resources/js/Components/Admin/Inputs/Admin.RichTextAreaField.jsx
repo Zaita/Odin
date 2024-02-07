@@ -10,19 +10,18 @@ import htmlToDraft from 'html-to-draftjs';
 import camalCase from "@/Utilities/camal.jsx"
 import dbFormat from '@/Utilities/dbFormat';
 
-export default function RichTextAreaField(props) {
+export default function Admin_RichTextAreaField(props) {
   const [value, setValue] = useState({
     html: props.value,
     editable: true
   });
 
-  const blocksFromHtml = htmlToDraft(props.value != null ? props.value : "");
+  const blocksFromHtml = htmlToDraft(props.field.value ? props.field.value : "");
   const { contentBlocks, entityMap } = blocksFromHtml;
   const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
   const [editorState, setEditorState] = useState(EditorState.createWithContent(contentState));
 
-  let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
-  fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;
+  let fieldId = props.camalCase ? camalCase(props.field.label) : dbFormat(props.field.label);
   let label = props.field.required ? (<>{props.field.label} *</>) : props.field.label;  
   let error = props.errors && fieldId in props.errors ? (<><ReportIcon/> {props.errors[fieldId]}</>) : "";
 
@@ -52,14 +51,11 @@ export default function RichTextAreaField(props) {
   })
 
   return (
-    <div id="input_field">
-      <div id="label"><label htmlFor={fieldId}>{label}</label></div>
-      <div className="w-2/3" 
-        style={{
-          backgroundColor: props.siteConfig.theme_input_bg_color,
-          color: props.siteConfig.theme_input_text_color,
-          borderColor: props.siteConfig.theme_input_border_color,                 
-          }}>
+    <div id="input_field" className="pb-2">
+      <div id="label" className="float-left inline-block w-48">
+        <label htmlFor={fieldId}>{label}</label>
+      </div>
+      <div className="inline-block w-auto">
         <Editor
           editorState={editorState}
           toolbarClassName="toolbarClassName"
@@ -72,8 +68,8 @@ export default function RichTextAreaField(props) {
             borderColor: props.siteConfig.theme_input_border_color,                                   
             }}
           />
+        </div>
         <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
-      </div>
     </div>
   )
 }
