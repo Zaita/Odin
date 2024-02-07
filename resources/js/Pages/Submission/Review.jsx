@@ -43,12 +43,22 @@ function Content(props) {
     )
   }
 
-  function getRiskTable() {
-    if (pillar.risk_calculation == "none") {
+  function RiskTable() {
+    // This is not configured for displaying a risk table
+    if (props.submission.type == "questionnaire" || props.submission.risk_calculation == "none") {
       return <></>
     }
 
-    return <p>RISK TABLE</p>
+    let riskData = JSON.parse(props.submission.risk_data);
+    let output = [];
+    riskData.map((risk, index) => output.push(
+      <div key={index}>
+        <div className="inline-block w-2/12">{risk["name"]}</div>
+        <div className="inline-block w-2/12">{risk["score"]}</div>
+        <div className="inline-block w-8/12">{risk["description"]}</div>       
+      </div>) );
+
+    return <div>{output}</div>
   }
 
   return (
@@ -59,7 +69,7 @@ function Content(props) {
           ))
         }
       </div>
-      <div>{getRiskTable}</div>
+      <RiskTable/>
       <div id="review_actions">
         <ThemedButton siteConfig={props.siteConfig} className="ml-2"
           onClick={() => {router.visit(route('submission.inprogress', [props.submission.uuid], {}))}} 

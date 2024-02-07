@@ -182,11 +182,14 @@ class SubmissionController extends Controller
    * This method will load the questionnaire submission for the current uuid.
    */
   public function review(Request $request, $uuid) {
+    Log::Info("Reviewing a submission");
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
     if ($submission == null) {
       return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
     }
+
+    $submission->calculateRiskScore();
 
     return Inertia::render('Submission/Review', [
       'siteConfig' => $config,

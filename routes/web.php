@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Home\ReportController as Admin_Home_Report;
 use App\Http\Controllers\Admin\Content\DashboardController as Admin_Content_Dashboard;
 use App\Http\Controllers\Admin\Content\PillarController as Admin_Content_Pillar;
 use App\Http\Controllers\Admin\Content\TaskController as Admin_Content_Task;
+use App\Http\Controllers\Admin\Content\SecurityCatalogueController as Admin_Content_SecurityCatalogue;
 use App\Http\Controllers\Admin\Security\GroupController as Admin_Security_Group;
 use App\Http\Controllers\Admin\Security\UserController as Admin_Security_User;
 use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Submissions;
@@ -155,7 +156,7 @@ Route::middleware(['auth', 'can:isReadOnlyAdministrator'])->group(function() {
 });
 
 /**
- * Read Only Administrator Can view most of the admin panel
+ * Content Administrator. Can modify files
  */
 Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   // Content -> Dashboard
@@ -224,8 +225,23 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   // Content -> Tasks -> Questions -> Question -> Actions
   Route::get('/admin/content/task/{id}/question/{questionId}/actions', [Admin_Content_Task::class, 'question_actions'])->name('admin.content.task.question.actions');
   
-  // Content -> Security Controls
-  Route::get('/admin/content/securitycontrols', [AdminController::class, 'index'])->name('admin.content.securitycontrols');
+  // Content -> Security Catalogues
+  Route::get('/admin/content/securitycatalogues', [Admin_Content_SecurityCatalogue::class, 'index'])->name('admin.content.securitycatalogues');
+  Route::get('/admin/content/securitycatalogues/add', [Admin_Content_SecurityCatalogue::class, 'add'])->name('admin.content.securitycatalogue.add');  
+  Route::post('/admin/content/securitycatalogues/add', [Admin_Content_SecurityCatalogue::class, 'create'])->name('admin.content.securitycatalogue.create');
+  Route::get('/admin/content/securitycatalogues/{id}/edit', [Admin_Content_SecurityCatalogue::class, 'edit'])->name('admin.content.securitycatalogue.edit');
+  Route::post('/admin/content/securitycatalogues/{id}/save', [Admin_Content_SecurityCatalogue::class, 'save'])->name('admin.content.securitycatalogue.save');
+  Route::post('/admin/content/securitycatalogues/{id}/delete', [Admin_Content_SecurityCatalogue::class, 'delete'])->name('admin.content.securitycatalogue.delete');
+  Route::get('/admin/content/securitycatalogues/{id}/download', [Admin_Content_SecurityCatalogue::class, 'download'])->name('admin.content.securitycatalogue.download');  
+  Route::get('/admin/content/securitycatalogues/{id}/controls', [Admin_Content_SecurityCatalogue::class, 'controls'])->name('admin.content.securitycatalogue.controls');
+  // Content -> Security Catalogues -> Controls
+  Route::get('/admin/content/securitycatalogues/{id}/controls/add', [Admin_Content_SecurityCatalogue::class, 'control_add'])->name('admin.content.securitycontrol.add');  
+  Route::post('/admin/content/securitycatalogues/{id}/controls/add', [Admin_Content_SecurityCatalogue::class, 'control_create'])->name('admin.content.securitycontrol.create');
+  Route::get('/admin/content/securitycatalogues/{id}/controls/edit', [Admin_Content_SecurityCatalogue::class, 'edit'])->name('admin.content.securitycontrol.edit');
+  Route::post('/admin/content/securitycatalogues/{id}/controls/save', [Admin_Content_SecurityCatalogue::class, 'save'])->name('admin.content.securitycontrol.save');
+  Route::post('/admin/content/securitycatalogues/{id}/controls/delete', [Admin_Content_SecurityCatalogue::class, 'delete'])->name('admin.content.securitycontrol.delete');
+  Route::get('/admin/content/securitycatalogues/{id}/controls/download', [Admin_Content_SecurityCatalogue::class, 'download'])->name('admin.content.securitycontrol.download');  
+
   // Service Inventory -> Accreditations
   Route::get('/admin/services', [AdminController::class, 'index'])->name('admin.services');
   Route::get('/admin/services/accreditations', [AdminController::class, 'index'])->name('admin.services.accreditations');

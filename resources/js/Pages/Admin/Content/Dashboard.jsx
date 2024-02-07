@@ -1,20 +1,14 @@
 import React, { useRef, useState, Component } from 'react';
 import { router } from '@inertiajs/react'
 
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-
 import AdminPanel from '@/Layouts/AdminPanel';
-import TextField from '@/Components/TextField';
-import TextAreaField from '@/Components/TextAreaField';
-import RichTextAreaField from '@/Components/RichTextAreaField';
 import ThemedButton from '@/Components/ThemedButton';
+import Admin_RichTextAreaField from '@/Components/Admin/Inputs/Admin.RichTextAreaField';
+import Admin_TextField from '@/Components/Admin/Inputs/Admin.TextField';
 
 export default function Dashboard(props) {  
   let userAnswers = useRef([]);
-  let [saveErrors, setSaveErrors] = useState("");
+  let [errors, setErrors] = useState("");
   let [saveOk, setSaveOk] = useState(null);
 
   /**
@@ -33,7 +27,7 @@ export default function Dashboard(props) {
    * works through their submission
    * @param {Function to call on success} successCallback 
    */
-  function saveAnswers() {
+  function saveCallback() {
     console.log(userAnswers.current);
     // console.log(data);
     router.visit(route('admin.content.dashboard.update'), {
@@ -46,13 +40,13 @@ export default function Dashboard(props) {
         onSuccess: (page) => {
           console.log("Saved Successfully");
           userAnswers.current = []; // clear these for next form
-          setSaveErrors([]);
+          setErrors([]);
           setSaveOk("Saved Successfully");
         },
         onError: (errors) => {
           console.log("saveAnswers Failed");            
           console.log(errors);
-          setSaveErrors(errors);
+          setErrors(errors);
           setSaveOk(null);
         },
     })
@@ -62,48 +56,39 @@ export default function Dashboard(props) {
     "label" : "Title",
     "placeholder": "",
     "required": true,
+    "value": props.dashboard.title
   }
 
   let titleTextField = { 
     "label": "Title Text",
     "placeholder": "",
     "required": true,
+    "value": props.dashboard.titleText
   }
 
   let submissionField = {
     "label" : "Submission",
     "placeholder": "",
     "required": true,
+    "value": props.dashboard.submission
   }
 
-  const editorRef = useRef(null);
+  let inputProps = {handleChange, submitCallBack:saveCallback, errors, siteConfig:props.siteConfig, camalCase:true, sideBySide:true, runInit:true};
+
   function MyContent() {
     return (
-      <>
-      <div className="flex">
-        <div className="overflow-y-auto w-5/6">
-          {/* Title */}
-          <div className="w-full">
-          <TextField field={titleField} value={props.dashboard.title} submitCallback={saveAnswers}
-                handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} camalCase runInit/>
-          </div>
-          {/* Title Text */}
-          <div className="w-full">
-          <RichTextAreaField field={titleTextField} value={props.dashboard.titleText} submitCallback={saveAnswers}
-                handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} camalCase runInit/>
-          </div>            
-          {/* Submission */} 
-          <div className="w-full">  
-          <TextField field={submissionField} value={props.dashboard.submission} submitCallback={saveAnswers}
-                handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} camalCase runInit/>
-          </div>            
+      <div className="pt-1 pb-2">
+        <div className="font-bold">Add New Control</div>
+        <div className="inline-block w-11/12">
+          <Admin_TextField field={titleField} {...inputProps}/>
+          <Admin_RichTextAreaField field={titleTextField} {...inputProps}/>
+          <Admin_TextField field={submissionField} {...inputProps}/>
         </div>
+        <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
+          <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/></div>
+          <div className="pl-2 font-bold">{saveOk}</div>
+        </div>        
       </div>
-      <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
-        <ThemedButton siteConfig={props.siteConfig} onClick={saveAnswers} children="Save"/>
-        <p>{saveOk}</p>
-      </div>  
-      </>
     );
   }
 

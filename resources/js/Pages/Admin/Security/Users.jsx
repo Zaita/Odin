@@ -72,14 +72,16 @@ export default function User(props) {
     );
   }
 
-  let topMenuItems = []
   let actionMenuItems = [
     <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.users.add'))} children="Add User"/>,
     <><span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span></>,
   ];
-    
+
+  let breadcrumb = [
+    ["Users", "admin.security.users"]
+  ]
 
   return (
-    <AdminPanel {...props} topMenuItems={topMenuItems} actionMenuItems={actionMenuItems} content={<MyContent props/>}/>
+    <AdminPanel {...props} breadcrumb={breadcrumb} topMenuItems={[]} actionMenuItems={actionMenuItems} content={<MyContent props/>}/>
   );
 }

@@ -18,6 +18,7 @@ use App\Models\SubmissionApprovalFlowStage;
 use App\Models\TaskSubmission;
 use App\Models\User;
 use App\Models\SubmissionCollaborator;
+use App\Objects\RiskCalculatorObject;
 
 class Submission extends Model
 {
@@ -73,6 +74,7 @@ class Submission extends Model
     $this->risk_calculation = $questionnaire->risk_calculation;
     $this->questionnaire_data = $questionnaire;
     $this->pillar_data = $pillar;
+    $this->risk_data = "{}"; // Empty risk data
     $this->status = "in_progress";
     $this->save();
 
@@ -314,6 +316,20 @@ class Submission extends Model
 
     Log::Info("isLastQuestion: False");
     return false;
+  }
+
+  public function calculateRiskScore() {
+    Log::Info("Calculating Risk");
+    Log::Info(sprintf("Type: %s; Calculation: %s", $this->type, $this->risk_calculation));
+    /**
+     * Step 1: Calculate the risk values
+     */
+    $risks = array();
+    if ($this->type == "risk_questionnaire" && $this->risk_calculation != "none") {
+      Log::Info("Risks are required");
+      $this->risk_data = RiskCalculatorObject::calculate($this, $this->risk_calculation);
+      $this->save();      
+    }
   }
 
   /**
