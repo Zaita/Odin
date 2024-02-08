@@ -235,12 +235,12 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   Route::get('/admin/content/securitycatalogues/{id}/download', [Admin_Content_SecurityCatalogue::class, 'download'])->name('admin.content.securitycatalogue.download');  
   Route::get('/admin/content/securitycatalogues/{id}/controls', [Admin_Content_SecurityCatalogue::class, 'controls'])->name('admin.content.securitycatalogue.controls');
   // Content -> Security Catalogues -> Controls
-  Route::get('/admin/content/securitycatalogues/{id}/controls/add', [Admin_Content_SecurityCatalogue::class, 'control_add'])->name('admin.content.securitycontrol.add');  
-  Route::post('/admin/content/securitycatalogues/{id}/controls/add', [Admin_Content_SecurityCatalogue::class, 'control_create'])->name('admin.content.securitycontrol.create');
-  Route::get('/admin/content/securitycatalogues/{id}/controls/edit', [Admin_Content_SecurityCatalogue::class, 'edit'])->name('admin.content.securitycontrol.edit');
-  Route::post('/admin/content/securitycatalogues/{id}/controls/save', [Admin_Content_SecurityCatalogue::class, 'save'])->name('admin.content.securitycontrol.save');
-  Route::post('/admin/content/securitycatalogues/{id}/controls/delete', [Admin_Content_SecurityCatalogue::class, 'delete'])->name('admin.content.securitycontrol.delete');
-  Route::get('/admin/content/securitycatalogues/{id}/controls/download', [Admin_Content_SecurityCatalogue::class, 'download'])->name('admin.content.securitycontrol.download');  
+  Route::get('/admin/content/securitycatalogues/{id}/control/add', [Admin_Content_SecurityCatalogue::class, 'control_add'])->name('admin.content.securitycontrol.add');  
+  Route::post('/admin/content/securitycatalogues/{id}/control/add', [Admin_Content_SecurityCatalogue::class, 'control_create'])->name('admin.content.securitycontrol.create');
+  Route::get('/admin/content/securitycatalogues/{id}/control/{controlId}/edit', [Admin_Content_SecurityCatalogue::class, 'control_edit'])->name('admin.content.securitycontrol.edit');
+  Route::post('/admin/content/securitycatalogue/{id}/control/{controlId}/save', [Admin_Content_SecurityCatalogue::class, 'control_save'])->name('admin.content.securitycontrol.save');
+  Route::post('/admin/content/securitycatalogues/{id}/control/delete', [Admin_Content_SecurityCatalogue::class, 'delete'])->name('admin.content.securitycontrol.delete');
+  Route::get('/admin/content/securitycatalogues/control/{controlId}/download', [Admin_Content_SecurityCatalogue::class, 'control_save'])->name('admin.content.securitycontrol.download');  
 
   // Service Inventory -> Accreditations
   Route::get('/admin/services', [AdminController::class, 'index'])->name('admin.services');

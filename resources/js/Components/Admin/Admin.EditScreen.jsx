@@ -8,7 +8,7 @@ import dbFormat from '@/Utilities/dbFormat';
 
 export default function Admin_EditScreen(props) {  
   let [errors, setErrors] = useState();
-  let [saveOk, setSaveOk] = useState(null);
+  let [saveOk, setSaveOk] = useState(props.saveOk);
   let userAnswers = useRef([]);
   let error = props.errors && "save" in props.errors ? (<><ReportIcon/> {props.errors["save"]}</>) : "";
 
