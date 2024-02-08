@@ -74,16 +74,14 @@ class SecurityCatalogueController extends Controller
    */
   public function download(Request $request, $id)  {  
     AuditLog::Log("Content.SecurityCatalogue($id).Download", $request);
-    // return response()->streamDownload(
-    //   function () use ($pillarId) { 
-    //     $pillar = Pillar::with(["questionnaire", 
-    //     "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');},
-    //     "questionnaire.questions.inputFields",
-    //     "questionnaire.questions.actionFields",
-    //     ])->findOrFail($pillarId);
-    //     echo json_encode($pillar, JSON_PRETTY_PRINT);
-    //   }
-    // ,'pillar.txt');
+    return response()->streamDownload(
+      function () use ($id) { 
+        $catalogue = SecurityCatalogue::with('security_controls', 
+          'security_controls.risk_weights',
+          'security_controls.risk_weights.risk',)->findOrFail($id);
+        echo json_encode($catalogue, JSON_PRETTY_PRINT);
+      }
+    ,'catalogue.txt');
   }
   
 
@@ -156,13 +154,57 @@ class SecurityCatalogueController extends Controller
    * Create the new security control
    */
   public function control_create(SecurityControlRequest $request, $id) : RedirectResponse {
-    $sc = new SecurityControl();
-    $sc->update($request->validated());
-    $sc->save(); // save before so we can get the id for the risks
+    Log::Info("control_create");
+    try {
+      $sc = new SecurityControl($request->validated());
+      $sc->security_catalogue_id = $id;
+      $sc->save(); 
+      $sc->updateRisks($request->all());
+      Log::Info("Updated Risks");
+
+    } catch (UniqueConstraintViolationException $e) {
+      Log::Info("Save Failed");
+      return back()->withErrors(["save" => "Save Failed: Security catalogue name has already been used"]);
+    }
     
-    $sc->updateRisks($request->all());
-    
-    return Redirect::route('admin.content.securitycatalogue.controls', $id)->with('saveOk', 'New pillar added successfully');
+    Log::Info("Routing to Security Control Edit $id =>  $sc->id");
+    return Redirect::route('admin.content.securitycontrol.edit', ["id" => $id, "controlId" => $sc->id])->with('saveOk', 'New security control added successfully');
   }
 
+  /**
+   * GET/admin/content/securitycatalogue/{id}/control/{controlId}/edit
+   * Load the edit screen for an existing pillar
+   */
+  public function control_edit(Request $request, $id, $controlId) {
+    AuditLog::Log("Content.SecurityCatalogue.Control.Edit", $request);
+
+    return Inertia::render('Admin/Content/SecurityCatalogues/Control.Edit', [
+      'siteConfig' => Configuration::site_config(),
+      'risks' => Risk::all(),
+      'catalogue' => SecurityCatalogue::findOrFail($id),
+      'control' => SecurityControl::with("risk_weights", "risk_weights.risk")->findOrFail($controlId),
+      'saveOk' => $request->session()->get('saveOk'),
+    ]); 
+  }
+
+  /**
+   * POST 
+   */
+  public function control_save(SecurityControlRequest $request, $id) : RedirectResponse {
+    AuditLog::Log('Admin.SecurityControl.Save', $request);
+    try {
+      $sc = SecurityControl::findOrFail($id);
+      $sc->update($request->validated());
+      $sc->updateRisks($request->all());
+      $sc->save();
+      Log::Info("Updated Risks");
+
+    } catch (UniqueConstraintViolationException $e) {
+      Log::Info("Save Failed");
+      return back()->withErrors(["save" => "Save Failed: Security catalogue name has already been used"]);
+    }
+    
+    Log::Info("Routing to Security Control Edit $id =>  $sc->id");
+    return Redirect::route('admin.content.securitycontrol.edit', ["id" => $id, "controlId" => $sc->id])->with('saveOk', 'Security control updated successfully');
+  }
 };

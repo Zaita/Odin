@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('impact_penalty')->unsigned();
             $table->timestamps();
 
-            $table->foreign('security_control_id')->references('id')->on('security_controls');
-            $table->foreign('risk_id')->references('id')->on('risks');
+            $table->foreign('security_control_id')->references('id')->on('security_controls')->onDelete("cascade");
+            $table->foreign('risk_id')->references('id')->on('risks')->onDelete("restrict");
         });
     }
 

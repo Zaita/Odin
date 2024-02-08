@@ -23,7 +23,7 @@ class SecurityControlRequest extends FormRequest
     {
       return [
         'name' => ['required', 'string', 'max:128'],
-        'description' => ['required', 'string', 'min:100'],
+        'description' => ['required', 'string', 'min:10'],
         'implementation_guidance' => ['nullable', 'string'],
         'implementation_evidence' => ['nullable', 'string'],
         'audit_guidance' => ['nullable', 'string'],
