@@ -58,7 +58,7 @@ export default function SecurityCatalogue_Controls(props) {
             <div className="w-6/12 float-left">{control.purpose ? control.purpose : "-"}</div>
             <div className="w-3/12 float-left">{control.standards ? control.standards : "-"}</div>
             <div> 
-              <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.content.securitycontrol.edit', [control.id]))}/> 
+              <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.content.securitycontrol.edit', {id:props.catalogue.id, controlId:control.id}))}/> 
               <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(control)}/>
               <a href={route('admin.content.securitycontrol.download', control.id)}>
                 <DownloadIcon className="cursor-pointer"/>

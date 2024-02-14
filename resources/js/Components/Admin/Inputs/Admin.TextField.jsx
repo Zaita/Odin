@@ -5,7 +5,7 @@ import dbFormat from '@/Utilities/dbFormat';
 
 export default function Admin_TextField(props) {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState(props.field.value);
+  const [value, setValue] = useState(props.field.value == null ? "" : props.field.value);
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
   fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;

@@ -25,4 +25,16 @@ class SecurityControlRiskWeight extends Model
     public function risk(): BelongsTo {
       return $this->BelongsTo(Risk::class);
     }
+
+    /**
+     * Import our control weights
+     */
+    public function importFromJson(array $jsonArr) {
+      // Strip out everything not relevant and update current object
+      $relevantJson = array_filter($jsonArr, function($k) { 
+        return in_array($k, $this->fillable);
+      }, ARRAY_FILTER_USE_KEY);
+      $this->fill($relevantJson);  
+      $this->save();
+    }
 }

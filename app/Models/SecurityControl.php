@@ -11,6 +11,7 @@ use App\Models\SecurityControlRiskWeight;
 class SecurityControl extends Model
 {
     use HasFactory;
+    public $errors = array();
     protected $fillable = [
         "name", 
         "description", 
@@ -27,7 +28,31 @@ class SecurityControl extends Model
       return $this->hasMany(SecurityControlRiskWeight::class);
     }
 
-    public $errors = array();
+    /**
+     * Import this security control from JSON. Create any risks
+     * that have not been created in the SDLT
+     */
+    public function importFromJson(array $jsonArr) {
+      // Strip out everything not relevant and update current object
+      $relevantJson = array_filter($jsonArr, function($k) { 
+        return in_array($k, $this->fillable);
+      }, ARRAY_FILTER_USE_KEY);
+      $this->fill($relevantJson); 
+      $this->save();
+
+      // Add our Control Risk Weights
+      foreach($jsonArr["risk_weights"] as $riskWeight) {
+        // Load or create the risk
+        $risk = Risk::firstOrCreate(["name" => $riskWeight["risk"]["name"]]);
+        $risk->description = $risk->description == "" ? $riskWeight["risk"]["description"] : $risk->description;
+        $risk->save();
+
+        $rw = SecurityControlRiskWeight::firstOrNew(["security_control_id" => $this->id, "risk_id" => $risk->id]);
+        $rw->importFromJson($riskWeight);
+        $rw->save();
+      }
+    }
+    
     /**
     * 
     */

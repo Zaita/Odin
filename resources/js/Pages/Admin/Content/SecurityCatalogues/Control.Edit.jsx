@@ -10,7 +10,7 @@ import Admin_TextField from '@/Components/Admin/Inputs/Admin.TextField';
 import Admin_RichTextAreaField from '@/Components/Admin/Inputs/Admin.RichTextAreaField';
 
 export default function SecurityCatalogue_Control_Edit(props) {  
-  let [saveOk, setSaveOk] = useState([]);
+  let [saveOk, setSaveOk] = useState(props.saveOk);
   let [errors, setErrors] = useState([]);
   let userAnswers = useRef([]);
   let error = props.errors && "save" in props.errors ? (<><ReportIcon/> {props.errors["save"]}</>) : "";
