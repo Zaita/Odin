@@ -14,7 +14,16 @@ class SecurityCatalogueSeeder extends Seeder
    */
   public function run(): void
   {
-    SecurityCatalogue::create(['name' => 'Default Control Catalogue', 'description' => 'In-Built default control catalogue based on NZISM and NIST']);
+    $name = "DefaultSecurityCatalogue";
+    $fileName = "storage/content/testdata/$name.json";
+    $file = fopen($fileName, "r") or die("Unable to open file!");
+    $json = json_decode(fread($file,filesize($fileName)), true);
+    fclose($file);
+
+    $sc = SecurityCatalogue::firstOrNew(["name" => $json["name"]]);
+    $sc->importFromJson($json);
+    $sc->save();
+
   }
 }
 
