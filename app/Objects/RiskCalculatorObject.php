@@ -3,6 +3,9 @@ namespace App\Objects;
 
 use Illuminate\Support\Facades\Log;
 
+use App\Models\Risk;
+use App\Models\ImpactThreshold;
+
 /**
  * This object is responsible for calculating the risk_data for a submission
  * based on the associated risk calculation methodology
@@ -10,42 +13,90 @@ use Illuminate\Support\Facades\Log;
 class RiskCalculatorObject {
 
   public static function calculate($submission, $method) {
-    return RiskCalculatorObject::highest_value($submission);
+    $risks = RiskCalculatorObject::highest_value($submission);
+    $risks = RiskCalculatorObject::getImpactRating($risks);
+    return $risks;
+  }
+
+  public static function getImpactRating($risks) {
+    $thresholds = ImpactThreshold::orderBy("sort_order", "asc")->get();
+
+    foreach($risks as &$risk) {
+      foreach($thresholds as $threshold) {
+        if ($threshold->operator == "<" && $risk["score"] < $threshold->value) {
+          $risk["color"] = $threshold->color;
+          $risk["rating"] = $threshold->name;
+          break;
+        
+        } else if ($threshold->operator == ">=" && $risk["score"] >= $threshold->value) {
+          $risk["color"] = $threshold->color;
+          $risk["rating"] = $threshold->name;
+          break;
+        }
+      }
+    }
+
+    return json_encode($risks);
   }
 
   public static function highest_value($submission) {
-    $risks = array();
+    Log::Info("Calculating Risks with highest_value algorithm");
+    $risks = Risk::all();
 
     $riskScores = array();
+    foreach ($risks as $risk) {
+      $riskScores[$risk->name] = 0;
+    }
 
+    // Loop through the questionnaire looking for checkbox input types
     $questions = json_decode($submission->questionnaire_data);
+    $answers = json_decode($submission->answer_data);
     foreach ($questions as $question) {
       foreach($question->input_fields as $inputField) {
         foreach($inputField->checkbox_options as $checkboxOption) {
           if (isset($checkboxOption->risks)) {
-            $risks = json_decode($checkboxOption->risks);
-
-            foreach($risks as $riskName => $riskValue) {
-              Log::debug("A". $riskName);
-              if (isset($riskValue->likelihood))
-                Log::debug($riskValue->likelihood);
+            Log::Info("Found checkbox option $checkboxOption->label with risks");
+            // We have risks now, we want to load the answer data
+            foreach($answers->answers as $answer) {
+              if ($answer->question == $question->title) { // match the question to an answer
+                Log::Info("Found answer in question $question->title");
+                // each answer field has data which contains each field                
+                foreach($answer->data as $field) {
+                  if (is_object($field->value)) {
+                    Log::Info("Found array with $field->field");
+                    foreach($field->value as $checkboxLabel => $checkBoxAnswer) {
+                      Log::Info("CheckboxAnswer for $checkboxLabel is $checkBoxAnswer");
+                      if ($checkBoxAnswer && $checkboxLabel == $checkboxOption->label) { // Did the user mark this as true
+                        Log::Info("User selected checkbox option $checkboxLabel");
+                        // Loop thr risks on the checkbox option
+                        $checkboxRisks = json_decode($checkboxOption->risks);
+                        foreach ($checkboxRisks as $riskName => $riskData) {
+                          if (isset($riskData->impact)) {
+                            $riskScores[$riskName] = max($riskScores[$riskName], $riskData->impact);
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     }
 
-    $answers = json_decode($submission->answer_data);
-    foreach ($answers->answers as $answer) { 
+    $riskData = array();
+    foreach($risks as $risk) {
+      if (isset($riskScores[$risk->name]) && $riskScores[$risk->name] > 0) {
+        $newRisk = array();
+        $newRisk["name"] = $risk->name;
+        $newRisk["score"] = $riskScores[$risk->name];
+        $newRisk["description"] = $risk->description;
+        array_push($riskData, $newRisk);
+      }
     }
-
-    $risk = array();
-    $risk["name"] = "Information SSLoss";
-    $risk["description"] = "Blah blah bblah";
-    $risk["score"] = "100";
-    array_push($risks, $risk);
     
-    return json_encode($risks);
+    return $riskData;
   }
-
 }

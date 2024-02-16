@@ -14,11 +14,13 @@ function Content({auth, siteConfig, pillar}) {
 
   return ( 
     <div id="inner_content">
-      <div id="small_title">{pillar.name}</div>
-      <div id="pillar_start_date">{date}</div>
-      <div id="pillar_start_user">{auth.user.name} ({auth.user.email})</div>
-      <div id="pillar_key_information">Key Information</div> 
-      <div id="pillar_key_information_text" dangerouslySetInnerHTML={{__html: pillar.key_information}} />
+      <div className="font-bold text-lg">{pillar.name}</div>
+      <div>{date}</div>
+      <div>{auth.user.name} ({auth.user.email})</div>
+      <div className="pt-4 pb-2 font-bold text-base">Key Information</div> 
+      <div className="whitespace-pre-wrap p-2"
+        style={{backgroundColor: siteConfig.theme_content_bg_color}}
+        dangerouslySetInnerHTML={{__html: pillar.key_information}} />
       <div id="pillar_start_button">
         <ThemedButton className="float-right" siteConfig={siteConfig} onClick={() => StartSubmission(pillar.id)}>Start &#62;</ThemedButton>
       </div>

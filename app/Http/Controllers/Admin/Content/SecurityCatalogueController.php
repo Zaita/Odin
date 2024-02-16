@@ -76,9 +76,10 @@ class SecurityCatalogueController extends Controller
     AuditLog::Log("Content.SecurityCatalogue($id).Download", $request);
     return response()->streamDownload(
       function () use ($id) { 
-        $catalogue = SecurityCatalogue::with('security_controls', 
+        $catalogue = SecurityCatalogue::with([
+          'security_controls' => function(Builder $q) {$q->orderBy('name', 'asc');}, 
           'security_controls.risk_weights',
-          'security_controls.risk_weights.risk',)->findOrFail($id);
+          'security_controls.risk_weights.risk'])->findOrFail($id);
         echo json_encode($catalogue, JSON_PRETTY_PRINT);
       }
     ,'catalogue.txt');
@@ -131,7 +132,7 @@ class SecurityCatalogueController extends Controller
     return Inertia::render('Admin/Content/SecurityCatalogues/Controls.View', [
       'siteConfig' => Configuration::site_config(),
       'catalogue' => SecurityCatalogue::findOrFail($id),
-      'controls' => SecurityControl::where('security_catalogue_id', '=', $id)->get()
+      'controls' => SecurityControl::where('security_catalogue_id', '=', $id)->orderBy('name', 'asc')->get()
     ]); 
   }
 
@@ -207,4 +208,16 @@ class SecurityCatalogueController extends Controller
     Log::Info("Routing to Security Control Edit $id =>  $sc->id");
     return Redirect::route('admin.content.securitycontrol.edit', ["id" => $id, "controlId" => $sc->id])->with('saveOk', 'Security control updated successfully');
   }
+
+  
+  /**
+   * POST /admin/content/securitycatalogue/delete
+   */
+  public function control_delete(Request $request, $id, $controlId)  {  
+    AuditLog::Log("Content.SecurityCatalogue.Control.Delete", $request);
+    $sc = SecurityControl::findOrFail($controlId);
+    $sc->delete();
+    return Redirect::route('admin.content.securitycatalogue.controls', ["id" => $id])->with('saveOk', 'Control deleted successfully');
+  }
+
 };

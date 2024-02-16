@@ -9,7 +9,7 @@ import DatePickerField from '../DatePickerField';
 import Form_CheckBox from './Form.CheckBox';
 import ThemedButton from '../ThemedButton';
 
-export default function Form(props) { 
+export default function Questionnaire_Form(props) { 
   let userAnswers = useRef({});
   let [saveErrors, setSaveErrors] = useState("");
   let inputs = [];  
@@ -184,7 +184,7 @@ export default function Form(props) {
   userAnswers.current = [];
 
   return (
-    <div id="inprogress_right_panel">
+    <div id="inprogress_right_panel" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
       <div id="question_heading" style={{ color: props.siteConfig.theme_header_color }}>{props.questionIndex+1}. {props.question.heading}</div>
       <div id="question_description" dangerouslySetInnerHTML={{__html: props.question.description}} />
       {inputs.map((element, index) => <div key={element[1]}>{element[0]}</div>)}      

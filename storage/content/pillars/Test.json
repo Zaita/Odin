@@ -1,110 +1,112 @@
 {
+  "id": 1,
   "name": "Test",
   "caption": "Testing Basic Functionality",
   "icon": "lightbulb",
-  "key_information": "No key information",  
+  "key_information": "No key information",
   "approval_flow" : "Security only",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
-  "expire_after_days": 7,
+  "expire_after_days": 0,
   "enabled": true,
+  "tasks": [
+    {"name": "One Question Task"},
+    {"name": "Digital Security Risk Assessment"}
+  ],
   "questionnaire": {
+      "id": 3,
       "name": "Test",
       "type": "risk_questionnaire",
       "risk_calculation": "zaita_approx",
       "questions": [
           {
+              "id": 1,
               "title": "Q1",
               "heading": "Q1",
               "description": "Q1",
               "sort_order": 0,
               "input_fields": [
-                {
-                  "label": "Product Name",
-                  "required": true,
-                  "input_type": "text",
-                  "min_length": 3,
-                  "max_length": 0,
-                  "product_name": true
-                },
-                {
-                  "label": "Business Owner",
-                  "required": true,
-                  "input_type": "email",
-                  "min_length": 3,
-                  "max_length": 0,
-                  "business_owner": true
-                },
-                {
-                  "label": "Checkbox Text",
-                  "required": true,
-                  "input_type": "checkbox",
-                  "checkbox_options" : [
-                    { 
-                      "label": "Option 1",
-                      "value": "Option 1",
-                      "risks" : {
-                        "Information loss": {
-                          "likelihood": "0",
-                          "likelihood_penalty": "0"
-                        },
-                        "Information disclosure": {
-                          "likelihood": "2",
-                          "likelihood_penalty": "10"
-                        },
-                        "Information modification": {
-                          "likelihood": "3",
-                          "likelihood_penalty": "30"
-                        },
-                        "Degraded service performance": {
-                          "likelihood": "0",
-                          "likelihood_penalty": "0"
-                        },
-                        "Harm to, or loss of human life": {
-                          "likelihood": "0",
-                          "likelihood_penalty": "0"
-                        },
-                        "Sustained service unavailability": {
-                          "likelihood": "0",
-                          "likelihood_penalty": "0"
-                        }
-                      }                      
-                    },
-                    { 
-                      "label": "Option 2",
-                      "value": "Option 2",
-                      "risks" : [
+                  {
+                      "id": 1,
+                      "label": "Product Name",
+                      "required": true,
+                      "input_type": "text",
+                      "min_length": 3,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": true,
+                      "business_owner": false,
+                      "release_date": null,
+                      "ticket_url": null,
+                      "sort_order": 999,
+                      "config": null
+                  },
+                  {
+                      "id": 2,
+                      "label": "Business Owner",
+                      "required": true,
+                      "input_type": "email",
+                      "min_length": 3,
+                      "max_length": 0,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": true,
+                      "release_date": null,
+                      "ticket_url": null,
+                      "sort_order": 999,
+                      "config": null
+                  },
+                  {
+                      "id": 3,
+                      "label": "Checkbox Text",
+                      "required": true,
+                      "input_type": "checkbox",
+                      "min_length": null,
+                      "max_length": null,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": null,
+                      "ticket_url": null,
+                      "sort_order": 999,
+                      "config": null,
+                      "checkbox_options": [
                         {
-                          "Information loss": {
-                            "likelihood": "0",
-                            "likelihood_penalty": "0"
-                          },
-                          "Information disclosure": {
-                            "likelihood": "2",
-                            "likelihood_penalty": "10"
-                          },
-                          "Information modification": {
-                            "likelihood": "3",
-                            "likelihood_penalty": "30"
-                          }
-                        }                                           
-                      ]
-                    },
-                    { 
-                      "label": "Option 3",
-                      "value": "Option 3"                      
-                    }                                          
-                  ]                  
-                }                 
+                            "id": 1,
+                            "input_field_id": 29,
+                            "label": "Minor Risk ID\/IM",
+                            "value": "New Option",
+                            "risks": "{\"Information loss\": {\"impact\": 0}, \"Information disclosure\": {\"impact\": 22}, \"Information modification\": {\"impact\": 22}, \"Degraded service performance\": {\"impact\": 0}, \"Harm to, or loss of human life\": {\"impact\": 0}, \"Sustained service unavailability\": {\"impact\": 0}}",
+                            "sort_order": 999,
+                            "created_at": "2024-02-16T03:22:18.000000Z",
+                            "updated_at": "2024-02-16T03:23:04.000000Z"
+                        },
+                        {
+                            "id": 2,
+                            "input_field_id": 29,
+                            "label": "Moderate IM\/IL",
+                            "value": "New Option",
+                            "risks": "{\"Information loss\": {\"impact\": 40}, \"Information disclosure\": {\"impact\": 0}, \"Information modification\": {\"impact\": 40}, \"Degraded service performance\": {\"impact\": 0}, \"Harm to, or loss of human life\": {\"impact\": 0}, \"Sustained service unavailability\": {\"impact\": 0}}",
+                            "sort_order": 999,
+                            "created_at": "2024-02-16T03:22:20.000000Z",
+                            "updated_at": "2024-02-16T03:23:19.000000Z"
+                        },
+                        {
+                            "id": 3,
+                            "input_field_id": 29,
+                            "label": "Severe IM,DSP",
+                            "value": "New Option",
+                            "risks": "{\"Information loss\": {\"impact\": 0}, \"Information disclosure\": {\"impact\": 0}, \"Information modification\": {\"impact\": 100}, \"Degraded service performance\": {\"impact\": 100}, \"Harm to, or loss of human life\": {\"impact\": 0}, \"Sustained service unavailability\": {\"impact\": 0}}",
+                            "sort_order": 999,
+                            "created_at": "2024-02-16T03:22:21.000000Z",
+                            "updated_at": "2024-02-16T03:23:36.000000Z"
+                        }
+                    ]
+                  }
               ],
               "action_fields": []
-          }          
+          }
       ]
-  },
-  "tasks": [
-    { 
-      "name": "One Question Task"
-    }
-  ]  
+  }
 }

@@ -76,9 +76,9 @@ class CheckboxOption extends Model
 
 
         } else if ($modifier == "impact") {
-          if ($value < 0 || $value > 10) {
-            $this->errors[$key] = "Impact value must be between 0 and 10 inclusively";
-          }
+          // if ($value < 0 || $value > 10) {
+          //   $this->errors[$key] = "Impact value must be between 0 and 10 inclusively";
+          // }
           $riskBlock[$risk]["impact"] = (int)$value;
 
         } else if ($modifier == "impact_penalty") {

@@ -13,7 +13,7 @@ use App\Models\Configuration;
 use App\Models\Pillar;
 use App\Models\Questionnaire;
 use App\Models\Submission;
-use App\Models\Task;
+use App\Models\Risk;
 use App\Models\TaskSubmission;
 use App\Models\User;
 use App\Models\SubmissionCollaborator;
@@ -194,6 +194,8 @@ class SubmissionController extends Controller
     return Inertia::render('Submission/Review', [
       'siteConfig' => $config,
       'submission' => $submission,
+      'risks' => Risk::all(),
+      'riskTitle' => "Final risk ratings"
     ]);  
   }
 
@@ -367,6 +369,7 @@ class SubmissionController extends Controller
     $submission = Submission::where('id', $task->submission_id)->first();
     
     // Task is ready to start.
+    Log::Info("Task Status: $task->status (type: $task->task_type)");
     if ($task->status == "ready_to_start") {
       if (!$submission->canWorkOnTask($request->user())) {
         return back()->withInput()->withErrors($submission->errors); 
@@ -386,7 +389,7 @@ class SubmissionController extends Controller
       return Redirect::route('submission.task.inprogress', ['uuid' => $task->uuid]); 
 
     } else if ($task->status == "in_progress") {
-      Redirect::route('submission.task.inprogress', ['uuid' => $task->uuid]); 
+      return $this->task_inprogress($request, $uuid);
     } else if ($task->status == "in_review") {
       Redirect::route('submission.task.review', ['uuid' => $task->uuid]); 
     } else if ($task->status == "waiting_for_approval") {
@@ -427,20 +430,30 @@ class SubmissionController extends Controller
    * is entering data
    */
   public function task_inprogress(Request $request, $uuid) {
+    Log::Info("Loading in_progress task $uuid");
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
 
     // Verify user can work on this submission (is submitter or collaborator)
     $submission = Submission::where('id', $task->submission_id)->first();
     if (!$submission->canWorkOnTask($request->user())) {
+      Log::Error("User $user->email cannot work on submission $submission->uuid");
       return back()->withInput()->withErrors($submission->errors); 
     }
 
-    return Inertia::render('Submission/Task/InProgress', [
-      'siteConfig' => $config,
-      'submission' => $submission,
-      'task' => $task,
-    ]);     
+    if ($task->task_type == "questionnaire" || $task->task_type == "risk_questionnaire") {
+      return Inertia::render('Submission/Task/InProgress', [
+        'siteConfig' => $config,
+        'submission' => $submission,
+        'task' => $task,
+      ]);     
+    } else {
+      return Inertia::render('Submission/Task/SecurityRiskAssessment', [
+        'siteConfig' => $config,
+        'submission' => $submission,
+        'task' => $task,
+      ]);         
+    }
   }
 
   /**

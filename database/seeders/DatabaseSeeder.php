@@ -16,6 +16,7 @@ use Database\Seeders\RiskSeeder;
 use Database\Seeders\ReportSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\SecurityCatalogueSeeder;
+use Database\Seeders\ImpactThresholdSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,12 +30,13 @@ class DatabaseSeeder extends Seeder
         GroupSeeder::class,
         GroupUserSeeder::class,
         ApprovalFlowSeeder::class,
-        RiskSeeder::class,
-        PillarSeeder::class,
+        RiskSeeder::class,        
         TaskSeeder::class,
+        PillarSeeder::class,
         SubmissionSeeder::class,
         ReportSeeder::class,
         SecurityCatalogueSeeder::class,
+        ImpactThresholdSeeder::class,
       ]);
     }
 }

@@ -8,7 +8,7 @@ import {Link} from '@inertiajs/react';
 import AdminPanel from '@/Layouts/AdminPanel';
 import ThemedButton from '@/Components/ThemedButton';
 import DeleteModal from '@/Components/Admin/DeleteModal';
-import { SaveAnswers } from '@/Components/Admin/SaveAnswers';
+import { SaveAnswers, SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 
 export default function SecurityCatalogue_Controls(props) {  
   let [saveErrors, setSaveErrors] = useState(null);
@@ -26,7 +26,7 @@ export default function SecurityCatalogue_Controls(props) {
 
   function confirmedDeletion() {
     console.log("Deletion Confirmed");
-    SaveAnswers("admin.content.securitycontrol.delete", setSaveOk, setSaveErrors, deleteTarget.current);
+    SaveAnswersWithId("admin.content.securitycontrol.delete", {id:props.catalogue.id, controlId:deleteTarget.current["id"]}, setSaveOk, setSaveErrors, deleteTarget.current);
     setDialogIsOpen(false)
   }
 
@@ -47,16 +47,17 @@ export default function SecurityCatalogue_Controls(props) {
         <div className="pb-2 border-b-2"
           style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-2/12 float-left font-bold">Control Name</div>
-            <div className="w-9/12 float-left font-bold">Purpose</div>
+            <div className="w-6/12 float-left font-bold">Description</div>
+            <div className="w-3/12 float-left font-bold">Reference Standards</div>
             <div className="font-bold">Actions</div>
         </div>
         {props.controls?.map((control, index) => {          
           return (
-          <div key={index} className="pt-1 border-b"
+          <div key={index} className="pt-1 border-b overflow-x-auto"
             style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
-            <div className="w-2/12 float-left">{control.name}</div>
-            <div className="w-6/12 float-left">{control.purpose ? control.purpose : "-"}</div>
-            <div className="w-3/12 float-left">{control.standards ? control.standards : "-"}</div>
+            <div className="w-2/12 float-left whitespace-pre-wrap">{control.name}</div>
+            <div className="w-6/12 float-left whitespace-pre-wrap">{control.description ? control.description.substring(0, 200).replaceAll("<p>", "").replaceAll("</p>", "") : "="}</div>
+            <div className="w-3/12 float-left whitespace-pre-wrap">{control.reference_standards ? control.reference_standards : "-"}</div>
             <div> 
               <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.content.securitycontrol.edit', {id:props.catalogue.id, controlId:control.id}))}/> 
               <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(control)}/>

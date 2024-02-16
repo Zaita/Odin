@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
 
 import TextField from '@/Components/TextField';
-import TextAreaField from '@/Components/TextAreaField';
 import ThemedButton from '@/Components/ThemedButton';
 
 import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
+import RichTextAreaField from '@/Components/RichTextAreaField';
 
 export default function QuestionAdd(props) {  
   let [saveErrors, setSaveErrors] = useState("");
-  let [saveOk, setSaveOk] = useState(null);
+  let [saveOk, setSaveOk] = useState(props.saveOk);
   let userAnswers = useRef([]);
 
   function handleChange(id, value) {
@@ -55,7 +55,7 @@ export default function QuestionAdd(props) {
         </div>
         {/* Description */}
         <div className="w-full">
-        <TextAreaField field={descriptionField} value={descriptionField.value} submitCallback={saveAnswersCallback}
+        <RichTextAreaField field={descriptionField} value={descriptionField.value} submitCallback={saveAnswersCallback}
               handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="200px" camalCase/>
         </div>           
       </div>

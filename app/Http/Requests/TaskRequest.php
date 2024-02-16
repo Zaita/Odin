@@ -17,7 +17,7 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'min:3', 'max:128'],
             'type' => ['required', Rule::in(["questionnaire", "risk_questionnaire", "security_risk_assessment", "control_validation_audit"])],
         ];
     }

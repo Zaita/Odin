@@ -48,9 +48,13 @@ class Task extends Model
 
     $this->fill($relevantJson);  
 
-    $q = Questionnaire::firstOrNew(["name" => $this->name]);
-    $q->importFromJson($jsonArr);
-    $this->task_object_id = $q->id;    
+    if ($this->type == "questionnaire" || $this->type == "risk_questionnaire") {
+      $q = Questionnaire::firstOrNew(["name" => $this->name]);
+      $q->importFromJson($jsonArr);
+      $this->task_object_id = $q->id;    
+    } else {
+      $this->task_object_id = 0;
+    }
 
     $this->save();
   }
@@ -85,13 +89,22 @@ class Task extends Model
      * Depending on the task type, this will be handled differently.
      */
     if (is_null($this->task_object_id)) {
-      if ($this->type == "questionnaire") {
+      if ($this->type == "questionnaire" || $this->type == "risk_questionnaire") {
         $q = new Questionnaire();
         $q->name = $this->name;
-        $q->type = "questionnaire";
+        $q->type = $this->type;
         $q->save();
         $this->task_object_id = $q->id;
+      } else {
+        $this->task_object_id = 0;
       }
+    }
+
+    if ($this->approval_group == "none") {
+      $this->approval_group = null;
+    }
+    if ($this->notification_group == "none") {
+      $this->notification_group = null;
     }
 
     return parent::save($options);
