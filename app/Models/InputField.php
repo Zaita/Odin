@@ -75,7 +75,7 @@ class InputField extends Model
             $options = $jsonArr["checkbox_options"];
             foreach ($options as $checkbox_option) {
                 $option = new CheckboxOption($checkbox_option);
-                $option->risks = isset($checkbox_option["risks"]) ? json_encode($checkbox_option["risks"]) : null;
+                $option->risks = isset($checkbox_option["risks"]) ? $checkbox_option["risks"] : null;
                 $option->input_field_id = $this->id;
                 $option->save();
             }

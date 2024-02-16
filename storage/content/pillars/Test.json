@@ -4,31 +4,41 @@
   "caption": "Testing Basic Functionality",
   "icon": "lightbulb",
   "key_information": "No key information",
-  "approval_flow" : "Security only",
   "auto_approve": true,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
   "expire_after_days": 0,
   "enabled": true,
   "tasks": [
-    {"name": "One Question Task"},
-    {"name": "Digital Security Risk Assessment"}
+      {
+          "name": "One Question Task"
+      },
+      {
+          "name": "Digital Security Risk Assessment"
+      }
   ],
+  "approval_flow": {
+      "id": 2,
+      "name": "Security only",
+      "enabled": 1,
+      "created_at": "2024-02-16T07:54:17.000000Z",
+      "updated_at": "2024-02-16T07:54:17.000000Z"
+  },
   "questionnaire": {
-      "id": 3,
+      "id": 7,
       "name": "Test",
       "type": "risk_questionnaire",
       "risk_calculation": "zaita_approx",
       "questions": [
           {
-              "id": 1,
+              "id": 62,
               "title": "Q1",
               "heading": "Q1",
               "description": "Q1",
               "sort_order": 0,
               "input_fields": [
                   {
-                      "id": 1,
+                      "id": 27,
                       "label": "Product Name",
                       "required": true,
                       "input_type": "text",
@@ -40,10 +50,11 @@
                       "release_date": null,
                       "ticket_url": null,
                       "sort_order": 999,
-                      "config": null
+                      "config": null,
+                      "checkbox_options": []
                   },
                   {
-                      "id": 2,
+                      "id": 28,
                       "label": "Business Owner",
                       "required": true,
                       "input_type": "email",
@@ -55,10 +66,11 @@
                       "release_date": null,
                       "ticket_url": null,
                       "sort_order": 999,
-                      "config": null
+                      "config": null,
+                      "checkbox_options": []
                   },
                   {
-                      "id": 3,
+                      "id": 29,
                       "label": "Checkbox Text",
                       "required": true,
                       "input_type": "checkbox",
@@ -72,37 +84,94 @@
                       "sort_order": 999,
                       "config": null,
                       "checkbox_options": [
-                        {
-                            "id": 1,
-                            "input_field_id": 29,
-                            "label": "Minor Risk ID\/IM",
-                            "value": "New Option",
-                            "risks": "{\"Information loss\": {\"impact\": 0}, \"Information disclosure\": {\"impact\": 22}, \"Information modification\": {\"impact\": 22}, \"Degraded service performance\": {\"impact\": 0}, \"Harm to, or loss of human life\": {\"impact\": 0}, \"Sustained service unavailability\": {\"impact\": 0}}",
-                            "sort_order": 999,
-                            "created_at": "2024-02-16T03:22:18.000000Z",
-                            "updated_at": "2024-02-16T03:23:04.000000Z"
-                        },
-                        {
-                            "id": 2,
-                            "input_field_id": 29,
-                            "label": "Moderate IM\/IL",
-                            "value": "New Option",
-                            "risks": "{\"Information loss\": {\"impact\": 40}, \"Information disclosure\": {\"impact\": 0}, \"Information modification\": {\"impact\": 40}, \"Degraded service performance\": {\"impact\": 0}, \"Harm to, or loss of human life\": {\"impact\": 0}, \"Sustained service unavailability\": {\"impact\": 0}}",
-                            "sort_order": 999,
-                            "created_at": "2024-02-16T03:22:20.000000Z",
-                            "updated_at": "2024-02-16T03:23:19.000000Z"
-                        },
-                        {
-                            "id": 3,
-                            "input_field_id": 29,
-                            "label": "Severe IM,DSP",
-                            "value": "New Option",
-                            "risks": "{\"Information loss\": {\"impact\": 0}, \"Information disclosure\": {\"impact\": 0}, \"Information modification\": {\"impact\": 100}, \"Degraded service performance\": {\"impact\": 100}, \"Harm to, or loss of human life\": {\"impact\": 0}, \"Sustained service unavailability\": {\"impact\": 0}}",
-                            "sort_order": 999,
-                            "created_at": "2024-02-16T03:22:21.000000Z",
-                            "updated_at": "2024-02-16T03:23:36.000000Z"
-                        }
-                    ]
+                          {
+                              "id": 1,
+                              "input_field_id": 29,
+                              "label": "Minor Risk ID\/IM",
+                              "value": "New Option",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 0
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 22
+                                  },
+                                  "Information modification": {
+                                      "impact": 22
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-16T03:22:18.000000Z",
+                              "updated_at": "2024-02-16T03:23:04.000000Z"
+                          },
+                          {
+                              "id": 2,
+                              "input_field_id": 29,
+                              "label": "Moderate IM\/IL",
+                              "value": "New Option",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 40
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 0
+                                  },
+                                  "Information modification": {
+                                      "impact": 40
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-16T03:22:20.000000Z",
+                              "updated_at": "2024-02-16T03:23:19.000000Z"
+                          },
+                          {
+                              "id": 3,
+                              "input_field_id": 29,
+                              "label": "Severe IM,DSP",
+                              "value": "New Option",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 0
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 0
+                                  },
+                                  "Information modification": {
+                                      "impact": 100
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 100
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-16T03:22:21.000000Z",
+                              "updated_at": "2024-02-16T03:23:36.000000Z"
+                          }
+                      ]
                   }
               ],
               "action_fields": []

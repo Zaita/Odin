@@ -95,7 +95,9 @@ class PillarController extends Controller
     AuditLog::Log("Content.Pillar($pillarId).Download", $request);
     return response()->streamDownload(
       function () use ($pillarId) { 
-        $pillar = Pillar::with(["questionnaire", 
+        $pillar = Pillar::with([
+        "approval_flow",
+        "questionnaire", 
         "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');},
         "questionnaire.questions.inputFields",
         "questionnaire.questions.inputFields.checkbox_options",

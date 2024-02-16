@@ -69,8 +69,7 @@ class RiskCalculatorObject {
                       if ($checkBoxAnswer && $checkboxLabel == $checkboxOption->label) { // Did the user mark this as true
                         Log::Info("User selected checkbox option $checkboxLabel");
                         // Loop thr risks on the checkbox option
-                        $checkboxRisks = json_decode($checkboxOption->risks);
-                        foreach ($checkboxRisks as $riskName => $riskData) {
+                        foreach ($checkboxOption->risks as $riskName => $riskData) {
                           if (isset($riskData->impact)) {
                             $riskScores[$riskName] = max($riskScores[$riskName], $riskData->impact);
                           }
