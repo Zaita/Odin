@@ -20,6 +20,10 @@ class CheckboxOption extends Model
       'risks',
     ];
 
+    protected $casts = [
+      'risks' => 'json',
+    ];
+
     public function validateAnswers(array $answers) {
       Log::Info("Validating Answers");
       foreach ($answers as $key => $value) {

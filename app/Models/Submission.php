@@ -347,8 +347,7 @@ class Submission extends Model
      * Step 1: Create Task Submissions for any tasks that are assigned to the Pillar
      */
     $pillarData = json_decode($this->pillar_data);
-    $tasks = json_decode($pillarData->tasks);
-    foreach($tasks as $task) {
+    foreach($pillarData->tasks as $task) {
       $taskObj = Task::where(["name" => $task->name])->first();
       Log::Info($taskObj->id);
 
