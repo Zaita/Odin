@@ -11,7 +11,7 @@ export function SaveAnswers(routeName, successCallback, errorCallback, userData)
       },
       onSuccess: (page) => {
         console.log("Saved Successfully");
-        successCallback("Saved Successfully");
+        successCallback(page.props.saveOk ? page.props.saveOk : "Saved Successfully");
         errorCallback(null);
       },
       onError: (errors) => {
@@ -36,7 +36,7 @@ export function SaveAnswersWithId(routeName, id, successCallback, errorCallback,
       },
       onSuccess: (page) => {
         console.log("Saved Successfully");
-        successCallback("Saved Successfully");
+        successCallback(page.props.saveOk ? page.props.saveOk : "Saved Successfully");
         errorCallback(null);
       },
       onError: (errors) => {

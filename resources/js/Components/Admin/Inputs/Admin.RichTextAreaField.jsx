@@ -56,7 +56,7 @@ export default function Admin_RichTextAreaField(props) {
       <div id="label" className="float-left inline-block w-48">
         <label htmlFor={fieldId}>{label}</label>
       </div>
-      <div className="inline-block w-auto" 
+      <div className="inline-block w-auto max-w-5xl" 
         style={{borderColor: props.siteConfig.theme_input_border_color}}
         >
         <Editor

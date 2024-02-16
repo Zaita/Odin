@@ -50,7 +50,7 @@ export default function Admin_AddScreen(props) {
     <div className="pt-1 pb-2">
       <div className="font-bold">{props.title}</div>
       <div className="inline-block w-11/12">
-      {inputFields.map((field) => <>{field}</>)}    
+      {inputFields.map((field, index) => <span key={"ul_"+ index}>{field}</span>)}    
       </div>
       <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
         <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Create"/></div>
