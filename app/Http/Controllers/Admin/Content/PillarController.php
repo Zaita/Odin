@@ -21,6 +21,7 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
 use App\Models\CheckboxOption;
 use App\Models\ImpactThreshold;
+use App\Models\Task;
 use App\Http\Requests\AdminContentPillarUpdateRequest;
 use App\Http\Requests\InputFieldRequest;
 use App\Http\Requests\ActionFieldRequest;
@@ -30,19 +31,17 @@ use App\Http\Requests\QuestionnaireQuestionRequest;
 class PillarController extends Controller
 {
   /**
-   * Handle the default GET of / for this controller
+   * GET /admin/content/pillars
    */
   public function index(Request $request) {
-    $pillars = Pillar::orderBy('created_at')->paginate(20);
-    
     return Inertia::render('Admin/Content/Pillars', [
       'siteConfig' => Configuration::site_config(),
-      'pillars' => $pillars
+      'pillars' => Pillar::orderBy('created_at')->paginate(20),
     ]); 
   }
 
   /**
-   * Content -> Pillars -> Add
+   * GET /admin/content/pillar/add
    * Load the add screen
    */
   public function add(Request $request) {
@@ -71,7 +70,8 @@ class PillarController extends Controller
     $p->questionnaire_id = $q->id;   
     $p->approval_flow_id = $approvalFlowId;    
     $p->save();
-    return Redirect::route('admin.content.pillar.edit', $p->id);
+    return Redirect::route('admin.content.pillar.edit', $p->id)
+      ->with('saveOk', 'New pillar created successfully');
   }
 
   /**
@@ -108,11 +108,7 @@ class PillarController extends Controller
     ,'pillar.txt');
   }
 
-
-
-  
-
-    /**
+  /**
    * **************************************************************************
    * Below we handle specific routes for working with a singular pillar
    * e.g. adding/modifying questions
@@ -136,16 +132,17 @@ class PillarController extends Controller
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'approvalFlowOptions' => $approvalFlowOptions,
+      'saveOk' => $request->session()->get('saveOk'),
     ]); 
   }
 
   /**
+   * POST /admin/content/pillar/{id}/save
    * Save changes to our existing group
    */
-  public function save(AdminContentPillarUpdateRequest $request) : RedirectResponse {
-    AuditLog::Log("Content.Pillar.Save", $request);
-    $id = $request->input('id', -1);
-    $pillar = Pillar::findOrFail($id); 
+  public function save(AdminContentPillarUpdateRequest $request, $pillarId) : RedirectResponse {
+    AuditLog::Log("Content.Pillar($pillarId).Save", $request);
+    $pillar = Pillar::findOrFail($pillarId); 
     $pillar->update($request->safe()->except(["type", "risk_calculation"]));
     
     $questionnaire = Questionnaire::findOrFail($pillar->questionnaire_id);
@@ -159,13 +156,14 @@ class PillarController extends Controller
       return back()->withInput()->withErrors($pillar->errors);
     }
 
-    return Redirect::route('admin.content.pillar.edit', $id);
+    return Redirect::route('admin.content.pillar.edit', $pillarId)
+      ->with('saveOk', 'Pillar updated successfully');
   }
 
   /**
    * Load the list of questions for the pillar
    */
-  public function pillar_questions_index(Request $request, $id) {
+  public function pillar_questions(Request $request, $id) {
     $pillar = Pillar::with(["questionnaire", 
       "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($id);
     
@@ -179,11 +177,9 @@ class PillarController extends Controller
    * Load the add screen for adding a new question to a pillar
    */
   public function pillar_questions_add(Request $request, $id) {
-    $pillar = Pillar::findOrFail($id);
-    
-    return Inertia::render('Admin/Content/Pillars/Questions/Add', [
+    return Inertia::render('Admin/Content/Pillars/Pillar.Question.Add', [
       'siteConfig' => Configuration::site_config(),
-      'pillar' => $pillar,
+      'pillar' => Pillar::findOrFail($id),
     ]); 
   }
 
@@ -233,7 +229,7 @@ class PillarController extends Controller
    * Delete a question
    */
   public function pillar_question_delete(Request $request, $pillarId, $questionId) {
-    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Delete", $request);
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Delete", $request);
     $question = QuestionnaireQuestion::findOrFail($questionId);
     $question->delete();    
     return Redirect::route('admin.content.pillar.questions', $pillarId);
@@ -244,9 +240,8 @@ class PillarController extends Controller
    */
   public function pillar_question_edit(Request $request, $id, $questionId) {
     $pillar = Pillar::findOrFail($id);
-    $question = QuestionnaireQuestion::findorFail($questionId);
-    
-    return Inertia::render('Admin/Content/Pillars/Questions/Edit', [
+    $question = QuestionnaireQuestion::findorFail($questionId);   
+    return Inertia::render('Admin/Content/Pillars/Pillar.Question.Edit', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
@@ -257,7 +252,7 @@ class PillarController extends Controller
    * Save changes to a question 
    */
   public function pillar_question_save(QuestionnaireQuestionRequest $request, $pillarId, $questionId) {
-    AuditLog::Log("Content.Pillar(${pillarId}).Question(${questionId}).Update", $request);
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Update", $request);
     $question = QuestionnaireQuestion::findOrFail($questionId);
     $question->update($request->validated());
     $question->save();
@@ -272,7 +267,7 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($id);
     $question = QuestionnaireQuestion::with(['inputFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
     
-    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/View', [
+    return Inertia::render('Admin/Content/Pillars/Questions/Question.Inputs', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
@@ -307,7 +302,7 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::findOrFail($questionId);
 
-    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Add', [
+    return Inertia::render('Admin/Content/Pillars/Questions/Input.Add', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
@@ -342,11 +337,11 @@ class PillarController extends Controller
 
     $risks = Risk::all();
 
-    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Edit', [
+    return Inertia::render('Admin/Content/Pillars/Questions/Input.Edit', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
-      'field' => $inputField,
+      'input' => $inputField,
       'risks' => $risks,
     ]); 
   }
@@ -367,7 +362,7 @@ class PillarController extends Controller
    * Handle the POST back to delete an input field on our question
    */
   public function pillar_question_input_delete(Request $request, $pillarId, $questionId, $inputId) {
-    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Input(${inputId}).Delete", $request);    
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Input($inputId).Delete", $request);    
     $inputField = InputField::findOrFail($inputId);
     $inputField->delete();   
     
@@ -449,7 +444,7 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::with(['actionFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
     
-    return Inertia::render('Admin/Content/Pillars/Questions/Actions/View', [
+    return Inertia::render('Admin/Content/Pillars/Questions/Question.Actions', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
@@ -539,5 +534,77 @@ class PillarController extends Controller
       'question' => $question,
       'field' => $question["answerInputFields"][$actionId]
     ]); 
+  }
+
+  /**
+   * Handle Tasks on our Pillar
+   */
+  public function pillar_tasks(Request $request, $pillarId) {
+    $pillar = Pillar::findOrFail($pillarId);
+    $tasks = Task::select('name')->get();
+    $taskOptions = array();
+    foreach( $tasks as $task ) {
+      array_push($taskOptions, $task->name);
+    }
+
+    $linkedTasks = array();
+    foreach($pillar->tasks as $requiredTask) {
+      $taskName = $requiredTask["name"];
+      $task = Task::where(["name" => $taskName])->first();
+      array_push($linkedTasks, $task);
+    }
+  
+    return Inertia::render('Admin/Content/Pillars/Pillar.Tasks', [
+      'siteConfig' => Configuration::site_config(),
+      'pillar' => $pillar,
+      'linkedTasks' => $linkedTasks,
+      'taskOptions' => $taskOptions,
+      'saveOk' => $request->session()->get('saveOk'),
+    ]); 
+  }
+
+  public function pillar_task_link(Request $request, $pillarId) {
+    $taskName = $request->input('task', '');
+    Log::Info("Linking $taskName to Pillar $pillarId");
+
+    $pillar = Pillar::findOrFail($pillarId);
+    $task = Task::where(["name"=> $taskName])->first();
+    if ($task == null) {
+      return Redirect::route('admin.content.pillar.tasks', ["id" => $pillarId])
+      ->with('saveOk', 'Task does not exist');
+    }
+
+    foreach($pillar->tasks as $requiredTask) {
+      if ($requiredTask["name"] == $taskName) {
+        return Redirect::route('admin.content.pillar.tasks', ["id" => $pillarId])
+        ->with('saveOk', 'Task has already been linked to this pillar');
+      }
+    }
+
+    $taskList = $pillar->tasks;
+    array_push($taskList, ["name" => $taskName]);
+    $pillar->tasks = json_decode(json_encode($taskList));
+    $pillar->save();
+
+    return Redirect::route('admin.content.pillar.tasks', ["id" => $pillarId])
+      ->with('saveOk', 'Task has been linked successfully to pillar');
+  }
+
+  public function pillar_task_unlink(Request $request, $pillarId, $taskId) {
+    $pillar = Pillar::findOrFail($pillarId);
+    $task = Task::findOrFail($taskId);
+
+    $taskName = $task->name;
+    $taskList = array();
+    foreach($pillar->tasks as $requiredTask) {
+      if ($requiredTask["name"] != $taskName) {
+        array_push($taskList, $requiredTask);
+      }
+    }
+    $pillar->tasks = json_decode(json_encode($taskList));
+    $pillar->save();
+
+    return Redirect::route('admin.content.pillar.tasks', ["id" => $pillarId])
+      ->with('saveOk', 'Task has been unlinked successfully from pillar');
   }
 };

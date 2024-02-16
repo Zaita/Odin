@@ -242,7 +242,7 @@ if (inputTypeField.value == "checkbox") {
           </div>}             
         </div>
         <div>
-          {checkboxConfig}
+          {renderFlag == "checkbox" && checkboxConfig}
         </div>
         <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
           <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/></div>

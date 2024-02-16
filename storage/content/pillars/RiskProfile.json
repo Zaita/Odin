@@ -9,7 +9,7 @@
   "submission_expires": true,
   "expire_after_days": 0,
   "enabled": true,
-  "tasks": "{}",
+  "tasks": [],
   "approval_flow": {
       "id": 1,
       "name": "Two stage approval with CISO endorsement",

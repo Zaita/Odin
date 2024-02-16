@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  php:
+    image: laravel-test
+    restart: always
+    ports:
+      - 12000:80
+    environment:
+      - APP_KEY="base64:ynP5JxaUsgNwv8KxgWdCCi0NffAzezGOcfEOI6NUnv0="
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_PORT=5506
+      - DB_HOST=192.168.0.247
+      - DB_DATABASE=odin
+      - DB_USERNAME=root
+      - DB_PASSWORD=rootpassword
+    networks:
+      - testlaravel
+networks:
+ testlaravel:
