@@ -4,6 +4,11 @@
 
 body {
   background-color: rgb(229, 229, 229) !important;
+  font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+div {
+  white-space: pre-wrap;
 }
 
 [type="text"], input:where(:not([type])), [type="email"], [type="url"], [type="password"], 
@@ -21,11 +26,30 @@ body {
   --tw-ring-color: unset;
 }
 
-
-#content_box, #latest_submissions, #submissions {
-  width: 60%;
-  margin: auto;
+#inner_content {
+  margin: 20px auto 20px auto;
+  max-width: 1140px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+#latest_submissions, #submissions {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+
 
 #latest_submissions #heading,
 #submissions #heading {
@@ -37,7 +61,7 @@ body {
 #latest_submissions table,
 #submissions table {
   width: 100%;
-  background-color: #FFFFFF;
+  /* background-color: #FFFFFF; */
 }
 
 #latest_submissions table tr th,
@@ -46,10 +70,7 @@ body {
   text-align: left;
 }
 
-#inner_content {
-  margin: 0 auto;
-  max-width: 1140px;
-}
+
 
 #small_title {
   padding-top: 20px;
@@ -58,17 +79,9 @@ body {
   line-height: 21px;
 }
 
-#smaller_title {
-  padding-top: 20px;
-  padding-bottom: 18px;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
-}
-
 #pillar_start_user {
   padding-bottom: 20px;
-  border-bottom: 2px solid hsla(0,0%,83%,.685);
+  /* border-bottom: 2px solid hsla(0,0%,83%,.685); */
 }
 
 #pillar_key_information {
@@ -79,7 +92,7 @@ body {
 }
 
 #pillar_key_information_text {
-  background-color: white;
+  /* background-color: white; */
   font-stretch: normal;
   font-style: normal;
   font-weight: 400;
@@ -112,7 +125,7 @@ body {
 #menu {
   width: 277px;
   align-items: flex-start;
-  background-color: white;
+  /* background-color: white; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -136,7 +149,7 @@ body {
 }
 
 #inprogress_right_panel {
-  background-color: white;
+  /* background-color: white; */
   min-height: 510px;
   padding: 25px 25px 70px;
   position: relative; 
@@ -205,8 +218,8 @@ body {
 }
 
 #inner_content #review_responses #response {
-  background-color: white;
-  border: 2px solid #d9d9d9;
+  /* background-color: white; */
+  /* border: 2px solid #d9d9d9; */
   margin-left: 0;
   margin-right: 0;
   min-height: 70px;
@@ -216,7 +229,7 @@ body {
 }
 
 #submission_status {
-  background-color: #FFFFFF;
+  /* background-color: #FFFFFF; */
   border-radius: 5px;
   display: inline-flex;
   font-weight: 700;

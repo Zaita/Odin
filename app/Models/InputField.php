@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
+use App\Models\QuestionnaireQuestion;
 
 class InputField extends Model
 {
@@ -22,7 +23,7 @@ class InputField extends Model
         'input_type',
         'min_length',
         'max_length',
-        'place_holder',
+        'placeholder',
         'product_name',
         'business_owner',
         'release_date',
@@ -70,7 +71,7 @@ class InputField extends Model
          * the checkbox_options
          */
         // echo (sprintf("Input Type: %s\n", $this->input_type));
-        if ($this->input_type == "checkbox" && !is_null($jsonArr["checkbox_options"])) {
+        if ($this->input_type == "checkbox" && isset($jsonArr["checkbox_options"])) {
             $options = $jsonArr["checkbox_options"];
             foreach ($options as $checkbox_option) {
                 $option = new CheckboxOption($checkbox_option);
@@ -88,7 +89,7 @@ class InputField extends Model
      * @param question that the input field will be added to
      * @return true on success, false otherwise
      */
-    public function isValid($question)
+    public function isValid(QuestionnaireQuestion $question)
     {
         if (!isset($question->inputFields)) {
             Log::Info("Question has no Input Fields");

@@ -3,7 +3,7 @@ import UserLayout from '@/Layouts/UserLayout';
 export default function Error(props) {
   function Content(props) {
     return (
-      <div id="content_box" className="mt-5">
+      <div id="inner_content" className="mt-5">
         <pre>An error has been encountered with your request:</pre>
         <pre>Error: {props.errors?.error}</pre>
       </div>

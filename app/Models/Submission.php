@@ -253,10 +253,14 @@ class Submission extends Model
     Log::Info("submission.setAnswer($question)");
 
     $elementsToAdd = array();
+    // Look through existing answers for the entry
     foreach($answerData->answers as $answerEntry) {
+      // If you find the question, mark it as complete and set
+      // the answers
       if ($answerEntry->question == $question) {
         $answerEntry->status = "complete";
         $setValues = array();
+        // Update existing answers with new information
         foreach($answerEntry->data as $dataEntry) {
           Log::Info(json_encode($dataEntry));
           foreach ($newAnswers as $fieldLabel => $fieldValue) {
@@ -266,10 +270,9 @@ class Submission extends Model
             }
           }
         }
-        // Add any new values that were not previously set
+        // Add new answers if they don't exist
         foreach ($newAnswers as $fieldLabel => $fieldValue) {        
-          if (!in_array($fieldLabel, $setValues)) {
-            Log::Info("Adding New Element X");
+          if (!in_array($fieldLabel, $setValues)) {            
             $newData = array("field" => $fieldLabel, "value" => $fieldValue);
             array_push($answerEntry->data, $newData);
           }

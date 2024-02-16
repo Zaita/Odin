@@ -1,0 +1,7 @@
+{
+  "name": "Digital Security Risk Assessment",
+  "type": "security_risk_assessment",
+  "key_information": "<p>This task ensures the web facing services have been checked against some good tools for security compliance.</p>",
+  "lock_when_complete": false,
+  "approval_required": false
+}

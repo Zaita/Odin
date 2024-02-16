@@ -35,7 +35,7 @@ function Content(props) {
 
   return (
     <div id="inner_content">
-      <div id="review_responses">
+      <div id="review_responses" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
         {questions.map((question, index) => (
           getQuestionContent(question.title, question.heading, index+1)
           ))

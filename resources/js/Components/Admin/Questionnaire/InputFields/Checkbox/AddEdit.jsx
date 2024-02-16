@@ -66,42 +66,37 @@ export default function InputCheckBoxAddEdit(props) {
           <div className="inline-block w-10/12">
             <TextField field={valueField} value={valueField.value} submitCallback={saveCallback}
                       handleChange={handleChange} errors={errors} siteConfig={props.siteConfig} camalCase sideBySide/>
-          </div>          
-          <div>
-            <div className="inline-block w-4/12 font-bold">Risk name</div>
-            <div className="inline-block w-2/12 font-bold">Likelihood</div>
-            <div className="inline-block w-2/12 font-bold">Likelihood penalty</div>
-            <div className="inline-block w-2/12 font-bold">Impact</div>
-            <div className="inline-block w-2/12 font-bold">Impact penalty</div>
-          </div>
-          <div>
-            {props.risks.map((risk, rIndex) => <div key={"risk" + rIndex} className="mb-1 mt-1">
-              <div className="inline-block w-4/12">{risk.name}</div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||likelihood"} value={getRiskValue(risk.name, "likelihood")} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
-              </div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||likelihood_penalty"} value={getRiskValue(risk.name, "likelihood_penalty")} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
-              </div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||impact"} value={getRiskValue(risk.name, "impact")} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
-              </div>
-              <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||impact_penalty"} value={getRiskValue(risk.name, "impact_penalty")} 
-                  submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
-              </div>
-              <div>
-                {checkError(risk.name, "likelihood")}
-                {checkError(risk.name, "likelihood_penalty")}
-                {checkError(risk.name, "impact")}
-                {checkError(risk.name, "impact_penalty")}                
-              </div>
-            </div>)}
+          </div> 
+          <div className="inline-block w-1/2">
+            <div>
+              <div className="inline-block w-4/12 font-bold">Risk name</div>
+              <div className="inline-block w-2/12 font-bold">Impact</div>              
+            </div>
+            <div>
+              {props.risks.map((risk, rIndex) => <div key={"risk" + rIndex} className="mb-1 mt-1">
+                <div className="inline-block w-4/12">{risk.name}</div>
+                <div className="inline-block w-2/12"><SimpleTextField label={risk.name + "||impact"} value={getRiskValue(risk.name, "impact")} 
+                    submitCallback={saveCallback} handleChange={handleChange} siteConfig={props.siteConfig} runInit/>
+                </div>
+                <div>
+                  {checkError(risk.name, "impact")}
+                </div>
+              </div>)}
+            </div>
+          </div> 
+          <div className="inline-block w-1/3 align-top">
+          <div className="inline-block font-bold">Impact Thresholds</div>
+          {
+            props.thresholds?.map((threshold, index) => 
+            <div key={"threshold_" + index} className="p-2 mt-1"
+              style={{backgroundColor: threshold.color}}>
+              A value {threshold.operator}{threshold.value} is {threshold.name}
+            </div>
+            )
+          }
           </div>
         </div>
       </div>
-      {/* <div> */}
-        {/* {Object.entries(props.errors).length != 0 && props.errors?.map((error, index) => <li key={"error_" + index}>{error}</li>)} */}
-      {/* </div> */}
       <div className="pt-1">
         <ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/><p>{saveOk}</p>
       </div>

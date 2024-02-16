@@ -17,9 +17,6 @@ class InputFieldRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pillarId' => ['required', 'integer'],
-            'questionId' => ['required', 'integer'],
-            'inputId' => ['integer'],
             'label' => ['required', 'string', "min:3", "max:128"],
             'required' => ['boolean'],
             'input_type' => ['required', Rule::in(["text", "email", "textarea", "rich text editor", "dropdown", "date", "url", "radio button", "checkbox"])],

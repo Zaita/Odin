@@ -13,9 +13,9 @@
       "action_fields": [
         {
           "label": "Finish Task",
-          "action_type": "continue"
+          "action_type": "continue"         
         }
-      ]
+      ]      
     }  
   ]
 }

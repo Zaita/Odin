@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import BlockIcon from '@mui/icons-material/Block';
 
-export default function Menu({callBack, ...props }) {
+export default function Questionnaire_Menu({callBack, ...props }) {
   /**
    * Build our initial list of menu items
    */
@@ -42,7 +42,7 @@ export default function Menu({callBack, ...props }) {
   });
 
   return (      
-    <div id="menu">
+    <div id="menu" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
       <div id="items">        
         {menuItems.map && menuItems.map((item, idx) => {
           if (item[2]) {

@@ -6,7 +6,7 @@ import UserLayout from '@/Layouts/UserLayout';
 export default function Submissions(props) {
   function Content(props) {
     return (
-      <div id="content_box" className="mt-5">
+      <div id="inner_content" className="mt-5">
         <div>Title: {props.siteConfig.title} </div>
         <div>footer_text: {props.siteConfig.footer_text}</div>
         <div>odin_email: {props.siteConfig.odin_email}</div>

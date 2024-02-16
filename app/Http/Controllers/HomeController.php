@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Configuration;
 use App\Models\Pillar;
 use App\Models\Submission;
+use App\Models\SecurityCatalogue;
+use App\Models\SecurityControl;
 
 class HomeController extends Controller
 {
@@ -87,4 +89,22 @@ class HomeController extends Controller
       'siteConfig' => $config,
     ]);    
   }
+
+  public function securityControls(Request $request) {
+    $id = 1;
+    return Inertia::render('SecurityControls', [
+      'siteConfig' => Configuration::site_config(),
+      'catalogue' => SecurityCatalogue::findOrFail($id),
+      'controls' => SecurityControl::where('security_catalogue_id', '=', $id)->orderBy('name', 'asc')->get()
+    ]);   
+  }
+  public function securityControl_view(Request $request, $id) {    
+    $control = SecurityControl::findOrFail($id);
+    return Inertia::render('SecurityControl.View', [
+      'siteConfig' => Configuration::site_config(),
+      'catalogue' => SecurityCatalogue::findOrFail($control->security_catalogue_id),
+      'control' => $control
+    ]);   
+  }
+
 }

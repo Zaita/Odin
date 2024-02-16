@@ -21,7 +21,9 @@ function Content(props) {
       <div id="pillar_start_date">{date}</div>
       <div id="pillar_start_user">{props.auth.user.name} ({props.auth.user.email})</div>
       <div id="pillar_key_information">Key Information</div> 
-      <div id="pillar_key_information_text" dangerouslySetInnerHTML={{__html: props.task.key_information}} />
+      <div id="pillar_key_information_text" 
+        style={{backgroundColor: props.siteConfig.theme_content_bg_color}}
+        dangerouslySetInnerHTML={{__html: props.task.key_information}} />
       <div id="pillar_start_button">
         <ThemedButton className="float-left" siteConfig={props.siteConfig} onClick={() => BackToSubmission(props.submission.uuid)}>Submission</ThemedButton>
         <ThemedButton className="float-right" siteConfig={props.siteConfig} onClick={() => StartSubmission(props.task.uuid)}>Start &#62;</ThemedButton>

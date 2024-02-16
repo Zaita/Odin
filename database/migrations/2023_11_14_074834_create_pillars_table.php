@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('questionnaire_id');
             $table->unsignedBigInteger('approval_flow_id')->nullable();
             $table->boolean('enabled')->default(true);
-            $table->text('tasks')->nullable();
+            $table->json('tasks')->nullable();
             $table->timestamps();
 
             $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->restrictOnDelete();

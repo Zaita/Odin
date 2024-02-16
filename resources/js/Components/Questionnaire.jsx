@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-import Menu from './Questionnaire/Menu';
-import Form from "./Questionnaire/Form"
+import Questionnaire_Menu from './Questionnaire/Menu';
+import Questionnaire_Form from "./Questionnaire/Form"
 
 export default function Questionnaire(props) {
   const currentQuestionIndex = useRef(-1);
@@ -70,10 +70,9 @@ export default function Questionnaire(props) {
   console.log("Render Called");
   return ( 
     <div id="inner_content">
-      <div id="smaller_title">Questions</div>
       <div id="inprogress_content">
-        <Menu callBack={gotoQuestion} menu={menu} questions={questions} answers={answers} currentQuestion={currentQuestion} {...props}/>     
-        <Form gotoQuestionCallback={gotoQuestion} 
+        <Questionnaire_Menu callBack={gotoQuestion} menu={menu} questions={questions} answers={answers} currentQuestion={currentQuestion} {...props}/>     
+        <Questionnaire_Form gotoQuestionCallback={gotoQuestion} 
           nextQuestionCallback={nextQuestion} 
           updateAnswersCallback={setAnswers}
           question={currentQuestion}

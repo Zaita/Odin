@@ -35,6 +35,8 @@ class TaskSeeder extends Seeder
     $this->load_task("WebSecurityConfiguration"); 
     $this->load_task("PCI_DSSAssessment"); 
     $this->load_task("OneQuestionTask"); 
+    $this->load_task("OneQuestionTask"); 
+    $this->load_task("DSRA"); 
   }
 }
 

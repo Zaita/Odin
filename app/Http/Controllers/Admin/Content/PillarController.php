@@ -20,6 +20,7 @@ use App\Models\Risk;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
 use App\Models\CheckboxOption;
+use App\Models\ImpactThreshold;
 use App\Http\Requests\AdminContentPillarUpdateRequest;
 use App\Http\Requests\InputFieldRequest;
 use App\Http\Requests\ActionFieldRequest;
@@ -91,12 +92,13 @@ class PillarController extends Controller
    * Download a pillar as a JSON file
    */
   public function download(Request $request, $pillarId)  {  
-    AuditLog::Log("Content.Pillar(${pillarId}).Download", $request);
+    AuditLog::Log("Content.Pillar($pillarId).Download", $request);
     return response()->streamDownload(
       function () use ($pillarId) { 
         $pillar = Pillar::with(["questionnaire", 
         "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');},
         "questionnaire.questions.inputFields",
+        "questionnaire.questions.inputFields.checkbox_options",
         "questionnaire.questions.actionFields",
         ])->findOrFail($pillarId);
         echo json_encode($pillar, JSON_PRETTY_PRINT);
@@ -165,7 +167,7 @@ class PillarController extends Controller
     $pillar = Pillar::with(["questionnaire", 
       "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');}])->findOrFail($id);
     
-    return Inertia::render('Admin/Content/Pillars/Questions', [
+    return Inertia::render('Admin/Content/Pillars/Pillar.Questions', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
     ]); 
@@ -315,8 +317,6 @@ class PillarController extends Controller
    */
   public function pillar_question_input_create(InputFieldRequest $request, $pillarId, $questionId) {
     AuditLog::Log("Content.Pillar.Question.Input.Create", $request);    
-    $pillar = Pillar::findOrFail($pillarId);
-
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
     
     $newInput = new InputField($request->validated());
@@ -407,6 +407,7 @@ class PillarController extends Controller
       'field' => $inputField,
       'option' => $option,
       'risks' => $risks,
+      'thresholds' => ImpactThreshold::all(),
     ]);
   }
 

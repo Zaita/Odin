@@ -20,11 +20,11 @@ function Content(props) {
     <>
     <SubHeader siteConfig={props.siteConfig}/>
     <div style={{backgroundColor: props.siteConfig.theme_bg_color, color: props.siteConfig.theme_text_color, minHeight: "600px"}} className="pt-5 items-center">
-      <div id="title-box" className="w-3/5 text-xl font-extrabold mb-4 text-left ml-auto mr-auto">{props.dashboard.title}</div>
-      <div id="odin-description" className="w-3/5 text-xs ml-auto mr-auto" dangerouslySetInnerHTML={{__html: props.dashboard.titleText}} />
-      <div id="create-text" className="w-3/5 text-m font-extrabold mb-4 text-left ml-auto mr-auto pt-5">{props.dashboard.submission}</div>
-      <div id="pillars" style={{marginBottom: "40px", maxWidth: "1600px"}} className="ml-auto mr-auto">
-        <div id="pillar-row" style={{marginTop: "20px", justifyContent: "space-evenly"}} className="flex">
+      <div className="w-3/5 text-xl font-extrabold mb-4 text-left ml-auto mr-auto">{props.dashboard.title}</div>
+      <div className="w-3/5 text-xs ml-auto mr-auto whitespace-pre-wrap" dangerouslySetInnerHTML={{__html: props.dashboard.titleText}} />
+      <div className="w-3/5 text-m font-extrabold mb-4 text-left ml-auto mr-auto pt-5">{props.dashboard.submission}</div>
+      <div style={{marginBottom: "40px", maxWidth: "1600px"}} className="ml-auto mr-auto">
+        <div style={{marginTop: "20px", justifyContent: "space-evenly"}} className="flex">
         <PillarList siteConfig={props.siteConfig} pillars={props.pillars}/>
         </div>  
       </div> 
@@ -57,7 +57,12 @@ class PillarList extends React.Component {
     return (
     <>
       {this.sortedList.map((p, index) => 
-        <Link key={index} href={"/start/" + p.id} className="inline bg-white" style={{width: "170px", height: "170px", lineHeight: "13px", boxShadow: "0 4px 10px rgba(0,63,100,.12)"}}>
+        <Link key={index} href={"/start/" + p.id} className="inline" style={{
+          backgroundColor: this.props.siteConfig.theme_content_bg_color,
+          width: "170px",  
+          height: "170px", 
+          lineHeight : "13px", 
+          boxShadow: "0 4px 10px rgba(0,63,100,.12)"}}>
           <div style={{color: this.props.siteConfig.theme_header_color, marginTop: "29px", fontSize: "13px", fontWeight: "900"}}  className="text-center">{p.name}</div>
           <div style={{color: this.props.siteConfig.theme_header_color, marginTop: "25px"}} className="justify-center flex">{this.icon(p.icon)}</div>
           <div style={{color: this.props.siteConfig.theme_text_color, fontSize: "11px", paddingRight: "25px", paddingLeft: "25px"}}

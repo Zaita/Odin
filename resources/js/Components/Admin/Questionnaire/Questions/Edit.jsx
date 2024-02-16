@@ -6,9 +6,10 @@ import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 import RichTextAreaField from '@/Components/RichTextAreaField';
 
 export default function QuestionEdit(props) {  
-  let [saveErrors, setSaveErrors] = useState("");
-  let [saveOk, setSaveOk] = useState(null);
+  let [errors, setErrors] = useState("");
+  let [saveOk, setSaveOk] = useState(props.saveOk);
   let userAnswers = useRef([]);
+  let error = props.errors && "save" in props.errors ? (<><ReportIcon/> {props.errors["save"]}</>) : "";
 
   function handleChange(id, value) {
     userAnswers.current[id] = value;
@@ -41,9 +42,9 @@ export default function QuestionEdit(props) {
     "value": getValue(props.question?.description, "description")
   }
   
-  function saveAnswersCallback() {
+  function saveCallback() {
     userAnswers.current["questionId"] = props.question.id;
-    SaveAnswersWithId(props.saveRoute, props.saveRouteParameters, setSaveOk, setSaveErrors, userAnswers.current)
+    SaveAnswersWithId(props.saveRoute, props.saveRouteParameters, setSaveOk, setErrors, userAnswers.current)
   }
 
   return (
@@ -52,24 +53,25 @@ export default function QuestionEdit(props) {
       <div className="overflow-y-auto w-5/6">
         {/* Title */}
         <div className="w-full">
-        <TextField field={nameField} value={nameField.value} submitCallback={saveAnswersCallback}
-              handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} camalCase/>
+        <TextField field={nameField} value={nameField.value} submitCallback={saveCallback}
+              handleChange={handleChange} errors={errors} siteConfig={props.siteConfig} camalCase/>
         </div>
         {/* Question Heading */}
         <div className="w-full">
-        <TextField field={headingField} value={headingField.value} submitCallback={saveAnswersCallback}
-              handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="65px" camalCase/>
+        <TextField field={headingField} value={headingField.value} submitCallback={saveCallback}
+              handleChange={handleChange} errors={errors} siteConfig={props.siteConfig} height="65px" camalCase/>
         </div>
         {/* Description */}
         <div className="w-full">
-        <RichTextAreaField field={descriptionField} value={descriptionField.value} submitCallback={saveAnswersCallback}
-              handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} height="200px" camalCase/>
+        <RichTextAreaField field={descriptionField} value={descriptionField.value} submitCallback={saveCallback}
+              handleChange={handleChange} errors={errors} siteConfig={props.siteConfig} height="200px" camalCase/>
         </div>           
       </div>
     </div>
-    <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
-      <ThemedButton siteConfig={props.siteConfig} onClick={saveAnswersCallback} children="Update"/>
-      <p>{saveOk}</p>
+    <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
+      <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/></div>
+      <div className="pl-2 font-bold">{saveOk}</div>
+      <div className="pl-2 font-bold" style={{color: props.siteConfig.theme_error_text_color}}>{error}</div>
     </div> 
     </>
   );

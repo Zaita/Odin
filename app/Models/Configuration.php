@@ -24,6 +24,7 @@ class Configuration extends Model
       "security_team_email" => "security@example.com",
       "theme_login_bg_color" => "#333333",
       "theme_bg_color" => "#E5E5E5",
+      "theme_content_bg_color" => "#FFFFFF",
       "theme_text_color" => "#000000",
       "theme_header_color" => "#800000",
       "theme_header_text_color" => "#FFFFFF",
@@ -137,6 +138,7 @@ class Configuration extends Model
         $result->theme_admin_content_text_color = $color4;
         $result->theme_admin_content_spacer = $color1;
   
+        $result->theme_content_bg_color = $color2;
         $result->theme_btn_bg_color = $color4;
         $result->theme_btn_text_color = $color3;
         $result->theme_btn_hover_bg_color = $color3;
@@ -164,6 +166,7 @@ class Configuration extends Model
         $result->theme_admin_content_text_color = $color4;
         $result->theme_admin_content_spacer = $color4;
 
+        $result->theme_content_bg_color = $color2;
         $result->theme_btn_bg_color = $color3;
         $result->theme_btn_text_color = $color4;
         $result->theme_btn_hover_bg_color = $color4;

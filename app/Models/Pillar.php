@@ -77,10 +77,10 @@ class Pillar extends Model
      * as a placeholder
      */
     if (isset($jsonArr["tasks"])) {
-      $tasks = $jsonArr["tasks"];
+      $tasks = json_decode($jsonArr["tasks"]);
       foreach($tasks as $task) {
-        $t = Task::firstOrNew(["name" => $task["name"]]);
-        $t->defaultSetupIfNew($task["name"]);        
+        $t = Task::firstOrNew(["name" => $task->name]);
+        $t->defaultSetupIfNew($task->name);        
       }
 
       $relevantJson["tasks"] = json_encode($jsonArr["tasks"]);

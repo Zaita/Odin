@@ -6,7 +6,7 @@ import UserLayout from '@/Layouts/UserLayout';
 export default function Approvals(props) {
   function Content(props) {
     return (
-      <div id="content_box" className="mt-5">
+      <div id="inner_content">
         <div className="float-right" style={{fontSize: "11px"}}>Displaying entries</div>
           <div className="w-full flex bg-white mb-1 p-2">
               <div className="w-2/12 font-bold">Date Created</div>

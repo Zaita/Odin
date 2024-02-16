@@ -7,20 +7,18 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 import ThemedButton from '@/Components/ThemedButton';
 import DeleteModal from '@/Components/Admin/DeleteModal';
-import { SaveAnswers, SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
+import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 import DraggableList from '@/Components/DraggableField';
 
 export default function InputList(props) {
-  console.log("Admin.Content.Pillar.Question.Inputs");
   let [saveErrors, setSaveErrors] = useState(null);
   let [saveOk, setSaveOk] = useState(null);
   let [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false);
   let deleteTarget = useRef({});
   let [inputs, setInputs] = useState(props.question.input_fields);
 
-  let {addRoute, saveOrderRoute, editRoute, deleteRoute}  = {...props}
+  let {objectId, addRoute, saveOrderRoute, editRoute, deleteRoute}  = {...props}
   
-
   let newInputs = props.question.input_fields;
   if (newInputs.length != inputs.length) {
     setInputs(newInputs);
@@ -39,7 +37,7 @@ export default function InputList(props) {
 
   function confirmedDeletion() {
     console.log("Deletion Confirmed");
-    SaveAnswersWithId(deleteRoute, {id:props.pillar.id, questionId:props.question.id, inputId:deleteTarget.current["id"]}, setSaveOk, setSaveErrors, deleteTarget.current);
+    SaveAnswersWithId(deleteRoute, {id:objectId, questionId:props.question.id, inputId:deleteTarget.current["id"]}, setSaveOk, setSaveErrors, deleteTarget.current);
     setDeleteDialogIsOpen(false)
   }
 
@@ -59,7 +57,7 @@ export default function InputList(props) {
           &nbsp;        
         </div>
         <div> 
-          <EditIcon className="cursor-pointer" onClick={() => router.get(route(editRoute, [props.pillar.id, props.question.id, field.id]))}/> 
+          <EditIcon className="cursor-pointer" onClick={() => router.get(route(editRoute, {id:objectId, questionId:props.question.id, inputId:field.id}))}/> 
           <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(field)}/>
         </div>
       </div>
@@ -96,14 +94,14 @@ export default function InputList(props) {
     }
 
     // Save the new order
-    SaveAnswersWithId(saveOrderRoute, {id:props.pillar.id, questionId:props.question.id}, setSaveOk, setSaveErrors, newOrder);
+    SaveAnswersWithId(saveOrderRoute, {id:objectId, questionId:props.question.id}, setSaveOk, setSaveErrors, newOrder);
   }
 
   return(
     <>
     <DeleteModal open={deleteDialogIsOpen} itemInfo={deleteTarget.current} onConfirm={confirmedDeletion}
       onCancel={() => setDeleteDialogIsOpen(false)} {...props}/>
-    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route(addRoute, {id:props.pillar.id, questionId: props.question.id}))} 
+    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route(addRoute, {id:objectId, questionId: props.question.id}))} 
       children="Add Input" className="mr-4"/>
     <span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span>
     <div>

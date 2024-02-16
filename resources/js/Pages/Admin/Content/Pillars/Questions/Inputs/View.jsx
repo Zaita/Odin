@@ -12,6 +12,7 @@ export default function InputsView(props) {
     editRoute="admin.content.pillar.question.input.edit"
     deleteRoute="admin.content.pillar.question.input.delete"
     question={props.question}
+    objectId={props.pillar.id}
     {...props}
   />
 

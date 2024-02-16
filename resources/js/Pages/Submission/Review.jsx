@@ -3,6 +3,7 @@ import UserLayout from '@/Layouts/UserLayout';
 import { router } from '@inertiajs/react'
 
 import ThemedButton from '@/Components/ThemedButton';
+import Questionnaire_RiskTable from '@/Components/Questionnaire/RiskTable';
 
 function Content(props) {
   let questions = JSON.parse(props.submission.questionnaire_data);
@@ -13,11 +14,11 @@ function Content(props) {
     answers.answers.map((response) => {
       if (response.question == questionTitle) {
         if (response.status == "not_applicable") {
-          userResponses.push(<div key={index} className="pl-7"><i>not applicable</i></div>)
+          userResponses.push(<div key={index} className="pl-1"><i>not applicable</i></div>)
         } else {
           response.data.map((answer, index) => {
             if (typeof(answer.value) == "string" && answer.value?.includes("\n")) {
-              userResponses.push(<div key={index} className="pl-7">{answer.value}</div>);
+              userResponses.push(<div key={index} className="pl-1">{answer.value}</div>);
 
             } else if (typeof answer.value == "object") {
               let output = [];
@@ -26,52 +27,37 @@ function Content(props) {
                   output.push(<p key={"cb"+key+index}>- {key}</p>)
                 }
               });
-              userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {output}</div>);
+              userResponses.push(<div key={index} className="pl-1"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {output}</div>);
 
             } else {
-              userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {answer.value ? answer.value : "-"}</div>)
+              userResponses.push(<div key={index} className="pl-1"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {answer.value ? answer.value : "-"}</div>)
             }
           })
         }
     }});
     
     return(
-    <div id="response" key={index}>
-        <div id="heading" className="font-extrabold">{index}. {questionHeading}</div>
-        {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
+      <div key={index}>
+        <div className="inline-block w-4/12 font-extrabold align-top pl-1">{index}. {questionHeading}</div>
+        <div className="inline-block w-8/12" style={{borderLeft: "2px solid " + props.siteConfig.theme_bg_color}}>
+          {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
+        </div>
       </div>
     )
   }
 
-  function RiskTable() {
-    // This is not configured for displaying a risk table
-    if (props.submission.type == "questionnaire" || props.submission.risk_calculation == "none") {
-      return <></>
-    }
-
-    let riskData = JSON.parse(props.submission.risk_data);
-    let output = [];
-    riskData.map((risk, index) => output.push(
-      <div key={index}>
-        <div className="inline-block w-2/12">{risk["name"]}</div>
-        <div className="inline-block w-2/12">{risk["score"]}</div>
-        <div className="inline-block w-8/12">{risk["description"]}</div>       
-      </div>) );
-
-    return <div>{output}</div>
-  }
-
   return (
     <div id="inner_content">
-      <div id="review_responses">
+      <div className="mb-2 pt-2 pb-2"
+        style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
         {questions.map((question, index) => (
           getQuestionContent(question.title, question.heading, index+1)
           ))
         }
       </div>
-      <RiskTable/>
+      <Questionnaire_RiskTable {...props}/>
       <div id="review_actions">
-        <ThemedButton siteConfig={props.siteConfig} className="ml-2"
+        <ThemedButton siteConfig={props.siteConfig}
           onClick={() => {router.visit(route('submission.inprogress', [props.submission.uuid], {}))}} 
           >Edit</ThemedButton>
         {/* <ThemedButton siteConfig={props.siteConfig} className="ml-2">PDF</ThemedButton> */}

@@ -1,23 +1,9 @@
-import React, { useRef, useState } from 'react';
-
+import React from 'react';
 import AdminPanel from '@/Layouts/AdminPanel';
-import TextField from '@/Components/TextField';
-import TextAreaField from '@/Components/TextAreaField';
-import ThemedButton from '@/Components/ThemedButton';
-import DropdownField from '@/Components/DropdownField';
-
-import { SaveAnswers, SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 import Admin_EditScreen from '@/Components/Admin/Admin.EditScreen';
 
-export default function EditPillars(props) {  
-  console.log("Admin.Content.SecurityCatalogue.Add");  
-  let [saveErrors, setSaveErrors] = useState("");
-  let [saveOk, setSaveOk] = useState(props.saveOk);
-  let userAnswers = useRef([]);
-
-  function handleChange(id, value) {
-    userAnswers.current[id] = value;
-  }
+export default function SecurityCatalogue_Edit(props) {  
+  console.log("Admin.Content.SecurityCatalogue.Edit");  
 
   let nameField = { 
     "label" : "Name",
