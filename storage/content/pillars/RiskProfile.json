@@ -16,6 +16,7 @@
     "name": "Risk Profile",
     "type": "risk_questionnaire",
     "risk_calculation": "highest_value",
+    "custom_risks": true,
     "questions": [
       {
         "title": "Project Name",
@@ -84,14 +85,18 @@
                 "label": "Yes",
                 "value": "Yes",
                 "risks": {
-                  "Compliance failure": 100
+                  "Compliance failure": {
+                    "impact": 100
+                  }
                 }
               },
               {
                 "label": "No",
                 "value": "No",
                 "risks": {
-                  "Compliance failure": 5
+                  "Compliance failure": {
+                    "impact": 5
+                  }
                 }
               }
             ]
@@ -121,14 +126,18 @@
                 "label": "Yes",
                 "value": "Yes",
                 "risks": {
-                  "Business continuity": 60
+                  "Business continuity": {
+                    "impact": 60
+                  }
                 }
               },
               {
                 "label": "No",
                 "value": "No",
                 "risks": {
-                  "Business continuity": 5
+                  "Business continuity": {
+                    "impact": 5
+                  }
                 }
               }
             ]
@@ -158,14 +167,18 @@
                 "label": "Yes",
                 "value": "Yes",
                 "risks": {
-                  "User dissatisfaction": 60
+                  "User dissatisfaction": {
+                    "impact": 60
+                  }
                 }
               },
               {
                 "label": "No",
                 "value": "No",
                 "risks": {
-                  "User dissatisfaction": 5
+                  "User dissatisfaction": {
+                    "impact": 5
+                  }
                 }
               }
             ]
@@ -195,22 +208,37 @@
                 "label": "Yes",
                 "value": "Yes",
                 "risks": {
-                  "Functional failure": 70,
-                  "Cost overrun": 65
+                  "Functional failure": {
+                    "impact": 70
+                  },
+                  "Cost overrun": {
+                    "impact": 65
+                  }
                 }
               },
               {
                 "label": "No",
                 "value": "No",
                 "risks": {
-                  "Functional failure": 0,
-                  "Cost overrun": 0
+                  "Functional failure": {
+                    "impact": 0
+                  },
+                  "Cost overrun": {
+                    "impact": 0
+                  }
                 }
               }
             ]
           }
         ]
       }
+    ],
+    "risks": [
+      "Compliance failure",
+      "Cost overrun",
+      "Business continuity",
+      "Functional failure",
+      "User dissatisfaction"
     ]
   }
 }
