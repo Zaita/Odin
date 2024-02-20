@@ -41,7 +41,7 @@ class RiskCalculatorObject {
 
   public static function highest_value($submission) {
     Log::Info("Calculating Risks with highest_value algorithm");
-    $risks = Risk::all();
+    $risks = Risk::all(); // Todo: support Custom Risks here
 
     $riskScores = array();
     foreach ($risks as $risk) {
@@ -82,7 +82,7 @@ class RiskCalculatorObject {
                     }
                   } else if (is_string($field->value)) { // Radio Buttons
                     if ($field->value == $inputOption->label) {
-                      Log::Info("User selected radio option $checkboxLabel");
+                      Log::Info("User selected radio option $inputOption->label");
                       // Loop thr risks on the radio option
                       foreach ($inputOption->risks as $riskName => $riskData) {
                         if (isset($riskData->impact)) {

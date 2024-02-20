@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\ActionField;
 use App\Models\InputField;
 use App\Models\QuestionnaireQuestion;
+use App\Models\QuestionnaireRisk;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,6 +21,7 @@ class Questionnaire extends Model
         'name',
         'type',
         'risk_calculation',
+        'custom_risks',
     ];
 
     protected $hidden = [
@@ -27,9 +29,18 @@ class Questionnaire extends Model
         "updated_at",
     ];
 
+    protected $casts = [
+      'custom_risks' => 'boolean'
+    ];
+
     public function questions(): HasMany
     {
         return $this->hasMany(QuestionnaireQuestion::class);
+    }
+
+    public function risks(): HasMany
+    {
+        return $this->hasMany(QuestionnaireRisk::class);
     }
 
     /**
@@ -45,6 +56,13 @@ class Questionnaire extends Model
 
         $this->fill($relevantJson);
         $this->save();
+
+        if ($this->custom_risks) {
+          echo "Custom Risks\n";
+          foreach($jsonArr["risks"] as $riskName) {
+            QuestionnaireRisk::create(["questionnaire_id" => $this->id, "risk_name" => $riskName]);
+          }
+        }
 
         $sort_order = 0;
         foreach ($jsonArr["questions"] as $question) {

@@ -16,6 +16,7 @@ return new class extends Migration
         $table->string('name');
         $table->enum('type', ['questionnaire', 'risk_questionnaire'])->default('questionnaire');
         $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
+        $table->boolean('custom_risks')->default(false);
         $table->timestamps();
       });
     }
