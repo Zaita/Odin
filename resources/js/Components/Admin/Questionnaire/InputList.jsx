@@ -54,6 +54,7 @@ export default function InputList(props) {
         <div className="w-3/6 float-left pt-1">{field.product_name == true ? "Product name" : ""}
           {field.business_owner == true ? "Business owner" : ""}
           {field.ticket_url == true ? "Ticket url" : ""}
+          {field.release_date == true ? "Release Date" : ""}
           &nbsp;        
         </div>
         <div> 

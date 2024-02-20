@@ -11,8 +11,8 @@ export default function PillarQuestionsInputsCheckboxAddEdit(props) {
     [props.pillar.name, "admin.content.pillar.edit", props.pillar.id],
     ["Questions", "admin.content.pillar.questions", props.pillar.id],
     [props.question.title, "admin.content.pillar.question.edit", { id:props.pillar.id, questionId:props.question.id}],
-    ["Inputs", "admin.content.pillar.question.inputs", { id:props.pillar.id, questionId:props.question.id}]
-    // [props.input.label, "admin.content.pillar.question.input.edit", { id:props.pillar.id, questionId:props.question.id, inputId:props.input.id}]
+    ["Inputs", "admin.content.pillar.question.inputs", { id:props.pillar.id, questionId:props.question.id}],
+    [props.field.label, "admin.content.pillar.question.input.edit", { id:props.pillar.id, questionId:props.question.id, inputId:props.field.id}]
   ] 
 
   let EditScreen = <InputCheckBoxAddEdit 

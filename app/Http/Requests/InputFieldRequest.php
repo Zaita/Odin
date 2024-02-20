@@ -19,12 +19,13 @@ class InputFieldRequest extends FormRequest
         return [
             'label' => ['required', 'string', "min:3", "max:128"],
             'required' => ['boolean'],
-            'input_type' => ['required', Rule::in(["text", "email", "textarea", "rich text editor", "dropdown", "date", "url", "radio button", "checkbox"])],
+            'input_type' => ['required', Rule::in(["text", "email", "textarea", "rich text editor", "dropdown", "date", "url", "radio", "checkbox"])],
             'min_length' => ['integer', 'gte:0', 'nullable'],
             'max_length' => ['integer', 'gte:0', 'nullable'],
             'placeholder' => ['string', 'min:0', 'max:128', 'nullable'],
             'product_name' => ['boolean'],
             'business_owner' => ['boolean'],
+            'release_date' => ['boolean'],
             'ticket_url' => ['boolean'],
         ];
     }

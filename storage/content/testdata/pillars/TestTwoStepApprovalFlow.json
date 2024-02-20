@@ -4,6 +4,9 @@
   "icon": "lightbulb",
   "key_information": "No key information",
   "risk_calculation": "none",
+  "approval_flow" : {
+    "name" : "Security and business owner only"
+  },
   "auto_approve": false,
   "auto_approve_no_tasks": false,
   "submission_expires": true,

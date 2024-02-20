@@ -28,7 +28,8 @@ export default function InputCheckBoxAddEdit(props) {
     return <></>;
   }
 
-  let risks = JSON.parse(props.option.risks);  
+  let risks = props.option.risks;
+  // let risks = JSON.parse(props.option.risks);  
   function getRiskValue(riskName, field) {
 
     if (risks && risks[riskName] && risks[riskName][field]) {

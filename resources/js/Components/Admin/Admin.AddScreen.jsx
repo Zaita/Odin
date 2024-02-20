@@ -40,7 +40,7 @@ export default function Admin_AddScreen(props) {
     } else if (field.type == "richtextarea") {
       inputFields.push(<Admin_RichTextAreaField key={key} field={field} {...inputProps}/>)
     } else if (field.type == "dropdown") {
-      inputFields.push(<Admin_DropdownField key={key} field={field} options={field.options} {...inputProps} runInit/>)
+      inputFields.push(<Admin_DropdownField key={key} field={field} {...inputProps} runInit/>)
     } else if (field.type == "checkbox") {
       inputFields.push(<Admin_CheckBox key={key} field={field} {...inputProps} runInit/>)
     }

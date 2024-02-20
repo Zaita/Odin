@@ -53,28 +53,42 @@ class RiskCalculatorObject {
     $answers = json_decode($submission->answer_data);
     foreach ($questions as $question) {
       foreach($question->input_fields as $inputField) {
-        foreach($inputField->checkbox_options as $checkboxOption) {
-          if (isset($checkboxOption->risks)) {
-            Log::Info("Found checkbox option $checkboxOption->label with risks");
+        if ($inputField->input_type != "checkbox" && $inputField->input_type != "radio") {
+          continue; // We only allow risks on checkbox and radio types
+        }
+        foreach($inputField->input_options as $inputOption) {
+          Log::Info("Checking Input: $inputOption->label");
+          if (isset($inputOption->risks)) {
+            Log::Info("Found checkbox option $inputOption->label with risks");
             // We have risks now, we want to load the answer data
             foreach($answers->answers as $answer) {
               if ($answer->question == $question->title) { // match the question to an answer
                 Log::Info("Found answer in question $question->title");
                 // each answer field has data which contains each field                
                 foreach($answer->data as $field) {
-                  if (is_object($field->value)) {
+                  if (is_object($field->value)) { // Checkboxes
                     Log::Info("Found array with $field->field");
                     foreach($field->value as $checkboxLabel => $checkBoxAnswer) {
                       Log::Info("CheckboxAnswer for $checkboxLabel is $checkBoxAnswer");
-                      if ($checkBoxAnswer && $checkboxLabel == $checkboxOption->label) { // Did the user mark this as true
+                      if ($checkBoxAnswer && $checkboxLabel == $inputOption->label) { // Did the user mark this as true
                         Log::Info("User selected checkbox option $checkboxLabel");
                         // Loop thr risks on the checkbox option
-                        foreach ($checkboxOption->risks as $riskName => $riskData) {
+                        foreach ($inputOption->risks as $riskName => $riskData) {
                           if (isset($riskData->impact)) {
                             $riskScores[$riskName] = max($riskScores[$riskName], $riskData->impact);
                           }
                         }
                       }
+                    }
+                  } else if (is_string($field->value)) { // Radio Buttons
+                    if ($field->value == $inputOption->label) {
+                      Log::Info("User selected radio option $checkboxLabel");
+                      // Loop thr risks on the radio option
+                      foreach ($inputOption->risks as $riskName => $riskData) {
+                        if (isset($riskData->impact)) {
+                          $riskScores[$riskName] = max($riskScores[$riskName], $riskData->impact);
+                        }
+                      }                      
                     }
                   }
                 }

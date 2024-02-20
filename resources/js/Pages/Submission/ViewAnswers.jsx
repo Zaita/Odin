@@ -37,10 +37,9 @@ function Content(props) {
     }});
     
     return(
-      <div key={index} className="mb-1 min-h-10 p-2" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
-        <div className="inline-block w-4/12 align-top pl-1 min-h-10" style={{borderRight: "1px solid " + props.siteConfig.theme_bg_color}}>
-          <span className="font-extrabold">{index}.</span> {questionHeading}</div>
-        <div className="inline-block w-8/12 min-h-10" style={{borderLeft: "1px solid " + props.siteConfig.theme_bg_color}}>
+      <div key={index}>
+        <div className="inline-block w-4/12 font-extrabold align-top pl-1">{index}. {questionHeading}</div>
+        <div className="inline-block w-8/12" style={{borderLeft: "2px solid " + props.siteConfig.theme_bg_color}}>
           {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
         </div>
       </div>
@@ -49,8 +48,8 @@ function Content(props) {
 
   return (
     <div id="inner_content">
-      <span className="text-lg font-bold">User responses:</span>
-      <div className="mb-2 p-2">
+      <div className="mb-2 pt-2 pb-2"
+        style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
         {questions.map((question, index) => (
           getQuestionContent(question.title, question.heading, index+1)
           ))
@@ -58,27 +57,23 @@ function Content(props) {
       </div>
       <Questionnaire_RiskTable {...props}/>
       <div id="review_actions">
-        <ThemedButton siteConfig={props.siteConfig}
-          onClick={() => {router.visit(route('submission.inprogress', [props.submission.uuid], {}))}} 
-          >Edit</ThemedButton>
-        {/* <ThemedButton siteConfig={props.siteConfig} className="ml-2">PDF</ThemedButton> */}
         <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
-        onClick={() => {router.post(route('submission.submit', [props.submission.uuid], {}))}} 
-        >Submit Questionnaire</ThemedButton>
+        onClick={() => {router.get(route('submission.view', [props.submission.uuid], {}))}} 
+        >Submission Details</ThemedButton>
       </div>
     </div>
   )
 }
 
-export default function Review(props) {
+export default function ViewAnswers(props) {
   let breadcrumb = [
     ["Home", "home"],    
-    ["Current submission", "submission.inprogress", props.submission.uuid],
-    ["Review", "submission.review", props.submission.uuid],
+    ["Current submission", "submission.view", props.submission.uuid],
+    ["View Answers", "submission.viewanswers", props.submission.uuid],
   ]
 
   return (
-    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="Review Submission" 
+    <UserLayout siteConfig={props.siteConfig} selectedMenu="Submissions" subheaderText="View Submission Answers" 
       breadcrumb={breadcrumb}
       content={<Content {...props} />}/>
     );

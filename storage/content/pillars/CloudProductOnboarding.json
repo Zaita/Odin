@@ -185,7 +185,7 @@
                       "id": 8,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Privacy Threshold Assessment"
@@ -203,7 +203,7 @@
                       "id": 9,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -211,7 +211,7 @@
                       "id": 10,
                       "label": "Staff Login Only",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -253,7 +253,7 @@
                       "id": 11,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Information and Data Management Assessment"
@@ -271,7 +271,7 @@
                       "id": 12,
                       "label": "No",
                       "action_type": "goto",
-                      "goto_question_title": "Firewall Changes",
+                      "goto_question": "Firewall Changes",
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -337,7 +337,7 @@
                       "id": 13,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -345,7 +345,7 @@
                       "id": 14,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -387,7 +387,7 @@
                       "id": 15,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -395,7 +395,7 @@
                       "id": 16,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -403,7 +403,7 @@
                       "id": 17,
                       "label": "Not Applicable",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -445,7 +445,7 @@
                       "id": 18,
                       "label": "Review my answers",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }

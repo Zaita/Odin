@@ -1,21 +1,18 @@
-
 import { useState, useEffect } from 'react';
 import Select from 'react-select'
 
 import ReportIcon from '@mui/icons-material/Report';
 import camalCase from "@/Utilities/camal.jsx"
 import dbFormat from "@/Utilities/dbFormat.jsx"
-import { Block } from '@mui/icons-material';
 
-export default function MultiSelectField(props) {
-  const [value, setValue] = useState(props.value);
-
+export default function Admin_MultiSelectField(props) {
+  const [isFocused, setIsFocused] = useState(false);
+  const [value, setValue] = useState(props.field.value == null ? "" : props.field.value);
+  
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
   fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;
   let label = props.field.required ? (<>{props.field.label} *</>) : props.field.label;  
   let error = props.errors && fieldId in props.errors ? (<><ReportIcon/> {props.errors[fieldId]}</>) : "";
-  let newWidth = props.width ? props.width : "355px";
-  newWidth = props.sideBySide ? "400px" : newWidth;
 
   /**
    * 
@@ -49,11 +46,6 @@ export default function MultiSelectField(props) {
   })
 
   let abc = [];
-  //   { value: 'chocolate', label: 'Chocolate' },
-  //   { value: 'strawberry', label: 'Strawberry' },
-  //   { value: 'vanilla', label: 'Vanilla' }
-  // ];
-
   props.field.options.map((task) => {
     console.log(task);
     abc.push({ value: task, label: task })
@@ -61,29 +53,38 @@ export default function MultiSelectField(props) {
 
   return (
     <div id="input_field">
-      <div id="label" style={{
+      <div id="label" 
+      style={{
         display: props.sideBySide ? "inline-block" : "block",
-        width: props.sideBySide ? "100px" : "auto",
+        width: props.sideBySide ? "192px" : "auto",
         }}> 
         <label htmlFor={fieldId}>{label}</label>
       </div>
       <Select isMulti className="bg-white" name={camalCase(fieldId)} id={fieldId} onKeyUp={handleKeyPress}
-        onChange={handleChange} defaultValue={value}options={abc}
+        onChange={handleChange} defaultValue={value} options={abc}
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
-            borderColor: props.siteConfig.theme_header_color, 
-            width: newWidth
+            backgroundColor: props.siteConfig.theme_input_bg_color,
+            color: props.siteConfig.theme_input_text_color,
+            borderColor: props.siteConfig.theme_input_border_color,
+            width: props.sideBySide ? "500px" : "355px",
+            boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none", 
           }),
           container: (baseStyles, state) => ({
             ...baseStyles,
             display: "inline-block",
-            borderColor: props.siteConfig.theme_header_color, 
-            width: newWidth
+            backgroundColor: props.siteConfig.theme_input_bg_color,
+            color: props.siteConfig.theme_input_text_color,
+            borderColor: props.siteConfig.theme_input_border_color,
+            width: props.sideBySide ? "500px" : "355px",
+            boxShadow: isFocused ? "1px 1px 0px 2px " + props.siteConfig.theme_input_border_color : "none", 
           }),
           }}        
-        />
-      <p id="error" style={{color: props.siteConfig.theme_subheader_color}}>{error}</p> 
+          onBlur={() => setIsFocused(false)}
+          onFocus={() => setIsFocused(true)}
+        />   
+        <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
     </div>
   )
 }

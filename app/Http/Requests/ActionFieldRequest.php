@@ -17,9 +17,6 @@ class ActionFieldRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pillarId' => ['required', 'integer'],
-            'questionId' => ['required', 'integer'],
-            'inputId' => ['integer'],
             'label' => ['required', 'string', "min:3", "max:128"],
             'action_type' => ['required', Rule::in(["continue", "goto", "finish", "message"])],
             'goto_question_title' => ['string', 'max:256', 'nullable', 'required_if:action_type,goto'],

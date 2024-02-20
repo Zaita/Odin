@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/review/{uuid}', [SubmissionController::class, 'review'])->name('submission.review');
   Route::post('/submit/{uuid}', [SubmissionController::class, 'submit'])->name('submission.submit');
   Route::get('/submitted/{uuid}', [SubmissionController::class, 'submitted'])->name('submission.submitted');
+  Route::get('/viewanswers/{uuid}', [SubmissionController::class, 'viewAnswers'])->name('submission.viewanswers');
   Route::get('/edit/{uuid}', [SubmissionController::class, 'edit'])->name('submission.edit');
   Route::post('/submitforapproval/{uuid}', [SubmissionController::class, 'submitForApproval'])->name('submission.submitforapproval');
   Route::post('/assigntome/{uuid}', [SubmissionController::class, 'assignToMe'])->name('submission.assigntome');
@@ -198,6 +199,8 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   Route::get('/admin/content/pillar/{id}/question/{questionId}/action/add', [Admin_Content_Pillar::class, 'pillar_question_action_add'])->name('admin.content.pillar.question.action.add');
   Route::post('/admin/content/pillar/{id}/question/{questionId}/action/create', [Admin_Content_Pillar::class, 'pillar_question_action_create'])->name('admin.content.pillar.question.action.create');
   Route::get('/admin/content/pillar/{id}/question/{questionId}/action/{actionId}/edit', [Admin_Content_Pillar::class, 'pillar_question_action_edit'])->name('admin.content.pillar.question.action.edit');
+  Route::post('/admin/content/pillar/{id}/question/{questionId}/action/{actionId}/save}', [Admin_Content_Pillar::class, 'pillar_question_action_save'])->name('admin.content.pillar.question.action.save');
+  Route::post('/admin/content/pillar/{id}/question/{questionId}/action/{actionId}/delete}', [Admin_Content_Pillar::class, 'pillar_question_action_delete'])->name('admin.content.pillar.question.action.delete');
 
   // Content -> Pillars -> Pillar -> Tasks
   Route::post('/admin/content/pillar/{id}/tasks/link', [Admin_Content_Pillar::class, 'pillar_task_link'])->name('admin.content.pillar.task.link');

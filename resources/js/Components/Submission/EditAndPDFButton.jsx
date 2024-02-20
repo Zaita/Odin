@@ -8,7 +8,9 @@ export default function EditAndPDFButton(props) {
       <ThemedButton siteConfig={props.siteConfig} className="ml-2"
       onClick={() => {router.get(route('submission.edit', [props.submission.uuid], {}))}} 
       >Edit</ThemedButton>
-
+      <ThemedButton siteConfig={props.siteConfig} className="ml-2"
+      onClick={() => {router.get(route('submission.viewanswers', [props.submission.uuid], {}))}} 
+      >View Answers</ThemedButton>    
       {/* <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
       onClick={() => {router.get(route('submission.downloadpdf', [props.submission.uuid], {}))}} 
       >PDF</ThemedButton> */}
@@ -16,8 +18,11 @@ export default function EditAndPDFButton(props) {
   }
 
   return (<>
-    <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
+      <ThemedButton siteConfig={props.siteConfig} className="ml-2"
+      onClick={() => {router.get(route('submission.viewanswers', [props.submission.uuid], {}))}} 
+      >View Answers</ThemedButton>      
+    {/* <ThemedButton siteConfig={props.siteConfig} selected className="ml-2"
     onClick={() => {router.get(route('submission.downloadpdf', [props.submission.uuid], {}))}} 
-    >PDF</ThemedButton>
+    >PDF</ThemedButton> */}
   </>)
 }

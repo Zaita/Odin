@@ -25,7 +25,7 @@ export default function Admin_InputEditScreen(props) {
 
   function openConfirmationModal(cboption) {
     deleteTarget.current["id"] = cboption.id;
-    deleteTarget.current["type"] = "Checkbox Option";
+    deleteTarget.current["type"] = inputTypeField.value + " Option";
     deleteTarget.current["name"] = cboption.label;
     setDeleteDialogIsOpen(true);
   }
@@ -124,56 +124,56 @@ export default function Admin_InputEditScreen(props) {
     "value": props.input.service_name,
   }
 
-/**
-   * Handle doing shit if the input type is a check box.
-   * We need to handle
-   * - reodering checkbox list items
-   * - build links to edit and delete routes
-   */
-let [checkboxOptions, setCheckboxOptions] = useState(props.input.checkbox_options);
-let checkboxSortCallback = async (draggedFrom, draggedTo) => {    
-  console.log(draggedTo);
-  const itemDragged = checkboxOptions[draggedFrom];
-  const remainingItems = checkboxOptions.filter((item, index) => index !== draggedFrom);
-  // Rebuild our list splicing in the new item that we copied above.
-  setCheckboxOptions([
-    ...remainingItems.slice(0, draggedTo),
-    itemDragged,
-    ...remainingItems.slice(draggedTo)
-   ]);
-   // Don't save it yet, we'll wait til user presses save
-   setSaveOk("Unsaved changes");
-}
+  /**
+     * Handle doing shit if the input type is a check box.
+     * We need to handle
+     * - reodering checkbox list items
+     * - build links to edit and delete routes
+     */
+  let [inputOption, setInputOption] = useState(props.input.input_options);
+  let checkboxSortCallback = async (draggedFrom, draggedTo) => {    
+    console.log(draggedTo);
+    const itemDragged = inputOption[draggedFrom];
+    const remainingItems = inputOption.filter((item, index) => index !== draggedFrom);
+    // Rebuild our list splicing in the new item that we copied above.
+    setInputOption([
+      ...remainingItems.slice(0, draggedTo),
+      itemDragged,
+      ...remainingItems.slice(draggedTo)
+    ]);
+    // Don't save it yet, we'll wait til user presses save
+    setSaveOk("Unsaved changes");
+  }
 
-let checkboxConfig = null;
-let checkboxOptionsList = [];
-if (inputTypeField.value == "checkbox") {    
-  props.input.checkbox_options.map((option, key) => {
-  let editParameters = {id:props.objectId, questionId:props.question.id, inputId:props.input.id, optionId:option.id};
-  checkboxOptionsList.push(
-    <div className="pt-1 h-fit overflow-y-hidden"
-      style={{
-        padding: "2px",
-        borderColor: props.siteConfig.theme_admin_content_spacer,
-        borderWidth: "1px",
-        marginBottom: "2px",
-      }}>
-      <div className="w-6 float-left"><DragIndicatorIcon/></div>
-      <div className="w-5/6 float-left pt-1">{option.label}</div>
-      <div> 
-        <EditIcon className="cursor-pointer" onClick={() => router.get(route(props.editCheckboxRoute, editParameters))}/> 
-        <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(option)}/>
+  let checkboxConfig = null;
+  let inputOptionsList = [];
+  if (inputTypeField.value == "checkbox" || inputTypeField.value == "radio") {    
+    props.input.input_options.map((option, key) => {
+    let editParameters = {id:props.objectId, questionId:props.question.id, inputId:props.input.id, optionId:option.id};
+    inputOptionsList.push(
+      <div className="pt-1 h-fit overflow-y-hidden"
+        style={{
+          padding: "2px",
+          borderColor: props.siteConfig.theme_admin_content_spacer,
+          borderWidth: "1px",
+          marginBottom: "2px",
+        }}>
+        <div className="w-6 float-left"><DragIndicatorIcon/></div>
+        <div className="w-5/6 float-left pt-1">{option.label}</div>
+        <div> 
+          <EditIcon className="cursor-pointer" onClick={() => router.get(route(props.editCheckboxRoute, editParameters))}/> 
+          <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(option)}/>
+        </div>
+      </div>          
+    )});
+
+    checkboxConfig = 
+      <div>
+        <div><span className="font-bold">{inputTypeField.value} Options:</span></div>
+        <DraggableField items={inputOptionsList} callback={checkboxSortCallback} siteConfig={props.siteConfig}/>
+        <div><ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route(props.addCheckboxRoute, props.routeParameters))} children="Add Option" className="mr-4"/></div>
       </div>
-    </div>          
-  )});
-
-  checkboxConfig = 
-    <div>
-      <div><span className="font-bold">Checkbox Options:</span></div>
-      <DraggableField items={checkboxOptionsList} callback={checkboxSortCallback} siteConfig={props.siteConfig}/>
-      <div><ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route(props.addCheckboxRoute, props.routeParameters))} children="Add Option" className="mr-4"/></div>
-    </div>
-}
+  }
 
 
   return (
@@ -242,7 +242,7 @@ if (inputTypeField.value == "checkbox") {
           </div>}             
         </div>
         <div>
-          {renderFlag == "checkbox" && checkboxConfig}
+          {(renderFlag == "checkbox" || renderFlag == "radio") && checkboxConfig}
         </div>
         <div id="bottom_menu" className="flex h-10 border-t-2 border-solid border-white pt-2">
           <div className="float-left w-auto inline-block" ><ThemedButton siteConfig={props.siteConfig} onClick={saveCallback} children="Save"/></div>

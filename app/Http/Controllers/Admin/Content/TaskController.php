@@ -19,7 +19,7 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
 use App\Http\Requests\InputFieldRequest;
 use App\Models\InputField;
-use App\Models\CheckboxOption;
+use App\Models\InputOption;
 use App\Models\Risk;
 use App\Models\ImpactThreshold;
 
@@ -319,7 +319,7 @@ class TaskController extends Controller
   public function question_input_edit(Request $request, $taskId, $questionId, $inputId) {
     $task = Task::findOrFail($taskId);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
-    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);
+    $inputField = InputField::with("input_options")->findOrFail($inputId);
     $risks = Risk::all();
 
     return Inertia::render('Admin/Content/Tasks/Questions/Input.Edit', [
@@ -363,7 +363,7 @@ class TaskController extends Controller
    * 
    */
   public function question_input_checkbox_add(Request $request, $taskId, $questionId, $inputId) { 
-    $option = new CheckBoxOption();
+    $option = new InputOption();
     $option->input_field_id = $inputId;
     $option->label = "New Option";
     $option->value = "New Option";
@@ -381,9 +381,9 @@ class TaskController extends Controller
   public function question_input_checkbox_edit(Request $request, $taskId, $questionId, $inputId, $optionId) {     
     $task = Task::findOrFail($taskId);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
-    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);    
+    $inputField = InputField::with("input_options")->findOrFail($inputId);    
     $risks = Risk::all();    
-    $option = CheckBoxOption::findOrFail($optionId);
+    $option = InputOption::findOrFail($optionId);
 
     return Inertia::render('Admin/Content/Tasks/Questions/Input.Checkbox.Edit', [
       'siteConfig' => Configuration::site_config(),
@@ -400,7 +400,7 @@ class TaskController extends Controller
    * POST /admin/content/task/{taskId}/question/{questionId}/inputs/{inputId}/checkbox/{optionId}/save
    */
   public function question_input_checkbox_save(Request $request, $taskId, $questionId, $inputId, $optionId) {     
-    $option = CheckBoxOption::findOrFail($optionId);
+    $option = InputOption::findOrFail($optionId);
     $option->validateAnswers($request->all());
 
     return back()->withInput()->withErrors($option->errors);
@@ -411,8 +411,8 @@ class TaskController extends Controller
    * The request parameter is the Id of the checkbox option
    */
   public function question_input_checkbox_delete(Request $request, $taskId, $questionId, $inputId, $optionId) { 
-    AuditLog::Log("Content.Task($taskId).Question($questionId).Input($inputId).CheckBoxOption.Delete", $request);    
-    $option = CheckBoxOption::findOrFail($optionId);
+    AuditLog::Log("Content.Task($taskId).Question($questionId).Input($inputId).InputOption.Delete", $request);    
+    $option = InputOption::findOrFail($optionId);
     $option->delete();
     return Redirect::route('admin.content.task.question.input.edit', ["id" => $taskId, "questionId" => $questionId, "inputId" => $inputId]);
   }

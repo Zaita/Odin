@@ -1,0 +1,5 @@
+{
+  "title": "Welcome to Odin", 
+  "titleText": "<p>Odin is a web application that encompasses your end-to-end business change management process. A user (technical lead, developer, engineer, architect or project lead etc) can create a submission within this tool and complete all required change management obligations (e.g., privacy, data, legal, security).</p>\n<p>The tool also supports advanced capabilities including a digital security risk assessment, security control catalogue, control validation audit, and certification and accreditation.</p>\n<p>Below are some pre-configured deliverable types that will align to most organisations. Please select one of the options below to create a submission and test the tool.</p>", 
+  "submission": "Create a new submission"
+}

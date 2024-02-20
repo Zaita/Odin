@@ -16,7 +16,7 @@ export default function Form_CheckBox(props) {
   
   // Load initial values into setValue
   // if (Object.keys(userValues.current).length == 0) {
-  props.field.checkbox_options?.map((option) => {
+  props.field.input_options?.map((option) => {
     if (!props.values) {
       userValues.current[option.label] = false;
     } else {
@@ -40,7 +40,7 @@ export default function Form_CheckBox(props) {
   return (
     <div id="input_field">
       <div id="label"><label htmlFor={fieldId}>{label}</label></div>
-      {props.field.checkbox_options?.map((option, index) => 
+      {props.field.input_options?.map((option, index) => 
         <Form_CheckBoxOption key={index} label={option.label} value={option.value} handleChange={handleChange}
           checked={userValues.current[option.label]} />
       )}
