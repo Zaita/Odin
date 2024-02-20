@@ -29,7 +29,7 @@
         {
           "label": "No",
           "action_type": "goto",
-          "goto_question_title": null
+          "goto_question": null
         }
       ]
     },

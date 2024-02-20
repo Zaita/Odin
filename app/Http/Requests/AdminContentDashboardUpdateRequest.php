@@ -17,7 +17,7 @@ class AdminContentDashboardUpdateRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:128'],
-            'titleText' => ['required', 'string', 'max:512'],
+            'titleText' => ['required', 'string'],
             'submission' => ['required', 'string', 'max:128'],
         ];
     }

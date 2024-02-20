@@ -57,7 +57,7 @@ export default function Pillars(props) {
           <div key={index} className="pt-1 border-b"
             style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-1/6 float-left">{pillar.name}</div>
-            <div className="w-2/6 float-left">{pillar.caption}</div>
+            <div className="w-2/6 float-left">{pillar.caption ? pillar.caption : "-"}</div>
             <div className="w-5/12 float-left inline-block">Yes</div>
             <div> 
               <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.content.pillar.edit', [pillar.id]))}/> 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Models\Risk;
 
-class CheckboxOption extends Model
+class InputOption extends Model
 {
     use HasFactory;
 
@@ -97,7 +97,7 @@ class CheckboxOption extends Model
         return;
       }
 
-      $this->risks = json_encode($riskBlock);
+      $this->risks = $riskBlock;
 
       $this->Save();
       Log::Info("Done");      

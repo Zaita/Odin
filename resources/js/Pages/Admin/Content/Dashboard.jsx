@@ -56,21 +56,21 @@ export default function Dashboard(props) {
     "label" : "Title",
     "placeholder": "",
     "required": true,
-    "value": props.dashboard.title
+    "value": userAnswers.current["title"] ? userAnswers.current["title"] : props.dashboard.title
   }
 
   let titleTextField = { 
     "label": "Title Text",
     "placeholder": "",
     "required": true,
-    "value": props.dashboard.titleText
+    "value": userAnswers.current["titleText"] ? userAnswers.current["titleText"] : props.dashboard.titleText
   }
 
   let submissionField = {
     "label" : "Submission",
     "placeholder": "",
     "required": true,
-    "value": props.dashboard.submission
+    "value": userAnswers.current["submission"] ? userAnswers.current["submission"] : props.dashboard.submission
   }
 
   let inputProps = {handleChange, submitCallBack:saveCallback, errors, siteConfig:props.siteConfig, camalCase:true, sideBySide:true, runInit:true};

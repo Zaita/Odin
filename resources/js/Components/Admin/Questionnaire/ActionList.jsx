@@ -50,13 +50,13 @@ export default function ActionList(props) {
   {fields && fields.map && fields.map((field, index) => {
     let tasks = field.tasks;
     fieldList.push(
-      <div style={{border: "1px solid white"}} className="pt-1 h-fit overflow-y-hidden">
+      <div key={"aa"+index} style={{border: "1px solid white"}} className="pt-1 h-fit overflow-y-hidden">
         <div className="w-6 float-left"><DragIndicatorIcon/></div>
         <div className="w-1/6 float-left pt-1">{field.label}</div>
         <div className="w-1/6 float-left pt-1">{field.action_type}</div>
         <div className="w-1/6 float-left pt-1">{field.action_type == "goto" ? field.goto_question_title : "-"}</div>
-        <div className="w-2/6 float-left pt-1">{tasks ?
-          tasks.map(item => <>{item.name}</>).reduce((result, item) => [result, <br/>, item]) : "-"}
+        <div className="w-2/6 float-left pt-1">{tasks && tasks.length > 0 ?
+          tasks.map((item, index2) => <span key={"uu"+index2}>{item.name}</span>).reduce((result, item) => [result, <br/>, item]) : "-"}
         </div>
         <div> 
           <EditIcon className="cursor-pointer" onClick={() => router.get(route(editRoute, [props.pillar.id, props.question.id, field.id]))}/> 
@@ -116,7 +116,7 @@ export default function ActionList(props) {
         <div>Actions</div>
       </div>
       <div style={{borderBottom: "3px solid white"}}>&nbsp;</div>
-      <DraggableList items={fieldList} callback={sortCallback}/>          
+      <DraggableList siteConfig={props.siteConfig} items={fieldList} callback={sortCallback}/>          
     </div>    
     <div id="bottom_menu" className="h-10 border-t-2 border-solid border-white pt-2">
       <ThemedButton siteConfig={props.siteConfig} onClick={SaveOrder} children="Save Action Field Order" className="mr-4"/>

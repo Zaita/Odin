@@ -194,7 +194,7 @@ class Submission extends Model
 
     // Loop over each answerInputField in our questionnaire
     foreach($targetQuestion->input_fields as $inputField) { 
-      if ($inputField->input_type == "checkbox") {
+      if ($inputField->input_type == "checkbox" || $inputField->input_type == "radio") {
         continue; // no validation to do on checkboxs
       }
 
@@ -347,26 +347,28 @@ class Submission extends Model
      * Step 1: Create Task Submissions for any tasks that are assigned to the Pillar
      */
     $pillarData = json_decode($this->pillar_data);
-    foreach($pillarData->tasks as $task) {
-      $taskObj = Task::where(["name" => $task->name])->first();
-      Log::Info($taskObj->id);
+    if ($pillarData->tasks != "{}") {
+      foreach($pillarData->tasks as $task) {
+        $taskObj = Task::where(["name" => $task->name])->first();
+        Log::Info($taskObj->id);
 
-      if ($taskObj->type == "questionnaire") {
-        $questionnaire = Questionnaire::with([
-          "questions" => function(Builder $q) {$q->orderBy('sort_order');},
-          "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
-          "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
-          ])->findOrFail($taskObj->task_object_id);
+        if ($taskObj->type == "questionnaire") {
+          $questionnaire = Questionnaire::with([
+            "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+            "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
+            "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
+            ])->findOrFail($taskObj->task_object_id);
 
-        $taskObj->questionnaire = $questionnaire;
+          $taskObj->questionnaire = $questionnaire;
+        }
+
+        $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
+        $taskSubmission->name = $taskObj->name;
+        $taskSubmission->submission_id = $this->id;
+        $taskSubmission->task_type = $taskObj->type;
+        $taskSubmission->task_data = $taskObj;
+        $taskSubmission->save();
       }
-
-      $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
-      $taskSubmission->name = $taskObj->name;
-      $taskSubmission->submission_id = $this->id;
-      $taskSubmission->task_type = $taskObj->type;
-      $taskSubmission->task_data = $taskObj;
-      $taskSubmission->save();
     }
 
     $this->status = "submitted";

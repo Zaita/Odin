@@ -20,10 +20,7 @@ export default {
               basedarkred : "#800000",
               basered : "#AB0000",
               themeMain : "var(--theme-main-colour)",
-            },
-            font: {
-              '11': "font-size: 11px;"
-            }
+            }      
         },
     },
 

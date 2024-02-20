@@ -55,7 +55,7 @@ class SubmissionController extends Controller
     $questionnaire = Questionnaire::with([
       "questions" => function(Builder $q) {$q->orderBy('sort_order');},
       "questions.inputFields",
-      "questions.inputFields.checkbox_options",
+      "questions.inputFields.input_options",
       "questions.actionFields"      
       ])->findOrFail($pillar->questionnaire_id);
 
@@ -251,6 +251,27 @@ class SubmissionController extends Controller
       'can_approve_with_type' => $submission->canApproveWithType($user, $secureToken)
     ]); 
   }
+
+
+  /**
+   * This method will load the questionnaire submission for the current uuid.
+   */
+  public function viewAnswers(Request $request, $uuid) {
+    $config = json_decode(Configuration::GetSiteConfig()->value);
+    $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
+    if ($submission == null) {
+      return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
+    }
+
+    $submission->calculateRiskScore();
+
+    return Inertia::render('Submission/ViewAnswers', [
+      'siteConfig' => $config,
+      'submission' => $submission,
+      'risks' => Risk::all(),
+      'riskTitle' => "Final risk ratings"
+    ]);  
+  }  
 
   /**
    * This method will load the questionnaire submission for the current uuid.

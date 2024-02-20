@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('checkbox_options', function (Blueprint $table) {
+        Schema::create('input_options', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('input_field_id')->unsigned();
             $table->string('label');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('checkbox_options');
+        Schema::dropIfExists('input_options');
     }
 };

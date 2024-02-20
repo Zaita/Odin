@@ -19,7 +19,7 @@ use App\Models\Pillar;
 use App\Models\Risk;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireQuestion;
-use App\Models\CheckboxOption;
+use App\Models\InputOption;
 use App\Models\ImpactThreshold;
 use App\Models\Task;
 use App\Http\Requests\AdminContentPillarUpdateRequest;
@@ -100,7 +100,7 @@ class PillarController extends Controller
         "questionnaire", 
         "questionnaire.questions" => function(Builder $q) {$q->orderBy('sort_order');},
         "questionnaire.questions.inputFields",
-        "questionnaire.questions.inputFields.checkbox_options",
+        "questionnaire.questions.inputFields.input_options",
         "questionnaire.questions.actionFields",
         ])->findOrFail($pillarId);
         echo json_encode($pillar, JSON_PRETTY_PRINT);
@@ -333,7 +333,7 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($pillarId);
 
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
-    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);
+    $inputField = InputField::with("input_options")->findOrFail($inputId);
 
     $risks = Risk::all();
 
@@ -375,7 +375,7 @@ class PillarController extends Controller
    * afterwards.
    */
   public function pillar_question_input_checkbox_add(Request $request, $pillarId, $questionId, $inputId) { 
-    $option = new CheckBoxOption();
+    $option = new InputOption();
     $option->input_field_id = $inputId;
     $option->label = "New Option";
     $option->value = "New Option";
@@ -393,11 +393,11 @@ class PillarController extends Controller
   public function pillar_question_input_checkbox_edit(Request $request, $pillarId, $questionId, $inputId, $optionId) {     
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
-    $inputField = InputField::with("checkbox_options")->findOrFail($inputId);    
+    $inputField = InputField::with("input_options")->findOrFail($inputId);    
     $risks = Risk::all();    
-    $option = CheckBoxOption::findOrFail($optionId);
+    $option = InputOption::findOrFail($optionId);
 
-    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox/AddEdit', [
+    return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox.AddEdit', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
@@ -413,7 +413,7 @@ class PillarController extends Controller
    */
   public function pillar_question_input_checkbox_save(Request $request, $pillarId, $questionId, $inputId, $optionId) {     
     Log::Info("pillar_question_input_checkbox_save");
-    $option = CheckBoxOption::findOrFail($optionId);
+    $option = InputOption::findOrFail($optionId);
     $option->validateAnswers($request->all());
 
     return back()->withInput()->withErrors($option->errors);
@@ -424,10 +424,10 @@ class PillarController extends Controller
    * The request parameter is the Id of the checkbox option
    */
   public function pillar_question_input_checkbox_delete(Request $request, $pillarId, $questionId, $inputId) { 
-    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Input($inputId).CheckBoxOption.Delete", $request);    
-    $optionId = $request->input('checkbox_option_id', null);
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Input($inputId).InputOption.Delete", $request);    
+    $optionId = $request->input('input_option_id', null);
     if (!is_null($optionId)) {
-      $option = CheckBoxOption::findOrFail($optionId);
+      $option = InputOption::findOrFail($optionId);
       $option->delete();
     }
 
@@ -439,8 +439,13 @@ class PillarController extends Controller
    * The following section deals with working with actions on a question
    * **************************************************************************
    */
+
+
+  /**
+  * GET /admin/content/pillars/{pillarId}/question/{questionId}/actions
+  * Load the current actions for the question
+  */
   public function pillar_question_actions(Request $request, $pillarId, $questionId) {
-    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Actions", $request);
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::with(['actionFields' => function(Builder $b) { $b->orderBy("sort_order");}])->findOrFail($questionId);
     
@@ -452,6 +457,7 @@ class PillarController extends Controller
   }
 
   /**
+   * POST /admin/content/pillars/{pillarId}/question/{questionId}/actions/reorder
    * Update the order of the action fields for our question
    */
   public function pillar_question_actions_reorder(Request $request, $pillarId, $questionId) {
@@ -473,7 +479,8 @@ class PillarController extends Controller
     return Redirect::route('admin.content.pillar.question.actions', ["id" => $pillarId, "questionId" => $questionId]);
   }
 
-    /**
+  /**
+   * GET /admin/content/pillars/{pillarId}/question/{questionId}/action/add
    * Load the Pillar->Questionnaire->Question->Action->Add Screen
    */
   public function pillar_question_action_add(Request $request, $pillarId, $questionId) {
@@ -485,19 +492,27 @@ class PillarController extends Controller
       array_push($questionTitles, $Actionquestion->title);
     }
 
-    return Inertia::render('Admin/Content/Pillars/Questions/Actions/Add', [
+    $tasks = Task::all();
+    $taskNames = array([""]);
+    foreach($tasks as $taskObj) {
+      array_push($taskNames, $taskObj->name);
+    }
+
+    return Inertia::render('Admin/Content/Pillars/Questions/Action.Add', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
-      'questionTitles' => $questionTitles,
+      'questionNames' => $questionTitles,
+      'taskNames' => $taskNames,
     ]); 
   }
 
-    /**
+  /**
+   * POST /admin/content/pillars/{pillarId}/question/{questionId}/action/create
    * Handle the POST back adding a new Action Field to our Question
    */
   public function pillar_question_action_create(ActionFieldRequest $request, $pillarId, $questionId) {
-    AuditLog::Log("Content.Pillar.Question.Action.Create", $request);    
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Action.Create", $request);    
     $pillar = Pillar::findOrFail($pillarId);
 
     $question = QuestionnaireQuestion::with('actionFields')->findOrFail($questionId);
@@ -509,7 +524,7 @@ class PillarController extends Controller
       array_push($taskArr, ["name" => $task["value"]]);
     }       
     
-    $newField->tasks = json_encode($taskArr);
+    $newField->tasks = $taskArr; //json_encode($taskArr);
     $newField->sort_order = count($question->actionFields);
     if (!$newField->isValid($question)) {
       return back()->withInput()->withErrors($newField->errors);  
@@ -520,21 +535,78 @@ class PillarController extends Controller
   }
 
   /**
+   * GET /admin/content/pillars/{pillarId}/question/{questionId}/action/{actionId}/edit
    * Load the Pillar->Questionnaire->Question->Actions->Edit Screen
    */
   public function pillar_question_action_edit(Request $request, $pillarId, $questionId, $actionId) {
     $pillar = Pillar::findOrFail($pillarId);
-
-    $questions = json_decode($pillar->questions, true);
-    $question = $questions[$questionId];
+    $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
+    $actionField = ActionField::findOrFail($actionId);  
     
-    return Inertia::render('Admin/Content/Pillars/Questions/Actions/Edit', [
+    $questionTitles = array([""]);
+    foreach($pillar->questionnaire->questions as $Actionquestion) {
+      array_push($questionTitles, $Actionquestion->title);
+    }
+
+    $tasks = Task::all();
+    $taskNames = array([""]);
+    foreach($tasks as $taskObj) {
+      array_push($taskNames, $taskObj->name);
+    }
+
+    return Inertia::render('Admin/Content/Pillars/Questions/Action.Edit', [
       'siteConfig' => Configuration::site_config(),
       'pillar' => $pillar,
       'question' => $question,
-      'field' => $question["answerInputFields"][$actionId]
+      'action' => $actionField,
+      'questionNames' => $questionTitles,
+      'taskNames' => $taskNames,
     ]); 
   }
+
+  /**
+   * POST /admin/content/pillars/{pillarId}/question/{questionId}/action/{actionId}/save
+   * Handle the POST back adding a new Action Field to our Question
+   */
+  public function pillar_question_action_save(ActionFieldRequest $request, $pillarId, $questionId, $actionId) {
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Action($actionId).Save", $request);    
+    $question = QuestionnaireQuestion::with('actionFields')->findOrFail($questionId);
+    
+    $newField = ActionField::findOrFail($actionId);
+    $newField->update($request->safe()->except("tasks"));
+    $taskArr = array();
+    $tasks = $request->input('tasks', []);
+    foreach($tasks as $task) {
+      array_push($taskArr, ["name" => $task["value"]]);
+    }       
+    
+    $newField->tasks = $taskArr; //json_encode($taskArr);
+    $newField->sort_order = count($question->actionFields);
+    if (!$newField->isValid($question)) {
+      return back()->withInput()->withErrors($newField->errors);  
+    }
+    $question->actionFields()->save($newField);
+
+    return Redirect::route('admin.content.pillar.question.actions', ["id" => $pillarId, "questionId" => $questionId]);
+  }
+
+  /**
+   * POST /admin/content/pillars/{pillarId}/question/{questionId}/action/{actionId}/delete
+   * Delete the target action from our question
+   */
+  public function pillar_question_action_delete(Request $request, $pillarId, $questionId, $actionId) { 
+    AuditLog::Log("Content.Pillar($pillarId).Question($questionId).Action($actionId).Delete", $request);    
+    $actionField = ActionField::findOrFail($actionId);
+    $actionField->delete();
+
+    return Redirect::route('admin.content.pillar.question.actions', ["id" => $pillarId, "questionId" => $questionId]);
+  }
+
+  /**
+   * **************************************************************************
+   * The following section deals with working with tasks on a pillar
+   * **************************************************************************
+   */
 
   /**
    * Handle Tasks on our Pillar

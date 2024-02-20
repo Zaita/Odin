@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\ApprovalFlowSeeder;
+use Database\Seeders\ConfigurationSeeder;
 use Database\Seeders\QuestionnaireSeeder;
 use Database\Seeders\PillarSeeder;
 use Database\Seeders\GroupSeeder;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
       $this->call([
+        ConfigurationSeeder::class,
         UserSeeder::class,
         GroupSeeder::class,
         GroupUserSeeder::class,

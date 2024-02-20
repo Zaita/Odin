@@ -1,184 +1,216 @@
 {
-  "id": 2,
   "name": "Risk Profile",
-  "caption": "Perform a standalone risk profile analysis",
+  "type": "risk_questionnaire",
+  "caption": "",
   "icon": "message",
-  "key_information": "<p>This questionnaire will ask you contextual questions about a potential delivery. This is used to create a high level risk profile of a potential project or product. This technique can be used early in the planning to appropriate scope security resourcing and engagement<\/p>\n<p>A risk profile is a useful tool for organisations that have large or long running delivery timelines and want to embrace increased planning and engagement.<\/p>\n<p>The questions here are only some sample questions. You should customise these for your organisation if you wish to implement a Risk Profile process.<\/p>\n<p>This questionnaire will not create any Odin tasks and the submission will automatically be marked as approved<\/p>\n<p>If you do not complete this questionnaire within 14 days, it will automatically expire<\/p>",
-  "auto_approve": true,
+  "key_information": "",
+  "auto_approve": false,
   "auto_approve_no_tasks": true,
   "submission_expires": true,
-  "expire_after_days": 0,
+  "expire_after_days": 14,
   "enabled": true,
-  "tasks": [],
   "approval_flow": {
-      "id": 1,
-      "name": "Two stage approval with CISO endorsement",
-      "enabled": 1,
-      "created_at": "2024-02-16T08:00:17.000000Z",
-      "updated_at": "2024-02-16T08:00:17.000000Z"
+    "name": "Two stage approval with CISO endorsement"
   },
   "questionnaire": {
-      "id": 8,
-      "name": "Risk Profile",
-      "type": "risk_questionnaire",
-      "risk_calculation": "highest_value",
-      "questions": [
+    "name": "Risk Profile",
+    "type": "risk_questionnaire",
+    "risk_calculation": "highest_value",
+    "questions": [
+      {
+        "title": "Project Name",
+        "heading": "Please enter project name",
+        "description": "<p>Please enter the name of the project or product you are deliverying</p>",
+        "sort_order": 0,
+        "input_fields": [
           {
-              "id": 63,
-              "title": "Project Name",
-              "heading": "Please enter project name",
-              "description": "<p>Please enter the name of the project or product you are deliverying<\/p>",
-              "sort_order": 0,
-              "input_fields": [
-                  {
-                      "id": 30,
-                      "label": "Name",
-                      "required": true,
-                      "input_type": "text",
-                      "min_length": 2,
-                      "max_length": 4096,
-                      "placeholder": null,
-                      "product_name": true,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999,
-                      "config": null,
-                      "checkbox_options": []
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 64,
-              "title": "Go-Live Date",
-              "heading": "Please enter expected go-live date",
-              "description": "<p>Please enter the date you expect this project to go-live.<\/p>\n<p>If you do not have a definite date, please estimate one.<\/p>",
-              "sort_order": 1,
-              "input_fields": [
-                  {
-                      "id": 31,
-                      "label": "Date",
-                      "required": true,
-                      "input_type": "release date",
-                      "min_length": 0,
-                      "max_length": 4096,
-                      "placeholder": null,
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999,
-                      "config": null,
-                      "checkbox_options": []
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 65,
-              "title": "Compliance Requirement",
-              "heading": "Is this project a compliance requirement?",
-              "description": "<p>Is this project important to the successful delivery of a major compliance requirement for the organisation?<\/p>",
-              "sort_order": 2,
-              "input_fields": [
-                  {
-                      "id": 32,
-                      "label": "Answer",
-                      "required": false,
-                      "input_type": "multiple-choice: single selection",
-                      "min_length": 0,
-                      "max_length": 4096,
-                      "placeholder": null,
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999,
-                      "config": null,
-                      "checkbox_options": []
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 66,
-              "title": "Business Continuity",
-              "heading": "Would project failure impact the businesses ability to operate?",
-              "description": "<p>Would project failure have significant implications for the continued success of the business?<\/p>",
-              "sort_order": 3,
-              "input_fields": [
-                  {
-                      "id": 33,
-                      "label": "Answer",
-                      "required": true,
-                      "input_type": "multiple-choice: single selection",
-                      "min_length": 0,
-                      "max_length": 4096,
-                      "placeholder": null,
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999,
-                      "config": null,
-                      "checkbox_options": []
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 67,
-              "title": "Customer Impact",
-              "heading": "Will this have a significant impact on customers?",
-              "description": "<p>Will this change have a significant impact on customers?<\/p>\n<p>This can include any impact to the customer engagement or using our products. A significant change to the user interface or release of major new functionality should be marked as \"Yes\"<\/p>",
-              "sort_order": 4,
-              "input_fields": [
-                  {
-                      "id": 34,
-                      "label": "Answer",
-                      "required": true,
-                      "input_type": "multiple-choice: single selection",
-                      "min_length": 0,
-                      "max_length": 4096,
-                      "placeholder": null,
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999,
-                      "config": null,
-                      "checkbox_options": []
-                  }
-              ],
-              "action_fields": []
-          },
-          {
-              "id": 68,
-              "title": "Clear Requirements",
-              "heading": "Does the project have clear requirements?",
-              "description": "<p>Does the project have clear requirements that can be easily articulated and measured for success?<\/p>\n<p>A clear requirement must be something that can be tangibly measured once achieved.<\/p>",
-              "sort_order": 5,
-              "input_fields": [
-                  {
-                      "id": 35,
-                      "label": "Answer",
-                      "required": true,
-                      "input_type": "multiple-choice: single selection",
-                      "min_length": 0,
-                      "max_length": 4096,
-                      "placeholder": null,
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999,
-                      "config": null,
-                      "checkbox_options": []
-                  }
-              ],
-              "action_fields": []
+            "sort_order": 0,
+            "label": "Name",
+            "required": true,
+            "input_type": "text",
+            "min_length": 2,
+            "max_length": 4096,
+            "placeholder": "Project Name",
+            "product_name": true,
+            "business_owner": false,
+            "release_date": false,
+            "ticket_url": false,
+            "input_options": []
           }
-      ]
+        ]
+      },
+      {
+        "title": "Go-Live Date",
+        "heading": "Please enter expected go-live date",
+        "description": "<p>Please enter the date you expect this project to go-live.</p>\n<p>If you do not have a definite date, please estimate one.</p>",
+        "sort_order": 0,
+        "input_fields": [
+          {
+            "sort_order": 0,
+            "label": "Date",
+            "required": true,
+            "input_type": "release date",
+            "min_length": 0,
+            "max_length": 4096,
+            "placeholder": "",
+            "product_name": false,
+            "business_owner": false,
+            "release_date": false,
+            "ticket_url": false,
+            "input_options": []
+          }
+        ]
+      },
+      {
+        "title": "Compliance Requirement",
+        "heading": "Is this project a compliance requirement?",
+        "description": "<p>Is this project important to the successful delivery of a major compliance requirement for the organisation?</p>",
+        "sort_order": 0,
+        "input_fields": [
+          {
+            "sort_order": 0,
+            "label": "Answer",
+            "required": false,
+            "input_type": "radio",
+            "min_length": 0,
+            "max_length": 4096,
+            "placeholder": "",
+            "product_name": false,
+            "business_owner": false,
+            "release_date": false,
+            "ticket_url": false,
+            "input_options": [
+              {
+                "label": "Yes",
+                "value": "Yes",
+                "risks": {
+                  "Compliance failure": 100
+                }
+              },
+              {
+                "label": "No",
+                "value": "No",
+                "risks": {
+                  "Compliance failure": 5
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Business Continuity",
+        "heading": "Would project failure impact the businesses ability to operate?",
+        "description": "<p>Would project failure have significant implications for the continued success of the business?</p>",
+        "sort_order": 0,
+        "input_fields": [
+          {
+            "sort_order": 0,
+            "label": "Answer",
+            "required": true,
+            "input_type": "radio",
+            "min_length": 0,
+            "max_length": 4096,
+            "placeholder": "",
+            "product_name": false,
+            "business_owner": false,
+            "release_date": false,
+            "ticket_url": false,
+            "input_options": [
+              {
+                "label": "Yes",
+                "value": "Yes",
+                "risks": {
+                  "Business continuity": 60
+                }
+              },
+              {
+                "label": "No",
+                "value": "No",
+                "risks": {
+                  "Business continuity": 5
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Customer Impact",
+        "heading": "Will this have a significant impact on customers?",
+        "description": "<p>Will this change have a significant impact on customers?</p>\n<p>This can include any impact to the customer engagement or using our products. A significant change to the user interface or release of major new functionality should be marked as \"Yes\"</p>",
+        "sort_order": 0,
+        "input_fields": [
+          {
+            "sort_order": 0,
+            "label": "Answer",
+            "required": true,
+            "input_type": "radio",
+            "min_length": 0,
+            "max_length": 4096,
+            "placeholder": "",
+            "product_name": false,
+            "business_owner": false,
+            "release_date": false,
+            "ticket_url": false,
+            "input_options": [
+              {
+                "label": "Yes",
+                "value": "Yes",
+                "risks": {
+                  "User dissatisfaction": 60
+                }
+              },
+              {
+                "label": "No",
+                "value": "No",
+                "risks": {
+                  "User dissatisfaction": 5
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Clear Requirements",
+        "heading": "Does the project have clear requirements?",
+        "description": "<p>Does the project have clear requirements that can be easily articulated and measured for success?</p>\n<p>A clear requirement must be something that can be tangibly measured once achieved.</p>",
+        "sort_order": 0,
+        "input_fields": [
+          {
+            "sort_order": 0,
+            "label": "Answer",
+            "required": true,
+            "input_type": "radio",
+            "min_length": 0,
+            "max_length": 4096,
+            "placeholder": "",
+            "product_name": false,
+            "business_owner": false,
+            "release_date": false,
+            "ticket_url": false,
+            "input_options": [
+              {
+                "label": "Yes",
+                "value": "Yes",
+                "risks": {
+                  "Functional failure": 70,
+                  "Cost overrun": 65
+                }
+              },
+              {
+                "label": "No",
+                "value": "No",
+                "risks": {
+                  "Functional failure": 0,
+                  "Cost overrun": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

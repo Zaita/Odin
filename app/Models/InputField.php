@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\CheckboxOption;
+use App\Models\InputOption;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,9 +45,9 @@ class InputField extends Model
         "ticket_url" => "boolean",
     ];
 
-    public function checkbox_options(): HasMany
+    public function input_options(): HasMany
     {
-        return $this->hasMany(CheckboxOption::class);
+        return $this->hasMany(InputOption::class);
     }
 
     /**
@@ -68,14 +68,14 @@ class InputField extends Model
 
         /**
          * Check if this input type is a checkbox, if so. Create
-         * the checkbox_options
+         * the input_option
          */
         // echo (sprintf("Input Type: %s\n", $this->input_type));
-        if ($this->input_type == "checkbox" && isset($jsonArr["checkbox_options"])) {
-            $options = $jsonArr["checkbox_options"];
-            foreach ($options as $checkbox_option) {
-                $option = new CheckboxOption($checkbox_option);
-                $option->risks = isset($checkbox_option["risks"]) ? $checkbox_option["risks"] : null;
+        if (($this->input_type == "checkbox" || $this->input_type == "radio") && isset($jsonArr["input_options"])) {
+            $options = $jsonArr["input_options"];
+            foreach ($options as $input_option) {
+                $option = new InputOption($input_option);
+                $option->risks = isset($input_option["risks"]) ? $input_option["risks"] : null;
                 $option->input_field_id = $this->id;
                 $option->save();
             }

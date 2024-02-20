@@ -157,7 +157,7 @@
                       "id": 19,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Information and Data Management Assessment"
@@ -169,7 +169,7 @@
                       "id": 20,
                       "label": "No",
                       "action_type": "goto",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -187,7 +187,7 @@
                       "id": 21,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -195,7 +195,7 @@
                       "id": 22,
                       "label": "No",
                       "action_type": "goto",
-                      "goto_question_title": "Personal Information",
+                      "goto_question": "Personal Information",
                       "tasks": [
                           {
                               "name": "Information Classification"
@@ -241,7 +241,7 @@
                       "id": 23,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Privacy Threshold Assessment"
@@ -253,7 +253,7 @@
                       "id": 24,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -271,7 +271,7 @@
                       "id": 25,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -279,7 +279,7 @@
                       "id": 26,
                       "label": "No",
                       "action_type": "goto",
-                      "goto_question_title": "Public Facing Interfaces",
+                      "goto_question": "Public Facing Interfaces",
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -345,7 +345,7 @@
                       "id": 27,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -353,7 +353,7 @@
                       "id": 28,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Third Party Assessment"
@@ -375,7 +375,7 @@
                       "id": 29,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Penetration Test"
@@ -387,7 +387,7 @@
                       "id": 30,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -405,7 +405,7 @@
                       "id": 31,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -413,7 +413,7 @@
                       "id": 32,
                       "label": "No",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -431,7 +431,7 @@
                       "id": 33,
                       "label": "I Understand",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Initial Risk Impact Assessment"
@@ -449,7 +449,7 @@
                       "id": 34,
                       "label": "Use DSRA Tutorial",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": [
                           {
                               "name": "Digital Security Risk Assessment Tutorial"
@@ -495,7 +495,7 @@
                       "id": 35,
                       "label": "Review Answers",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }

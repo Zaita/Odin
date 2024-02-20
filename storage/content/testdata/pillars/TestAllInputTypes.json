@@ -5,6 +5,9 @@
   "icon": "none",
   "key_information": "Pillar to unit test each input type",
   "risk_calculation": "none",
+  "approval_flow": {
+    "name" : "Security and business owner only"
+  },
   "auto_approve": false,
   "auto_approve_no_tasks": false,
   "submission_expires": false,
@@ -68,7 +71,7 @@
                       "id": 87,
                       "label": "Rich Text Editor",
                       "required": false,
-                      "input_type": "rich text editor",
+                      "input_type": "richtext",
                       "min_length": null,
                       "max_length": null,
                       "placeholder": null,
@@ -162,7 +165,7 @@
                     "id": 87,
                     "label": "Rich Text Editor",
                     "required": true,
-                    "input_type": "rich text editor",
+                    "input_type": "richtexteditor",
                     "min_length": null,
                     "max_length": null,
                     "placeholder": null,

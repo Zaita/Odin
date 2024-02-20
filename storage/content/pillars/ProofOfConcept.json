@@ -123,7 +123,7 @@
                       "id": 1,
                       "label": "Proof of Concept",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -131,7 +131,7 @@
                       "id": 2,
                       "label": "Software\/Product Trial",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -173,7 +173,7 @@
                       "id": 3,
                       "label": "Software as a Service",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -181,7 +181,7 @@
                       "id": 4,
                       "label": "On-Premises",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   }
@@ -223,7 +223,7 @@
                       "id": 5,
                       "label": "Yes",
                       "action_type": "continue",
-                      "goto_question_title": null,
+                      "goto_question": null,
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -231,7 +231,7 @@
                       "id": 6,
                       "label": "No",
                       "action_type": "goto",
-                      "goto_question_title": "Description of Information",
+                      "goto_question": "Description of Information",
                       "tasks": null,
                       "sort_order": 999
                   },
@@ -239,7 +239,7 @@
                       "id": 7,
                       "label": "I Don't Know",
                       "action_type": "goto",
-                      "goto_question_title": "Description of Information",
+                      "goto_question": "Description of Information",
                       "tasks": null,
                       "sort_order": 999
                   }

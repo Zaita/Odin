@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('questionnaire_question_id');
             $table->string("label");
             $table->string("action_type");
-            $table->string("goto_question_title")->nullable();
+            $table->string("goto_question")->nullable();
             $table->json("tasks")->nullable();
             $table->integer("sort_order")->default(999);
             $table->timestamps();

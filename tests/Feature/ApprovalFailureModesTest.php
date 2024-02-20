@@ -90,12 +90,11 @@ class ApprovalFailureModesTest extends TestCase {
     $response->assertRedirectToRoute("submission.submitted", $uuid);
 
     // Submit the review page again
+    // This won't do anything.
     $response = $this->actingAs(self::$user)->get("/submitted/${uuid}");
     $response = $this->actingAs(self::$user)->post("/submit/${uuid}");
     $response->assertRedirectToRoute("submission.submitted", $uuid);
-    $response->assertSessionHasErrors([
-      'error' => 'Submission has been submitted already'
-    ]);
+    $response->assertSessionHasNoErrors();
 
     // View the page as the submitter to verify they can't approve and the error is present
     $response = $this->actingAs(self::$user)->get("/submitted/${uuid}");
@@ -103,8 +102,7 @@ class ApprovalFailureModesTest extends TestCase {
       ->component("Submission/Submitted")
       ->has("ziggy.location")
       ->has("siteConfig")
-      ->has("errors", 1)
-      ->where('errors.error', 'Submission has been submitted already')
+      ->has("errors", 0)
       ->url("/submitted/${uuid}")
       ->where('submission.status', 'submitted')
       ->where('submission.nice_status', 'Ready to submit')

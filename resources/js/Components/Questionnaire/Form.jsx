@@ -8,6 +8,7 @@ import TextAreaField from '../TextAreaField';
 import DatePickerField from '../DatePickerField';
 import Form_CheckBox from './Form.CheckBox';
 import ThemedButton from '../ThemedButton';
+import Form_RadioButton from './Form.RadioButton';
 
 export default function Questionnaire_Form(props) { 
   let userAnswers = useRef({});
@@ -142,11 +143,15 @@ export default function Questionnaire_Form(props) {
             handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, 
             fieldKey])
           break;
+        case "richtext":
+        case "richtexteditor":
         case "textarea":
           inputs.push([<TextAreaField field={inputField} value={getAnswer(inputField.label)} 
             handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
           break;          
-        case "date":          
+        case "date":                  
+        case "release_date":  
+        case "release date":
           inputs.push([<DatePickerField field={inputField} value={getAnswer(inputField.label)} 
             handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
           break;   
@@ -154,6 +159,11 @@ export default function Questionnaire_Form(props) {
           inputs.push([<Form_CheckBox field={inputField} values={getAnswer(inputField.label)}
             handleChange={handleSubChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
           break;
+          case "radio":
+            inputs.push([<
+              Form_RadioButton field={inputField} value={getAnswer(inputField.label)}
+              handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
+            break;          
       }
     });
   }

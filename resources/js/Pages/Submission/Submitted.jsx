@@ -44,7 +44,8 @@ function Content(props) {
           {releaseDate}
         </div>
         <div id="submission_info" className="w-1/2">
-          <div id="submission_status" className="align-middle mb-3">{getStatusIcon(props.status)}
+          <div id="submission_status" className="align-middle mb-3"
+            style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>{getStatusIcon(props.status)}
             <span className="pt-1">{props.status}</span>
           </div>
           <br/>

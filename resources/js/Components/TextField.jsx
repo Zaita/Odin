@@ -55,7 +55,7 @@ export default function TextField(props) {
         <label htmlFor={fieldId}>{label}</label>
       </div>
       <input type={type} className="bg-white" name={camalCase(fieldId)} id={fieldId} value={value} onKeyUp={handleKeyPress}
-        placeholder={props.field.placeHolder} onChange={handleChange}
+        placeholder={props.field.placeholder} onChange={handleChange}
         style={{
           backgroundColor: props.siteConfig.theme_input_bg_color,
           color: props.siteConfig.theme_input_text_color,

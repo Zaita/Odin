@@ -5,7 +5,7 @@ import dbFormat from "@/Utilities/dbFormat.jsx"
 
 export default function Admin_DropdownField(props) {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState(props.field.value ? props.field.value : props.options[0]);
+  const [value, setValue] = useState(props.field.value ? props.field.value : props.field.options[0]);
 
   let fieldId = props.camalCase ? camalCase(props.field.label) : props.field.label;
   fieldId = props.dbFormat ? dbFormat(fieldId) : fieldId;
@@ -65,7 +65,7 @@ export default function Admin_DropdownField(props) {
         onBlur={() => setIsFocused(false)}
         onFocus={() => setIsFocused(true)}
         >   
-          {props.options.map((option, index) => (<option key={index} label={option} value={option}/>))}
+          {props.field.options.map((option, index) => (<option key={index} label={option} value={option}/>))}
       </select>
       <p id="error" style={{color: props.siteConfig.theme_error_text_color}}>{error}</p> 
     </div>
