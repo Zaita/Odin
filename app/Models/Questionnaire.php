@@ -58,9 +58,8 @@ class Questionnaire extends Model
         $this->save();
 
         if ($this->custom_risks) {
-          echo "Custom Risks\n";
-          foreach($jsonArr["risks"] as $riskName) {
-            QuestionnaireRisk::create(["questionnaire_id" => $this->id, "risk_name" => $riskName]);
+          foreach($jsonArr["risks"] as $risk) {
+            QuestionnaireRisk::create(["questionnaire_id" => $this->id, "name" => $risk["name"], "description" => $risk["description"]]);
           }
         }
 

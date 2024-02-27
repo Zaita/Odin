@@ -20,7 +20,7 @@ function Content(props) {
             if (typeof(answer.value) == "string" && answer.value?.includes("\n")) {
               userResponses.push(<div key={index} className="pl-1">{answer.value}</div>);
 
-            } else if (typeof answer.value == "object") {
+            } else if (answer.value != null && typeof answer.value == "object") {
               let output = [];
               Object.entries(answer.value).map(([key, val], index) => {
                 if (val) {
@@ -37,9 +37,10 @@ function Content(props) {
     }});
     
     return(
-      <div key={index}>
-        <div className="inline-block w-4/12 font-extrabold align-top pl-1">{index}. {questionHeading}</div>
-        <div className="inline-block w-8/12" style={{borderLeft: "2px solid " + props.siteConfig.theme_bg_color}}>
+      <div key={index} className="mb-1 min-h-10 p-2" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
+        <div className="inline-block w-4/12 align-top pl-1 min-h-10" style={{borderRight: "1px solid " + props.siteConfig.theme_bg_color}}>
+          <span className="font-extrabold">{index}.</span> {questionHeading}</div>
+        <div className="inline-block w-8/12 min-h-10" style={{borderLeft: "1px solid " + props.siteConfig.theme_bg_color}}>
           {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
         </div>
       </div>
@@ -48,8 +49,8 @@ function Content(props) {
 
   return (
     <div id="inner_content">
-      <div className="mb-2 pt-2 pb-2"
-        style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
+      <span className="text-lg font-bold">User responses</span>
+      <div className="mb-2 p-2">
         {questions.map((question, index) => (
           getQuestionContent(question.title, question.heading, index+1)
           ))

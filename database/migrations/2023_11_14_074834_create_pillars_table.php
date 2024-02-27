@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('icon')->default('none');                       
             $table->text('key_information');            
             $table->boolean('auto_approve')->default(false);
+            $table->boolean('auto_submit_no_tasks')->default(false);
             $table->boolean('auto_approve_no_tasks')->default(false);
             $table->boolean('submission_expires')->default(false);
             $table->unsignedInteger('expire_after_days')->default(0);                        

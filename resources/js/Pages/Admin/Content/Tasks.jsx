@@ -25,7 +25,7 @@ export default function Tasks(props) {
 
   function confirmedDeletion() {
     console.log("Deletion Confirmed");
-    SaveAnswers("admin.content.tasks.delete", setSaveOk, setSaveErrors, deleteTarget.current);
+    SaveAnswers("admin.content.task.delete", setSaveOk, setSaveErrors, deleteTarget.current);
     setDialogIsOpen(false)
   }
 

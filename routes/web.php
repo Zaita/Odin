@@ -153,6 +153,7 @@ Route::middleware(['auth', 'can:isReadOnlyAdministrator'])->group(function() {
   // Content -> Pillars -> Pillar
   Route::get('/admin/content/pillars/{id}/questions', [Admin_Content_Pillar::class, 'pillar_questions'])->name('admin.content.pillar.questions');
   Route::get('/admin/content/pillars/{id}/tasks', [Admin_Content_Pillar::class, 'pillar_tasks'])->name('admin.content.pillar.tasks');
+  Route::get('/admin/content/pillars/{id}/risks', [Admin_Content_Pillar::class, 'pillar_risks'])->name('admin.content.pillar.risks');
   // Submissions -> Overview
   Route::get('/admin/records/submissions', [Admin_Records_Submissions::class, 'index'])->name('admin.records.submissions');
   Route::get('/admin/records/submission/{id}', [Admin_Records_Submissions::class, 'view'])->name('admin.records.submission.view');
@@ -206,12 +207,17 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   Route::post('/admin/content/pillar/{id}/tasks/link', [Admin_Content_Pillar::class, 'pillar_task_link'])->name('admin.content.pillar.task.link');
   Route::post('/admin/content/pillar/{id}/task/{taskId}/unlink', [Admin_Content_Pillar::class, 'pillar_task_unlink'])->name('admin.content.pillar.task.unlink');
  
+  // Content -> Pillars -> Pillar -> Risks
+  Route::post('/admin/content/pillar/{id}/risk/create', [Admin_Content_Pillar::class, 'pillar_risk_create'])->name('admin.content.pillar.risk.create');
+  Route::post('/admin/content/pillar/{id}/risk/{riskId}/delete', [Admin_Content_Pillar::class, 'pillar_risk_delete'])->name('admin.content.pillar.risk.delete');
+
   // Content -> Tasks
   Route::get('/admin/content/tasks', [Admin_Content_Task::class, 'index'])->name('admin.content.tasks');
   Route::get('/admin/content/task/add', [Admin_Content_Task::class, 'add'])->name('admin.content.task.add');
   Route::post('/admin/content/task/add', [Admin_Content_Task::class, 'create'])->name('admin.content.task.create');
   Route::get('/admin/content/task/edit/{id}', [Admin_Content_Task::class, 'edit'])->name('admin.content.task.edit');
   Route::post('/admin/content/task/save/{id}', [Admin_Content_Task::class, 'save'])->name('admin.content.task.save');
+  Route::post('/admin/content/task/dsrasave/{id}', [Admin_Content_Task::class, 'dsra_save'])->name('admin.content.task.dsrasave');
   Route::post('/admin/content/task/delete', [Admin_Content_Task::class, 'delete'])->name('admin.content.task.delete');   
   Route::get('/admin/content/task/download/{id}', [Admin_Content_Task::class, 'download'])->name('admin.content.task.download');   
   // Content -> Task -> Questions
@@ -236,9 +242,18 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
   Route::get('/admin/content/task/{id}/question/{questionId}/input/{inputId}/checkbox/{optionId}/edit', [Admin_Content_Task::class, 'question_input_checkbox_edit'])->name('admin.content.task.question.input.checkbox.edit');
   Route::post('/admin/content/task/{id}/question/{questionId}/input/{inputId}/checkbox/{optionId}/save', [Admin_Content_Task::class, 'question_input_checkbox_save'])->name('admin.content.task.question.input.checkbox.save');
   Route::post('/admin/content/task/{id}/question/{questionId}/input/{inputId}/checkbox/{optionId}/delete', [Admin_Content_Task::class, 'question_input_checkbox_delete'])->name('admin.content.task.question.input.checkbox.delete');
-
   // Content -> Tasks -> Questions -> Question -> Actions
   Route::get('/admin/content/task/{id}/question/{questionId}/actions', [Admin_Content_Task::class, 'question_actions'])->name('admin.content.task.question.actions');
+  // Content -> Tasks -> Risks
+  Route::get('/admin/content/task/{id}/risks', [Admin_Content_Task::class, 'risks'])->name('admin.content.task.risks');
+  Route::post('/admin/content/task/{id}/risk/create', [Admin_Content_Task::class, 'risk_create'])->name('admin.content.task.risk.create');
+  Route::post('/admin/content/task/{id}/risk/{riskId}/delete', [Admin_Content_Task::class, 'risk_delete'])->name('admin.content.task.risk.delete');  
+  // Content -> Tasks (DSRA) -> Likelihoods
+  Route::get('/admin/content/task/{id}/likelihoods', [Admin_Content_Task::class, 'risks'])->name('admin.content.task.likelihoods');
+  // Content -> Tasks (DSRA) -> Impacts
+  Route::get('/admin/content/task/{id}/impacts', [Admin_Content_Task::class, 'risks'])->name('admin.content.task.impacts');
+  // Content -> Tasks (DSRA) -> RiskMatrix
+  Route::get('/admin/content/task/{id}/riskmatrix', [Admin_Content_Task::class, 'risks'])->name('admin.content.task.riskmatrix');
   
   // Content -> Security Catalogues
   Route::get('/admin/content/securitycatalogues', [Admin_Content_SecurityCatalogue::class, 'index'])->name('admin.content.securitycatalogues');

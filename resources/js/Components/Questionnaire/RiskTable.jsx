@@ -1,10 +1,13 @@
 export default function Questionnaire_RiskTable(props) { 
-  // This is not configured for displaying a risk table
-  if (props.submission.type == "questionnaire" || props.submission.risk_calculation == "none") {
+  // This is not configured for displaying a risk table  
+  if (!props.task && (props.submission.type == "questionnaire" || props.submission.risk_calculation == "none")) {
+    return <></>
+  }
+  if (props.task && props.task.task_type != "risk_questionnaire") {
     return <></>
   }
 
-  let riskData = JSON.parse(props.submission.risk_data);
+  let riskData = JSON.parse(props.task ? props.task.risk_data : props.submission.risk_data);
   let output = [];
   riskData.map((risk, index) => output.push(
     <div key={index} className="mt-1"

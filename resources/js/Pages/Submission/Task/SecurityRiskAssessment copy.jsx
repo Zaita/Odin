@@ -1,16 +1,33 @@
-import React, {useState, useRef, createRef} from 'react';
+import React, {useState, useRef} from 'react';
 import UserLayout from '@/Layouts/UserLayout';
+import { router } from '@inertiajs/react'
 
 import ThemedButton from '@/Components/ThemedButton';
 import DSRA_RiskTable from '@/Components/DSRA/RiskTable';
 import DSRA_ControlList from '@/Components/DSRA/ControlList';
 
 export default function Submission_Task_DSRA(props) {
-  const ref = useRef(null);
+  let [controls, setControls] = useState(props.controls); 
 
-  function callback() {
-    ref.current.updateTable();
+
+
+  
+  function makeControl(count, status) {
+    for (let index = 0; index < count; index++) {
+      controls.push({
+        "id" : controls.length.toString(),
+        "content" : "Control " + (controls.length + index).toString(),
+        "sort_order" : controls.length + index,
+        "status" : status,
+      });    
+    }
   }
+
+  makeControl(3, "not_applicable");
+  makeControl(6, "not_implemented");
+  makeControl(2, "planned");
+  makeControl(0, "implemented");
+  
 
   function Content() {
     return <div id="inner_content">
@@ -19,7 +36,7 @@ export default function Submission_Task_DSRA(props) {
         The Digital Security Risk Assessment (DSRA) is developed specifically for your target system. It displays the security risks assuming no controls are in place. It 
         also flags any required treatments that will reduce the target systems risk environment to an acceptable level.
       </div>
-      <DSRA_RiskTable {...props} ref={ref}/>
+      <DSRA_RiskTable {...props}/>
       <div>
         <div className="font-bold">Recommended Controls</div>
         <div>Start selecting the controls you want to implement to reduce your risk to an acceptable level by clicking on the required treatments</div>        
@@ -32,7 +49,7 @@ export default function Submission_Task_DSRA(props) {
         </div>
       </div>
       <div className="pb-5">
-        <div><DSRA_ControlList {...props} controls={props.controls} callback={callback}/></div>
+        <div><DSRA_ControlList {...props} controls={controls}/></div>
       </div>
     </div>
   }

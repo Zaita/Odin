@@ -1,5 +1,5 @@
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import ReportIcon from '@mui/icons-material/Report';
 import camalCase from "@/Utilities/camal.jsx"
 import dbFormat from '@/Utilities/dbFormat';
@@ -25,6 +25,16 @@ export default function Form_RadioButton(props) {
     props.handleChange(fieldId, newValue.target.defaultValue);
     setRenderFlag(!renderFlag);
   }
+
+  // Run once after object loads.
+  useEffect(() => {
+    // Re-Populate after a fresh load/render
+    // This is because programatically changing field value
+    // in a form error won't trigger onChange
+    if (props.runInit) {
+      props.handleChange(fieldId, userValues.current);
+    }
+  })
 
   return (
     <div id="input_field">

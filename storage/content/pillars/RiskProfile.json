@@ -234,11 +234,26 @@
       }
     ],
     "risks": [
-      "Compliance failure",
-      "Cost overrun",
-      "Business continuity",
-      "Functional failure",
-      "User dissatisfaction"
+      {
+        "name": "Compliance failure",
+        "description": ""
+      },
+      {
+        "name": "Business continuity",
+        "description": ""
+      },
+      {
+        "name": "Cost overrun",
+        "description": ""
+      },
+      {
+        "name": "User dissatisfaction",
+        "description": ""
+      },
+      {
+        "name": "Functional failure",
+        "description": ""
+      }
     ]
   }
 }

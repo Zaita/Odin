@@ -14,7 +14,7 @@ class TaskSeeder extends Seeder
   protected  $sortOrder = 0;
 
   protected function load_task($name) {
-    $fileName = "storage/content/tasks/${name}.json";
+    $fileName = "storage/content/tasks/$name.json";
     $file = fopen($fileName, "r") or die("Unable to open file!");
     $json = json_decode(fread($file,filesize($fileName)), true);
     fclose($file);
@@ -35,8 +35,8 @@ class TaskSeeder extends Seeder
     $this->load_task("WebSecurityConfiguration"); 
     $this->load_task("PCI_DSSAssessment"); 
     $this->load_task("OneQuestionTask"); 
-    $this->load_task("OneQuestionTask"); 
-    $this->load_task("DSRA"); 
+    $this->load_task("InitialRiskImpactAssessment"); 
+    // $this->load_task("DSRA"); 
   }
 }
 

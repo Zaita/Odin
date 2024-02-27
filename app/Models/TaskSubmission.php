@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
-
-use App\Models\QuestionnaireQuestion;
+use App\Objects\RiskCalculatorObject;
 
 $uuid = Str::uuid()->toString();
 
@@ -24,6 +22,7 @@ $uuid = Str::uuid()->toString();
  * - waiting_for_approval
  * - approved
  * - denied
+ * - not_applicable
  */
 class TaskSubmission extends Model
 {
@@ -131,5 +130,17 @@ class TaskSubmission extends Model
     parent::save($options);
   }
 
+  public function calculateRiskScore() {
+    Log::Info("Calculating Risk");
+    Log::Info(sprintf("Type: %s; Calculation: %s", $this->task_type, $this->risk_calculation));
+    /**
+     * Step 1: Calculate the risk values
+     */    
+    if ($this->task_type == "risk_questionnaire" && $this->risk_calculation != "none") {
+      Log::Info("Risks are required");
+      $this->risk_data = RiskCalculatorObject::calculate($this, $this->risk_calculation);
+      $this->save();      
+    }
+  }
 }
 

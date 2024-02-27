@@ -21,12 +21,9 @@ class PillarSeeder extends Seeder
     $json = json_decode(fread($file,filesize($fileName)), true);
     fclose($file);
     
-    // $approvalFlow = ApprovalFlow::where(['name' => $approvalFlow])->first();
-
     $p = Pillar::firstOrNew(["name" => $json["name"]]);
     $p->importFromJson($json);
     $p->sort_order = $this->sortOrder++;
-    // $p->approval_flow_id = $approvalFlow->id;
     $p->save();
   }
 

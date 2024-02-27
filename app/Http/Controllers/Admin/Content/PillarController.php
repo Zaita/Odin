@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
@@ -22,10 +21,11 @@ use App\Models\QuestionnaireQuestion;
 use App\Models\InputOption;
 use App\Models\ImpactThreshold;
 use App\Models\Task;
-use App\Http\Requests\AdminContentPillarUpdateRequest;
+use App\Models\QuestionnaireRisk;
+use App\Http\Requests\PillarCreateRequest;
+use App\Http\Requests\PillarSaveRequest;
 use App\Http\Requests\InputFieldRequest;
 use App\Http\Requests\ActionFieldRequest;
-use App\Http\Requests\AdminSiteConfigUpdateRequest;
 use App\Http\Requests\QuestionnaireQuestionRequest;
 
 class PillarController extends Controller
@@ -60,7 +60,7 @@ class PillarController extends Controller
   /**
    * Create a new pillar
    */
-  public function create(AdminContentPillarUpdateRequest $request) : RedirectResponse {
+  public function create(PillarCreateRequest $request) : RedirectResponse {
     AuditLog::Log("Content.Pillars.Add", $request);    
     $approvalFlowId = ApprovalFlow::where(["name" => $request->input('approval_flow')])->first()->id;
 
@@ -140,13 +140,13 @@ class PillarController extends Controller
    * POST /admin/content/pillar/{id}/save
    * Save changes to our existing group
    */
-  public function save(AdminContentPillarUpdateRequest $request, $pillarId) : RedirectResponse {
+  public function save(PillarSaveRequest $request, $pillarId) : RedirectResponse {
     AuditLog::Log("Content.Pillar($pillarId).Save", $request);
     $pillar = Pillar::findOrFail($pillarId); 
-    $pillar->update($request->safe()->except(["type", "risk_calculation"]));
+    $pillar->update($request->safe()->except(["type", "risk_calculation", "custom_risks"]));
     
     $questionnaire = Questionnaire::findOrFail($pillar->questionnaire_id);
-    $questionnaire->update($request->safe()->only(["type","risk_calculation"]));
+    $questionnaire->update($request->safe()->only(["type","risk_calculation", "custom_risks"]));
     $questionnaire->save();
 
     $approvalFlowId = ApprovalFlow::where(["name" => $request->input('approval_flow')])->first()->id;
@@ -330,12 +330,16 @@ class PillarController extends Controller
    * Load the Pillar->Questionnaire->Question->Inputs->Edit Screen
    */
   public function pillar_question_input_edit(Request $request, $pillarId, $questionId, $inputId) {
-    $pillar = Pillar::findOrFail($pillarId);
+    $pillar = Pillar::with(["questionnaire"])->findOrFail($pillarId); 
 
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
     $inputField = InputField::with("input_options")->findOrFail($inputId);
 
-    $risks = Risk::all();
+    if (!$pillar->questionnaire->custom_risks) {
+      $risks = Risk::all();
+    } else {
+      $risks = QuestionnaireRisk::where(['questionnaire_id' => $pillar->questionnaire->id])->get();
+    }
 
     return Inertia::render('Admin/Content/Pillars/Questions/Input.Edit', [
       'siteConfig' => Configuration::site_config(),
@@ -394,8 +398,13 @@ class PillarController extends Controller
     $pillar = Pillar::findOrFail($pillarId);
     $question = QuestionnaireQuestion::with('inputFields')->findOrFail($questionId);
     $inputField = InputField::with("input_options")->findOrFail($inputId);    
-    $risks = Risk::all();    
     $option = InputOption::findOrFail($optionId);
+
+    if (!$pillar->questionnaire->custom_risks) {
+      $risks = Risk::all();
+    } else {
+      $risks = QuestionnaireRisk::where(['questionnaire_id' => $pillar->questionnaire->id])->get();
+    }
 
     return Inertia::render('Admin/Content/Pillars/Questions/Inputs/Checkbox.AddEdit', [
       'siteConfig' => Configuration::site_config(),
@@ -612,7 +621,7 @@ class PillarController extends Controller
    * Handle Tasks on our Pillar
    */
   public function pillar_tasks(Request $request, $pillarId) {
-    $pillar = Pillar::findOrFail($pillarId);
+    $pillar = Pillar::with("questionnaire")->findOrFail($pillarId);
     $tasks = Task::select('name')->get();
     $taskOptions = array();
     foreach( $tasks as $task ) {
@@ -620,10 +629,12 @@ class PillarController extends Controller
     }
 
     $linkedTasks = array();
-    foreach($pillar->tasks as $requiredTask) {
-      $taskName = $requiredTask["name"];
-      $task = Task::where(["name" => $taskName])->first();
-      array_push($linkedTasks, $task);
+    if (!is_null($pillar->tasks)) {
+      foreach($pillar->tasks as $requiredTask) {
+        $taskName = $requiredTask["name"];
+        $task = Task::where(["name" => $taskName])->first();
+        array_push($linkedTasks, $task);
+      }
     }
   
     return Inertia::render('Admin/Content/Pillars/Pillar.Tasks', [
@@ -646,6 +657,10 @@ class PillarController extends Controller
       ->with('saveOk', 'Task does not exist');
     }
 
+    if (is_null($pillar->tasks)) {
+      $pillar->tasks = array();
+    }
+    
     foreach($pillar->tasks as $requiredTask) {
       if ($requiredTask["name"] == $taskName) {
         return Redirect::route('admin.content.pillar.tasks', ["id" => $pillarId])
@@ -678,5 +693,57 @@ class PillarController extends Controller
 
     return Redirect::route('admin.content.pillar.tasks', ["id" => $pillarId])
       ->with('saveOk', 'Task has been unlinked successfully from pillar');
+  }
+
+  /**
+   * **************************************************************************
+   * The following section deals with working with risks on a pillar
+   * **************************************************************************
+   */
+
+  /**
+   * GET /admin/content/pillar/{pillarId}/risks
+   * Load the list of risks for this pillar
+   */
+  public function pillar_risks(Request $request, $pillarId) {
+    $pillar = Pillar::with(["questionnaire"])->findOrFail($pillarId);
+    $risks = QuestionnaireRisk::where(['questionnaire_id' => $pillar->questionnaire->id])->get();
+  
+    return Inertia::render('Admin/Content/Pillars/Pillar.Risks', [
+      'siteConfig' => Configuration::site_config(),
+      'pillar' => $pillar,
+      'risks' => $risks,
+      'saveOk' => $request->session()->get('saveOk'),
+    ]); 
+  }
+
+  /**
+   * POST /admin/content/pillar/{pillarId}/risk/create
+   */
+  public function pillar_risk_create(Request $request, $pillarId) {
+    AuditLog::Log("Admin.Content.Pillar($pillarId).Risk.Create", $request);
+    $pillar = Pillar::with(["questionnaire"])->findOrFail($pillarId);
+    $riskName = $request->input('name', '');
+    $riskDescription = $request->input('description', '');
+    Log::Info("Adding $riskName to Pillar $pillarId");
+
+    $risk = QuestionnaireRisk::firstOrNew(["name" => $riskName]);
+    $risk->description = $riskDescription;
+    $risk->questionnaire_id = $pillar->questionnaire->id;
+    $risk->save();
+    
+    return Redirect::route('admin.content.pillar.risks', ["id" => $pillarId])
+      ->with('saveOk', 'Risk has been created successfully on pillar');
+  }
+
+  /**
+   * POST /admin/content/pillar/{pillarId}/risk/{riskId}/delete
+   */
+  public function pillar_risk_delete(Request $request, $pillarId, $riskId) {
+    $risk = QuestionnaireRisk::findOrFail($riskId);
+    $risk->delete();
+
+    return Redirect::route('admin.content.pillar.risks', ["id" => $pillarId])
+      ->with('saveOk', 'Risk has been deleted successfully from pillar');
   }
 };

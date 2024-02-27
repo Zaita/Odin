@@ -2,7 +2,9 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DSRATaskSaveRequest;
 use App\Http\Requests\TaskSaveRequest;
+use App\Models\SecurityCatalogue;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -22,8 +24,10 @@ use App\Models\InputField;
 use App\Models\InputOption;
 use App\Models\Risk;
 use App\Models\ImpactThreshold;
+use App\Models\QuestionnaireRisk;
 
 use App\Http\Requests\QuestionnaireQuestionRequest;
+use App\Models\SecurityRiskAssessment;
 
 class TaskController extends Controller
 {
@@ -77,10 +81,22 @@ class TaskController extends Controller
       return Inertia::render('Admin/Content/Tasks/Task.Questionnaire.Edit', [
         'siteConfig' => Configuration::site_config(),
         'task' => $task,
+        'questionnaire' => Questionnaire::findOrFail($task->task_object_id),
         'groups' => $groups,
         'saveOk' => $request->session()->get('saveOk'),
       ]); 
     
+    } else if ($task->type == "security_risk_assessment") {
+      $sra = SecurityRiskAssessment::with("security_catalogue", "initial_risk_impact")->findOrFail($task->task_object_id);
+      $riskQuestionnaires = Task::where('type', '=', 'risk_questionnaire')->get();
+      return Inertia::render('Admin/Content/Tasks/Task.DSRA.Edit', [
+        'siteConfig' => Configuration::site_config(),
+        'task' => $task,
+        'dsra' => $sra,
+        'riskQuestionnaires' => $riskQuestionnaires,
+        'securityCatalogues' => SecurityCatalogue::all(),
+        'saveOk' => $request->session()->get('saveOk'),
+      ]); 
     } else {
       return Redirect::route('admin.content.tasks');
     }
@@ -93,9 +109,61 @@ class TaskController extends Controller
   public function save(TaskSaveRequest $request, $id) {
     AuditLog::Log("Content.Task($id).Save", $request);
     $task = Task::findOrFail($id);
-    $task->update($request->validated());
+    $task->update($request->except("custom_risks"));
     $task->save();
-    return Redirect::route('admin.content.task.edit', ["id" => $id])->with('saveOk', 'Task updated successfully');
+
+    // If the task type is a questionnaire type, update the relevant fields too
+    if ($task->type == "questionnaire" || $task->type == "risk_questionnaire") {
+      $q = Questionnaire::findOrFail($task->task_object_id);
+      $q->update($request->only(["type", "risk_calculation", "custom_risks"]));
+      $q->save();
+    }
+
+    return Redirect::route('admin.content.task.edit', ["id" => $id])
+      ->with('saveOk', 'Task updated successfully');
+  }
+
+  /**
+   * POST /admin/content/task/edit/{id}
+   * Save changes to an existing task (digital security risk assessment task type)
+   */
+  public function dsra_save(DSRATaskSaveRequest $request, $id) {
+    AuditLog::Log("Content.Task($id).DSRA_Save", $request);
+    $task = Task::findOrFail($id);
+    $task->update($request->only(['name', 'key_information', 'time_to_review', 'time_to_complete']));
+    $task->save();
+
+    $dsra = SecurityRiskAssessment::findOrFaiL($task->task_object_id);
+    $dsra->update($request->except(['time_to_review', 'key_information', 'time_to_complete']));
+    $dsra->update_initial_risk_impact_task($request->only('initial_risk_impact'));
+    Log::Info($dsra->key_information);
+    $dsra->save();
+
+    return Redirect::route('admin.content.task.edit', ["id" => $id])
+      ->with('saveOk', 'Task updated successfully');
+  }
+
+  /**
+   * Download a pillar as a JSON file
+   */
+  public function download(Request $request, $taskId)  {  
+    AuditLog::Log("Content.Task($taskId).Download", $request);
+    return response()->streamDownload(
+      function () use ($taskId) { 
+        $task = Task::findOrFail($taskId);
+        if ($task->type == "questionnaire" || $task->type == "risk_questionnaire") {          
+          $q = Questionnaire::with([
+            "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+            "questions.inputFields",
+            "questions.inputFields.input_options",
+            "questions.actionFields"
+          ])->findOrFail($task->task_object_id);
+
+          $task->questionnaire = $q;
+          echo json_encode($task, JSON_PRETTY_PRINT);
+        }
+      }
+    ,'task.txt');
   }
 
   /**
@@ -415,5 +483,59 @@ class TaskController extends Controller
     $option = InputOption::findOrFail($optionId);
     $option->delete();
     return Redirect::route('admin.content.task.question.input.edit', ["id" => $taskId, "questionId" => $questionId, "inputId" => $inputId]);
+  }
+
+  /**************************************************
+   * RISK STUFF
+   */
+
+  /**
+   * GET /admin/content/task/{taskId}/risks
+   * Load the list of risks for this task
+   */
+  public function risks(Request $request, $taskId) {
+    $task = Task::findOrFail($taskId);
+    $questionnaire = Questionnaire::findOrFail($task->task_object_id);
+    $risks = QuestionnaireRisk::where(['questionnaire_id' => $questionnaire->id])->get();
+  
+    return Inertia::render('Admin/Content/Tasks/Task.Risks', [
+      'siteConfig' => Configuration::site_config(),
+      'task' => $task,
+      'questionnaire' => $questionnaire,
+      'risks' => $risks,
+      'saveOk' => $request->session()->get('saveOk'),
+    ]); 
+  }
+
+  /**
+   * POST /admin/content/task/{taskId}/risk/create
+   */
+  public function risk_create(Request $request, $taskId) {
+    AuditLog::Log("Admin.Content.Task($taskId).Risk.Create", $request);
+    $task = Task::findOrFail($taskId);
+    $questionnaire = Questionnaire::findOrFail($task->task_object_id);
+    $riskName = $request->input('name', '');
+    $riskDescription = $request->input('description', '');
+    Log::Info("Adding $riskName to Task $taskId");
+
+    $risk = QuestionnaireRisk::firstOrNew(["name" => $riskName]);
+    $risk->description = $riskDescription;
+    $risk->questionnaire_id = $questionnaire->id;
+    $risk->save();
+    
+    return Redirect::route('admin.content.task.risks', ["id" => $taskId])
+      ->with('saveOk', 'Risk has been created successfully on task');
+  }
+
+  /**
+   * POST /admin/content/task/{taskId}/risk/{riskId}/delete
+   */
+  public function risk_delete(Request $request, $taskId, $riskId) {
+    AuditLog::Log("Admin.Content.Task($taskId).Risk($riskId).Delete", $request);
+    $risk = QuestionnaireRisk::findOrFail($riskId);
+    $risk->delete();
+
+    return Redirect::route('admin.content.task.risks', ["id" => $taskId])
+      ->with('saveOk', 'Risk has been deleted successfully from task');
   }
 }

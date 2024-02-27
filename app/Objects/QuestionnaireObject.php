@@ -32,7 +32,7 @@ class QuestionnaireObject {
   /**
    * Validate Business logic in our questionnaire text
    */
-  public function validateAnswers($currentQuestionTitle, $newAnswers) : bool {
+  public function validateAnswers($currentQuestionTitle, $newAnswerValues) : bool {
     Log::Info("QuestionnaireObject.validateAnswers(currentQuestionTitle: ${currentQuestionTitle})");
     $errors = array();
 
@@ -45,7 +45,7 @@ class QuestionnaireObject {
       }
     }
 
-    // Check if we can skip validation. This is because there
+// Check if we can skip validation. This is because there
     // are no defined Answer Input Fields on this question
     if (!isset($targetQuestion->input_fields)) {
       return true; // No validation required.
@@ -53,10 +53,13 @@ class QuestionnaireObject {
 
     // Loop over each answerInputField in our questionnaire
     foreach($targetQuestion->input_fields as $inputField) { 
+      if ($inputField->input_type == "checkbox") {
+        continue; // no validation to do on checkboxs
+      }
+
       $label = $inputField->label;
 
-      $value = isset($newAnswers[$label]) ? $newAnswers[$label] : null;
-      Log::Info("Validating: ${label}: ${value}");
+      $value = isset($newAnswerValues[$label]) ? $newAnswerValues[$label] : null;
       if (isset($inputField->required) && $inputField->required && ($value == null || $value == "")) {
         $errors[$label] = "$label is a required field";
         continue;

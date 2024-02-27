@@ -69,8 +69,29 @@ export default function Task_Questionnaire_Edit(props) {
     "label": "Risk Calculation",
     "type": "dropdown",
     "required" : true,
-    "value": props.task?.risk_calculation ? props.task.risk_calculation : "none",
+    "value": props.questionnaire.risk_calculation ? props.questionnaire.risk_calculation : "none",
     "options" : ["none", "zaita_approx", "highest_value"],
+  }
+
+  let customRisksField = {
+    "label": "Custom Risks",
+    "type": "checkbox",
+    "required" : true,
+    "value": props.questionnaire.custom_risks ? props.questionnaire.custom_risks : false,
+  }
+
+  let timeToCompleteField = {
+    "label": "Time to Complete",
+    "type": "text",
+    "required" : false,
+    "value": props.questionnaire.time_to_complete ? props.questionnaire.time_to_complete : "",
+  }
+
+  let timeToReviewField = {
+    "label": "Time to review",
+    "type": "text",
+    "required" : false,
+    "value": props.questionnaire.time_to_review ? props.questionnaire.time_to_review : "",
   }
 
   let inputFields = [];
@@ -82,6 +103,9 @@ export default function Task_Questionnaire_Edit(props) {
   inputFields.push(approvalGroupField);
   inputFields.push(notificationGroupField);
   inputFields.push(riskCalculationField);
+  inputFields.push(customRisksField);
+  inputFields.push(timeToCompleteField);
+  inputFields.push(timeToReviewField);
 
   let myContent = <Admin_EditScreen {...props} inputFields={inputFields} 
     saveRoute="admin.content.task.save"
@@ -92,6 +116,10 @@ export default function Task_Questionnaire_Edit(props) {
     ["Task", "admin.content.task.edit", props.task.id],
     ["Questions", "admin.content.task.questions", props.task.id],
   ]
+
+  if (props.questionnaire.custom_risks) {
+    topMenuItems.push(["Risks", "admin.content.task.risks", props.task.id])
+  }
 
   let breadcrumb = [
     ["Tasks", "admin.content.tasks"],

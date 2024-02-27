@@ -20,7 +20,7 @@ function Content(props) {
             if (typeof(answer.value) == "string" && answer.value?.includes("\n")) {
               userResponses.push(<div key={index} className="pl-1">{answer.value}</div>);
 
-            } else if (typeof answer.value == "object") {
+            } else if (answer.value != null && typeof answer.value == "object") {
               let output = [];
               Object.entries(answer.value).map(([key, val], index) => {
                 if (val) {
@@ -49,7 +49,7 @@ function Content(props) {
 
   return (
     <div id="inner_content">
-      <span className="text-lg font-bold">User responses:</span>
+      <span className="text-lg font-bold">User responses</span>
       <div className="mb-2 p-2">
         {questions.map((question, index) => (
           getQuestionContent(question.title, question.heading, index+1)

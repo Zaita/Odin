@@ -23,7 +23,10 @@ class TaskSaveRequest extends FormRequest
             'approval_required' => ['boolean', 'required'],
             'approval_group' => ['string', 'required'],
             'notification_group' => ['string', 'required'],
-            'risk_calculation' => ['string', 'required']
+            'risk_calculation' => ['string', 'required'],
+            'custom_risks' => ['boolean', 'required'],
+            'time_to_complete' => ['string', 'nullable'],
+            'time_to_review' => ['string', 'nullable'],
         ];
     }
 }

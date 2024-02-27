@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('lock_when_complete')->default(false);
             $table->boolean('approval_required')->default(false);
             $table->boolean('show_information_screen')->default(true);
-            $table->enum('risk_calculation', ['none', 'zaita_approx', 'highest_value'])->default('none');
+            $table->text('key_information')->nullable();
             $table->unsignedBigInteger('approval_group')->nullable();
             $table->unsignedBigInteger('notification_group')->nullable();
             $table->unsignedBigInteger('task_object_id');

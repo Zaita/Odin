@@ -3,6 +3,7 @@ import UserLayout from '@/Layouts/UserLayout';
 import { router } from '@inertiajs/react'
 
 import ThemedButton from '@/Components/ThemedButton';
+import Questionnaire_RiskTable from '@/Components/Questionnaire/RiskTable';
 
 function Content(props) {
   let questions = props.questions;
@@ -13,25 +14,38 @@ function Content(props) {
     answers.answers.map((response) => {
       if (response.question == questionTitle) {
         if (response.status == "not_applicable") {
-          userResponses.push(<div key={index} className="pl-7">not applicable</div>)
+          userResponses.push(<div key={index} className="pl-1"><i>not applicable</i></div>)
         } else {
           response.data.map((answer, index) => {
-            if (answer.value.includes("\n")) {
-              userResponses.push(<div key={index} className="pl-7">{answer.value}</div>)
+            if (typeof(answer.value) == "string" && answer.value?.includes("\n")) {
+              userResponses.push(<div key={index} className="pl-1">{answer.value}</div>);
+
+            } else if (answer.value != null && typeof answer.value == "object") {
+              let output = [];
+              Object.entries(answer.value).map(([key, val], index) => {
+                if (val) {
+                  output.push(<p key={"cb"+key+index}>- {key}</p>)
+                }
+              });
+              userResponses.push(<div key={index} className="pl-1"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {output}</div>);
+
             } else {
-              userResponses.push(<div key={index} className="pl-7"><span id="answer_heading" className="font-extrabold">{answer.field}</span> - {answer.value}</div>)
+              userResponses.push(<div key={index} className="pl-1"><span id="answer_heading" className="font-extrabold">{answer.field}</span>: {answer.value ? answer.value : "-"}</div>)
             }
           })
         }
     }});
-    
+
     return(
-      <div id="response" key={index}>
-        <div id="heading" className="font-extrabold">{index}. {questionHeading}</div>
-        {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
+      <div key={index} className="mb-1 min-h-10 p-2" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
+        <div className="inline-block w-4/12 align-top pl-1 min-h-10" style={{borderRight: "1px solid " + props.siteConfig.theme_bg_color}}>
+          <span className="font-extrabold">{index}.</span> {questionHeading}</div>
+        <div className="inline-block w-8/12 min-h-10" style={{borderLeft: "1px solid " + props.siteConfig.theme_bg_color}}>
+          {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
+        </div>
       </div>
     )
-  }
+  }    
 
   return (
     <div id="inner_content">
@@ -41,6 +55,7 @@ function Content(props) {
           ))
         }
       </div>
+      <Questionnaire_RiskTable {...props}/>
       <div id="review_actions">
         <ThemedButton siteConfig={props.siteConfig} className="ml-2"
           onClick={() => {router.visit(route('submission.submitted', [props.submission.uuid], {}))}} 
