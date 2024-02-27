@@ -24,6 +24,7 @@ return new class extends Migration
             $table->json('pillar_data');
             $table->json('questionnaire_data');
             $table->json('answer_data');
+            $table->json('risks');
             $table->json('risk_data');
             $table->string('product_name')->default("");
             $table->date('release_date')->nullable();

@@ -1,0 +1,453 @@
+{
+  "id": 7,
+  "name": "Initial Risk Impact Assessment",
+  "type": "risk_questionnaire",
+  "lock_when_complete": 0,
+  "approval_required": 0,
+  "show_information_screen": 1,
+  "key_information": "<p>This questionnaire will approximate the level of potential Impact\/Consequence your deliverable creates if a major Security incident were to occur. The Impact assessment will use pre-determined classifications of data and systems to determine the initial impact rating.<\/p>\n<p>As there is no correlation between the size of a change and the level of risk introduced, the ratings have been defined using the \"New Zealand Government Business Impact Levels of Protective Security Risks\" and internal Criticality assessments.<\/p>\n<p><strong>How does this work?<\/strong><\/p>\n<p>If you select \"Lemon\" as a system you will be reading to or writing from, then your deliverable will include the classified risk impacts of Lemon.<\/p>\n<p>This means that by reading data from Lemon, you're at risk of causing Information Disclosure (Information Leak or Privacy Breach) from Lemon. If you're writing data to Lemon, then you're at risk of changing the Accuracy of Information in Lemon (Information Modification).<\/p>\n<p>While your system maybe limited to reading or writing specific information, the connection between your system and Lemon opens that line of communication that could be exploited by a malicious person(s).<\/p>\n<p><strong>What does this mean for my delivery?<\/strong><\/p>\n<p>While you will likely see a much higher risk impact rating from this process than the previous manual process, the end-to-end Digital Security Risk Assessment (DSRA) provides you clear information on how to reduce your overall risk level to a \"Low\" that would be acceptable.&nbsp;<\/p>",
+  "approval_group": null,
+  "notification_group": null,
+  "time_to_complete": null,
+  "time_to_review": null,
+  "questionnaire": {
+      "id": 7,
+      "name": "Initial Risk Impact Assessment",
+      "type": "risk_questionnaire",
+      "risk_calculation": "zaita_approx",
+      "custom_risks": false,
+      "questions": [
+          {
+              "id": 62,
+              "title": "Systems",
+              "heading": "What systems will your change interact with?",
+              "description": "<p>As part of calculating the initial impact risk rating for your change, you will need to identify all systems you change <strong>reads data from,<\/strong> <strong>sends data to, or transmits data through<\/strong>.<\/p>\n<p>Please select all applicable systems that your change impacts.<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 27,
+                      "label": "System name",
+                      "required": true,
+                      "input_type": "checkbox",
+                      "min_length": null,
+                      "max_length": null,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": [
+                          {
+                              "id": 12,
+                              "input_field_id": 27,
+                              "label": "Lemon",
+                              "value": "Lemon",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 13
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 14
+                                  },
+                                  "Information modification": {
+                                      "impact": 31
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 14
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 14
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:30:04.000000Z",
+                              "updated_at": "2024-02-26T03:32:49.000000Z"
+                          },
+                          {
+                              "id": 13,
+                              "input_field_id": 27,
+                              "label": "Apple",
+                              "value": "Apple",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 14
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 31
+                                  },
+                                  "Information modification": {
+                                      "impact": 44
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 13
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 5
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:30:05.000000Z",
+                              "updated_at": "2024-02-26T03:33:10.000000Z"
+                          },
+                          {
+                              "id": 14,
+                              "input_field_id": 27,
+                              "label": "Orange",
+                              "value": "Orange",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 13
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 5
+                                  },
+                                  "Information modification": {
+                                      "impact": 5
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 13
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 5
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:30:06.000000Z",
+                              "updated_at": "2024-02-26T03:33:24.000000Z"
+                          },
+                          {
+                              "id": 15,
+                              "input_field_id": 27,
+                              "label": "Tomato",
+                              "value": "Tomato",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 0
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 0
+                                  },
+                                  "Information modification": {
+                                      "impact": 0
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 13
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:30:06.000000Z",
+                              "updated_at": "2024-02-26T03:33:41.000000Z"
+                          },
+                          {
+                              "id": 16,
+                              "input_field_id": 27,
+                              "label": "Potato",
+                              "value": "Potato",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 14
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 14
+                                  },
+                                  "Information modification": {
+                                      "impact": 31
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 31
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 14
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 31
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:30:07.000000Z",
+                              "updated_at": "2024-02-26T03:33:57.000000Z"
+                          },
+                          {
+                              "id": 17,
+                              "input_field_id": 27,
+                              "label": "None \/ Other Systems",
+                              "value": "None \/ Other Systems",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 14
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 14
+                                  },
+                                  "Information modification": {
+                                      "impact": 14
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 14
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 14
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:30:08.000000Z",
+                              "updated_at": "2024-02-26T03:34:14.000000Z"
+                          }
+                      ]
+                  }
+              ],
+              "action_fields": []
+          },
+          {
+              "id": 63,
+              "title": "Data",
+              "heading": "What data will your change interact with?",
+              "description": "<p>As part of calculating the initial impact risk rating for your change, you will need to identify all data you change <strong>read, write, send etc.<\/strong><\/p>\n<p>Please select all applicable data elements that your change interacts with.<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 28,
+                      "label": "Data",
+                      "required": true,
+                      "input_type": "checkbox",
+                      "min_length": null,
+                      "max_length": null,
+                      "placeholder": null,
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": [
+                          {
+                              "id": 18,
+                              "input_field_id": 28,
+                              "label": "First Name",
+                              "value": "First Name",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 13
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 4
+                                  },
+                                  "Information modification": {
+                                      "impact": 14
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:32.000000Z",
+                              "updated_at": "2024-02-26T03:35:02.000000Z"
+                          },
+                          {
+                              "id": 19,
+                              "input_field_id": 28,
+                              "label": "Last Name",
+                              "value": "Last Name",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 14
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 14
+                                  },
+                                  "Information modification": {
+                                      "impact": 14
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:33.000000Z",
+                              "updated_at": "2024-02-26T03:35:16.000000Z"
+                          },
+                          {
+                              "id": 20,
+                              "input_field_id": 28,
+                              "label": "Date of Birth",
+                              "value": "Date of Birth",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 14
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 14
+                                  },
+                                  "Information modification": {
+                                      "impact": 31
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:33.000000Z",
+                              "updated_at": "2024-02-26T03:35:37.000000Z"
+                          },
+                          {
+                              "id": 21,
+                              "input_field_id": 28,
+                              "label": "Address",
+                              "value": "Address",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 13
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 13
+                                  },
+                                  "Information modification": {
+                                      "impact": 31
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:34.000000Z",
+                              "updated_at": "2024-02-26T03:35:58.000000Z"
+                          },
+                          {
+                              "id": 22,
+                              "input_field_id": 28,
+                              "label": "Phone Number",
+                              "value": "Phone Number",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 5
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 5
+                                  },
+                                  "Information modification": {
+                                      "impact": 5
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:35.000000Z",
+                              "updated_at": "2024-02-26T03:36:16.000000Z"
+                          },
+                          {
+                              "id": 23,
+                              "input_field_id": 28,
+                              "label": "Bank Account",
+                              "value": "Bank Account",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 31
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 31
+                                  },
+                                  "Information modification": {
+                                      "impact": 31
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:35.000000Z",
+                              "updated_at": "2024-02-26T03:36:35.000000Z"
+                          },
+                          {
+                              "id": 25,
+                              "input_field_id": 28,
+                              "label": "Other \/ None",
+                              "value": "Other \/ Nonae",
+                              "risks": {
+                                  "Information loss": {
+                                      "impact": 4
+                                  },
+                                  "Information disclosure": {
+                                      "impact": 4
+                                  },
+                                  "Information modification": {
+                                      "impact": 4
+                                  },
+                                  "Degraded service performance": {
+                                      "impact": 0
+                                  },
+                                  "Harm to, or loss of human life": {
+                                      "impact": 0
+                                  },
+                                  "Sustained service unavailability": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-26T03:34:36.000000Z",
+                              "updated_at": "2024-02-26T03:36:51.000000Z"
+                          }
+                      ]
+                  }
+              ],
+              "action_fields": []
+          }
+      ]
+  }
+}

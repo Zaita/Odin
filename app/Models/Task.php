@@ -17,9 +17,10 @@ class Task extends Model
   protected $fillable = [
     'name',    
     'type',
+    'key_information',
+    'show_information_screen',
     'lock_when_complete',
     'approval_required',
-    'risk_calculation',
     'approval_group',
     'notification_group',
     'sort_order',
@@ -50,8 +51,17 @@ class Task extends Model
 
     if ($this->type == "questionnaire" || $this->type == "risk_questionnaire") {
       $q = Questionnaire::firstOrNew(["name" => $this->name]);
-      $q->importFromJson($jsonArr);
+      if (isset($jsonArr["questionnaire"])) {
+        $q->importFromJson($jsonArr["questionnaire"]);
+      } else {
+        $q->importFromJson($jsonArr);
+      }
       $this->task_object_id = $q->id;    
+
+    } else if ($this->type == "security_risk_assessment") {
+      $dsra = SecurityRiskAssessment::firstOrNew(["name" => $this->name]);
+      $dsra->importFromJson($jsonArr);
+      $this->task_object_id = $dsra->id;
     } else {
       $this->task_object_id = 0;
     }
@@ -82,6 +92,7 @@ class Task extends Model
    * Override the save for the Task. 
    */
   public function save(array $options = []) { 
+    Log::Info("Task.save($this->name)");
     /**
      * If the task does not have a task_object_id then this is the first
      * save and we need to create the child object this task will point to.
@@ -89,12 +100,24 @@ class Task extends Model
      * Depending on the task type, this will be handled differently.
      */
     if (is_null($this->task_object_id)) {
+      Log::Info("First save of task, assigning a task_object_id");
+      // Create default questionnaire or risk questionnaire for a new task
       if ($this->type == "questionnaire" || $this->type == "risk_questionnaire") {
         $q = new Questionnaire();
         $q->name = $this->name;
         $q->type = $this->type;
         $q->save();
         $this->task_object_id = $q->id;
+      
+      } else if ($this->type == "security_risk_assessment") {
+        Log::Info("Creating new Security Risk Assessment child for task");
+        // Create default fields for DSRA
+        $dsra = SecurityRiskAssessment::firstOrNew(["name" => $this->name]);
+        $dsra->name = $this->name;
+        $dsra->security_catalogue_id = SecurityCatalogue::first()->id;
+        $dsra->save();
+        $this->task_object_id = $dsra->id;
+
       } else {
         $this->task_object_id = 0;
       }

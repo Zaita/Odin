@@ -5,6 +5,7 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import GppBadIcon from '@mui/icons-material/GppBad';
 import GppMaybeIcon from '@mui/icons-material/GppMaybe';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export function getStatusIcon(status) {
   switch(status) {
@@ -24,7 +25,9 @@ export function getStatusIcon(status) {
     case "Approved":
       return (<VerifiedUserIcon style={{width: "34px", color: "green"}} className="pr-4 w-5"/>);      
     case "Not approved":
-      return (<GppBadIcon style={{width: "34px", color: "green"}} className="pr-4 w-5"/>);                  
+      return (<GppBadIcon style={{width: "34px", color: "green"}} className="pr-4 w-5"/>);  
+    case "Not Applicable":                
+      return (<CancelIcon style={{width: "34px", color: "gray"}} className="pr-4 w-5"/>);  
   }
 
   return "-";
@@ -43,7 +46,9 @@ export function getNiceTaskStatus(status) {
     case "not_approved":
         return (<><GppBadIcon style={{width: "34px", color: "red"}}/>Not approved</>);       
     case "complete":
-      return (<><VerifiedUserIcon style={{width: "34px", color: "green"}}/>Complete</>);    
+      return (<><VerifiedUserIcon style={{width: "34px", color: "green"}}/>Complete</>);  
+    case "not_applicable":
+      return (<><CancelIcon style={{width: "34px", color: "gray"}}/>Not Applicable</>);          
   }
 
   return "-";

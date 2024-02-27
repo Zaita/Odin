@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questionnaire_risks', function (Blueprint $table) {
+        Schema::create('likelihood_thresholds', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("questionnaire_id");
-            $table->string("name");
-            $table->text("description")->nullable();
+            $table->string('name');
+            $table->string('operator');            
+            $table->integer('value');
+            $table->string('color');
+            $table->integer('sort_order');
             $table->timestamps();
-            $table->foreign('questionnaire_id')->references('id')->on('questionnaires')->onDelete('cascade');;
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questionnaire_risks');
+        Schema::dropIfExists('likelihood_thresholds');
     }
 };

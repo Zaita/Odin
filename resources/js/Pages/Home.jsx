@@ -7,7 +7,11 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import SecurityIcon from '@mui/icons-material/Security';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import CloseIcon from '@mui/icons-material/Close';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import WarningIcon from '@mui/icons-material/Warning';
 
 function SubHeader({siteConfig}) {
   return(
@@ -49,7 +53,13 @@ class PillarList extends React.Component {
       case "message" : return <QuestionAnswerIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
       case 'lightbulb' : return <LightbulbIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
       case 'download' : return <CloudDownloadIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
-      default: return <BugReportIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
+      case 'bug' : return <BugReportIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
+      case 'dashboard': return <DashboardIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
+      case 'clock': return <AccessTimeIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;      
+      case 'warning': return <WarningIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
+
+      default: 
+        return <CloseIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
     }
   }
 

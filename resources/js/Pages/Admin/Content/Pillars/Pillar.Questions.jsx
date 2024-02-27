@@ -23,6 +23,10 @@ export default function Pillar_Questions(props) {
     ["Questions", "admin.content.pillar.questions", props.pillar.id],
     ["Tasks", "admin.content.pillar.tasks", props.pillar.id],
   ]
+  
+  if (props.pillar?.questionnaire.custom_risks) {
+    topMenuItems.push(["Risks", "admin.content.pillar.risks", props.pillar.id])
+  }
 
   let breadcrumb = [
     ["Pillars", "admin.content.pillars"],

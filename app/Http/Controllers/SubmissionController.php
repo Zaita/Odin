@@ -21,6 +21,8 @@ use App\Models\SubmissionCollaborator;
 use App\Objects\QuestionnaireObject;
 
 use App\Http\Requests\CollaboratorAddRequest;
+use App\Models\SecurityRiskAssessmentSubmission;
+use App\Models\SubmissionSecurityControl;
 
 class SubmissionController extends Controller
 {
@@ -203,7 +205,6 @@ class SubmissionController extends Controller
    * This method will load the questionnaire submission for the current uuid.
    */
   public function submit(Request $request, $uuid) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submission = Submission::where(['uuid' => $uuid, 'submitter_id' => $request->user()->id])->first();
     if ($submission == null) {
       return redirect()->route("error")->withErrors(["error" => "Could not find that submission"]);
@@ -454,6 +455,7 @@ class SubmissionController extends Controller
     Log::Info("Loading in_progress task $uuid");
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $task = TaskSubmission::where(['uuid' => $uuid])->first();
+    Log::Info("Task found, name: $task->name and type: $task->task_type");
 
     // Verify user can work on this submission (is submitter or collaborator)
     $submission = Submission::where('id', $task->submission_id)->first();
@@ -468,11 +470,18 @@ class SubmissionController extends Controller
         'submission' => $submission,
         'task' => $task,
       ]);     
-    } else {
+    } else if ($task->task_type == "security_risk_assessment") {
+      $dsra = SecurityRiskAssessmentSubmission::where('task_submission_id', '=', $task->id)->first();
+      $controls = SubmissionSecurityControl::where('submission_id', '=', $submission->id)->get();
+      $initialRisk = TaskSubmission::where('id', '=', $dsra->initial_risk_id)->first();
+
       return Inertia::render('Submission/Task/SecurityRiskAssessment', [
         'siteConfig' => $config,
         'submission' => $submission,
         'task' => $task,
+        'dsra' => $dsra,
+        'initial_risk' => $initialRisk,
+        'controls' => $controls
       ]);         
     }
   }
@@ -539,6 +548,8 @@ class SubmissionController extends Controller
       return back()->withInput()->withErrors($submission->errors); 
     }
 
+    $task->calculateRiskScore();
+
     $questions = json_decode($task->task_data);
     $questions = $questions->questionnaire->questions;
 
@@ -547,6 +558,8 @@ class SubmissionController extends Controller
       'submission' => $submission,
       'questions' => $questions,
       'task' => $task,
+      'risks' => Risk::all(),
+      'riskTitle' => "Final risk ratings"
     ]); 
   }
 
@@ -566,7 +579,7 @@ class SubmissionController extends Controller
 
     $task->submitter_id = $request->user()->id;
     $task->submitter_name = $request->user()->name;
-    $this->submitter_email = $request->user()->email;
+    $task->submitter_email = $request->user()->email;
     $task->status = "complete";
     $task->save();
 

@@ -5,12 +5,12 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 export default function DSRA_ControlList(props) {
   let [renderFlag, setRenderFlag] = useState(false);
-  let [displayNA, setDisplayNA] = useState(false);
+  let [displayNA, setDisplayNA] = useState(true);
 
   function getItems(status) {
     let items = [];
-    props.controls.forEach(element => {
-      if (element.status == status)
+    props.controls.map(element => {
+      if (element.implementation_status == status)
         items.push(element);      
     });
     return items;
@@ -63,8 +63,10 @@ export default function DSRA_ControlList(props) {
     width: displayNA ? 250 : 336, 
     margin: "2px 2px 2px 2px",
     border: "1px dashed " + props.siteConfig.theme_text_color,
+    maxHeight: "600px",
     minHeight: "600px",
     paddingBottom: "10px",
+    overflowY: "auto",
   });
 
   let [currentState, setCurrentState] = useState({
@@ -104,6 +106,7 @@ export default function DSRA_ControlList(props) {
         updatedState.planned = source.droppableId === 'droppable3' ? items : updatedState.planned;
         updatedState.implemented = source.droppableId === 'droppable4' ? items : updatedState.implemented;
         setCurrentState(updatedState);
+        props.callback();
     }
     // Interlist movement
     else {
@@ -121,8 +124,9 @@ export default function DSRA_ControlList(props) {
         updatedState.planned = result.droppable3 ? result.droppable3 : updatedState.planned;
         updatedState.implemented = result.droppable4 ? result.droppable4 : updatedState.implemented;
 
-        setCurrentState(updatedState);
+        setCurrentState(updatedState);        
         setRenderFlag(!renderFlag); // needed because updatedState is same array as state
+        props.callback();
     }
   };
 
@@ -140,8 +144,8 @@ export default function DSRA_ControlList(props) {
                         style={getListStyle(snapshot.isDraggingOver)}>
                         {currentState.notApplicable.map((item, index) => (
                             <Draggable
-                                key={item.id}
-                                draggableId={item.id}
+                                key={item.id.toString()}
+                                draggableId={item.id.toString()}
                                 index={index}>
                                 {(provided, snapshot) => (
                                     <div
@@ -152,7 +156,7 @@ export default function DSRA_ControlList(props) {
                                             snapshot.isDragging,
                                             provided.draggableProps.style
                                         )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.content}</div>
+                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
                                         <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
                                     </div>
                                 )}
@@ -169,8 +173,8 @@ export default function DSRA_ControlList(props) {
                         style={getListStyle(snapshot.isDraggingOver)}>
                         {currentState.notImplemented.map((item, index) => (
                             <Draggable
-                                key={item.id}
-                                draggableId={item.id}
+                                key={item.id.toString()}
+                                draggableId={item.id.toString()}
                                 index={index}>
                                 {(provided, snapshot) => (
                                     <div
@@ -181,7 +185,7 @@ export default function DSRA_ControlList(props) {
                                             snapshot.isDragging,
                                             provided.draggableProps.style
                                         )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.content}</div>
+                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
                                         <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
                                     </div>
                                 )}
@@ -198,8 +202,8 @@ export default function DSRA_ControlList(props) {
                         style={getListStyle(snapshot.isDraggingOver)}>
                         {currentState.planned.map((item, index) => (
                             <Draggable
-                                key={item.id}
-                                draggableId={item.id}
+                                key={item.id.toString()}
+                                draggableId={item.id.toString()}
                                 index={index}>
                                 {(provided, snapshot) => (
                                     <div
@@ -210,7 +214,7 @@ export default function DSRA_ControlList(props) {
                                             snapshot.isDragging,
                                             provided.draggableProps.style
                                         )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.content}</div>
+                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
                                         <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
                                     </div>
                                 )}
@@ -227,8 +231,8 @@ export default function DSRA_ControlList(props) {
                         style={getListStyle(snapshot.isDraggingOver)}>
                         {currentState.implemented.map((item, index) => (
                             <Draggable
-                                key={item.id}
-                                draggableId={item.id}
+                                key={item.id.toString()}
+                                draggableId={item.id.toString()}
                                 index={index}>
                                 {(provided, snapshot) => (
                                     <div
@@ -239,7 +243,7 @@ export default function DSRA_ControlList(props) {
                                             snapshot.isDragging,
                                             provided.draggableProps.style
                                         )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.content}</div>
+                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
                                         <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
                                     </div>
                                 )}

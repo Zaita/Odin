@@ -16,6 +16,14 @@ export default function EditPillars(props) {
     "required": true,
   }
 
+  let iconField = { 
+    "label": "Icon",
+    "type": "dropdown",
+    "required": true,
+    "value": props.pillar?.icon ? props.pillar.icon : "",
+    "options" : ["shield", "message", "lightbulb", "download", "bug", "dashboard", "clock", "warning"]
+  }
+
   let keyInformationField = { 
     "label": "Key Information",
     "type": "richtextarea",
@@ -48,6 +56,7 @@ export default function EditPillars(props) {
   let inputFields = [];
   inputFields.push(nameField);
   inputFields.push(captionField);
+  inputFields.push(iconField);
   inputFields.push(keyInformationField);
   inputFields.push(approvalFlowField);
   inputFields.push(typeField);

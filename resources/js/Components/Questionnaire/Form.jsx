@@ -160,8 +160,7 @@ export default function Questionnaire_Form(props) {
             handleChange={handleSubChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
           break;
           case "radio":
-            inputs.push([<
-              Form_RadioButton field={inputField} value={getAnswer(inputField.label)}
+            inputs.push([<Form_RadioButton field={inputField} value={getAnswer(inputField.label)}
               handleChange={handleChange} errors={saveErrors} siteConfig={props.siteConfig} runInit/>, fieldKey])
             break;          
       }

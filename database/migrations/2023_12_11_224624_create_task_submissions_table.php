@@ -24,6 +24,8 @@ return new class extends Migration
             $table->boolean('show_information_screen')->default(true);
             $table->json('task_data');
             $table->json('answer_data');
+            $table->json('risks');
+            $table->json('risk_data');            
             $table->unsignedBigInteger('approver_id')->nullable();
             $table->string('approver_name')->nullable();
             $table->string('result')->nullable();            

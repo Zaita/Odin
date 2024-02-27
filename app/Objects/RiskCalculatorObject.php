@@ -41,15 +41,19 @@ class RiskCalculatorObject {
 
   public static function highest_value($submission) {
     Log::Info("Calculating Risks with highest_value algorithm");
-    $risks = Risk::all(); // Todo: support Custom Risks here
+    $risks = json_decode($submission->risks);
 
     $riskScores = array();
     foreach ($risks as $risk) {
       $riskScores[$risk->name] = 0;
     }
-
+    $riskCount = count($riskScores);
+    Log::Info("Loaded $riskCount risks");
     // Loop through the questionnaire looking for checkbox input types
     $questions = json_decode($submission->questionnaire_data);
+    if (is_null($questions)) {
+      $questions = json_decode($submission->task_data)->questionnaire->questions;
+    }
     $answers = json_decode($submission->answer_data);
     foreach ($questions as $question) {
       foreach($question->input_fields as $inputField) {
@@ -85,7 +89,7 @@ class RiskCalculatorObject {
                       Log::Info("User selected radio option $inputOption->label");
                       // Loop thr risks on the radio option
                       foreach ($inputOption->risks as $riskName => $riskData) {
-                        if (isset($riskData->impact)) {
+                        if (isset($riskScores[$riskName]) && isset($riskData->impact)) {
                           $riskScores[$riskName] = max($riskScores[$riskName], $riskData->impact);
                         }
                       }                      
@@ -99,12 +103,17 @@ class RiskCalculatorObject {
       }
     }
 
+    foreach($riskScores as $riskName => $score) {
+      Log::Info("Score: $riskName = $score");
+    }
+
     $riskData = array();
     foreach($risks as $risk) {
-      if (isset($riskScores[$risk->name]) && $riskScores[$risk->name] > 0) {
+      $riskName = $risk->name;
+      if (isset($riskScores[$riskName]) && $riskScores[$riskName] > 0) {
         $newRisk = array();
-        $newRisk["name"] = $risk->name;
-        $newRisk["score"] = $riskScores[$risk->name];
+        $newRisk["name"] = $riskName;
+        $newRisk["score"] = $riskScores[$riskName];
         $newRisk["description"] = $risk->description;
         array_push($riskData, $newRisk);
       }

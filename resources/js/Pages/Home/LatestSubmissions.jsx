@@ -3,7 +3,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 export default function LatestSubmissions(props) {
   return (
-    <div id="latest_submissions">
+    <div id="latest_submissions" className="mb-4">
       <div id="heading">Your latest submissions</div>
       <div id="submission_box">
       <div className="w-full flex p-2" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>

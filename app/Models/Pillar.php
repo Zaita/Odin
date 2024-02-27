@@ -22,6 +22,7 @@ class Pillar extends Model
       'icon',
       'key_information',
       'auto_approve',
+      'auto_submit_no_tasks',
       'auto_approve_no_tasks',
       'submission_expires',
       'expire_after_dayes',
@@ -41,6 +42,7 @@ class Pillar extends Model
     'sort_order' => 'integer',
     'enabled' => 'boolean',
     "auto_approve" => "boolean",
+    "auto_submit_no_tasks" => "boolean",
     "auto_approve_no_tasks" => "boolean",
     "submission_expires" => "boolean",
     "tasks" => "json"
@@ -85,7 +87,7 @@ class Pillar extends Model
 
       // $relevantJson["tasks"] = $tasks;
     } else {
-      $relevantJson["tasks"] = "{}";
+      $relevantJson["tasks"] = [];
     }
 
     $this->fill($relevantJson);  

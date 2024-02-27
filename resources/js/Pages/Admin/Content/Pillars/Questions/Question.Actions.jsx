@@ -26,7 +26,7 @@ export default function InputsView(props) {
   let topMenuItems = [
     ["Question", "admin.content.pillar.question.edit", { id:props.pillar.id, questionId:props.question.id}],
     ["Inputs", "admin.content.pillar.question.inputs", { id:props.pillar.id, questionId:props.question.id}],
-    ["Acptions", "admin.content.pillar.question.actions", { id:props.pillar.id, questionId:props.question.id}],
+    ["Actions", "admin.content.pillar.question.actions", { id:props.pillar.id, questionId:props.question.id}],
   ]
 
   return (

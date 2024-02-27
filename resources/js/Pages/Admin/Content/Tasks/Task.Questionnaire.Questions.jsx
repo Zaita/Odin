@@ -19,10 +19,13 @@ export default function Task_Questionnaire_Questions(props) {
    * Handle building our Top Menu Items and Action Buttons
    */
   let topMenuItems = [
-    ["Tasks", "admin.content.tasks"],
-    // [props.task.name, "admin.content.task.edit", props.task.id],
+    ["Task", "admin.content.task.edit", props.task.id],
     ["Questions", "admin.content.task.questions", props.task.id],
   ]
+
+  if (props.task.questionnaire.custom_risks) {
+    topMenuItems.push(["Risks", "admin.content.task.risks", props.task.id])
+  }
 
   let breadcrumb = [
     ["Tasks", "admin.content.tasks"],

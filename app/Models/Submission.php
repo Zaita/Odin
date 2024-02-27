@@ -13,7 +13,6 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Models\ApprovalFlow;
 use App\Models\Pillar;
 use App\Models\Questionnaire;
-use App\Models\QuestionnaireQuestion;
 use App\Models\SubmissionApprovalFlowStage;
 use App\Models\TaskSubmission;
 use App\Models\User;
@@ -76,6 +75,24 @@ class Submission extends Model
     $this->pillar_data = $pillar;
     $this->risk_data = "{}"; // Empty risk data
     $this->status = "in_progress";
+
+    if ($questionnaire->custom_risks) {
+      $risks = QuestionnaireRisk::where(['questionnaire_id' => $questionnaire->id])->get();
+      $riskNames = array();
+      foreach($risks as $risk) {
+        array_push($riskNames, ["name" => $risk->name, "description" => ""]);
+      }
+      $this->risks = json_encode($riskNames);
+    } else {
+      $risks = Risk::All();
+      $riskNames = array();
+      foreach($risks as $risk) {
+        array_push($riskNames, ["name" => $risk->name, "description" => $risk->description]);
+      }
+      $this->risks = json_encode($riskNames);
+    }
+    
+
     $this->save();
 
     $approvalFlow = ApprovalFlow::with(["stages" => function(Builder $q) {$q->orderBy('stage_order');}
@@ -194,7 +211,7 @@ class Submission extends Model
 
     // Loop over each answerInputField in our questionnaire
     foreach($targetQuestion->input_fields as $inputField) { 
-      if ($inputField->input_type == "checkbox" || $inputField->input_type == "radio") {
+      if ($inputField->input_type == "checkbox") {
         continue; // no validation to do on checkboxs
       }
 
@@ -252,7 +269,6 @@ class Submission extends Model
   public function setAnswers(&$answerData, $question, $newAnswers) {
     Log::Info("submission.setAnswer($question)");
 
-    $elementsToAdd = array();
     // Look through existing answers for the entry
     foreach($answerData->answers as $answerEntry) {
       // If you find the question, mark it as complete and set
@@ -327,7 +343,6 @@ class Submission extends Model
     /**
      * Step 1: Calculate the risk values
      */
-    $risks = array();
     if ($this->type == "risk_questionnaire" && $this->risk_calculation != "none") {
       Log::Info("Risks are required");
       $this->risk_data = RiskCalculatorObject::calculate($this, $this->risk_calculation);
@@ -336,43 +351,114 @@ class Submission extends Model
   }
 
   /**
-   * Handle the user submitting their questionnaire from a Review into a submit 
+   * Handle the user submitting their questionnaire from a Review into a submit.
+   * This will create any necessary tasks on the submission, and where flagged
+   * auto submit or auto approve
    */
   public function submit() {
-    if ($this->status == "submitted") {
-      Log::Info("Failed to submit submission, it was already in a submitted state");
-      return true;
-    }
-    /**
-     * Step 1: Create Task Submissions for any tasks that are assigned to the Pillar
-     */
+    // if ($this->status == "submitted") {
+    //   Log::Info("Failed to submit submission, it was already in a submitted state");
+    //   return true;
+    // }
+    
+    Log::Info("Submitting new submission $this->uuid");
+    // Create any tasks that are required on this submission.
     $pillarData = json_decode($this->pillar_data);
-    if ($pillarData->tasks != "{}") {
+    if (!is_null($pillarData->tasks) && $pillarData->tasks != "{}") {
       foreach($pillarData->tasks as $task) {
         $taskObj = Task::where(["name" => $task->name])->first();
-        Log::Info($taskObj->id);
+        Log::Info("Adding task $task->name to submission $this->uuid");
 
-        if ($taskObj->type == "questionnaire") {
+        if ($taskObj->type == "questionnaire" || $taskObj->type == "risk_questionnaire") {
           $questionnaire = Questionnaire::with([
             "questions" => function(Builder $q) {$q->orderBy('sort_order');},
             "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
+            "questions.inputFields.input_options" => function(Builder $q) {$q->orderBy('sort_order');},
             "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
             ])->findOrFail($taskObj->task_object_id);
 
           $taskObj->questionnaire = $questionnaire;
-        }
 
-        $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
-        $taskSubmission->name = $taskObj->name;
-        $taskSubmission->submission_id = $this->id;
-        $taskSubmission->task_type = $taskObj->type;
-        $taskSubmission->task_data = $taskObj;
-        $taskSubmission->save();
-      }
+          // Use first or new so we don't duplicate tasks here. Only 1 instance of each task per submission
+          $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
+          $taskSubmission->name = $taskObj->name;
+          $taskSubmission->submission_id = $this->id;
+          $taskSubmission->task_type = $taskObj->type;
+          $taskSubmission->task_data = $taskObj;
+          $taskSubmission->risk_data = "{}";
+          if ($pillarData->auto_approve) {
+            $taskSubmission->status = 'not_applicable';
+          }
+
+          if ($taskObj->questionnaire->custom_risks) {
+            $risks = QuestionnaireRisk::where(['questionnaire_id' => $taskObj->questionnaire->id])->get();
+            $riskNames = array();
+            foreach($risks as $risk) {
+              array_push($riskNames, ["name" => $risk->name, "description" => ""]);
+            }
+            $taskSubmission->risks = json_encode($riskNames);
+          } else {
+            $risks = Risk::All();
+            $riskNames = array();
+            foreach($risks as $risk) {
+              array_push($riskNames, ["name" => $risk->name, "description" => $risk->description]);
+            }
+            $taskSubmission->risks = json_encode($riskNames);
+
+          $taskSubmission->save();
+          }
+        } else if ($taskObj->type == "security_risk_assessment") {
+          // Create the task submission object for the DSRA
+          $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
+          $taskSubmission->name = $taskObj->name;
+          $taskSubmission->submission_id = $this->id;
+          $taskSubmission->task_type = $taskObj->type;
+          $taskSubmission->task_data = $taskObj;
+          $taskSubmission->risk_data = "{}";
+          $taskSubmission->risks = "{}";
+          $taskSubmission->save();
+          // Create the DSRA task submission information
+          $sra = SecurityRiskAssessment::with(
+            "security_catalogue",
+            "security_catalogue.security_controls", 
+            "initial_risk_impact")->findOrFail($taskObj->task_object_id);
+          $sraSubmission = SecurityRiskAssessmentSubmission::firstOrNew(["task_submission_id" => $taskSubmission->id]);
+          $sraSubmission->populate($taskSubmission, $sra);
+
+          // Create our security control submission information
+          $catalogueName = $sra->security_catalogue->name;
+          Log::Info("Security catalogue $catalogueName will be assigned to this submission");
+          foreach($sra->security_catalogue->security_controls as $control) {
+            $dbControl = SubmissionSecurityControl::firstOrNew(["submission_id" => $this->id, 
+              "sra_submission_id" => $sraSubmission->id,
+              "name" => $control->name]);
+            $dbControl->security_catalogue_name = $catalogueName;
+            $dbControl->fill(json_decode($control, true));
+            $dbControl->save();
+          }
+        }  
+      }    
     }
 
     $this->status = "submitted";
     $this->save();
+
+    // See if we can automatically submit the submission for approval.
+    $taskCount = $this->task_count();
+    Log::Info("Task Count: $taskCount");
+    if ($this->task_count() == 0 && $pillarData->auto_submit_no_tasks) {
+      $this->submitForApproval();
+    }
+    // See if we can auto approve the whole submission when there are no tasks
+    if ($this->task_count() == 0 && $pillarData->auto_submit_no_tasks) {
+      $this->auto_approve();
+    }
+    // See if we can auto approve the whole submission
+    if ($pillarData->auto_approve) {
+      $this->auto_approve();
+    }
+
+    // TODO: Send Email
 
     return true;
   }
@@ -710,6 +796,30 @@ class Submission extends Model
     Log::Info("Sending emails for approval stage");
     // Send emails
   }
+
+  /**
+   * This method will automatically approve the entire submission. This will mark 
+   * all of the approval stages as not applicable and just mark it as approved.
+   */
+  public function auto_approve() {
+    if ($this->status == "approved" || $this->status == "denied") {
+      $this->errors["error"] = "Cannot approve a submission that has been fully approved or denied";
+      return;
+    }
+
+    // Loop through all of the approval stages marking them as not applicable    
+    for ($i = 0; $i < count($this->approval_stages); $i++) {
+      $stage = $this->approval_stages[$i];
+      $stage->approved_by_user_id = 0;
+      $stage->approved_by_user_name = "not applicable";
+      $stage->approved_by_user_email = "not applicable";
+      $stage->status = "not_applicable";
+      $stage->save();    
+    }
+
+    $this->status = "approved";
+    $this->save();
+  }  
 
   /**
    * Determine if the user requesting the task can work on it or not.

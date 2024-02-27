@@ -42,6 +42,8 @@ export default function ApprovalBox(props) {
         return (<><CancelIcon style={{width: "34px", color: "gray"}}/>Approval expired</>);  
       case "endorsement_expired":                       
         return (<><CancelIcon style={{width: "34px", color: "gray"}}/>Endorsement expired</>);  
+      case "not_applicable":
+        return (<><CancelIcon style={{width: "34px", color: "gray"}}/>Not applicable</>);  
     }
 
     return "XX";
