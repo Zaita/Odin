@@ -33,7 +33,7 @@ class PillarSeeder extends Seeder
   public function run(): void
   {
     DB::table("pillars")->truncate();
-    $this->load_pillar("Test");
+    // $this->load_pillar("Test");
     $this->load_pillar("RiskProfile");
     $this->load_pillar("ProofOfConcept");
     $this->load_pillar("CloudProductOnboarding");

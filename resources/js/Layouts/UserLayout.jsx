@@ -33,7 +33,6 @@ function Header({user, siteConfig, selectedMenu}) {
       <div id="logo" className="text-white"><img src={siteConfig.logo_path} style={{height: "36px", marginLeft: "8px", verticalAlign: "middle"}} alt="Odin Logo"/></div>
       </Link>
       <div className="inline-flex mr-0 ml-auto">
-        <span className="text-white pr-2">{user?.email}</span>
         <MenuIcon content="Home" url="/" icon={<HomeIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
         <MenuIcon content="Submissions" url="/submissions" icon={<FormatListBulletedIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
         <MenuIcon content="Approvals" url="/approvals" icon={<GppGoodIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>

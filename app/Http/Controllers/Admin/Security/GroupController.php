@@ -17,7 +17,14 @@ use App\Http\Requests\AdminSecurityGroupRequest;
 class GroupController extends Controller
 {
   // Groups required to be present for approval flows
-  protected $protectedGroups = array("Administrator", "Security Architect", "Chief Information Security Officer");
+  protected $protectedGroups = array(
+    "Administrator", 
+    "Security Architect", 
+    "Chief Information Security Officer",
+    "Read Only Admin",
+    "Content Administrator",
+    "Report Viewer",
+    "Audit Log Viewer");
 
   /**
    * Handle the default GET of / for this controller

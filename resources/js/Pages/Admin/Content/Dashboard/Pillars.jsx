@@ -77,7 +77,6 @@ export default function Dashboard(props) {
   let topMenuItems = [
     [ "Dashboard", "admin.content.dashboard"],
     [ "Pillars", "admin.content.dashboard.pillars"],
-    [ "Tasks", "admin.content.dashboard.tasks"]
   ]
 
   let breadcrumb = [

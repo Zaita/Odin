@@ -1,35 +1,39 @@
 {
-  "id": 4,
+  "id": 5,
   "name": "New Project or Product",
   "caption": "I want to get my product\/feature approved for release",
   "icon": "shield",
-  "key_information": "<p>This questionnaire will ask you contextual questions about the feature or product you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p><p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p><p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
-  "approval_flow": {
-    "id": 2,
-    "name": "Security only",
-    "enabled": 1,
-    "created_at": "2024-02-16T07:54:17.000000Z",
-    "updated_at": "2024-02-16T07:54:17.000000Z"
-},
-  "auto_approve": true,
-  "auto_approve_no_tasks": true,
+  "key_information": "<p>This questionnaire will ask you contextual questions about the feature or product you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p>\n<p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p>\n<p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
+  "auto_approve": false,
+  "auto_submit_no_tasks": true,
+  "auto_approve_no_tasks": false,
   "submission_expires": true,
   "expire_after_days": 0,
   "enabled": true,
+  "tasks": [],
+  "approval_flow": {
+      "id": 1,
+      "name": "Two stage approval with CISO endorsement",
+      "enabled": 1,
+      "created_at": "2024-02-28T08:30:39.000000Z",
+      "updated_at": "2024-02-28T08:30:39.000000Z"
+  },
   "questionnaire": {
-      "id": 8,
+      "id": 16,
       "name": "New Project or Product",
       "type": "questionnaire",
+      "risk_calculation": "none",
+      "custom_risks": false,
       "questions": [
           {
-              "id": 37,
+              "id": 101,
               "title": "Product Information",
               "heading": "Please enter the name of the product and project manager",
               "description": "<p>Please enter the name of the product and project manager. <\/p><p>The project manager maybe a delivery lead if this release is not being run as a formal project.<\/p>",
               "sort_order": 0,
               "input_fields": [
                   {
-                      "id": 36,
+                      "id": 66,
                       "label": "Product Name",
                       "required": true,
                       "input_type": "text",
@@ -40,10 +44,12 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 37,
+                      "id": 67,
                       "label": "Project\/Product Manager",
                       "required": true,
                       "input_type": "text",
@@ -54,20 +60,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 38,
+              "id": 102,
               "title": "Business Owner",
               "heading": "Please enter details of the business owner for the product",
               "description": "<p>When deploying a new feature or product, it is important to ensure appropriate risks are assessed. The business owner is responsible for accepting the risks. The business owner is the person is who accountable for protecting our organisation from creating risks above tolerance.<\/p><p>The business owner will be required to approve this submission before this release can go into production.<\/p>",
               "sort_order": 1,
               "input_fields": [
                   {
-                      "id": 38,
+                      "id": 68,
                       "label": "Full Name",
                       "required": true,
                       "input_type": "text",
@@ -78,10 +86,12 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 39,
+                      "id": 69,
                       "label": "Email",
                       "required": true,
                       "input_type": "email",
@@ -92,20 +102,22 @@
                       "business_owner": true,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 39,
+              "id": 103,
               "title": "Design Documentation",
               "heading": "Please provide a link to the High-Level Design",
               "description": "<p>Please provide a link to the high level design.<\/p><p>If you do not have a high level design, the security team will be unable to perform a security assessment and risk analysis of your product.<\/p>",
               "sort_order": 2,
               "input_fields": [
                   {
-                      "id": 40,
+                      "id": 70,
                       "label": "Link",
                       "required": true,
                       "input_type": "url",
@@ -116,20 +128,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 40,
+              "id": 104,
               "title": "Release Date",
               "heading": "What is your target release date for this solution?",
               "description": "",
               "sort_order": 3,
               "input_fields": [
                   {
-                      "id": 41,
+                      "id": 71,
                       "label": "Date",
                       "required": true,
                       "input_type": "date",
@@ -140,13 +154,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 41,
+              "id": 105,
               "title": "Information Storage",
               "heading": "Does this product or release use new data?",
               "description": "<p>New data is defined as fields, attributes or values that are not already captured and used by existing products\/features.<\/p><p>Capturing this information allows us to ensure we maintain a record of data we store and process. Where this information may contain personal information, we can ensure that new products and features adhere to local Privacy Legislation and our data retention policies.<\/p>",
@@ -154,7 +170,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 19,
+                      "id": 113,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -166,7 +182,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 20,
+                      "id": 114,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": null,
@@ -176,7 +192,7 @@
               ]
           },
           {
-              "id": 42,
+              "id": 106,
               "title": "Information Classification",
               "heading": "Do you know the Information Classification already?",
               "description": "<p>We classify data based on potential sensitivity and value to a malicious actor. Applying appropriate classifications allows us to maintain appropriate records of the data we hold, and the security controls we should be applying.<\/p><p>Odin will classify your data based on the New Zealand Government Information Classification guidelines.<\/p><p>If you are unsure, click \"No\" and Odin will generate your information classification for you as a task at the end of this questionnaire.<\/p>",
@@ -184,7 +200,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 21,
+                      "id": 115,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -192,7 +208,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 22,
+                      "id": 116,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "Personal Information",
@@ -206,14 +222,14 @@
               ]
           },
           {
-              "id": 43,
+              "id": 107,
               "title": "Known Classification",
               "heading": "What is your information classification?",
               "description": "<p>Please enter your information classification<\/p>",
               "sort_order": 6,
               "input_fields": [
                   {
-                      "id": 42,
+                      "id": 72,
                       "label": "Classification",
                       "required": true,
                       "input_type": "text",
@@ -224,13 +240,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 44,
+              "id": 108,
               "title": "Personal Information",
               "heading": "Does this product store personal information (PI)?",
               "description": "<p>Personal Information is defined as any information about an identifiable individual (i.e. a living, natural person; not companies\/charities\/trusts etc). The information doesn\u2019t need to identify a person by their name to be personal information, and it also doesn\u2019t need to be private or sensitive. As long as there\u2019s a reasonable chance that someone could be identified from the information - even if it\u2019s only one person that makes the link between the information and the individual, and even if it\u2019s only by linking it with other information - then it\u2019s personal information. This includes information about other staff members and our customers.<\/p><p>All systems created, managed and used by us that contain or use any form of Personal Information must go through a Privacy Threshold Assessment process. At the end of this questionnaire, a Privacy Threshold Assessment task will be completed. When completed, this task will be submitted to the Privacy Officers for review and approval.<\/p><p>&nbsp;<\/p>",
@@ -238,7 +256,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 23,
+                      "id": 117,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -250,7 +268,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 24,
+                      "id": 118,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -260,7 +278,7 @@
               ]
           },
           {
-              "id": 45,
+              "id": 109,
               "title": "External Data",
               "heading": "Will data being transferred to an external party, cloud provider, or mobile app for storage or processing (e.g. Google\/Azure\/Amazon)",
               "description": "<p>We must ensure we keep a record of what data we are transferring to external sources. This will ensure we can appropriately audit data access and respond to privacy related requests.<\/p><p>If data is being transferred outside of the corporate network; the answer is likely 'Yes'.<\/p>",
@@ -268,7 +286,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 25,
+                      "id": 119,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -276,7 +294,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 26,
+                      "id": 120,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "Public Facing Interfaces",
@@ -286,14 +304,14 @@
               ]
           },
           {
-              "id": 46,
+              "id": 110,
               "title": " Transferring Data",
               "heading": "How is the data being transferred to\/from the product?",
               "description": "<p>Please document the technologies being used to transfer data (e.g. Web Forms, FTP, SCP, Email etc)<\/p>",
               "sort_order": 9,
               "input_fields": [
                   {
-                      "id": 43,
+                      "id": 73,
                       "label": "Description",
                       "required": false,
                       "input_type": "text",
@@ -304,20 +322,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 47,
+              "id": 111,
               "title": "Data Storage Location",
               "heading": "Where will the data be physically located\/stored?",
               "description": "<p>What countries and cities will the data be held in by this product?<\/p><p>Transferring data to different countries may subject us to different laws, especially with regards to Privacy.<\/p><p>Please list all countries where information will be transferred through, or stored in.<\/p>",
               "sort_order": 10,
               "input_fields": [
                   {
-                      "id": 44,
+                      "id": 74,
                       "label": "Locations",
                       "required": true,
                       "input_type": "textarea",
@@ -328,13 +348,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 48,
+              "id": 112,
               "title": "Existing Provider",
               "heading": "Has we used this service provider in this way before?",
               "description": "<p>When engaging new providers of SaaS or Cloud Services, we want to ensure we complete a vendor security onboarding risk analysis.<\/p><p>If you answer \"No\", Odin will create a Vendor Assessment task for you or the vendor to complete. This provides us with some basic information on the security posture and support capabilities of the vendor.<\/p><p>If your product requires multiple new vendors, please complete a \"Cloud Product Onboarding\" submission for each.<\/p><p>&nbsp;<\/p>",
@@ -342,7 +364,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 27,
+                      "id": 121,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -350,7 +372,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 28,
+                      "id": 122,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -364,7 +386,7 @@
               ]
           },
           {
-              "id": 49,
+              "id": 113,
               "title": "Public Facing Interfaces",
               "heading": "Does this product expose new public facing interfaces?",
               "description": "<p>Will this solution be exposing new web-facing services? Including APIs through an existing API management platform (e.g. Mulesoft, CDI, CloudFlare, RedShield, API Gateway). We have an obligation to ensure that all information is kept safe, especially when that information is being provided to external parties through web-facing services.<\/p><p>If you answer \"Yes\", a Penetration Test task will be completed. You'll be asked to either conduct a penetration test on the services or provide a recently completed penetration test report and summary of remediation work that has been undertaken. More information about this is explained in the Penetration Test task.<\/p><p>&nbsp;<\/p>",
@@ -372,7 +394,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 29,
+                      "id": 123,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -384,7 +406,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 30,
+                      "id": 124,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -394,7 +416,7 @@
               ]
           },
           {
-              "id": 50,
+              "id": 114,
               "title": "Firewall Changes",
               "heading": "Will you require firewall changes to be made to use this product?",
               "description": "<p>If this product requires connections to\/from our systems that are not Web (e.g. Chrome\/Edge\/Firefox) the answer is probably Yes<\/p>",
@@ -402,7 +424,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 31,
+                      "id": 125,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -410,7 +432,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 32,
+                      "id": 126,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -420,7 +442,7 @@
               ]
           },
           {
-              "id": 51,
+              "id": 115,
               "title": "Required Tasks",
               "heading": "Some tasks are required for this delivery",
               "description": "<p>As you're doing a delivery of a new product or feature, our change management process requires the completion of some mandatory tasks.<\/p><p>These include:<\/p><p>1. A Security Risk Assessment<\/p><p>2. A Certification and Accreditation<\/p><p>Odin uses a new Digital Security Risk Assessment (DSRA) methodology. This is handled entirely within Odin and can be completed as part of the design process. This will negate the need for running any risk workshops, external audits or manual risk assessment processes.<\/p><p>If you are unfamiliar with this process, please click the \"Use DSRA Tutorial\" button.<\/p><p>If you are familiar with the DSRA process, please click \"I Understand\".<\/p>",
@@ -428,7 +450,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 33,
+                      "id": 127,
                       "label": "I Understand",
                       "action_type": "continue",
                       "goto_question": null,
@@ -446,7 +468,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 34,
+                      "id": 128,
                       "label": "Use DSRA Tutorial",
                       "action_type": "continue",
                       "goto_question": null,
@@ -460,14 +482,14 @@
               ]
           },
           {
-              "id": 52,
+              "id": 116,
               "title": "Other",
               "heading": "Is there any other information you'd like to submit with your application?",
               "description": "<p>Please include information that might be relevant to a Security reviewer, and the Business Owner.<\/p>",
               "sort_order": 15,
               "input_fields": [
                   {
-                      "id": 45,
+                      "id": 75,
                       "label": "Information",
                       "required": false,
                       "input_type": "textarea",
@@ -478,13 +500,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 53,
+              "id": 117,
               "title": "Next Steps",
               "heading": "Next Steps",
               "description": "<p>Next, you will need to review your answers to click \"Submit Questionnaire\".<\/p><p>If any tasks are required, these will be created and displayed for you to complete.<\/p><p>If no tasks are required, you will be able to click \"Submit for Approval\" to send your submission for approval.<\/p><p>&nbsp;<\/p><p><strong>Note: Once you complete the review step that is next, the submission will no longer expire. You will have the time required to complete all tasks before submitting the entire submission for approval.<\/strong><\/p>",
@@ -492,7 +516,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 35,
+                      "id": 129,
                       "label": "Review Answers",
                       "action_type": "continue",
                       "goto_question": null,
@@ -501,6 +525,7 @@
                   }
               ]
           }
-      ]
+      ],
+      "risks": []
   }
 }
