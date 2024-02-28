@@ -42,6 +42,7 @@ export default function Group(props) {
         onCancel={cancelledDeletion}
         {...props}/>
       <div>
+        <div><span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span></div>
         <div className="pb-2 border-b-2"
           style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
             <div className="w-2/6 float-left font-bold">Group Name</div>
@@ -68,8 +69,7 @@ export default function Group(props) {
   }
 
   let actionMenuItems = [
-    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.groups.add'))} children="Add Group"/>,
-    <><span className="text-green-900 font-bold">{saveOk}</span><span className="text-red-900 font-bold">{saveErrors}</span></>,
+    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.groups.add'))} children="Add Group"/>    
   ];
 
   let breadcrumb = [

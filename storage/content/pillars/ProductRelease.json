@@ -1,35 +1,39 @@
 {
-  "id": 5,
+  "id": 6,
   "name": "Product Release",
   "caption": "I want to release a change to an existing product",
   "icon": "bug",
   "key_information": "<p>This questionnaire will ask you contextual questions about the change you wish to release. This is used to create a record of the release completing our security and change management processes.<\/p>\n<p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p>\n<p>The number and amount of tasks created will be tailored based on the complexity and risk level of your change. A low risk and low complexity change will likely not have any required tasks.<\/p>\n<p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
-  "approval_flow": {
-    "id": 2,
-    "name": "Security only",
-    "enabled": 1,
-    "created_at": "2024-02-16T07:54:17.000000Z",
-    "updated_at": "2024-02-16T07:54:17.000000Z"
-},
-  "auto_approve": true,
-  "auto_approve_no_tasks": true,
+  "auto_approve": false,
+  "auto_submit_no_tasks": true,
+  "auto_approve_no_tasks": false,
   "submission_expires": true,
   "expire_after_days": 0,
   "enabled": true,
+  "tasks": [],
+  "approval_flow": {
+      "id": 3,
+      "name": "Security and business owner only",
+      "enabled": 1,
+      "created_at": "2024-02-28T08:30:39.000000Z",
+      "updated_at": "2024-02-28T08:30:39.000000Z"
+  },
   "questionnaire": {
-      "id": 15,
+      "id": 21,
       "name": "Product Release",
       "type": "questionnaire",
+      "risk_calculation": "none",
+      "custom_risks": false,
       "questions": [
           {
-              "id": 54,
+              "id": 118,
               "title": "Change Information",
               "heading": "Please enter the name of the product and change lead",
               "description": "<p>Please enter the name of the product and change lead.<\/p>\n<p>The change leader can be the technical lead, product manager or feature lead. It is the person who is overseeing the business outcomes for this change.<\/p>",
               "sort_order": 0,
               "input_fields": [
                   {
-                      "id": 46,
+                      "id": 76,
                       "label": "Product Name",
                       "required": true,
                       "input_type": "text",
@@ -40,10 +44,12 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 47,
+                      "id": 77,
                       "label": "Change Lead",
                       "required": true,
                       "input_type": "text",
@@ -54,20 +60,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 55,
+              "id": 119,
               "title": "Business Owner",
               "heading": "Please enter details of the business owner for this product",
               "description": "<p>When deploying a change, it is important to ensure appropriate risks are assessed. The business owner is responsible for accepting the risks. The business owner is the person is who accountable for protecting our organisation from creating risks above tolerance.<\/p><p>The business owner will be required to approve this submission before this release can go into production.<\/p><p>If your change is a low complexity or low risk change, it is likely that it will be endorsed by the security team and won't require business owner approval.<\/p>",
               "sort_order": 1,
               "input_fields": [
                   {
-                      "id": 48,
+                      "id": 78,
                       "label": "Full Name",
                       "required": true,
                       "input_type": "text",
@@ -78,10 +86,12 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 49,
+                      "id": 79,
                       "label": "Email",
                       "required": true,
                       "input_type": "email",
@@ -92,20 +102,22 @@
                       "business_owner": true,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 56,
+              "id": 120,
               "title": "Change Ticket",
               "heading": "Please provide a link to your change ticket",
               "description": "<p>Please provide the link to your ticket (e.g., JIRA). Please include the full URL and not just the ticket number.<\/p><p>This link will be made accessible within the summary of your submission for reviewers.<\/p>",
               "sort_order": 2,
               "input_fields": [
                   {
-                      "id": 50,
+                      "id": 80,
                       "label": "Ticket",
                       "required": true,
                       "input_type": "url",
@@ -116,13 +128,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": true,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 57,
+              "id": 121,
               "title": "Release Notes Known",
               "heading": "Do you currently have release notes for this change?",
               "description": "<p>If you have the release notes, please click \"Yes\". You'll be asked in the next question to provide the release notes as part of this submission.<\/p><p>If you do not have the release notes, please click \"No\". A Release Notes will be created at the end of the submission for you to provide them prior to submitting for approval.<\/p><p>If your release notes are contained within the change ticket, please click \"In Ticket\".<\/p>",
@@ -130,7 +144,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 36,
+                      "id": 130,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -138,7 +152,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 37,
+                      "id": 131,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "Change Description",
@@ -150,7 +164,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 38,
+                      "id": 132,
                       "label": "In Ticket",
                       "action_type": "goto",
                       "goto_question": "Release Date",
@@ -160,14 +174,14 @@
               ]
           },
           {
-              "id": 58,
+              "id": 122,
               "title": "Release Notes",
               "heading": "Please provide links to the release notes for this change",
               "description": "<p>Please provide links to the release notes for this change. The release notes should contain a list of changes that are going to be implemented as part of this release.<\/p><p>If you do not have any release notes available, please enter \"no release notes\".<\/p>",
               "sort_order": 4,
               "input_fields": [
                   {
-                      "id": 51,
+                      "id": 81,
                       "label": "Links",
                       "required": true,
                       "input_type": "textarea",
@@ -178,20 +192,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 59,
+              "id": 123,
               "title": "Change Description",
               "heading": "Please provide a description of the change",
               "description": "<p>Please provide a description of the change in plain English. If you have a high level design document that covers the scope of this change, you can enter the link to this document. The change description will be used in place of release notes.<\/p><p>Ensure your description covers enough information for<\/p><ul>\n<li>The Security Team to review the potential impacts of this change<\/li>\n<li>The Business Owner to review and accept any changes to the risk profile<\/li>\n<\/ul>",
               "sort_order": 5,
               "input_fields": [
                   {
-                      "id": 52,
+                      "id": 82,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
@@ -202,20 +218,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 60,
+              "id": 124,
               "title": "Release Date",
               "heading": "What is the release date for this deliverable?",
               "description": "<p>Please select a date that is near to when you wish to go live. This does not have to be accurate, but should be an indicator to the reviewers of how to prioritise this.<\/p>",
               "sort_order": 6,
               "input_fields": [
                   {
-                      "id": 53,
+                      "id": 83,
                       "label": "Date",
                       "required": true,
                       "input_type": "release date",
@@ -226,13 +244,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 61,
+              "id": 125,
               "title": "New Transfers of Data",
               "heading": "Does this delivery add new data or information?",
               "description": "<p>Is this change going to be adding any new data sources or targets of data\/information?<\/p><p>This would include:<\/p><ul>\n<li>Data\/Information being received by the product<\/li>\n<li>Data\/Information being sent by the product<\/li>\n<li>Data\/Information being loaded\/imported into the product<\/li>\n<li>Data\/Information being exported from the product<\/li>\n<\/ul><p>Alert information is used for Logging\/Operations\/SIEM platforms. An alert is a notification of an issue with operations that is reported for support. If you're adding Alert\/Logging Information <strong>AND<\/strong> other information, please click 'Yes'.<\/p>",
@@ -240,7 +260,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 39,
+                      "id": 133,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -252,7 +272,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 40,
+                      "id": 134,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "Public Facing Interfaces",
@@ -260,7 +280,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 41,
+                      "id": 135,
                       "label": "Yes - New Alert or Logging Information Only",
                       "action_type": "goto",
                       "goto_question": "External Data",
@@ -270,7 +290,7 @@
               ]
           },
           {
-              "id": 62,
+              "id": 126,
               "title": "Information Classification",
               "heading": "Do you know the Information Classification already?",
               "description": "<p>We classify data based on potential sensitivity and value to a malicious actor. Applying appropriate classifications allows us to maintain appropriate records of the data we hold, and the security controls we should be applying.<\/p><p>Odin will classify your data based on the New Zealand Government Information Classification guidelines.<\/p><p>If you are unsure, click \"No\" and Odin will generate your information classification for you as a task at the end of this questionnaire.<\/p>",
@@ -278,7 +298,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 42,
+                      "id": 136,
                       "label": "Same classification as existing",
                       "action_type": "continue",
                       "goto_question": null,
@@ -286,7 +306,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 43,
+                      "id": 137,
                       "label": "Different classification",
                       "action_type": "continue",
                       "goto_question": null,
@@ -298,7 +318,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 44,
+                      "id": 138,
                       "label": "I Don't Know",
                       "action_type": "continue",
                       "goto_question": null,
@@ -312,7 +332,7 @@
               ]
           },
           {
-              "id": 63,
+              "id": 127,
               "title": "Personal Information",
               "heading": "Does this new information contain Personal Information (PI)?",
               "description": "<p>Personal Information is defined as any information about an identifiable individual (i.e. a living, natural person; not companies\/charities\/trusts etc). The information doesn\u2019t need to identify a person by their name to be personal information, and it also doesn\u2019t need to be private or sensitive. As long as there\u2019s a reasonable chance that someone could be identified from the information - even if it\u2019s only one person that makes the link between the information and the individual, and even if it\u2019s only by linking it with other information - then it\u2019s personal information. This includes information about other staff members and our customers.<\/p>\n<p>All systems created, managed and used by our organisation that contain or use any form of Personal Information must go through a Privacy Threshold Assessment process. <\/p>\n<p>&nbsp;<\/p>",
@@ -320,7 +340,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 45,
+                      "id": 139,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -332,7 +352,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 46,
+                      "id": 140,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "External Data",
@@ -342,7 +362,7 @@
               ]
           },
           {
-              "id": 64,
+              "id": 128,
               "title": "Existing Personal Information",
               "heading": "Did the product previously transmit, receive or store Personal Information (PI)?",
               "description": "<p>Personal Information is defined as any information about an identifiable individual (i.e. a living, natural person; not companies\/charities\/trusts etc). The information doesn\u2019t need to identify a person by their name to be personal information, and it also doesn\u2019t need to be private or sensitive. As long as there\u2019s a reasonable chance that someone could be identified from the information - even if it\u2019s only one person that makes the link between the information and the individual, and even if it\u2019s only by linking it with other information - then it\u2019s personal information. This includes information about other staff members and our customers.<\/p>\n<p>All systems introducing any new forms of Personal Information must go through a Privacy Threshold Assessment process. At the end of this questionnaire, a Privacy Threshold Assessment task will be completed. When completed, this task will be submitted to the Privacy representative for review and approval.<\/p>\n<p>&nbsp;<\/p>",
@@ -350,7 +370,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 47,
+                      "id": 141,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -358,7 +378,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 48,
+                      "id": 142,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -372,7 +392,7 @@
               ]
           },
           {
-              "id": 65,
+              "id": 129,
               "title": "External Data",
               "heading": "Will data being transferred to an external party, cloud provider, or mobile app for storage or processing (e.g. Google\/Azure\/Amazon)",
               "description": "<p>We must ensure we keep a record of what data we are transferring to external sources. This will ensure we can appropriately audit data access and respond to privacy related requests.<\/p><p>An external location is defined as somewhere that is physically different to where the product is hosted. If you're exporting data for a backup to a difference cloud location\/region\/zone or a different data centre then please click 'Yes'. If this external location has been previously used by this product for data storage, please click 'No'.<\/p><p>&nbsp;<\/p><p>&nbsp;<\/p>",
@@ -380,7 +400,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 49,
+                      "id": 143,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -388,7 +408,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 50,
+                      "id": 144,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -398,14 +418,14 @@
               ]
           },
           {
-              "id": 66,
+              "id": 130,
               "title": "Data Storage Location",
               "heading": "Where will data be physically located\/stored?",
               "description": "<p>What countries and cities will data be held in by this product?<\/p>\n<p>We must ensure data is being held in countries that are have similar security and privacy laws as ours. The current list of endorsed countries is:<\/p>\n<ul>\n<li>New Zealand<\/li>\n<li>Australia<\/li>\n<li>United States of America<\/li>\n<li>Canada<\/li>\n<li>Germany<\/li>\n<li>Netherlands<\/li>\n<li>United Kingdom<\/li>\n<\/ul>\n<p>Other countries\/jurisdictions can be considered, but these will need to go through a separate data risk assessment to ensure the target jurisdiction's Information and Privacy laws are compatible with New Zealand's.<\/p>",
               "sort_order": 12,
               "input_fields": [
                   {
-                      "id": 54,
+                      "id": 84,
                       "label": "Locations",
                       "required": true,
                       "input_type": "textarea",
@@ -416,13 +436,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 67,
+              "id": 131,
               "title": "Existing Provider",
               "heading": "Have we used this service provider previously?",
               "description": "<p>When engaging new providers of SaaS or Cloud Services, We will conduct an assessment of them to ensure they are a legitimate company operating our of jurisdictional regions friendly to our business.<\/p>\n<p>&nbsp;<\/p>",
@@ -430,7 +452,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 51,
+                      "id": 145,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -438,7 +460,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 52,
+                      "id": 146,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -450,7 +472,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 53,
+                      "id": 147,
                       "label": "I Don't Know",
                       "action_type": "continue",
                       "goto_question": null,
@@ -464,7 +486,7 @@
               ]
           },
           {
-              "id": 68,
+              "id": 132,
               "title": "Public Facing Interfaces",
               "heading": "Does this deliverable expose new public facing interfaces?",
               "description": "<p>Will this solution be exposing new web-facing services? Including APIs through an existing API management platform (e.g. Mulesoft, CloudFlare, RedShield). We have an obligation to ensure that all information we manage is kept safe, especially when that information is being provided to external parties through web-facing services.<\/p>\n<p>If you are moving an existing service from one location to another and this does have public facing services (website or API) then the answer to this is 'Yes'.<\/p>\n<p>If you answer 'Yes', two tasks will be created at the end of this questionnaire.<\/p>\n<p>A Penetration Test task will be created. You'll be asked to either conduct a penetration test on the services or provide a recently completed penetration test report and summary of remediation work that has been undertaken. More information about this is explained in the Penetration Test task.<\/p>\n<p>A Web Security Configuration task will be created. You'll be asked to test your web facing services against some industry best practices to ensure it's secure. This task will take approximately 10 minutes complete.<\/p>\n<p>&nbsp;<\/p>",
@@ -472,7 +494,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 54,
+                      "id": 148,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -487,7 +509,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 55,
+                      "id": 149,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -497,7 +519,7 @@
               ]
           },
           {
-              "id": 69,
+              "id": 133,
               "title": "Significant Change",
               "heading": "Is this a significant change to the product?",
               "description": "<p>A significant change would be something defined as:<\/p><ul><li>Moving the product from one location to another (e.g. data centre migration)<\/li>\n<li>Moving the product from <span class=\"ILfuVd\"><span class=\"e24Kjd\">On-premises<\/span><\/span> to cloud (e.g. Revera to Azure)<\/li>\n<li>An upgrade of the Operating System that is hosting the product<\/li>\n<li>An major version upgrade of the hosting platform (e.g. Silverstripe upgrade v3 to v4)<\/li>\n<li>Changing how Authentication is handled<\/li>\n<li>The inclusion of new Personal Information (PI)<\/li>\n<\/ul>",
@@ -505,7 +527,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 56,
+                      "id": 150,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -513,7 +535,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 57,
+                      "id": 151,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "Firewall Changes",
@@ -523,7 +545,7 @@
               ]
           },
           {
-              "id": 70,
+              "id": 134,
               "title": "Security Risk Assessment",
               "heading": "Security Risk Assessment Required",
               "description": "<p>As this change is a significant change, you will be required to complete a Digital Security Risk Assessment.<\/p>\n<p>Odin uses a new Digital Security Risk Assessment (DSRA) methodology. If you're familiar with this approach and do not need the Tutorial please click 'Ok'. If you would like the Tutorial to give you some background information on how to use the DSRA please click the 'With Tutorial' button.<\/p>",
@@ -531,7 +553,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 58,
+                      "id": 152,
                       "label": "Ok",
                       "action_type": "continue",
                       "goto_question": null,
@@ -549,7 +571,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 59,
+                      "id": 153,
                       "label": "With Tutorial",
                       "action_type": "continue",
                       "goto_question": null,
@@ -563,7 +585,7 @@
               ]
           },
           {
-              "id": 71,
+              "id": 135,
               "title": "Firewall Changes",
               "heading": "Will this deliverable require firewall changes?",
               "description": "<p>If this deliverable requires connections to or from systems that are not Web connected (e.g. chrome\/firefox) the answer is probably Yes.<\/p>",
@@ -571,7 +593,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 60,
+                      "id": 154,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -579,7 +601,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 61,
+                      "id": 155,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "New Users",
@@ -589,14 +611,14 @@
               ]
           },
           {
-              "id": 72,
+              "id": 136,
               "title": "Firewall Information",
               "heading": "Please describe what firewall changes you might need",
               "description": "This doesn't have to be technically accurate, but an indication of what systems need to talk and how would be a good start for Infrastructure",
               "sort_order": 18,
               "input_fields": [
                   {
-                      "id": 55,
+                      "id": 85,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
@@ -607,20 +629,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 73,
+              "id": 137,
               "title": "New Users",
               "heading": "Please list the names and roles of new users of this product",
               "description": "Users are the people who will be using the product. Please document the names, roles and permissions each user will get. If there are named groups within the product, please document the group that each user will belong to.",
               "sort_order": 19,
               "input_fields": [
                   {
-                      "id": 56,
+                      "id": 86,
                       "label": "Users",
                       "required": true,
                       "input_type": "textarea",
@@ -631,20 +655,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 74,
+              "id": 138,
               "title": "Other Risks",
               "heading": "Is there any other information that should be provided that modifies the risk of the product because of this deliverable?",
               "description": "Provide any further information that may impact the security\/risk of this product with this deliverable.",
               "sort_order": 20,
               "input_fields": [
                   {
-                      "id": 57,
+                      "id": 87,
                       "label": "Description",
                       "required": false,
                       "input_type": "textarea",
@@ -655,11 +681,14 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           }
-      ]
+      ],
+      "risks": []
   }
 }
