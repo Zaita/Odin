@@ -16,12 +16,6 @@ export default function DSRA_ControlList(props) {
     return items;
   }
 
-  // const getItems = (count, offset = 0) =>
-  //   Array.from({ length: count }, (v, k) => k).map(k => ({
-  //       id: `item-${k + offset}`,
-  //       content: `item ${k + offset}`
-  // }));
-
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -37,7 +31,8 @@ export default function DSRA_ControlList(props) {
     const [removed] = sourceClone.splice(droppableSource.index, 1);
 
     destClone.splice(droppableDestination.index, 0, removed);
-
+    console.log("Moving: " + removed.name + " (id: " + removed.id + ") to " + id2List[droppableDestination.droppableId]);
+    props.callback(removed.id, id2List[droppableDestination.droppableId]);
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
@@ -60,7 +55,7 @@ export default function DSRA_ControlList(props) {
   const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? props.siteConfig.theme_content_bg_color : props.siteConfig.theme_bg_color,
     padding: grid,
-    width: displayNA ? 250 : 336, 
+    width: displayNA ? 281 : 376, 
     margin: "2px 2px 2px 2px",
     border: "1px dashed " + props.siteConfig.theme_text_color,
     maxHeight: "600px",
@@ -70,15 +65,15 @@ export default function DSRA_ControlList(props) {
   });
 
   let [currentState, setCurrentState] = useState({
-    notApplicable: getItems("not_applicable"),
-    notImplemented: getItems("not_implemented"),
+    not_applicable: getItems("not_applicable"),
+    not_implemented: getItems("not_implemented"),
     planned: getItems("planned"),
     implemented: getItems("implemented"),
   }); 
 
   let id2List = {
-    droppable: 'notApplicable',
-    droppable2: 'notImplemented',
+    droppable: 'not_applicable',
+    droppable2: 'not_implemented',
     droppable3: 'planned',
     droppable4: 'implemented',
   };
@@ -101,12 +96,11 @@ export default function DSRA_ControlList(props) {
         );
 
         let updatedState = currentState;
-        updatedState.notApplicable = source.droppableId === 'droppable' ? items : updatedState.notApplicable;
-        updatedState.notImplemented = source.droppableId === 'droppable2' ? items : updatedState.notImplemented;
+        updatedState.not_applicable = source.droppableId === 'droppable' ? items : updatedState.not_applicable;
+        updatedState.not_implemented = source.droppableId === 'droppable2' ? items : updatedState.not_implemented;
         updatedState.planned = source.droppableId === 'droppable3' ? items : updatedState.planned;
         updatedState.implemented = source.droppableId === 'droppable4' ? items : updatedState.implemented;
         setCurrentState(updatedState);
-        props.callback();
     }
     // Interlist movement
     else {
@@ -119,142 +113,159 @@ export default function DSRA_ControlList(props) {
 
         // Update the state of the two boxes that changed based on the results from move()
         let updatedState = currentState;
-        updatedState.notApplicable = result.droppable ? result.droppable : updatedState.notApplicable;
-        updatedState.notImplemented = result.droppable2 ? result.droppable2 : updatedState.notImplemented;
+        updatedState.not_applicable = result.droppable ? result.droppable : updatedState.not_applicable;
+        updatedState.not_implemented = result.droppable2 ? result.droppable2 : updatedState.not_implemented;
         updatedState.planned = result.droppable3 ? result.droppable3 : updatedState.planned;
         updatedState.implemented = result.droppable4 ? result.droppable4 : updatedState.implemented;
 
         setCurrentState(updatedState);        
         setRenderFlag(!renderFlag); // needed because updatedState is same array as state
-        props.callback();
     }
   };
 
   return (
-    <>
     <div>
-      <input type="checkbox" onChange={() => { setDisplayNA(!displayNA) }} defaultChecked={false}/>
+      <div className="mb-4">
+        {/* <div className="w-1/4 inline-block">Key Words Input Box</div>
+        <div className="w-1/4 inline-block">Risk Category</div>
+        <div className="w-1/4 inline-block">Sort By</div> */}
+        <div className="w-1/4 inline-block">
+          <input type="checkbox" onChange={() => { setDisplayNA(!displayNA) }} defaultChecked={displayNA}/>
+          <span className="pl-2">Show Not Applicable</span>
+        </div>
+      </div>        
+      <div style={{ 'display': 'flex' }}>
+          <DragDropContext onDragEnd={onDragEnd}>
+              {displayNA && <Droppable droppableId="droppable">                
+                  {(provided, snapshot) => (
+                      <div>
+                      <div className="font-bold">Not applicable</div>
+                      <div
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}>
+                          {currentState.not_applicable.map((item, index) => (
+                              <Draggable
+                                  key={item.id.toString()}
+                                  draggableId={item.id.toString()}
+                                  index={index}>
+                                  {(provided, snapshot) => (
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          style={getItemStyle(
+                                              snapshot.isDragging,
+                                              provided.draggableProps.style
+                                          )}>
+                                          <div className="inline-block w-10/12 font-bold">{item.name}</div>
+                                          <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
+                                      </div>
+                                  )}
+                              </Draggable>
+                          ))}
+                          {provided.placeholder}
+                      </div>
+                      </div>
+                  )}
+              </Droppable>}
+              <Droppable droppableId="droppable2">
+                  {(provided, snapshot) => (
+                    <div>
+                      <div className="font-bold">Not implemented</div>
+                      <div
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}>
+                          {currentState.not_implemented.map((item, index) => (
+                              <Draggable
+                                  key={item.id.toString()}
+                                  draggableId={item.id.toString()}
+                                  index={index}>
+                                  {(provided, snapshot) => (
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          style={getItemStyle(
+                                              snapshot.isDragging,
+                                              provided.draggableProps.style
+                                          )}>
+                                          <div className="inline-block w-10/12 font-bold">{item.name}</div>
+                                          <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
+                                      </div>
+                                  )}
+                              </Draggable>
+                          ))}
+                          {provided.placeholder}
+                      </div>
+                    </div>
+                  )}
+              </Droppable>
+              <Droppable droppableId="droppable3">
+                  {(provided, snapshot) => (
+                    <div>
+                      <div className="font-bold">Planned</div>
+                      <div
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}>
+                          {currentState.planned.map((item, index) => (
+                              <Draggable
+                                  key={item.id.toString()}
+                                  draggableId={item.id.toString()}
+                                  index={index}>
+                                  {(provided, snapshot) => (
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          style={getItemStyle(
+                                              snapshot.isDragging,
+                                              provided.draggableProps.style
+                                          )}>
+                                          <div className="inline-block w-10/12 font-bold">{item.name}</div>
+                                          <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
+                                      </div>
+                                  )}
+                              </Draggable>
+                          ))}
+                          {provided.placeholder}
+                      </div>
+                    </div>
+                  )}
+              </Droppable>  
+              <Droppable droppableId="droppable4">
+                  {(provided, snapshot) => (
+                    <div>
+                      <div className="font-bold">Implemented</div>                    
+                      <div
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}>
+                          {currentState.implemented.map((item, index) => (
+                              <Draggable
+                                  key={item.id.toString()}
+                                  draggableId={item.id.toString()}
+                                  index={index}>
+                                  {(provided, snapshot) => (
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          style={getItemStyle(
+                                              snapshot.isDragging,
+                                              provided.draggableProps.style
+                                          )}>
+                                          <div className="inline-block w-10/12 font-bold">{item.name}</div>
+                                          <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
+                                      </div>
+                                  )}
+                              </Draggable>
+                          ))}
+                          {provided.placeholder}
+                      </div>
+                    </div>
+                  )}
+              </Droppable>                      
+          </DragDropContext>
+      </div>
     </div>
-    <div style={{ 'display': 'flex' }}>
-        <DragDropContext onDragEnd={onDragEnd}>
-            {displayNA && <Droppable droppableId="droppable">
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}>
-                        {currentState.notApplicable.map((item, index) => (
-                            <Draggable
-                                key={item.id.toString()}
-                                draggableId={item.id.toString()}
-                                index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={getItemStyle(
-                                            snapshot.isDragging,
-                                            provided.draggableProps.style
-                                        )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
-                                        <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>}
-            <Droppable droppableId="droppable2">
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}>
-                        {currentState.notImplemented.map((item, index) => (
-                            <Draggable
-                                key={item.id.toString()}
-                                draggableId={item.id.toString()}
-                                index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={getItemStyle(
-                                            snapshot.isDragging,
-                                            provided.draggableProps.style
-                                        )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
-                                        <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-            <Droppable droppableId="droppable3">
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}>
-                        {currentState.planned.map((item, index) => (
-                            <Draggable
-                                key={item.id.toString()}
-                                draggableId={item.id.toString()}
-                                index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={getItemStyle(
-                                            snapshot.isDragging,
-                                            provided.draggableProps.style
-                                        )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
-                                        <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>  
-            <Droppable droppableId="droppable4">
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}>
-                        {currentState.implemented.map((item, index) => (
-                            <Draggable
-                                key={item.id.toString()}
-                                draggableId={item.id.toString()}
-                                index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={getItemStyle(
-                                            snapshot.isDragging,
-                                            provided.draggableProps.style
-                                        )}>
-                                        <div className="inline-block w-10/12 font-bold">{item.name}</div>
-                                        <div className="inline-block w-2/12 font-bold"><ChevronRightIcon/></div>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>                      
-        </DragDropContext>
-    </div>
-    </>
   );
 }

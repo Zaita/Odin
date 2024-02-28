@@ -434,6 +434,7 @@ class Submission extends Model
               "name" => $control->name]);
             $dbControl->security_catalogue_name = $catalogueName;
             $dbControl->fill(json_decode($control, true));
+            $dbControl->populate($control->id);
             $dbControl->save();
           }
         }  
@@ -450,7 +451,7 @@ class Submission extends Model
       $this->submitForApproval();
     }
     // See if we can auto approve the whole submission when there are no tasks
-    if ($this->task_count() == 0 && $pillarData->auto_submit_no_tasks) {
+    if ($this->task_count() == 0 && $pillarData->auto_approve_no_tasks) {
       $this->auto_approve();
     }
     // See if we can auto approve the whole submission

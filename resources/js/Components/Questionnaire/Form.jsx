@@ -179,7 +179,7 @@ export default function Questionnaire_Form(props) {
           actions.push(<ThemedButton siteConfig={props.siteConfig} handleChange={handleChange} onClick={nextQuestion} children={actionField.label} selected={isActionSelected(actionField.label)} />);
           break;
         case "goto":
-          actions.push(<ThemedButton siteConfig={props.siteConfig} handleChange={handleChange} onClick={() => gotoQuestion(actionField.goto_question_title)} children={actionField.label} selected={isActionSelected(actionField.label)}/>);
+          actions.push(<ThemedButton siteConfig={props.siteConfig} handleChange={handleChange} onClick={() => gotoQuestion(actionField.goto_question)} children={actionField.label} selected={isActionSelected(actionField.label)}/>);
           break;          
       }
     });

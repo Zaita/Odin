@@ -45,8 +45,8 @@ export default function ActionAdd(props) {
   let actionTypeOptions = [ "continue", "goto", "finish", "message"];
 
   let gotoQuestionTitle = {
-    "label" : "Goto Question Title",
-    "value" : getValue(props.field?.goto_question_title, "goto_question_title", false),
+    "label" : "Goto Question",
+    "value" : getValue(props.field?.goto_question, "goto_question", false),
   }
 
   let taskField = {

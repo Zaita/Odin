@@ -16,7 +16,7 @@ class ActionField extends Model
       'question_id',
       'label',
       'action_type',
-      'goto_question_title',
+      'goto_question',
       'tasks',       
     ];
 

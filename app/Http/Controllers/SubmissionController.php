@@ -23,6 +23,7 @@ use App\Objects\QuestionnaireObject;
 use App\Http\Requests\CollaboratorAddRequest;
 use App\Models\SecurityRiskAssessmentSubmission;
 use App\Models\SubmissionSecurityControl;
+use Illuminate\Http\Response;
 
 class SubmissionController extends Controller
 {
@@ -151,8 +152,8 @@ class SubmissionController extends Controller
                   break 2; // Stop both loops
                 }
                 // We have a go to
-                $submission->handleGoto($submissionAnswers, $currentQuestion, $actionField->goto_question_title);
-                $lastQuestion =  $actionField->goto_question_title;
+                $submission->handleGoto($submissionAnswers, $currentQuestion, $actionField->goto_question);
+                $lastQuestion =  $actionField->goto_question;
               }
             }
             break;
@@ -629,5 +630,18 @@ class SubmissionController extends Controller
       'questions' => $questions,
       'task' => $task,
     ]); 
+  }
+
+  /**
+   * POST /dsra/control/update/{id}
+   * Update the control with a new implementation status. This is a control
+   * that has been moved on the DSRA kanban board
+   */
+  public function dsra_control_update(Request $request, $controlId) {
+    $control = SubmissionSecurityControl::findOrFail($controlId);
+    $control->implementation_status = $request->input('status');
+    $control->save();
+
+    return response()->json($control);
   }
 }

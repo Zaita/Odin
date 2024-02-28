@@ -94,6 +94,8 @@ Route::middleware('auth')->group(function () {
   Route::post('/task/submit/{uuid}', [SubmissionController::class, 'task_submit'])->name('submission.task.submit');
   Route::get('/task/submitted/{uuid}', [SubmissionController::class, 'task_submitted'])->name('submission.task.submitted');
   Route::get('/task/view/{uuid}', [SubmissionController::class, 'task_view'])->name('submission.task.view');
+  // DSRA specific routes
+  Route::post('/dsra/control/update/{id}', [SubmissionController::class, 'dsra_control_update'])->name('submission.dsra.control.update');
 });
 
 
