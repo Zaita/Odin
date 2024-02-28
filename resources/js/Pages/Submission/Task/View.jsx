@@ -18,7 +18,7 @@ function Content(props) {
         } else {
           response.data.map((answer, index) => {
             if (typeof(answer.value) == "string" && answer.value?.includes("\n")) {
-              userResponses.push(<div key={index} className="pl-1">{answer.value}</div>);
+              userResponses.push(<div key={index} className="pl-1"><span id="answer_heading" className="font-extrabold">{answer.field}</span>:<br/>{answer.value}</div>);
 
             } else if (answer.value != null && typeof answer.value == "object") {
               let output = [];
@@ -35,17 +35,17 @@ function Content(props) {
           })
         }
     }});
-
+    
     return(
       <div key={index} className="mb-1 min-h-10 p-2" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
-        <div className="inline-block w-4/12 align-top pl-1 min-h-10" style={{borderRight: "1px solid " + props.siteConfig.theme_bg_color}}>
+        <div className="inline-block w-4/12 align-top pl-1 pr-2 min-h-10" style={{borderRight: "1px solid " + props.siteConfig.theme_bg_color}}>
           <span className="font-extrabold">{index}.</span> {questionHeading}</div>
         <div className="inline-block w-8/12 min-h-10" style={{borderLeft: "1px solid " + props.siteConfig.theme_bg_color}}>
           {userResponses.map((response, idx) => <span key={idx}>{response}</span>)}
         </div>
       </div>
     )
-  }    
+  }  
 
   return (
     <div id="inner_content">

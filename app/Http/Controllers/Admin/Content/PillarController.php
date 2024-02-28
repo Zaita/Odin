@@ -102,6 +102,7 @@ class PillarController extends Controller
         "questionnaire.questions.inputFields",
         "questionnaire.questions.inputFields.input_options",
         "questionnaire.questions.actionFields",
+        "questionnaire.risks"
         ])->findOrFail($pillarId);
         echo json_encode($pillar, JSON_PRETTY_PRINT);
       }

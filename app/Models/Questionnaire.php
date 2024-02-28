@@ -122,7 +122,7 @@ class Questionnaire extends Model
                     $f->questionnaire_question_id = $q->id;
                     $f->label = $actionField->label;
                     $f->action_type = $actionField->actionType;
-                    $f->goto_question_title = isset($actionField->gotoQuestionTitle) ? $actionField->gotoQuestionTitle : null;
+                    $f->goto_question = isset($actionField->gotoQuestion) ? $actionField->gotoQuestion : null;
                     $f->tasks = isset($actionField->tasks) ? json_encode($actionField->tasks) : null;
                     $f->save();
                     printf("New Action Field: %s with id %d\n", $f->label, $f->id);

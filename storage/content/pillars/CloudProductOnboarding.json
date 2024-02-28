@@ -1,36 +1,40 @@
 {
-  "id": 3,
+  "id": 4,
   "name": "Cloud Product Onboarding",
   "caption": "I want to use a cloud of SaaS product",
   "icon": "download",
-  "key_information": "<p>This questionnaire will ask you contextual questions about a cloud product you wish to use.&nbsp; This is used to create a record of the vendor completing our security on-boarding process. A documentation trail must be created to ensure any potential risks associated with this vendor and product are documented and accepted.<\/p><p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p><p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
-  "approval_flow": {
-    "id": 2,
-    "name": "Security only",
-    "enabled": 1,
-    "created_at": "2024-02-16T07:54:17.000000Z",
-    "updated_at": "2024-02-16T07:54:17.000000Z"
-},
-  "auto_approve": true,
-  "auto_approve_no_tasks": true,
+  "key_information": "<p>This questionnaire will ask you contextual questions about a cloud product you wish to use.  This is used to create a record of the vendor completing our security on-boarding process. A documentation trail must be created to ensure any potential risks associated with this vendor and product are documented and accepted.<\/p>\n<p>This submission will create tasks for your complete after the initial set of questions. These tasks will need to be completed before the submission can be approved. All approvals are handled within Odin.<\/p>\n<p>If you do not complete the initial set of questions within 14 days, it will automatically expire.<\/p>",
+  "auto_approve": false,
+  "auto_submit_no_tasks": true,
+  "auto_approve_no_tasks": false,
   "submission_expires": true,
   "expire_after_days": 0,
   "enabled": true,
+  "tasks": [],
+  "approval_flow": {
+      "id": 1,
+      "name": "Two stage approval with CISO endorsement",
+      "enabled": 1,
+      "created_at": "2024-02-28T08:17:35.000000Z",
+      "updated_at": "2024-02-28T08:17:35.000000Z"
+  },
   "questionnaire": {
-      "id": 3,
+      "id": 12,
       "name": "Cloud Product Onboarding",
       "type": "questionnaire",
+      "risk_calculation": "none",
+      "custom_risks": false,
       "questions": [
           {
-              "id": 23,
+              "id": 87,
               "title": "Product Information",
               "heading": "Please enter details of the product",
               "description": "<p>Please enter the name, homepage and a contact email address for the product.<\/p><p>If you do not have a contact within the product company, please put your own email address as point of contact.<\/p>",
               "sort_order": 0,
               "input_fields": [
                   {
-                      "id": 23,
-                      "label": "Product NameZ",
+                      "id": 54,
+                      "label": "Product Name",
                       "required": true,
                       "input_type": "text",
                       "min_length": 3,
@@ -40,24 +44,28 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 24,
+                      "id": 55,
                       "label": "Product URL",
                       "required": true,
-                      "input_type": "email",
+                      "input_type": "url",
                       "min_length": 6,
                       "max_length": 0,
                       "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
                       "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
+                      "ticket_url": true,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 25,
+                      "id": 56,
                       "label": "Contact Email",
                       "required": true,
                       "input_type": "email",
@@ -68,34 +76,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
-                  },
-                  {
-                      "id": 26,
-                      "label": "ABC",
-                      "required": false,
-                      "input_type": "text",
-                      "min_length": null,
-                      "max_length": null,
-                      "placeholder": null,
-                      "product_name": false,
-                      "business_owner": false,
-                      "release_date": false,
-                      "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 24,
+              "id": 88,
               "title": "Business Owner",
               "heading": "Please enter details of the business owner for this vendor product",
               "description": "<p>When doing a new service onboarding it is important to ensure appropriate risks are assessed. The business owner is responsible for accepting the risks. The business owner is the person is who accountable for protecting any data that will be used by the cloud product.<\/p><p>The business owner will be required to approve this submission before the product can be used.<\/p>",
               "sort_order": 1,
               "input_fields": [
                   {
-                      "id": 27,
+                      "id": 58,
                       "label": "Full Name",
                       "required": true,
                       "input_type": "text",
@@ -106,10 +102,12 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   },
                   {
-                      "id": 28,
+                      "id": 59,
                       "label": "Email",
                       "required": true,
                       "input_type": "email",
@@ -120,20 +118,22 @@
                       "business_owner": true,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 25,
+              "id": 89,
               "title": "Product Description",
               "heading": "Please describe what the product does in plain English",
               "description": "<p>Please include of a description of the product features, and highlight those that will be specifically used by us.<\/p>",
               "sort_order": 2,
               "input_fields": [
                   {
-                      "id": 29,
+                      "id": 60,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
@@ -144,20 +144,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 26,
+              "id": 90,
               "title": "Release Date",
               "heading": "What is your expected go-live date for this product?",
               "description": "<p>Please select the date where you to wish to first use the product in a real-world scenario. This will involve the use of production or customer data.<\/p>",
               "sort_order": 3,
               "input_fields": [
                   {
-                      "id": 30,
+                      "id": 61,
                       "label": "Date",
                       "required": true,
                       "input_type": "date",
@@ -168,13 +170,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 27,
+              "id": 91,
               "title": "Personal Information",
               "heading": "Will this SaaS product store customer personal information (PI)?",
               "description": "<p>Personal Information is defined as any information about an identifiable individual (i.e. a living, natural person; not companies\/charities\/trusts etc). The information doesn\u2019t need to identify a person by their name to be personal information, and it also doesn\u2019t need to be private or sensitive. As long as there\u2019s a reasonable chance that someone could be identified from the information - even if it\u2019s only one person that makes the link between the information and the individual, and even if it\u2019s only by linking it with other information - then it\u2019s personal information. This includes information about other staff members and our customers.<\/p><p>All SaaS products that contain or use any form of Personal Information must go through a Privacy Threshold Assessment process. At the end of this questionnaire, a Privacy Threshold Assessment task will be completed. When completed, this task will be submitted to the Privacy Officers for review and approval.<\/p><p><strong>Note: <\/strong>If the product will only store the names and email addresses of our staff as users of this system, please click the \"Staff Login Only\" button.<\/p>",
@@ -182,7 +186,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 8,
+                      "id": 102,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -200,7 +204,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 9,
+                      "id": 103,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -208,7 +212,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 10,
+                      "id": 104,
                       "label": "Staff Login Only",
                       "action_type": "continue",
                       "goto_question": null,
@@ -218,14 +222,14 @@
               ]
           },
           {
-              "id": 28,
+              "id": 92,
               "title": "Types of Data",
               "heading": "Please list the types of data being used in this product",
               "description": "<p>Please list out the different types of data you'll be inputting or using into this software. (e.g. flow charts, names, emails, phone numbers)<\/p>",
               "sort_order": 5,
               "input_fields": [
                   {
-                      "id": 31,
+                      "id": 62,
                       "label": "Data",
                       "required": true,
                       "input_type": "textarea",
@@ -236,13 +240,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 29,
+              "id": 93,
               "title": "Internal Integration",
               "heading": "Will this cloud product be integrating with any of our systems?",
               "description": "<p>Will this product r<strong>eceive information from<\/strong> or <strong>transfer data to<\/strong> any of our systems?<\/p><p>This includes cloud-to-cloud integration between this product and another cloud product used by us.<\/p>",
@@ -250,7 +256,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 11,
+                      "id": 105,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -268,7 +274,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 12,
+                      "id": 106,
                       "label": "No",
                       "action_type": "goto",
                       "goto_question": "Firewall Changes",
@@ -278,14 +284,14 @@
               ]
           },
           {
-              "id": 30,
+              "id": 94,
               "title": "Data Transfer",
               "heading": "How is our data being transferred to\/from the Cloud Product?",
               "description": "<p>Please document the technologies being used to transfer data (e.g. Web Forms, FTP, SCP, Email etc)<\/p>",
               "sort_order": 7,
               "input_fields": [
                   {
-                      "id": 32,
+                      "id": 63,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
@@ -296,20 +302,22 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 31,
+              "id": 95,
               "title": "Description of Information",
               "heading": "Describe what information will be received, transmitted or stored by this product",
               "description": "<p>Please ensure as much information as possible about the information that is handled by this product.<\/p><p>Any information that is stored by, transmitted to; or received from this product must be documented.<\/p>",
               "sort_order": 8,
               "input_fields": [
                   {
-                      "id": 33,
+                      "id": 64,
                       "label": "Description",
                       "required": true,
                       "input_type": "textarea",
@@ -320,13 +328,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 32,
+              "id": 96,
               "title": "Firewall Changes",
               "heading": "Will you require firewall changes to be made to use this product?",
               "description": "<p>If this product requires connections to\/from other systems that are not Web (e.g. Chrome\/Edge\/Firefox) the answer is probably Yes<\/p>",
@@ -334,7 +344,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 13,
+                      "id": 107,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -342,7 +352,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 14,
+                      "id": 108,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -352,14 +362,14 @@
               ]
           },
           {
-              "id": 33,
+              "id": 97,
               "title": "Users",
               "heading": "Please list the names of staff who will use this product",
               "description": "<p>Users are the people who will be using the product. Please document the names, roles and permissions each user will get. If there are named groups within the product, please document the group that each user will belong to.<\/p>",
               "sort_order": 10,
               "input_fields": [
                   {
-                      "id": 34,
+                      "id": 65,
                       "label": "Users",
                       "required": true,
                       "input_type": "textarea",
@@ -370,13 +380,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 34,
+              "id": 98,
               "title": "Authentication",
               "heading": "Does this product integrate with the Okta for authentication?",
               "description": "<p>Will this product integrate with OKTA to manage user accounts?<\/p><p>This will require either OAUTH2 (preferred) or SAML integration.<\/p>",
@@ -384,7 +396,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 15,
+                      "id": 109,
                       "label": "Yes",
                       "action_type": "continue",
                       "goto_question": null,
@@ -392,7 +404,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 16,
+                      "id": 110,
                       "label": "No",
                       "action_type": "continue",
                       "goto_question": null,
@@ -400,7 +412,7 @@
                       "sort_order": 999
                   },
                   {
-                      "id": 17,
+                      "id": 111,
                       "label": "Not Applicable",
                       "action_type": "continue",
                       "goto_question": null,
@@ -410,14 +422,14 @@
               ]
           },
           {
-              "id": 35,
+              "id": 99,
               "title": "Other",
               "heading": "Is there any other information you'd like to submit with your application?",
               "description": "<p>Please include information that might be relevant to a Security reviewer, and the Business Owner.<\/p>",
               "sort_order": 12,
               "input_fields": [
                   {
-                      "id": 35,
+                      "id": 66,
                       "label": "Information",
                       "required": false,
                       "input_type": "textarea",
@@ -428,13 +440,15 @@
                       "business_owner": false,
                       "release_date": false,
                       "ticket_url": false,
-                      "sort_order": 999
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
                   }
               ],
               "action_fields": []
           },
           {
-              "id": 36,
+              "id": 100,
               "title": "Next Steps",
               "heading": "Next Steps",
               "description": "<p>Next, you will need to review your answers to click \"Submit Questionnaire\".<\/p><p>If any tasks are required, these will be created and displayed for you to complete.<\/p><p>If no tasks are required, you will be able to click \"Submit for Approval\" to send your submission for approval.<\/p><p>&nbsp;<\/p><p><strong>Note: Once you complete the review step that is next, the submission will no longer expire. You will have the time required to complete all tasks before submitting the entire submission for approval.<\/strong><\/p>",
@@ -442,7 +456,7 @@
               "input_fields": [],
               "action_fields": [
                   {
-                      "id": 18,
+                      "id": 112,
                       "label": "Review my answers",
                       "action_type": "continue",
                       "goto_question": null,
@@ -451,6 +465,7 @@
                   }
               ]
           }
-      ]
+      ],
+      "risks": []
   }
 }

@@ -191,10 +191,10 @@ class SecurityCatalogueController extends Controller
   /**
    * POST 
    */
-  public function control_save(SecurityControlRequest $request, $id) : RedirectResponse {
+  public function control_save(SecurityControlRequest $request, $id, $controlId) : RedirectResponse {
     AuditLog::Log('Admin.SecurityControl.Save', $request);
     try {
-      $sc = SecurityControl::findOrFail($id);
+      $sc = SecurityControl::findOrFail($controlId);
       $sc->update($request->validated());
       $sc->updateRisks($request->all());
       $sc->save();
@@ -202,11 +202,11 @@ class SecurityCatalogueController extends Controller
 
     } catch (UniqueConstraintViolationException $e) {
       Log::Info("Save Failed");
-      return back()->withErrors(["save" => "Save Failed: Security catalogue name has already been used"]);
+      return back()->withErrors(["save" => "Save Failed: Security control name has already been used"]);
     }
     
     Log::Info("Routing to Security Control Edit $id =>  $sc->id");
-    return Redirect::route('admin.content.securitycontrol.edit', ["id" => $id, "controlId" => $sc->id])->with('saveOk', 'Security control updated successfully');
+    return Redirect::route('admin.content.securitycontrol.edit', ["id" => $id, "controlId" => $controlId])->with('saveOk', 'Security control updated successfully');
   }
 
   

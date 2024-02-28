@@ -40,7 +40,7 @@ export default function Admin_ActionEditScreen(props) {
   }
 
   let taskList = [];
-  props.action.tasks.map((item) => {
+  props.action.tasks?.map((item) => {
     taskList.push({"value": item.name, "label": item.name})
   })
 

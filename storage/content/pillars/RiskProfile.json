@@ -1,259 +1,350 @@
 {
+  "id": 2,
   "name": "Risk Profile",
-  "type": "risk_questionnaire",
-  "caption": "",
-  "icon": "message",
-  "key_information": "",
-  "auto_approve": false,
-  "auto_approve_no_tasks": true,
+  "caption": "Perform a pre initiation risk evaluation",
+  "icon": "warning",
+  "key_information": "<p>This work flow will ask ontextual questions about a potential delivery to create a high level risk profile. This technique is used early in the planning to appropriate scope security resourcing and engagement.<\/p>\n<p>A risk profile is a useful tool for organisations that have large or long running delivery timelines and want to embrace increased planning and engagement.<\/p>\n<p>The questions here are only some sample questions. You should customise these for your organisation if you wish to implement a Risk Profile process.<\/p>\n<p>This questionnaire will not create any SDLT tasks and the submission will automatically be marked as approved<\/p>\n<p>If you do not complete this questionnaire within 14 days, it will automatically expire&nbsp;<\/p>",
+  "auto_approve": true,
+  "auto_submit_no_tasks": false,
+  "auto_approve_no_tasks": false,
   "submission_expires": true,
-  "expire_after_days": 14,
+  "expire_after_days": 0,
   "enabled": true,
+  "tasks": [],
   "approval_flow": {
-    "name": "Two stage approval with CISO endorsement"
+      "id": 2,
+      "name": "Security only",
+      "enabled": 1,
+      "created_at": "2024-02-28T02:17:17.000000Z",
+      "updated_at": "2024-02-28T02:17:17.000000Z"
   },
   "questionnaire": {
-    "name": "Risk Profile",
-    "type": "risk_questionnaire",
-    "risk_calculation": "highest_value",
-    "custom_risks": true,
-    "questions": [
-      {
-        "title": "Project Name",
-        "heading": "Please enter project name",
-        "description": "<p>Please enter the name of the project or product you are deliverying</p>",
-        "sort_order": 0,
-        "input_fields": [
+      "id": 10,
+      "name": "Risk Profile",
+      "type": "risk_questionnaire",
+      "risk_calculation": "highest_value",
+      "custom_risks": true,
+      "questions": [
           {
-            "sort_order": 0,
-            "label": "Name",
-            "required": true,
-            "input_type": "text",
-            "min_length": 2,
-            "max_length": 4096,
-            "placeholder": "Project Name",
-            "product_name": true,
-            "business_owner": false,
-            "release_date": false,
-            "ticket_url": false,
-            "input_options": []
-          }
-        ]
-      },
-      {
-        "title": "Go-Live Date",
-        "heading": "Please enter expected go-live date",
-        "description": "<p>Please enter the date you expect this project to go-live.</p>\n<p>If you do not have a definite date, please estimate one.</p>",
-        "sort_order": 0,
-        "input_fields": [
+              "id": 65,
+              "title": "Project Name",
+              "heading": "Please enter project name",
+              "description": "<p>Please enter the name of the project or product you are deliverying<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 32,
+                      "label": "Name",
+                      "required": true,
+                      "input_type": "text",
+                      "min_length": 2,
+                      "max_length": 4096,
+                      "placeholder": "Project Name",
+                      "product_name": true,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
+                  }
+              ],
+              "action_fields": []
+          },
           {
-            "sort_order": 0,
-            "label": "Date",
-            "required": true,
-            "input_type": "release date",
-            "min_length": 0,
-            "max_length": 4096,
-            "placeholder": "",
-            "product_name": false,
-            "business_owner": false,
-            "release_date": false,
-            "ticket_url": false,
-            "input_options": []
-          }
-        ]
-      },
-      {
-        "title": "Compliance Requirement",
-        "heading": "Is this project a compliance requirement?",
-        "description": "<p>Is this project important to the successful delivery of a major compliance requirement for the organisation?</p>",
-        "sort_order": 0,
-        "input_fields": [
+              "id": 66,
+              "title": "Go-Live Date",
+              "heading": "Please enter expected go-live date",
+              "description": "<p>Please enter the date you expect this project to go-live.<\/p>\n<p>If you do not have a definite date, please estimate one.<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 33,
+                      "label": "Date",
+                      "required": true,
+                      "input_type": "release date",
+                      "min_length": 0,
+                      "max_length": 4096,
+                      "placeholder": "",
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": []
+                  }
+              ],
+              "action_fields": []
+          },
           {
-            "sort_order": 0,
-            "label": "Answer",
-            "required": false,
-            "input_type": "radio",
-            "min_length": 0,
-            "max_length": 4096,
-            "placeholder": "",
-            "product_name": false,
-            "business_owner": false,
-            "release_date": false,
-            "ticket_url": false,
-            "input_options": [
-              {
-                "label": "Yes",
-                "value": "Yes",
-                "risks": {
-                  "Compliance failure": {
-                    "impact": 100
+              "id": 67,
+              "title": "Compliance Requirement",
+              "heading": "Is this project a compliance requirement?",
+              "description": "<p>Is this project important to the successful delivery of a major compliance requirement for the organisation?<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 34,
+                      "label": "Answer",
+                      "required": false,
+                      "input_type": "radio",
+                      "min_length": 0,
+                      "max_length": 4096,
+                      "placeholder": "",
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": [
+                          {
+                              "id": 26,
+                              "input_field_id": 34,
+                              "label": "Yes",
+                              "value": "Yes",
+                              "risks": {
+                                  "Compliance failure": {
+                                      "impact": 100
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          },
+                          {
+                              "id": 27,
+                              "input_field_id": 34,
+                              "label": "No",
+                              "value": "No",
+                              "risks": {
+                                  "Compliance failure": {
+                                      "impact": 5
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          }
+                      ]
                   }
-                }
-              },
-              {
-                "label": "No",
-                "value": "No",
-                "risks": {
-                  "Compliance failure": {
-                    "impact": 5
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Business Continuity",
-        "heading": "Would project failure impact the businesses ability to operate?",
-        "description": "<p>Would project failure have significant implications for the continued success of the business?</p>",
-        "sort_order": 0,
-        "input_fields": [
+              ],
+              "action_fields": []
+          },
           {
-            "sort_order": 0,
-            "label": "Answer",
-            "required": true,
-            "input_type": "radio",
-            "min_length": 0,
-            "max_length": 4096,
-            "placeholder": "",
-            "product_name": false,
-            "business_owner": false,
-            "release_date": false,
-            "ticket_url": false,
-            "input_options": [
-              {
-                "label": "Yes",
-                "value": "Yes",
-                "risks": {
-                  "Business continuity": {
-                    "impact": 60
+              "id": 68,
+              "title": "Business Continuity",
+              "heading": "Would project failure impact the businesses ability to operate?",
+              "description": "<p>Would project failure have significant implications for the continued success of the business?<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 35,
+                      "label": "Answer",
+                      "required": true,
+                      "input_type": "radio",
+                      "min_length": 0,
+                      "max_length": 4096,
+                      "placeholder": "",
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": [
+                          {
+                              "id": 28,
+                              "input_field_id": 35,
+                              "label": "Yes",
+                              "value": "Yes",
+                              "risks": {
+                                  "Business continuity": {
+                                      "impact": 60
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          },
+                          {
+                              "id": 29,
+                              "input_field_id": 35,
+                              "label": "No",
+                              "value": "No",
+                              "risks": {
+                                  "Business continuity": {
+                                      "impact": 5
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          }
+                      ]
                   }
-                }
-              },
-              {
-                "label": "No",
-                "value": "No",
-                "risks": {
-                  "Business continuity": {
-                    "impact": 5
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Customer Impact",
-        "heading": "Will this have a significant impact on customers?",
-        "description": "<p>Will this change have a significant impact on customers?</p>\n<p>This can include any impact to the customer engagement or using our products. A significant change to the user interface or release of major new functionality should be marked as \"Yes\"</p>",
-        "sort_order": 0,
-        "input_fields": [
+              ],
+              "action_fields": []
+          },
           {
-            "sort_order": 0,
-            "label": "Answer",
-            "required": true,
-            "input_type": "radio",
-            "min_length": 0,
-            "max_length": 4096,
-            "placeholder": "",
-            "product_name": false,
-            "business_owner": false,
-            "release_date": false,
-            "ticket_url": false,
-            "input_options": [
-              {
-                "label": "Yes",
-                "value": "Yes",
-                "risks": {
-                  "User dissatisfaction": {
-                    "impact": 60
+              "id": 69,
+              "title": "Customer Impact",
+              "heading": "Will this have a significant impact on customers?",
+              "description": "<p>Will this change have a significant impact on customers?<\/p>\n<p>This can include any impact to the customer engagement or using our products. A significant change to the user interface or release of major new functionality should be marked as \"Yes\"<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 36,
+                      "label": "Answer",
+                      "required": true,
+                      "input_type": "radio",
+                      "min_length": 0,
+                      "max_length": 4096,
+                      "placeholder": "",
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": [
+                          {
+                              "id": 30,
+                              "input_field_id": 36,
+                              "label": "Yes",
+                              "value": "Yes",
+                              "risks": {
+                                  "User dissatisfaction": {
+                                      "impact": 60
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          },
+                          {
+                              "id": 31,
+                              "input_field_id": 36,
+                              "label": "No",
+                              "value": "No",
+                              "risks": {
+                                  "User dissatisfaction": {
+                                      "impact": 5
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          }
+                      ]
                   }
-                }
-              },
-              {
-                "label": "No",
-                "value": "No",
-                "risks": {
-                  "User dissatisfaction": {
-                    "impact": 5
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Clear Requirements",
-        "heading": "Does the project have clear requirements?",
-        "description": "<p>Does the project have clear requirements that can be easily articulated and measured for success?</p>\n<p>A clear requirement must be something that can be tangibly measured once achieved.</p>",
-        "sort_order": 0,
-        "input_fields": [
+              ],
+              "action_fields": []
+          },
           {
-            "sort_order": 0,
-            "label": "Answer",
-            "required": true,
-            "input_type": "radio",
-            "min_length": 0,
-            "max_length": 4096,
-            "placeholder": "",
-            "product_name": false,
-            "business_owner": false,
-            "release_date": false,
-            "ticket_url": false,
-            "input_options": [
-              {
-                "label": "Yes",
-                "value": "Yes",
-                "risks": {
-                  "Functional failure": {
-                    "impact": 70
-                  },
-                  "Cost overrun": {
-                    "impact": 65
+              "id": 70,
+              "title": "Clear Requirements",
+              "heading": "Does the project have clear requirements?",
+              "description": "<p>Does the project have clear requirements that can be easily articulated and measured for success?<\/p>\n<p>A clear requirement must be something that can be tangibly measured once achieved.<\/p>",
+              "sort_order": 0,
+              "input_fields": [
+                  {
+                      "id": 37,
+                      "label": "Answer",
+                      "required": true,
+                      "input_type": "radio",
+                      "min_length": 0,
+                      "max_length": 4096,
+                      "placeholder": "",
+                      "product_name": false,
+                      "business_owner": false,
+                      "release_date": false,
+                      "ticket_url": false,
+                      "sort_order": 999,
+                      "config": null,
+                      "input_options": [
+                          {
+                              "id": 32,
+                              "input_field_id": 37,
+                              "label": "Yes",
+                              "value": "Yes",
+                              "risks": {
+                                  "Cost overrun": {
+                                      "impact": 65
+                                  },
+                                  "Functional failure": {
+                                      "impact": 70
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          },
+                          {
+                              "id": 33,
+                              "input_field_id": 37,
+                              "label": "No",
+                              "value": "No",
+                              "risks": {
+                                  "Cost overrun": {
+                                      "impact": 0
+                                  },
+                                  "Functional failure": {
+                                      "impact": 0
+                                  }
+                              },
+                              "sort_order": 999,
+                              "created_at": "2024-02-28T02:17:22.000000Z",
+                              "updated_at": "2024-02-28T02:17:22.000000Z"
+                          }
+                      ]
                   }
-                }
-              },
-              {
-                "label": "No",
-                "value": "No",
-                "risks": {
-                  "Functional failure": {
-                    "impact": 0
-                  },
-                  "Cost overrun": {
-                    "impact": 0
-                  }
-                }
-              }
-            ]
+              ],
+              "action_fields": []
           }
-        ]
-      }
-    ],
-    "risks": [
-      {
-        "name": "Compliance failure",
-        "description": ""
-      },
-      {
-        "name": "Business continuity",
-        "description": ""
-      },
-      {
-        "name": "Cost overrun",
-        "description": ""
-      },
-      {
-        "name": "User dissatisfaction",
-        "description": ""
-      },
-      {
-        "name": "Functional failure",
-        "description": ""
-      }
-    ]
+      ],
+      "risks": [
+          {
+              "id": 1,
+              "questionnaire_id": 10,
+              "name": "Compliance failure",
+              "description": "",
+              "created_at": "2024-02-28T02:17:22.000000Z",
+              "updated_at": "2024-02-28T02:17:22.000000Z"
+          },
+          {
+              "id": 2,
+              "questionnaire_id": 10,
+              "name": "Business continuity",
+              "description": "",
+              "created_at": "2024-02-28T02:17:22.000000Z",
+              "updated_at": "2024-02-28T02:17:22.000000Z"
+          },
+          {
+              "id": 3,
+              "questionnaire_id": 10,
+              "name": "Cost overrun",
+              "description": "",
+              "created_at": "2024-02-28T02:17:22.000000Z",
+              "updated_at": "2024-02-28T02:17:22.000000Z"
+          },
+          {
+              "id": 4,
+              "questionnaire_id": 10,
+              "name": "User dissatisfaction",
+              "description": "",
+              "created_at": "2024-02-28T02:17:22.000000Z",
+              "updated_at": "2024-02-28T02:17:22.000000Z"
+          },
+          {
+              "id": 5,
+              "questionnaire_id": 10,
+              "name": "Functional failure",
+              "description": "",
+              "created_at": "2024-02-28T02:17:22.000000Z",
+              "updated_at": "2024-02-28T02:17:22.000000Z"
+          }
+      ]
   }
 }

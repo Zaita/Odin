@@ -14,6 +14,7 @@ class SubmissionSecurityControl extends Model
       "sra_submission_id",
       "security_catalogue_name",
       "name",
+      "risk_weights",
       "description",
       "implementation_guidance",
       "implementation_evidence",
@@ -23,4 +24,22 @@ class SubmissionSecurityControl extends Model
       "control_owner_email",
       "tags"      
     ];
+
+    public function populate($controlId) {
+      $riskWeights = SecurityControlRiskWeight::with("risk")->where(["security_control_id" => $controlId])->get();
+
+      $additionalValues = array();
+      $output = array();
+      foreach($riskWeights as $riskWeight) {
+        $riskName = $riskWeight->risk->name;
+        $output[$riskName] = array(
+          "likelihood_weight" => $riskWeight->likelihood,
+          "likelihood_penalty" => $riskWeight->likelihood_penalty,
+          "impact_weight" => $riskWeight->impact,
+          "impact_penalty" => $riskWeight->impact_penalty
+        );    
+      } // foreach($riskWeights as $riskWeight)
+
+      $this->risk_weights = json_encode($output);
+    }
 }

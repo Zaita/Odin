@@ -122,8 +122,8 @@ class QuestionnaireObject {
                 break 2; // Stop both loops
               }
               // We have a go to
-              $this->handleGoto($currentQuestionTitle, $actionField->goto_question_title);
-              $this->lastQuestion =  $actionField->goto_question_title;
+              $this->handleGoto($currentQuestionTitle, $actionField->goto_question);
+              $this->lastQuestion =  $actionField->goto_question;
             }
           }
           break;          

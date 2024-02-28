@@ -17,9 +17,9 @@ class ActionFieldRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'label' => ['required', 'string', "min:3", "max:128"],
+            'label' => ['required', 'string', "min:1", "max:128"],
             'action_type' => ['required', Rule::in(["continue", "goto", "finish", "message"])],
-            'goto_question_title' => ['string', 'max:256', 'nullable', 'required_if:action_type,goto'],
+            'goto_question' => ['string', 'max:256', 'nullable', 'required_if:action_type,goto'],
             'tasks.*' => ['array:label,value', 'nullable'],
         ];
     }

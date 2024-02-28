@@ -54,7 +54,7 @@ export default function ActionList(props) {
         <div className="w-6 float-left"><DragIndicatorIcon/></div>
         <div className="w-1/6 float-left pt-1">{field.label}</div>
         <div className="w-1/6 float-left pt-1">{field.action_type}</div>
-        <div className="w-1/6 float-left pt-1">{field.action_type == "goto" ? field.goto_question_title : "-"}</div>
+        <div className="w-1/6 float-left pt-1">{field.action_type == "goto" ? field.goto_question : "-"}</div>
         <div className="w-2/6 float-left pt-1">{tasks && tasks.length > 0 ?
           tasks.map((item, index2) => <span key={"uu"+index2}>{item.name}</span>).reduce((result, item) => [result, <br/>, item]) : "-"}
         </div>
