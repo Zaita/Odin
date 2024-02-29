@@ -16,6 +16,7 @@ use Database\Seeders\UserSeeder;
 use Database\Seeders\SecurityCatalogueSeeder;
 use Database\Seeders\ImpactThresholdSeeder;
 use Database\Seeders\LikelihoodThresholdSeeder;
+use Database\Seeders\HelpItemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
     {
       $this->call([
         ConfigurationSeeder::class,
+        HelpItemSeeder::class,
         UserSeeder::class,
         GroupSeeder::class,
         GroupUserSeeder::class,

@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Configuration;
+use App\Models\HelpItem;
 use App\Models\Pillar;
 use App\Models\Submission;
 use App\Models\SecurityCatalogue;
@@ -85,8 +86,10 @@ class HomeController extends Controller
    */
   public function help(Request $request) {
     $config = json_decode(Configuration::GetSiteConfig()->value);
+    $helpItems = HelpItem::get();
     return Inertia::render('Help', [
       'siteConfig' => $config,
+      'items' => $helpItems,
     ]);    
   }
 

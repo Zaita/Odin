@@ -12,8 +12,8 @@ use App\Http\Controllers\Admin\Records\SubmissionsController as Admin_Records_Su
 use App\Http\Controllers\Admin\Configuration\SettingsController as Admin_Configuration_Settings;
 use App\Http\Controllers\Admin\Configuration\EmailController as Admin_Configuration_Email;
 use App\Http\Controllers\Admin\Configuration\RiskController as Admin_Configuration_Risks;
+use App\Http\Controllers\Admin\Configuration\HelpController as Admin_Configuration_Help;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\AdminSiteConfigurationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubmissionController;
@@ -320,6 +320,8 @@ Route::middleware(['auth', 'can:isAdministrator'])->group(function() {
   Route::get('/admin/configuration/risks/edit/{id}', [Admin_Configuration_Risks::class, 'edit'])->name('admin.configuration.risk.edit');
   Route::post('/admin/configuration/risks/save/{id}', [Admin_Configuration_Risks::class, 'save'])->name('admin.configuration.risk.save');
   Route::post('/admin/configuration/risks/delete', [Admin_Configuration_Risks::class, 'delete'])->name('admin.configuration.risk.delete');   
+  // Configuration -> Help
+  Route::get('/admin/configuration/help', [Admin_Configuration_Help::class, 'index'])->name('admin.configuration.help');
   // Configuration -> Single Sign-On  
   Route::get('/admin/configuration/sso', [AdminController::class, 'index'])->name('admin.configuration.sso');
 });

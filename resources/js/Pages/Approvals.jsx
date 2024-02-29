@@ -7,7 +7,7 @@ export default function Approvals(props) {
   function Content(props) {
     return (
       <div id="inner_content">
-        <div className="float-right" style={{fontSize: "11px"}}>Displaying entries</div>
+        <div className="float-right" style={{fontSize: "11px"}}>Displaying entries {props.submissions.from} to {props.submissions.to} of {props.submissions.total}</div>
           <div className="w-full flex bg-white mb-1 p-2">
               <div className="w-2/12 font-bold">Date Created</div>
               <div className="w-2/12 font-bold">Pillar</div>
@@ -17,7 +17,7 @@ export default function Approvals(props) {
               <div className="w-1/12 font-bold">Actions</div>
           </div>
           {props.submissions.map((submission, index) => (
-            <div className="w-full flex bg-white mb-0 p-1">
+            <div className="w-full flex bg-white mb-1 p-1">
               <div className="w-2/12">{submission.created_at_short}</div>
               <div className="w-2/12">{submission.pillar_name}</div>
               <div className="w-3/12">{submission.product_name}</div>
@@ -28,6 +28,9 @@ export default function Approvals(props) {
               </div>
             </div>
           ))}
+          {props.submissions.length == 0 && <div className="w-full flex mb-0 p-1 text-center" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
+            <i>Nothing awaiting approval</i>
+          </div>}          
       </div>
     )
   }
