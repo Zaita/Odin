@@ -18,7 +18,7 @@ export default function Submissions(props) {
               <div className="w-1/12 font-bold">Actions</div>
           </div>
           {props.submissions.data.map((submission, index) => (
-            <div className="w-full flex bg-white mb-0 p-1">
+            <div className="w-full flex bg-white mb-1 p-1" key={"x" + index}>
               <div className="w-2/12">{submission.created_at_short}</div>
               <div className="w-2/12">{submission.pillar_name}</div>
               <div className="w-3/12">{submission.product_name}</div>
@@ -30,6 +30,9 @@ export default function Submissions(props) {
             </div>
           ))}
         </div>
+        {props.submissions.data.length == 0 && <div className="w-full flex mb-0 p-1 text-center" style={{backgroundColor: props.siteConfig.theme_content_bg_color}}>
+            <i>Nothing awaiting approval</i>
+          </div>}           
         <div id="pagination_navbar" className="text-center pt-2 mb-5" >
           {props.submissions.links.map((link, index) => 
             <Link style={{color: props.siteConfig.theme_hyperlink_color}} key={index} href={link.url}>
