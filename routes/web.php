@@ -42,8 +42,8 @@ Route::get('/welcome', function () {
     ]);
 });
 
-Route::get('login/okta', [OAuth2Controller::class, 'redirectToIdp'])->name('login.okta');
-Route::get('authorization-code/callback', [OAuth2Controller::class, 'handleIdpCallback']);
+Route::get('oauth2/okta', [OAuth2Controller::class, 'redirectToIdp'])->name('login.okta');
+Route::get('oauth2/okta/callback', [OAuth2Controller::class, 'handleIdpCallback']);
 
 Route::get('/landing', function () {
     return Inertia::render('landing');

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->string('authentication_method')->default('username/password');
+            $table->boolean('sso')->default(false);
             $table->text('token')->nullable();
             $table->timestamps();
         });
