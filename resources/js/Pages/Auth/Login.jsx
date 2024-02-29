@@ -4,9 +4,10 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import ThemedButton from '@/Components/ThemedButton';
 import TextInput from '@/Components/TextInput';
 import TextField from '@/Components/TextField';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 
 export default function Login(props) {
   let status = props.status;
@@ -107,16 +108,6 @@ export default function Login(props) {
             </Link>
           )}
 
-          <Link
-              href={route('login.okta')}
-              className="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ml-2"
-              style={{color: props.siteConfig.theme_hyperlink_color }}
-            >
-              SSO
-            </Link>
-
-          <a href='/login/okta'>Log in with Okta</a>
-
           <PrimaryButton className="ms-4" disabled={processing}
             style={{
               backgroundColor: props.siteConfig.theme_header_color,
@@ -127,8 +118,11 @@ export default function Login(props) {
             }}>
             Log in
           </PrimaryButton>
-        </div>
+        </div>        
       </form>
+      <div className="flex items-center">
+        <ThemedButton siteConfig={props.siteConfig} onClick={() => {window.location.href=route("login.okta")}} children="Login with Okta"/>       
+      </div>
     </GuestLayout>
   );
 }
