@@ -7,7 +7,7 @@ export default function Submissions(props) {
   function Content(props) {
     return (
       <div id="inner_content">
-        <div id="submission_box" className="mt-6">
+        <div id="submission_box">
         <div className="float-right" style={{fontSize: "11px"}}>Displaying entries {props.submissions.from} to {props.submissions.to} of {props.submissions.total}</div>
           <div className="w-full flex bg-white mb-1 p-2">
               <div className="w-2/12 font-bold">Date Created</div>
