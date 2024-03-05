@@ -8,6 +8,6 @@ use Database\Seeders\UnitTestDatabaseSeeder;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    protected $seed = true;
-    protected $seeder = UnitTestDatabaseSeeder::class;
+    // protected $seed = false;
+    // protected $seeder = UnitTestDatabaseSeeder::class;
 }

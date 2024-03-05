@@ -265,7 +265,7 @@
           },
           {
               "id": 78,
-              "title": " Firewall Information",
+              "title": "Firewall Information",
               "heading": "Please describe what firewall changes you might need",
               "description": "<p>Please name the systems that need to talk and how. This doesn't have to be technically accurate, but an indication of what systems need to talk and how would be a good start for Infrastructure.<\/p><p>You will need to have a chat with the Infrastructure team after your submission has been approved to work through the required firewall rule changes.<\/p>",
               "sort_order": 7,
@@ -462,7 +462,7 @@
                       "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
-                      "release_date": false,
+                      "release_date": true,
                       "ticket_url": false,
                       "sort_order": 999,
                       "config": null,
