@@ -18,6 +18,9 @@ use App\Models\TaskSubmission;
 use App\Models\User;
 use App\Models\SubmissionCollaborator;
 use App\Objects\RiskCalculatorObject;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeZone;
 
 class Submission extends Model
 {
@@ -187,8 +190,9 @@ class Submission extends Model
    * @param submissionQuestions JSON of all questions in the submission
    * @param newAnswerValues The values we want to validate
    */
-  public function validateAnswers(&$errors, $currentQuestion, $submissionQuestions, $newAnswerValues) {
+  public function validateAnswers(array &$errors, $currentQuestion, $submissionQuestions, $newAnswerValues) {
     Log::Info("Validating answers from user");
+    Log::Info($newAnswerValues);
 
     // Find the target question in our questionnaire
     $targetQuestion = null;
@@ -201,62 +205,84 @@ class Submission extends Model
 
     if ($targetQuestion == null) {
       Log::Emergency("Could not find the question $currentQuestion in the submission");
+      $errors["unknown"] = "Question did not exist";
+      return false;
     }
 
-    // Check if we can skip validation. This is because there
-    // are no defined Answer Input Fields on this question
-    if (!isset($targetQuestion->input_fields)) {
-      return true; // No validation required.
+    // Validate Action Fields
+    if (isset($targetQuestion->action_fields) && count($targetQuestion->action_fields) > 0) {
+      $value = isset($newAnswerValues["action"]) ? $newAnswerValues["action"] : null;
+      if ($value == null) {
+        Log::Info($newAnswerValues);
+        Log::Info("Action value was null");
+        $errors["action"] = "An invalid action/button was selected";
+        return false;
+      }
+
+      $foundAction = false;
+      foreach($targetQuestion->action_fields as $actionField) {
+        if ($actionField->label == $value) {
+          $foundAction = true;
+          break;
+        }
+      }
+
+      if (!$foundAction) {
+        $errors["action"] = "An invalid action/button was selected";
+      }
     }
 
-    // Loop over each answerInputField in our questionnaire
-    foreach($targetQuestion->input_fields as $inputField) { 
-      if ($inputField->input_type == "checkbox") {
-        continue; // no validation to do on checkboxs
-      }
+    // Validate Input Fields
+    if (isset($targetQuestion->input_fields) && count($targetQuestion->input_fields) > 0) {
+      // Loop over each answerInputField in our questionnaire
+      foreach($targetQuestion->input_fields as $inputField) { 
+        if ($inputField->input_type == "checkbox") {
+          continue; // no validation to do on checkboxs
+        }
 
-      $label = $inputField->label;
+        $label = $inputField->label;
 
-      $value = isset($newAnswerValues[$label]) ? $newAnswerValues[$label] : null;
-      if (isset($inputField->required) && $inputField->required && ($value == null || $value == "")) {
-        $errors[$label] = "$label is a required field";
-        continue;
-      }
-      if ( (!isset($inputField->required) || !$inputField->required) && ($value == null || $value == "") ) {
-        continue;
-      }
-      if (isset($inputField->min_length) && $inputField->min_length > 0 && (strlen($value) < $inputField->min_length)) {
-        $errors[$label] = "$label must be at least $inputField->min_length characters long";
-        continue;
-      }
-      if (isset($inputField->max_length) && $inputField->max_length > 0 && (strlen($value) > $inputField->max_length)) {
-        $length = strlen($value);
-        $errors[$label] = "$label must not exceed $inputField->max_length, you have $length";
-        continue;
-      }
-      if ($inputField->input_type == "url" && filter_var($value, FILTER_VALIDATE_URL) === false) {
-        $errors[$label] = "$label must be a valid URL (incl https://)";
-        continue;
-      }
-      if ($inputField->input_type == "email" && filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-        $errors[$label] = "$label must be a valid email address";
-        continue;
-      }
+        $value = isset($newAnswerValues[$label]) ? $newAnswerValues[$label] : null;
+        if (isset($inputField->required) && $inputField->required && ($value == null || $value == "")) {
+          $errors[$label] = "$label is a required field";
+          continue;
+        }
+        if ( (!isset($inputField->required) || !$inputField->required) && ($value == null || $value == "") ) {
+          continue;
+        }
+        if (isset($inputField->min_length) && $inputField->min_length > 0 && (strlen($value) < $inputField->min_length)) {
+          $errors[$label] = "$label must be at least $inputField->min_length characters long";
+          continue;
+        }
+        if (isset($inputField->max_length) && $inputField->max_length > 0 && (strlen($value) > $inputField->max_length)) {
+          $length = strlen($value);
+          $errors[$label] = "$label must not exceed $inputField->max_length, you have $length";
+          continue;
+        }
+        if ($inputField->input_type == "url" && filter_var($value, FILTER_VALIDATE_URL) === false) {
+          $errors[$label] = "$label must be a valid URL (incl https://)";
+          continue;
+        }
+        if ($inputField->input_type == "email" && filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+          $errors[$label] = "$label must be a valid email address";
+          continue;
+        }
 
-      /**
-       * Assign Reserved Fields
-       */
-      if (isset($inputField->product_name) && $inputField->product_name) {
-        $this->product_name = $value;
-      }
-      if (isset($inputField->business_owner) && $inputField->business_owner) {
-        $this->business_owner = $value;
-      }      
-      if (isset($inputField->ticket_url) && $inputField->ticket_url) {
-        $this->ticket_link = $value;
-      }
-      if (isset($inputField->releast_date) && $inputField->releast_date) {
-        $this->release_date = $value;
+        /**
+         * Assign Reserved Fields
+         */
+        if (isset($inputField->product_name) && $inputField->product_name) {
+          $this->product_name = $value;
+        }
+        if (isset($inputField->business_owner) && $inputField->business_owner) {
+          $this->business_owner = $value;
+        }      
+        if (isset($inputField->ticket_url) && $inputField->ticket_url) {
+          $this->ticket_link = $value;
+        }
+        if (isset($inputField->release_date) && $inputField->release_date) {
+          $this->release_date = new DateTimeImmutable($value, new DateTimeZone('UTC'));
+        }
       }
     }
 
@@ -278,7 +304,7 @@ class Submission extends Model
         $setValues = array();
         // Update existing answers with new information
         foreach($answerEntry->data as $dataEntry) {
-          Log::Info(json_encode($dataEntry));
+          // Log::Info(json_encode($dataEntry));
           foreach ($newAnswers as $fieldLabel => $fieldValue) {
             if ($fieldLabel == $dataEntry->field) {
               $dataEntry->value = $fieldValue;
@@ -365,80 +391,11 @@ class Submission extends Model
     // Create any tasks that are required on this submission.
     $pillarData = json_decode($this->pillar_data);
     if (!is_null($pillarData->tasks) && $pillarData->tasks != "{}") {
+      $taskCount = count($pillarData->tasks);
+      Log::Info("pillarData->Tasks Count: $taskCount");
       foreach($pillarData->tasks as $task) {
-        $taskObj = Task::where(["name" => $task->name])->first();
-        Log::Info("Adding task $task->name to submission $this->uuid");
-
-        if ($taskObj->type == "questionnaire" || $taskObj->type == "risk_questionnaire") {
-          $questionnaire = Questionnaire::with([
-            "questions" => function(Builder $q) {$q->orderBy('sort_order');},
-            "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
-            "questions.inputFields.input_options" => function(Builder $q) {$q->orderBy('sort_order');},
-            "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
-            ])->findOrFail($taskObj->task_object_id);
-
-          $taskObj->questionnaire = $questionnaire;
-
-          // Use first or new so we don't duplicate tasks here. Only 1 instance of each task per submission
-          $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
-          $taskSubmission->name = $taskObj->name;
-          $taskSubmission->submission_id = $this->id;
-          $taskSubmission->task_type = $taskObj->type;
-          $taskSubmission->task_data = $taskObj;
-          $taskSubmission->risk_data = "{}";
-          if ($pillarData->auto_approve) {
-            $taskSubmission->status = 'not_applicable';
-          }
-
-          if ($taskObj->questionnaire->custom_risks) {
-            $risks = QuestionnaireRisk::where(['questionnaire_id' => $taskObj->questionnaire->id])->get();
-            $riskNames = array();
-            foreach($risks as $risk) {
-              array_push($riskNames, ["name" => $risk->name, "description" => ""]);
-            }
-            $taskSubmission->risks = json_encode($riskNames);
-          } else {
-            $risks = Risk::All();
-            $riskNames = array();
-            foreach($risks as $risk) {
-              array_push($riskNames, ["name" => $risk->name, "description" => $risk->description]);
-            }
-            $taskSubmission->risks = json_encode($riskNames);
-
-          $taskSubmission->save();
-          }
-        } else if ($taskObj->type == "security_risk_assessment") {
-          // Create the task submission object for the DSRA
-          $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $this->id]);
-          $taskSubmission->name = $taskObj->name;
-          $taskSubmission->submission_id = $this->id;
-          $taskSubmission->task_type = $taskObj->type;
-          $taskSubmission->task_data = $taskObj;
-          $taskSubmission->risk_data = "{}";
-          $taskSubmission->risks = "{}";
-          $taskSubmission->save();
-          // Create the DSRA task submission information
-          $sra = SecurityRiskAssessment::with(
-            "security_catalogue",
-            "security_catalogue.security_controls", 
-            "initial_risk_impact")->findOrFail($taskObj->task_object_id);
-          $sraSubmission = SecurityRiskAssessmentSubmission::firstOrNew(["task_submission_id" => $taskSubmission->id]);
-          $sraSubmission->populate($taskSubmission, $sra);
-
-          // Create our security control submission information
-          $catalogueName = $sra->security_catalogue->name;
-          Log::Info("Security catalogue $catalogueName will be assigned to this submission");
-          foreach($sra->security_catalogue->security_controls as $control) {
-            $dbControl = SubmissionSecurityControl::firstOrNew(["submission_id" => $this->id, 
-              "sra_submission_id" => $sraSubmission->id,
-              "name" => $control->name]);
-            $dbControl->security_catalogue_name = $catalogueName;
-            $dbControl->fill(json_decode($control, true));
-            $dbControl->populate($control->id);
-            $dbControl->save();
-          }
-        }  
-      }    
+        
+      } // foreach($pillarData->tasks as $task)  
     }
 
     $this->status = "submitted";

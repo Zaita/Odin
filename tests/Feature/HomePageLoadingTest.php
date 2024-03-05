@@ -11,7 +11,7 @@ use App\Models\Group;
 
 class HomePageLoadingTest extends TestCase {
   // Load our Seeds
-  use RefreshDatabase;
+  // use RefreshDatabase;
 
   /**
    * A basic feature test example.
