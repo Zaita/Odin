@@ -147,82 +147,82 @@ class TaskSubmission extends Model
   /**
    * Create a task submission on a submission
    */
-  public static function Create(string $taskName, Submission $submission, bool $autoApprove) {
+  public static function create(string $taskName, Submission $submission, bool $autoApprove) {
     $taskObj = Task::where(["name" => $taskName])->first();
-        Log::Info("Adding task $taskName to submission $submission->uuid");
+    Log::Info("Adding task $taskName to submission $submission->uuid");
 
-        if ($taskObj->type == "questionnaire" || $taskObj->type == "risk_questionnaire") {
-          $questionnaire = Questionnaire::with([
-            "questions" => function(Builder $q) {$q->orderBy('sort_order');},
-            "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
-            "questions.inputFields.input_options" => function(Builder $q) {$q->orderBy('sort_order');},
-            "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
-            ])->findOrFail($taskObj->task_object_id);
+    if ($taskObj->type == "questionnaire" || $taskObj->type == "risk_questionnaire") {
+      $questionnaire = Questionnaire::with([
+        "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+        "questions.inputFields" => function(Builder $q) {$q->orderBy('sort_order');},
+        "questions.inputFields.input_options" => function(Builder $q) {$q->orderBy('sort_order');},
+        "questions.actionFields" => function(Builder $q) {$q->orderBy('sort_order');},
+        ])->findOrFail($taskObj->task_object_id);
 
-          $taskObj->questionnaire = $questionnaire;
+      $taskObj->questionnaire = $questionnaire;
 
-          // Use first or new so we don't duplicate tasks here. Only 1 instance of each task per submission
-          $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $submission->id]);
-          $taskSubmission->name = $taskObj->name;
-          $taskSubmission->submission_id = $submission->id;
-          $taskSubmission->task_type = $taskObj->type;
-          $taskSubmission->task_data = $taskObj;
-          $taskSubmission->risk_data = "{}";
-          if ($autoApprove) {
-            $taskSubmission->status = 'not_applicable';
-          }
+      // Use first or new so we don't duplicate tasks here. Only 1 instance of each task per submission
+      $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $submission->id]);
+      $taskSubmission->name = $taskObj->name;
+      $taskSubmission->submission_id = $submission->id;
+      $taskSubmission->task_type = $taskObj->type;
+      $taskSubmission->task_data = $taskObj;
+      $taskSubmission->risk_data = "{}";
+      if ($autoApprove) {
+        $taskSubmission->status = 'not_applicable';
+      }
 
-          if ($taskObj->questionnaire->custom_risks) {
-            $risks = QuestionnaireRisk::where(['questionnaire_id' => $taskObj->questionnaire->id])->get();
-            $riskNames = array();
-            foreach($risks as $risk) {
-              array_push($riskNames, ["name" => $risk->name, "description" => ""]);
-            }
-            $taskSubmission->risks = json_encode($riskNames);
-          } else {
-            $risks = Risk::All();
-            $riskNames = array();
-            foreach($risks as $risk) {
-              array_push($riskNames, ["name" => $risk->name, "description" => $risk->description]);
-            }
-            $taskSubmission->risks = json_encode($riskNames);
+      if ($taskObj->questionnaire->custom_risks) {
+        $risks = QuestionnaireRisk::where(['questionnaire_id' => $taskObj->questionnaire->id])->get();
+        $riskNames = array();
+        foreach($risks as $risk) {
+          array_push($riskNames, ["name" => $risk->name, "description" => ""]);
+        }
+        $taskSubmission->risks = json_encode($riskNames);
+      } else {
+        $risks = Risk::All();
+        $riskNames = array();
+        foreach($risks as $risk) {
+          array_push($riskNames, ["name" => $risk->name, "description" => $risk->description]);
+        }
+        $taskSubmission->risks = json_encode($riskNames);
 
-          $taskSubmission->save();
-          }
-        } else if ($taskObj->type == "security_risk_assessment") {
-          // Create the task submission object for the DSRA
-          $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $submission->id]);
-          $taskSubmission->name = $taskObj->name;
-          $taskSubmission->submission_id = $submission->id;
-          $taskSubmission->task_type = $taskObj->type;
-          $taskSubmission->task_data = $taskObj;
-          $taskSubmission->risk_data = "{}";
-          $taskSubmission->risks = "{}";
-          if ($autoApprove) {
-            $taskSubmission->status = 'not_applicable';
-          }          
-          $taskSubmission->save();
-          // Create the DSRA task submission information
-          $sra = SecurityRiskAssessment::with(
-            "security_catalogue",
-            "security_catalogue.security_controls", 
-            "initial_risk_impact")->findOrFail($taskObj->task_object_id);
-          $sraSubmission = SecurityRiskAssessmentSubmission::firstOrNew(["task_submission_id" => $taskSubmission->id]);
-          $sraSubmission->populate($taskSubmission, $sra);
+      $taskSubmission->save();
+      }
+    } else if ($taskObj->type == "security_risk_assessment") {
+      // Create the task submission object for the DSRA
+      $taskSubmission = TaskSubmission::firstOrNew(["name" => $taskObj->name, "submission_id" => $submission->id]);
+      $taskSubmission->name = $taskObj->name;
+      $taskSubmission->submission_id = $submission->id;
+      $taskSubmission->task_type = $taskObj->type;
+      $taskSubmission->task_data = $taskObj;
+      $taskSubmission->risk_data = "{}";
+      $taskSubmission->risks = "{}";
+      if ($autoApprove) {
+        $taskSubmission->status = 'not_applicable';
+      }          
+      $taskSubmission->save();
+      // Create the DSRA task submission information
+      $sra = SecurityRiskAssessment::with(
+        "security_catalogue",
+        "security_catalogue.security_controls", 
+        "initial_risk_impact")->findOrFail($taskObj->task_object_id);
+      $sraSubmission = SecurityRiskAssessmentSubmission::firstOrNew(["task_submission_id" => $taskSubmission->id]);
+      $sraSubmission->populate($taskSubmission, $sra);
 
-          // Create our security control submission information
-          $catalogueName = $sra->security_catalogue->name;
-          Log::Info("Security catalogue $catalogueName will be assigned to this submission");
-          foreach($sra->security_catalogue->security_controls as $control) {
-            $dbControl = SubmissionSecurityControl::firstOrNew(["submission_id" => $submission->id, 
-              "sra_submission_id" => $sraSubmission->id,
-              "name" => $control->name]);
-            $dbControl->security_catalogue_name = $catalogueName;
-            $dbControl->fill(json_decode($control, true));
-            $dbControl->populate($control->id);
-            $dbControl->save();
-          }
-        }  
+      // Create our security control submission information
+      $catalogueName = $sra->security_catalogue->name;
+      Log::Info("Security catalogue $catalogueName will be assigned to this submission");
+      foreach($sra->security_catalogue->security_controls as $control) {
+        $dbControl = SubmissionSecurityControl::firstOrNew(["submission_id" => $submission->id, 
+          "sra_submission_id" => $sraSubmission->id,
+          "name" => $control->name]);
+        $dbControl->security_catalogue_name = $catalogueName;
+        $dbControl->fill(json_decode($control, true));
+        $dbControl->populate($control->id);
+        $dbControl->save();
+      }
+    }  
   }
 }
 

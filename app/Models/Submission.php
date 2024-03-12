@@ -394,8 +394,34 @@ class Submission extends Model
       $taskCount = count($pillarData->tasks);
       Log::Info("pillarData->Tasks Count: $taskCount");
       foreach($pillarData->tasks as $task) {
-        
+        TaskSubmission::create($task->name, $this, $pillarData->auto_approve);
       } // foreach($pillarData->tasks as $task)  
+    }
+
+    // Create any tasks required because of an action answer
+    $questionData = json_decode($this->questionnaire_data);
+    $answerData = json_decode($this->answer_data);
+    $questionCount = count($questionData);
+    Log::Info("$questionCount questions in submission");
+    for ($i = 0; $i < $questionCount; $i++) {
+      $question = $questionData[$i];
+      if (count($question->action_fields) > 0) {
+        Log::Info("Parsing action fields on question: $question->title");
+        if ($answerData->answers[$i]->data[0]->field == "action") {
+          $actionAnswer = $answerData->answers[$i]->data[0]->value;
+          Log::Info("Action answer was $actionAnswer");
+          foreach($question->action_fields as $actionField) {
+            // See if the action field has any tasks, or the label matches user answer
+            if ($actionField->tasks == null || $actionField->label != $actionAnswer) {
+              continue;
+            }
+            foreach($actionField->tasks as $task) {
+              TaskSubmission::create($task->name, $this, $pillarData->auto_approve);
+            }
+          }
+        }
+      }
+
     }
 
     $this->status = "submitted";
