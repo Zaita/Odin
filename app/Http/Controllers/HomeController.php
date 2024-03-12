@@ -31,7 +31,9 @@ class HomeController extends Controller
     $dashboardConfig = json_decode(Configuration::GetDashboardConfig()->value);
 
     $user = $request->user();
-    $latestSubmissions = Submission::where("submitter_email", $user->email)->latest()->limit(5)->get();
+    $latestSubmissions = Submission::where("submitter_email", $user->email)
+      ->whereNotIn('status', ['expired'])
+      ->latest()->limit(5)->get();
     return Inertia::render('Home', [
       'siteConfig' => $config,
       'dashboard' => $dashboardConfig,
@@ -48,8 +50,9 @@ class HomeController extends Controller
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $user = $request->user();
     $submissions = Submission::where("submitter_email", $user->email)
-      ->whereNotIn('status', ['not_approved', 'approved', 'expired'])
-      ->orderByDesc('id', 'created_at', 'updated_at', 'product_name')->paginate(20);
+      // ->whereNotIn('status', ['not_approved', 'approved', 'expired'])
+      ->whereNotIn('status', ['expired'])
+      ->orderByDesc('id')->paginate(20);
 
     return Inertia::Render('Submissions', [
       'siteConfig' => $config,
