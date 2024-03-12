@@ -168,7 +168,7 @@
                       "placeholder": null,
                       "product_name": false,
                       "business_owner": false,
-                      "release_date": false,
+                      "release_date": true,
                       "ticket_url": false,
                       "sort_order": 999,
                       "config": null,
