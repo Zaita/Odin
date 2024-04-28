@@ -20,11 +20,10 @@ class SubmissionsController extends Controller
    * Handle the default GET of / for this controller
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $submissions = Submission::orderByDesc('id')->paginate(20);
     
     return Inertia::render('Admin/Records/Submissions', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'submissions' => $submissions
     ]); 
   }

@@ -17,11 +17,9 @@ class EmailController extends Controller
   /**
    * GET /admin/configuration/email
    */
-  public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
-    
+  public function index(Request $request) {   
     return Inertia::render('Admin/Configuration/Email', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 
@@ -43,9 +41,8 @@ class EmailController extends Controller
    * Load the add screen
    */
   public function start(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Configuration/Email.Start', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 };
