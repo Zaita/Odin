@@ -18,9 +18,8 @@ class SettingsController extends Controller
    * GET /Admin/Configuration/Settings
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Configuration/Settings', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 
@@ -37,9 +36,8 @@ class SettingsController extends Controller
    * GET /Admin/Configuration/Settings/Theme
    */
   public function theme(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Configuration/Settings.Theme', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
   

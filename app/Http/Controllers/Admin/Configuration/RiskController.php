@@ -20,11 +20,10 @@ class RiskController extends Controller
    * GET /admin/configuration/risks
    */
   public function index(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     $risks = Risk::orderBy('created_at')->get();
     
     return Inertia::render('Admin/Configuration/Risks', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
       'risks' => $risks
     ]); 
   }
@@ -34,9 +33,8 @@ class RiskController extends Controller
    * Load the add screen
    */
   public function add(Request $request) {
-    $config = json_decode(Configuration::GetSiteConfig()->value);
     return Inertia::render('Admin/Configuration/Risks.Add', [
-      'siteConfig' => $config,
+      'siteConfig' => Configuration::site_config(),
     ]); 
   }
 
@@ -80,7 +78,7 @@ class RiskController extends Controller
     $risk = Risk::findOrFail($id);
         
     return Inertia::render('Admin/Configuration/Risks.Edit', [
-      'siteConfig' => json_decode(Configuration::GetSiteConfig()->value),
+      'siteConfig' => Configuration::site_config(),
       'risk' => $risk
     ]); 
   }

@@ -33,12 +33,12 @@ export default function SiteConfiguration(props) {
 
   let topMenuItems = [
     [ "Main", "admin.configuration.email"],
-    [ "Start", "admin.configuration.email.start"],
-    [ "Summary", "admin.configuration.email.summary"],
-    [ "Submitted", "admin.configuration.email.submitted"],
-    [ "All Tasks Complete", "admin.configuration.email.alltaskscomplete"],
-    [ "Approval", "admin.configuration.email.approval"],
-    [ "Tasks", "admin.configuration.email.tasks"],    
+    // [ "Start", "admin.configuration.email.start"],
+    // [ "Summary", "admin.configuration.email.summary"],
+    // [ "Submitted", "admin.configuration.email.submitted"],
+    // [ "All Tasks Complete", "admin.configuration.email.alltaskscomplete"],
+    // [ "Approval", "admin.configuration.email.approval"],
+    // [ "Tasks", "admin.configuration.email.tasks"],    
   ];
 
   return (

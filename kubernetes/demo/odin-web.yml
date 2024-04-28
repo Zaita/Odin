@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odin-demo
+spec:
+  selector:
+    matchLabels:
+      app: odin-demo
+  template:
+    metadata:
+      labels:
+        app: odin-demo
+    spec:
+      volumes:
+        - name: app-cache
+          emptyDir:
+            sizeLimit: 250Mi
+      containers:
+        - name: odin-demo
+          image: zaitanz/odin-demo:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9922
+              name: odin-web
+              protocol: TCP
+          envFrom:
+          - secretRef:
+              name: odin.demo.secrets
+           
