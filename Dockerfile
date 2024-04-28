@@ -1,4 +1,6 @@
-FROM php:8.2.12-apache
+FROM webdevops/php-nginx:8.3
+WORKDIR /var/www/html
+COPY . /var/www/html
 
 # Install packages
 RUN apt-get update && apt-get install -y \
@@ -14,38 +16,40 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libreadline-dev \
     libfreetype6-dev \
-    g++
-
-# Apache configuration
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-RUN a2enmod rewrite headers
+    g++ \
+    ssl-cert \
+    cron \
+    openssl
 
 # Common PHP Extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install \
+    gd \
     bz2 \
     intl \
     iconv \
     bcmath \
     opcache \
-    calendar \
+    calendar \ 
+    mysqli \
     pdo_mysql
 
 # Ensure PHP logs are captured by the container
 ENV LOG_CHANNEL=stderr
 
-# Set a volume mount point for your code
-VOLUME /var/www/html
-
 # Copy code and run composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY . /var/www/tmp
-RUN cd /var/www/tmp && composer install --no-dev
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN cd /var/www/html && composer install
+
+# Update the file owner details
+RUN chown -R www-data /var/www/html
+# Allow the storage directory to be written by the owner
+RUN chmod o+w -R /var/www/html/storage/
+
+# RUN crontab -l | echo '* * * * * /usr/bin/bash -l -c "/var/www/html/docker/run_jobs.sh" > /var/www/html/jobs.log 2>&1' | crontab -
 
 # Ensure the entrypoint file can be run
-RUN chmod +x /var/www/tmp/docker-entrypoint.sh
-ENTRYPOINT ["/var/www/tmp/docker-entrypoint.sh"]
-
-# The default apache run command
-CMD ["apache2-foreground"]
+RUN openssl dhparam -out /etc/ssl/dhparam.pem 2048
+RUN chmod 755 /var/www/html/docker/entrypoint.sh
+CMD ["/bin/bash", "-c", "/var/www/html/docker/entrypoint.sh"]
