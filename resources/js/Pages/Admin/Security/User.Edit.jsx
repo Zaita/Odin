@@ -41,7 +41,12 @@ export default function Security_User_Edit(props) {
     [props.user.name, "admin.security.user.edit", props.user.id]
   ]
   
+  let topMenuItems = [
+    ["User", "admin.security.user.edit", props.user.id],
+    ["Groups", "admin.security.user.groups", props.user.id]
+  ]
+
   return (
-    <AdminPanel {...props} topMenuItems={[]} actionMenuItems={[]} breadcrumb={breadcrumb} content={myContent}/>
+    <AdminPanel {...props} topMenuItems={topMenuItems} actionMenuItems={[]} breadcrumb={breadcrumb} content={myContent}/>
   );
 }
