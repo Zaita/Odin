@@ -14,6 +14,7 @@ use App\Models\Pillar;
 use App\Models\Submission;
 use App\Models\SecurityCatalogue;
 use App\Models\SecurityControl;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class HomeController extends Controller
 {
@@ -69,16 +70,22 @@ class HomeController extends Controller
     $config = json_decode(Configuration::GetSiteConfig()->value);
     $user = $request->user();
     $approvableSubmissions = array();
-    $submissions = Submission::where(['status' => 'waiting_for_approval'])->get();
+    $submissions = Submission::where(['status' => 'waiting_for_approval'])->orderBy('id')->get();
+
     foreach($submissions as $submission) {
       if ($submission->canAssignUser($user) || $submission->canApproveWithType($user, null)) {
         array_push($approvableSubmissions, $submission);
       }
     }
     
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $perPage = 20;
+    $paginator = new LengthAwarePaginator($approvableSubmissions, count($approvableSubmissions), $perPage, $currentPage);
+    $paginator->withPath('/approvals');
+
     return Inertia::render('Approvals', [
       'siteConfig' => $config,
-      'submissions' => $approvableSubmissions
+      'submissions' => $paginator
     ]);    
   }
 
