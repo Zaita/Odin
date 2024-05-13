@@ -31,7 +31,7 @@ class Configuration extends Model
       "theme_subheader_color" => "#AB0000",
       "theme_subheader_text_color" => "#FFFFFF",
       "theme_breadcrumb_color" => "#ADADAD",
-      "theme_hyperlink_color" => "#FF9933",
+      "theme_hyperlink_color" => "#800000",
       "theme_btn_bg_color" => "#FFFFFF",
       "theme_btn_text_color" => "#800000",
       "theme_btn_hover_bg_color" => "#800000",
