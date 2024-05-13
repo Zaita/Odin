@@ -38,7 +38,7 @@ function Header({user, siteConfig, selectedMenu}) {
         <MenuIcon content="Approvals" url="/approvals" icon={<GppGoodIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
         <MenuIcon content="Help" url="/help" icon={<HelpIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
         <MenuIcon content="Security Controls" url="/controls" icon={<SecurityIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
-        <MenuIcon content="" url="/profile" icon={<AccountBoxIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>
+        {/* <MenuIcon content="" url="/profile" icon={<AccountBoxIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/> */}
         <MenuIcon content="" url="/logout" icon={<LogoutIcon fontSize="inherit"/>} selectedMenu={selectedMenu} siteConfig={siteConfig}/>          
       </div>
     </div>
