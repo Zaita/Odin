@@ -12,7 +12,7 @@ use App\Models\Group;
 class ApprovalFlowSeeder extends Seeder
 {
   protected function load_approval_flow($name) {
-    $fileName = "storage/content/approvalFlows/${name}.json";
+    $fileName = "storage/content/approvalFlows/$name.json";
     $file = fopen($fileName, "r") or die("Unable to open file!");
     $stringValue = fread($file,filesize($fileName));
     $stringValue = str_replace("!!SecurityArchitects", "Security Architect", $stringValue);
@@ -20,7 +20,6 @@ class ApprovalFlowSeeder extends Seeder
     $json = json_decode($stringValue);
     fclose($file);
 
-    // Risk Profile
     $approvalFlow = new ApprovalFlow();
     $approvalFlow->importFromJson($json);
     $approvalFlow->save(); 

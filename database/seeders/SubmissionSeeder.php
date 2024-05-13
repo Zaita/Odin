@@ -20,58 +20,44 @@ class SubmissionSeeder extends Seeder
      */
     public function run(): void
     {
-      // $user = User::where('email', 'admin@zaita.com')->first();
+      Submission::where('id', '>', '0')->update(['status' => 'expired']);
 
-      // $pillar = Pillar::where("name", "Proof of Concept")->first();     
-      // $questionnaire = Questionnaire::with([
-      //   "questions" => function(Builder $q) {$q->orderBy('sort_order');},
-      //   "questions.inputFields",
-      //   "questions.actionFields",
-      //   ])->findOrFail($pillar->questionnaire_id);
+      $user = User::where('email', 'user@zaita.com')->first();
 
-      // $approvalFlow = ApprovalFlow::findOrFail($pillar->approval_flow_id);
+      $pillar = Pillar::findOrFail(2);      
+      $questionnaire = Questionnaire::with([
+        "questions" => function(Builder $q) {$q->orderBy('sort_order');},
+        "questions.inputFields",
+        "questions.inputFields.input_options",
+        "questions.actionFields"      
+        ])->findOrFail($pillar->questionnaire_id);
+  
+      $approvalFlow = ApprovalFlow::findOrFail($pillar->approval_flow_id);
+      $user = User::where('email', 'user@zaita.com')->first();
+      for ($i = 0; $i < 5; $i++) {
+        $s = new Submission();
+        $s->initAndSave($pillar, $user, $questionnaire);
+        $s->product_name = sprintf("Product %d", $i);        
+        $s->save();
+      }
 
-      // for ($i = 0; $i < 5; $i++) {
-      //   $s = new Submission();
-      //   $s->submitter_id = $user->id;
-      //   $s->submitter_name = $user->name;
-      //   $s->submitter_email = $user->email;
-      //   $s->pillar_name = $pillar->name;
-      //   $s->product_name = sprintf("Product %d", $i);
-      //   $s->pillar_data = $pillar;
-      //   $s->approval_flow_data = $approvalFlow;
-      //   $s->questionnaire_data = $questionnaire;    
-      //   $s->status = "in_progress";    
-      //   $s->save();
-      // }
+      $user = User::where('email', 'usertwo@zaita.com')->first();
+      for ($i = 0; $i < 5; $i++) {
+        $s = new Submission();
+        $s->initAndSave($pillar, $user, $questionnaire);        
+        $s->product_name = sprintf("Product %d", $i);
+        $s->status = "submitted";
+        $s->save();
+      }
 
-      // for ($i = 0; $i < 5; $i++) {
-      //   $s = new Submission();
-      //   $s->submitter_id = $user->id;
-      //   $s->submitter_name = $user->name;
-      //   $s->submitter_email = $user->email;
-      //   $s->pillar_name = $pillar->name;
-      //   $s->product_name = sprintf("Product %d", $i);
-      //   $s->pillar_data = $pillar;
-      //   $s->approval_flow_data = $approvalFlow;
-      //   $s->questionnaire_data = $questionnaire;
-      //   $s->status = "submitted";
-      //   $s->save();
-      // }
-
-      // for ($i = 0; $i < 5; $i++) {
-      //   $s = new Submission();
-      //   $s->submitter_id = $user->id;
-      //   $s->submitter_name = $user->name;
-      //   $s->submitter_email = $user->email;
-      //   $s->pillar_name = $pillar->name;
-      //   $s->product_name = sprintf("Product %d", $i);
-      //   $s->pillar_data = $pillar;
-      //   $s->approval_flow_data = $approvalFlow;
-      //   $s->questionnaire_data = $questionnaire;
-      //   $s->status = "approved";
-      //   $s->save();
-      // }
+      $user = User::where('email', 'userthree@zaita.com')->first();
+      for ($i = 0; $i < 5; $i++) {
+        $s = new Submission();
+        $s->initAndSave($pillar, $user, $questionnaire);        
+        $s->product_name = sprintf("Product %d", $i);
+        $s->status = "waiting_for_approval";
+        $s->save();
+      }
     }
 }
 
