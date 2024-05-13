@@ -15,19 +15,19 @@ function HelpItem({item, siteConfig}) {
         style={{backgroundColor: siteConfig.theme_content_bg_color}}>
         <div className="w-10/12 inline-block">
           <div className="font-bold mb-1">{item.name}</div>
-          <div className="pl-1">{item.summary}</div>
+          <div>{item.summary}</div>
         </div>
         <div className="inline-block float-right">
           {!showContent && <ExpandMoreIcon onClick={() => setShowContent(true)}/>}
           {showContent && <ExpandLessIcon onClick={() => setShowContent(false)}/>}
         </div>            
       </div>
-      <div className="p-1"
+      <div className="p-2 inline-block"
         style={{
           display: showContent ? "block" : "none",
           backgroundColor: siteConfig.theme_content_bg_color
-        }}>
-        {item.content}
+        }}
+        dangerouslySetInnerHTML={{__html: item.content}}>
       </div>
     </div>
   )
