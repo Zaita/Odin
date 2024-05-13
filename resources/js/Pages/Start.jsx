@@ -21,7 +21,7 @@ function Content({auth, siteConfig, pillar}) {
       <div className="whitespace-pre-wrap p-2"
         style={{backgroundColor: siteConfig.theme_content_bg_color}}
         dangerouslySetInnerHTML={{__html: pillar.key_information}} />
-      <div id="pillar_start_button">
+      <div className="contend-end pb-12 pt-2">
         <ThemedButton className="float-right" siteConfig={siteConfig} onClick={() => StartSubmission(pillar.id)}>Start &#62;</ThemedButton>
       </div>
     </div>

@@ -43,7 +43,6 @@ class PillarList extends React.Component {
 
   constructor(props) {
     super(props);   
-    
     this.sortedList = props.pillars.sort((a, b) => a.sort_order - b.sort_order);
   }
  
@@ -57,7 +56,6 @@ class PillarList extends React.Component {
       case 'dashboard': return <DashboardIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
       case 'clock': return <AccessTimeIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;      
       case 'warning': return <WarningIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
-
       default: 
         return <CloseIcon style={{marginBottom: "28px"}} className="justify-center flex align-middle"/>;
     }
