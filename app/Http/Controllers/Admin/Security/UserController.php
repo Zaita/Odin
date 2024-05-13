@@ -106,20 +106,54 @@ class UserController extends Controller
   }
 
   /**
+   * Load the edit screen for an existing group
+   */
+  public function groups(Request $request, $id) {
+    AuditLog::Log("Security.User.Groups", $request);
+    $user = User::findOrFail($id); 
+
+    $groupOptions = array();
+    foreach(Group::all() as $group ) {
+      array_push($groupOptions, $group->name);
+    }
+
+    return Inertia::render('Admin/Security/User.Groups', [
+      'siteConfig' => Configuration::site_config(),
+      'user' => $user,
+      'groupOptions' => $groupOptions
+    ]); 
+  }
+
+  /**
    * Add the user to a security group
    */
-  public function addToGroup(Request $request) {
-    AuditLog::Log("Security.User.AddToGroup", $request);
-    $id = $request->input('user_id', -1);
-    $user = User::findOrFail($id); 
-    $group = Group::where("name", $request->input('name', ''))->firstOrFail();
+  public function linkToGroup(Request $request, $userId) {
+    AuditLog::Log("Security.User.Link", $request);
+    $user = User::findOrFail($userId); 
+    $group = Group::where("name", $request->input('group', ''))->firstOrFail();
 
-    GroupUser::create([
+    GroupUser::createOrFirst([
       'user_id' => $user->id,
       'group_id' => $group->id
     ]);
 
-    return Redirect::route('admin.security.users.edit', $id);
+    return Redirect::route('admin.security.user.groups', $userId);
+  }
+
+  /**
+   * Delete the user from a security group
+   */
+  public function unlinkFromGroup(Request $request, $userId) {
+    AuditLog::Log("Security.User.Unlink", $request);
+    $user = User::findOrFail($userId); 
+    $group = Group::where("id", $request->input('id', ''))->firstOrFail();
+
+    GroupUser::where([
+      'user_id' => $user->id,
+      'group_id' => $group->id
+    ])->delete();
+
+    return Redirect::route('admin.security.user.groups', $userId);
   }
 
 };
