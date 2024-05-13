@@ -50,10 +50,22 @@ class UserSeeder extends Seeder
     ]);
 
     \App\Models\User::factory()->create([
-      'name' => 'Scott User',
+      'name' => 'User One',
       'email' => 'user@zaita.com',
       'password' => bcrypt('user'),
     ]);
+
+    \App\Models\User::factory()->create([
+      'name' => 'User Two',
+      'email' => 'usertwo@zaita.com',
+      'password' => bcrypt('user'),
+    ]);    
+
+    \App\Models\User::factory()->create([
+      'name' => 'User Three',
+      'email' => 'userthree@zaita.com',
+      'password' => bcrypt('user'),
+    ]);  
 
     \App\Models\User::factory()->create([
       'name' => 'Scott Collab',
@@ -79,7 +91,7 @@ class UserSeeder extends Seeder
       'password' => bcrypt('bo'),
     ]);
 
-    \App\Models\User::factory(10)->create();
+    // \App\Models\User::factory(10)->create();
   }
 }
 

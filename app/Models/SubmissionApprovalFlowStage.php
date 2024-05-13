@@ -37,13 +37,14 @@ class SubmissionApprovalFlowStage extends Model
    */
   public function __construct(array $attributes = array()) {
     parent::__construct($attributes);
-
-    
   }
 
   public function initAndSave(ApprovalFlowStage $stage, $submissionId) {
     $this->fill(json_decode(json_encode($stage), true));
     $this->submission_id = $submissionId;
+    unset($this->id);
+    unset($this->approval_flow_id);
+    unset($this->enabled);
     $this->save();
   }
 }
