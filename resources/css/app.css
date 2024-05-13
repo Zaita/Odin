@@ -27,87 +27,11 @@ body {
   max-width: 1140px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-#latest_submissions, #submissions {
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-}
-
-
-
-#latest_submissions #heading,
-#submissions #heading {
-  font-size: 14px;
-  font-weight: 700;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-#latest_submissions table,
-#submissions table {
-  width: 100%;
-  /* background-color: #FFFFFF; */
-}
-
-#latest_submissions table tr th,
-#submissions table tr th {
-  font-weight: 700;
-  text-align: left;
-}
-
-
-
 #small_title {
   padding-top: 20px;
   font-size: 18px;
   font-weight: 700;
   line-height: 21px;
-}
-
-#pillar_start_user {
-  padding-bottom: 20px;
-  /* border-bottom: 2px solid hsla(0,0%,83%,.685); */
-}
-
-#pillar_key_information {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
-}
-
-#pillar_key_information_text {
-  /* background-color: white; */
-  font-stretch: normal;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: normal;
-  line-height: 1.57;
-  padding: 20px 20px 10px;
-  text-align: left;
-  width: 100%;
-}
-
-#pillar_key_information_text p {
-  margin-bottom: 1rem;
-  margin-top: 0;
-}
-
-#pillar_start_button {
-  align-content: end;
-  padding-bottom: 50px;
-  padding-top: 10px;
 }
 
 #inprogress_content {
@@ -121,7 +45,6 @@ body {
 #menu {
   width: 277px;
   align-items: flex-start;
-  /* background-color: white; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -145,7 +68,6 @@ body {
 }
 
 #inprogress_right_panel {
-  /* background-color: white; */
   min-height: 510px;
   padding: 25px 25px 70px;
   position: relative; 
