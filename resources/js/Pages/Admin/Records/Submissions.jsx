@@ -23,7 +23,13 @@ export default function SubmissionsOverview(props) {
         break;
       case "waiting_for_approval":
           niceStatus = "Waiting for approval";
-          break;        
+          break;    
+      case "approved":
+        niceStatus = "Approved";
+        break;      
+      case "expired":
+        niceStatus = "Expired";
+        break;                       
       default:
         niceStatus = "-";
     }
