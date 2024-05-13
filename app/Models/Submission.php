@@ -403,9 +403,14 @@ class Submission extends Model
     $questionCount = count($questionData);
     Log::Info("$questionCount questions in submission");
     for ($i = 0; $i < $questionCount; $i++) {
+      // Skip check if answer was not applicable
+      if ($answerData->answers[$i]->status == "not_applicable") {
+        continue; // Skip a not-applicable answer
+      }
+
       $question = $questionData[$i];
       if (count($question->action_fields) > 0) {
-        Log::Info("Parsing action fields on question: $question->title");
+        Log::Info("Parsing action fields on question: $question->title ".count($question->action_fields));
         if ($answerData->answers[$i]->data[0]->field == "action") {
           $actionAnswer = $answerData->answers[$i]->data[0]->value;
           Log::Info("Action answer was $actionAnswer");
