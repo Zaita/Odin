@@ -409,8 +409,8 @@ class Submission extends Model
       }
 
       $question = $questionData[$i];
-      if (count($question->action_fields) > 0) {
-        Log::Info("Parsing action fields on question: $question->title ".count($question->action_fields));
+      if (count($question->action_fields) > 0) { // does question have possible actions?
+        Log::Info("Parsing action fields on question: $question->title");
         if ($answerData->answers[$i]->data[0]->field == "action") {
           $actionAnswer = $answerData->answers[$i]->data[0]->value;
           Log::Info("Action answer was $actionAnswer");
