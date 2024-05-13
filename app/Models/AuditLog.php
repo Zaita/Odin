@@ -22,12 +22,24 @@ class AuditLog extends Model
     public static function Log($action, $request) {
       $user = $request->user();
       Log::Info("$action");
-      $record = AuditLog::create(
+      AuditLog::create(
         [
         'action' => $action,
         'user_name' => $user->name,
         'user_email' => $user->email,
         'request' => json_encode($request->except(["password"]))
+        ]
+      );
+    }
+
+    public static function LogUserAction($action, $user) {
+      Log::Info("$action");
+      AuditLog::create(
+        [
+        'action' => $action,
+        'user_name' => $user->name,
+        'user_email' => $user->email,
+        'request' => '{}'
         ]
       );
     }

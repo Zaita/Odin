@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Inertia\Inertia;
+use App\Models\AuditLog;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +39,8 @@ class OAuth2Controller extends Controller
      }
 
      Auth::login($localUser, true);
+
+     AuditLog::LogUserAction("Okta.User.Login", $user);
      return redirect('/');
      // Check if the user exists in your system based on their email or other unique identifier.
      // If not, create a new user account.
