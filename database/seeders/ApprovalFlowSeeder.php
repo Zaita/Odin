@@ -30,6 +30,7 @@ class ApprovalFlowSeeder extends Seeder
   public function run(): void
   {
     $this->load_approval_flow("two_stage_with_ciso_endorsement");
+    $this->load_approval_flow("two_stage_with_ciso_approval");
     $this->load_approval_flow("security_only");
     $this->load_approval_flow("security_and_business_owner_only");   
   }

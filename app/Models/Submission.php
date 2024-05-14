@@ -497,8 +497,10 @@ class Submission extends Model
     
     } else if ($status == "waiting_for_approval") {
       return "Waiting for approval";
-    } else if ($status = "approved") {
+    } else if ($status == "approved") {
       return "Approved";
+    } else if ($status == "denied") {
+      return "Not approved";
     }
 
     return "-";
@@ -679,8 +681,12 @@ class Submission extends Model
    * 1. The submitter of the submission cannot approve the submission
    * 2. Collaborators can approve the submission
    * 3. A person may hold multiple endorsement and approval roles. They will all be approved at once.
+   * 
+   * @param user The current user attempting to approve/deny
+   * @param isApproval is True when approving, False when denying.
    */
-  public function approve($user) {
+  public function approve($user, bool $isApproval = true) {
+    Log::Info("Request to approve the submission by $user->email with isApproval: $isApproval");
     if ($this->status == "approved" || $this->status == "denied") {
       $this->errors["error"] = "Cannot approve a submission that has been fully approved or denied";
       return false;
@@ -694,13 +700,22 @@ class Submission extends Model
       return false; 
     }
 
+    // Create a lambda to handle approvals.
     $approveSuccessful = false;
+    $denyEntireSubmission = false;
+    $moveToNextApprovalStage = true;
 
-    $approve = function(&$stage) use ($user, &$approveSuccessful) {
+    $approve = function(&$stage) use ($user, $isApproval, &$denyEntireSubmission, &$moveToNextApprovalStage, &$approveSuccessful) {
       $stage->approved_by_user_id = $user->id;
       $stage->approved_by_user_name = $user->name;
       $stage->approved_by_user_email = $user->email;
-      $stage->status = $stage->approval_type == "approval" ? "approved" : "endorsed";
+      if ($isApproval) {
+        $stage->status = $stage->approval_type == "approval" ? "approved" : "endorsed";
+      } else {
+        $stage->status = $stage->approval_type == "approval" ? "not_approved" : "not_endorsed";
+        $denyEntireSubmission = $stage->approval_type == "approval" ? true : $denyEntireSubmission;
+      }
+      $moveToNextApprovalStage = !is_null($stage->wait_for_approval) ? $stage->wait_for_approval : $moveToNextApprovalStage;
       $stage->save();      
       $approveSuccessful = true;
     };
@@ -728,16 +743,26 @@ class Submission extends Model
     }
 
     if ($approveSuccessful) {
-      Log::Info("Submission approve was successful, incrementing approval stage");
-      $this->approval_stage++;
-      $this->handleApprovalStageChange();
-      $this->save();
+      Log::Info("Deny submission?: $denyEntireSubmission");
+      if ($denyEntireSubmission) {
+        Log::Info("Denying the entire submission now");
+        $this->status = "denied";        
+        $this->approved_at = now();
+        $this->save();
+      } else {
+        Log::Info("Submission approved/denied successfully, incrementing approval stage");
+        $this->approval_stage++;
+        if ($moveToNextApprovalStage) {
+          $this->handleApprovalStageChange();
+        }
+        $this->save();
+      }
     } else {
       $this->errors["error"] = "You do not have permission to approve this submission";
     }
 
     return $approveSuccessful;
-  }
+  } 
 
   /**
    * Handle the tasks we need to do when we are changing an approval stage.
@@ -758,7 +783,7 @@ class Submission extends Model
       }
     }
 
-    Log::Info(sprintf("--Current Approval Stage: %d", $this->approval_stage));
+    Log::Info(sprintf("-- Current Approval Stage: %d", $this->approval_stage));
 
     /**
      * If we've done the last stage, then we need to determine if this submission is approved
@@ -776,6 +801,7 @@ class Submission extends Model
         }
       }
       $this->status = "approved";
+      $this->approved_at = now();
       Log::Info("Submission has been approved");
       // Send Approval Email
       return;
