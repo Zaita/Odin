@@ -25,7 +25,7 @@ export default function ApprovalBox(props) {
   function getApprovalStatusIcon(status) {
     switch(status) {
       case "in_review": 
-        return (<><HourglassBottomIcon style={{width: "34px", color: "blue"}}/>In review</>);
+        return (<><HourglassBottomIcon style={{width: "34px", color: "orange"}}/>In review</>);
       case "approved":
         return (<><VerifiedUserIcon style={{width: "34px", color: "green"}}/>Approved</>);
       case "not_approved":
@@ -46,7 +46,7 @@ export default function ApprovalBox(props) {
         return (<><CancelIcon style={{width: "34px", color: "gray"}}/>Not applicable</>);  
     }
 
-    return "XX";
+    return status;
   }
 
   let approvalStages = props.submission.approval_stages;

@@ -8,7 +8,7 @@ export default function SecurityControls(props) {
   function Content() {
     return (
       <div id="inner_content">
-        <div><span className="font-bold">Security Catalogue:</span>{props.catalogue.name}</div>
+        <div><span className="font-bold">Security Catalogue: </span>{props.catalogue.name}</div>
         <div className="pb-2 border-b-2"
           style={{borderColor: props.siteConfig.theme_bg_color,
             backgroundColor: props.siteConfig.theme_content_bg_color
