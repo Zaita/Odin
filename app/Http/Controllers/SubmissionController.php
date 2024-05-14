@@ -354,7 +354,20 @@ class SubmissionController extends Controller
     return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]); 
   }
   
-  public function deny(Request $request, $uuid) { }
+  /**
+   * Handle /deny/{uuid}
+   * Where the current user is attempting to deny part of the submission.
+   */
+  public function deny(Request $request, $uuid) { 
+    $submission = Submission::where('uuid', $uuid)->first();
+    $user = $request->user();
+
+    if (!$submission->approve($user, false)) {
+      return back()->withInput()->withErrors($submission->errors); 
+    }
+
+    return Redirect::route('submission.submitted', ['uuid' => $submission->uuid]); 
+  }
 
   /**
    * POST /submission/{uuid}/collaborator/add

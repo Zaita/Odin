@@ -13,7 +13,7 @@
   "tasks": [],
   "approval_flow": {
       "id": 1,
-      "name": "Two stage approval with CISO endorsement",
+      "name": "Two stage approval with CISO approval",
       "enabled": 1,
       "created_at": "2024-02-29T09:52:51.000000Z",
       "updated_at": "2024-02-29T09:52:51.000000Z"

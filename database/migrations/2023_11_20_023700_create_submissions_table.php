@@ -31,7 +31,8 @@ return new class extends Migration
             $table->string('ticket_link')->default("");
             $table->string('business_owner')->nullable();
             $table->unsignedBigInteger('approval_stage')->default(0);
-            $table->timestamps();
+            $table->timestamp('approved_at', 0)->nullable();
+            $table->timestamps();            
 
             $table->foreign('submitter_id')->references('id')->on('users');
         });
