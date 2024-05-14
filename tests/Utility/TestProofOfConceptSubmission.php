@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Pillars;
+namespace Tests\Utility;
 
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -10,55 +10,39 @@ use App\Models\User;
 use App\Models\Submission;
 use App\Models\Pillar;
 
-class ProofOfConceptTest extends TestCase {
+class TestProofOfConceptSubmission extends TestCase {
 
   public $user = null;
-  public $id = null;
+  public $securityArchitect = null;  
+  public $pillarId = null;
   public $uuid = null;
 
   protected function setUp() : void {
     parent::setUp();
-    $this->user = User::where(['email' => 'admin@zaita.com'])->first();
-    $this->id = Pillar::where(["name" => "Proof of Concept"])->first()->id;
-  }
+    $this->user = User::Factory()->create();
+    $this->securityArchitect = User::where(['email' => 'security@zaita.com'])->first();
 
-  /**
-   * Check that we can load the /start page for our Proof of Concept Pillar
-   */
-  public function test_start_page(): void {
-    $id = $this->id;
-    $response = $this->actingAs($this->user)->get("/start/$id");
-    $response->assertStatus(200);
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component("Start")
-        ->has("ziggy.location")
-        ->has("siteConfig")
-        ->has("pillar")
-        ->where("pillar.id", $id)
-        ->where("pillar.name", "Proof of Concept")
-    );
+    $this->pillarId = Pillar::where(["name" => "Proof of Concept"])->first()->id;
   }
 
   /**
    * Create the submission all the way until the submitted screen
    */
-  protected function create_submission(bool $generateTask = false): void {
-    $id = $this->id;    
-
+  protected function create_submission(): void {
     // Load the /start page
-    $response = $this->actingAs($this->user)->get("/start/$id");
+    $response = $this->actingAs($this->user)->get("/start/$this->pillarId");
     $response->assertStatus(200);
     $response->assertInertia(fn (Assert $page) => $page
         ->component("Start")
         ->has("ziggy.location")
         ->has("siteConfig")
         ->has("pillar")
-        ->where("pillar.id", $id)
+        ->where("pillar.id", $this->pillarId)
         ->where("pillar.name", "Proof of Concept")
     );
 
     // create the submission and verify redirection
-    $response = $this->actingAs($this->user)->post("/start/$id");
+    $response = $this->actingAs($this->user)->post("/start/$this->pillarId");
     $response->assertStatus(302);
     $response->assertRedirectContains("/inprogress/");
     $uuid = explode("inprogress/", $response->headers->get('Location'))[1];
@@ -423,11 +407,9 @@ class ProofOfConceptTest extends TestCase {
   }
 
   /**
-   * CHeck that we can create a new submission
+   * Verify the submission is ready to submit, then submit it.
    */
-  public function test_do_submission(): void {    
-    $this->create_submission();
-
+  protected function submit_submission(): void {
     // Check submitted screen
     $response = $this->actingAs($this->user)->get("/submitted/$this->uuid");
 
@@ -455,5 +437,22 @@ class ProofOfConceptTest extends TestCase {
     ->where("submission.risk_data", "{}")
     ->url("/submitted/$this->uuid")
     ); 
-  }  
+
+    // Submit the submission
+    $response = $this->actingAs($this->user)->post("/submitforapproval/$this->uuid");
+    $response->assertRedirectToRoute("submission.submitted", $this->uuid);
+    $response = $this->actingAs($this->user)->get("/submitted/$this->uuid");
+    $response->assertInertia(fn (Assert $page) => $page
+      ->component("Submission/Submitted")
+      ->has("ziggy.location")
+      ->has("siteConfig")
+      ->has("errors", 0)
+      ->url("/submitted/$this->uuid")
+      ->where('submission.status', 'waiting_for_approval')
+      ->where('submission.nice_status', 'Waiting for approval')
+      ->where('is_an_approver', false)
+      ->where('can_be_assigned', false)
+      ->where('can_approve_with_type', false)
+    );
+  }
 }

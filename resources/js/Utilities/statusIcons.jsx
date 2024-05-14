@@ -25,7 +25,7 @@ export function getStatusIcon(status) {
     case "Approved":
       return (<VerifiedUserIcon style={{width: "34px", color: "green"}} className="pr-4 w-5"/>);      
     case "Not approved":
-      return (<GppBadIcon style={{width: "34px", color: "green"}} className="pr-4 w-5"/>);  
+      return (<GppBadIcon style={{width: "34px", color: "red"}} className="pr-4 w-5"/>);  
     case "Not Applicable":                
       return (<CancelIcon style={{width: "34px", color: "gray"}} className="pr-4 w-5"/>);  
   }
