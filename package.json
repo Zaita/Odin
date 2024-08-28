@@ -33,6 +33,6 @@
         "react-datepicker": "^4.25.0",
         "react-draft-wysiwyg": "^1.15.0",
         "react-select": "^5.8.0",
-        "webpack": "^5.91.0"
+        "webpack": "^5.94.0"
     }
 }
