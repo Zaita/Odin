@@ -19,7 +19,7 @@ The tool comes pre-configured with:
 Odin was derived from ideas and concepts I developed while working for the New Zealand Transport Agency (NZTA/Waka Kotahi) for the SDLT. Odin is completely separate and new, with no direct compatibility to the SDLT.
 
 ## Documentation
-Documentation for the Odin can be found at: https://Odin.readthedocs.io/en/latest/
+Documentation for the Odin can be found at: https://odin-zaita.readthedocs.io/en/latest/
 
 This includes all relevant topics such as:
 * Installing the Odin
