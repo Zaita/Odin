@@ -1,30 +1,30 @@
 # Installation
 
 ## Quick and Dirty Docker
-Below is a quick and dirty way to get the Odin running locally with docker. You will need to have docker and docker-compose installed.
+Below is a quick and dirty way to get Odin running locally with docker. You will need to have docker and docker-compose installed.
 
-The following commands can be used to download the source code from GitHub and run the Odin in a default local docker configuration:
+The following commands can be used to download the source code from GitHub and run Odin in a default local docker configuration:
 1. Download the source code from GitHub and start the docker containers
 ```none
 git clone https://github.com/zaita/Odin
 cd Odin && cp .env.example .env
 docker-compose up -d
 ```
-2. Wait for the Odin_php container to be ready for connections, can be monitored with:
+2. Wait for Odin_php container to be ready for connections, can be monitored with:
 ```none
 docker logs -f Odin_php
 ```
 3. Navigate to `http://127.0.0.1:8123` and login with admin credentials in `.env`
 
-_Note: The Odin_php container will take a few minutes to start up as it needs to compile in some extra PHP modules and import the default Odin configuration into the MySQL database_
+_Note: Odin_php container will take a few minutes to start up as it needs to compile in some extra PHP modules and import the default Odin configuration into the MySQL database_
 
 ## Requirements
-The Odin is written in ReactJS and PHP and built on the [SilverStripe](https://silverstripe.org) framework. As such, in order to install the software you will need access to a dedicated LAMP, LEMP or similar environment. Refer to the official [Server Requirements Documentation](https://docs.silverstripe.org/en/4/getting_started/server_requirements/) to help you spec a suitable configuration for your Odin.
+Odin is written in ReactJS and PHP and built on the [SilverStripe](https://silverstripe.org) framework. As such, in order to install the software you will need access to a dedicated LAMP, LEMP or similar environment. Refer to the official [Server Requirements Documentation](https://docs.silverstripe.org/en/4/getting_started/server_requirements/) to help you spec a suitable configuration for your Odin.
 
 This repository consists of three parts:
 * the base project, which includes Docker compose files as well as metadata about the project.
-* [the Odin framework](https://github.com/zaita/Odin-framework), which includes the Silverstripe framework and CMS as dependencies and powers the GraphQL endpoints
-* [the Odin theme](https://github.com/zaita/Odin-theme), which is a front-end React framework designed to communicate with Silverstripe via GraphQL.
+* [Odin framework](https://github.com/zaita/Odin-framework), which includes the Silverstripe framework and CMS as dependencies and powers the GraphQL endpoints
+* [Odin theme](https://github.com/zaita/Odin-theme), which is a front-end React framework designed to communicate with Silverstripe via GraphQL.
 
 If you wish to run the project in a docker container, then you will only need:
 * docker.io
@@ -71,7 +71,7 @@ The codebase comes with a data-importer which will configure most of what you wi
 * This data is generated from a default set and contains a set of default questionnaires, tasks, and risk assestments that you are able to alter for your own needs. 
 
 ## Customisation:
-* The frontend is a React application whose application logic, templates and CSS are found in the: "themes/Odin" directory. It is theoretically possible to replace this theme with your own GraphQL-powered theme. To do this, you will need to replace the Odin-theme project with your own implementation of it. This capability is currently untested and undocumented.
+* The frontend is a React application whose application logic, templates and CSS are found in the: "themes/Odin" directory. It is theoretically possible to replace this theme with your own GraphQL-powered theme. To do this, you will need to replace Odin-theme project with your own implementation of it. This capability is currently untested and undocumented.
 * To add further calculation algorithms to appear in "Risk Questionnaire" Tasks, developers will need to subclass `app/src/Formulae/RiskFormula.php` (See app/src/Formulae/NztaApproxRepresentation.php and its tests as an example).
 
 ### Initial Config
@@ -92,14 +92,14 @@ To run the suite ("dev" environments only - see the .env file example below):
 ```
 
 ## Site Customisation / Themes
-Once you have the Odin running, you will want to configure some basic settings to give it a more custom look suitable for your environment.
+Once you have Odin running, you will want to configure some basic settings to give it a more custom look suitable for your environment.
 Firstly, navigate to the admin panel (http://my-Odin.xyz/admin) and login using the admin credentials in the `.env` file.
 
 We will firstly configure the site name, this appears in the admin panel at the top level and in the title of the web browser tab.
 This can be configured under `Settings -> Main`.
 
-Next you can change the colour scheme of the Odin by modifyig the `Settings -> Theme`.
+Next you can change the colour scheme of Odin by modifyig the `Settings -> Theme`.
 
-Next you can change the images used within the Odin by modifying the `Settings -> Images`.
+Next you can change the images used within Odin by modifying the `Settings -> Images`.
 
 Further customisations can be done in the `Settings` section of the admin panel, these will be described under advanced configurations.

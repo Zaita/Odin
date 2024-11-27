@@ -3,14 +3,14 @@
 :depth: 4
 ```
 ## Foreword
-The Digital Security Risk Assessment (DSRA) is an advanced concept in terms of automating change management. The Odin provides an optional DSRA capability where you can offload your risk assessment, control implementation and control validation work to the DSRA as a guide to the delivery team.
+The Digital Security Risk Assessment (DSRA) is an advanced concept in terms of automating change management. Odin provides an optional DSRA capability where you can offload your risk assessment, control implementation and control validation work to the DSRA as a guide to the delivery team.
 
 In simple terms, the DSRA calculates the risk using a standardised quantitiative measurement, then provides a Kanban board to the project team for working through control implementation. Each control comes with the technology patterns for the organisation, and by implementing the applicable ones, the Kanban board automatically updates the current risk position.
 
 If you have a mature risk assessment methodology, you might not find this of use. But, if you have no risk assessment methodology then the DSRA is an ideal starting point. It requires minimal initial configuration and is usable "out of the box".
 
 ## The Digital Security Risk Assessment
-The Digital Security Risk Assessment (DSRA) is a combination of a security risk assessment and orgainsational patterns for delivery. By being a mechanism for the delivery of technology and security patterns, delivery teams are encouraged to engage with the Odin and DSRA as early as possible.
+The Digital Security Risk Assessment (DSRA) is a combination of a security risk assessment and orgainsational patterns for delivery. By being a mechanism for the delivery of technology and security patterns, delivery teams are encouraged to engage with Odin and DSRA as early as possible.
 
 This is designed to provide an end-to-end approach to security within the concept of delivery. Controls are provided to the user with an initial risk impact position at (or before) high-level design. The delivery team can then asses what controls, technologies and patterns are appropriate for the deliverable and plan around that. The DSRA represents this by introducing gamification and shopping-down risk.
 
@@ -35,7 +35,7 @@ The DSRA will almost always give the user a higher starting risk position than t
 The "Initial Impact Assessment" only lists ~20 systems. This is because we have an "Other/Not-Listed" category that is a catch-all set at "Moderate" in terms of impact levels. This is a nice compromise between complexity and coverage.
 
 ## What are the Risks
-The Odin ships with a pre-configured DSRA that represents six risks. These risks represent the CIA triad as well as some practical risks. Removal of risks is not necessary if they are not applicable to your scenario. Risks will only show up in the DSRA when they have an assigned impact through the Risk Questionnaire.
+Odin ships with a pre-configured DSRA that represents six risks. These risks represent the CIA triad as well as some practical risks. Removal of risks is not necessary if they are not applicable to your scenario. Risks will only show up in the DSRA when they have an assigned impact through the Risk Questionnaire.
 
 * Information Disclosure (incl Privacy Breach) – The information is disclosed to an unauthorised internal or external party.
 * Information Modification – The information is changed, removing data integrity and truth.
@@ -81,12 +81,12 @@ Score = 61.625
 ```
 
 This is represented as: Score = Max Score + ((3x Average + 2x Median) x 0.25) => where Median and Average are calculated with the Max Score removed.
-Within the Odin configuration. This calculation method is named "NZTA Risk Approximation".
+Within Odin configuration. This calculation method is named "NZTA Risk Approximation".
 
 ### Calculating: Likelihood
 Likelihood is represented as a score, not as a percentage or chance in the DSRA. All risks that get allocated to the DSRA will start with a likelihood of 100 and will be adjusted as treatments are implemented. A likelihood can do down when a treatment is implement; and can go up if there is a penalty applied (see "Security Components and Controls" below).
 
-Likelihood cannot be altered by users or administrators of the Odin. It's a fixed part of the Odin/DSRA methodology.
+Likelihood cannot be altered by users or administrators of Odin. It's a fixed part of Odin/DSRA methodology.
 
 ### Calculating: Treatments and Controls
 The contra element to the risk in the DSRA is the treatment. Where a treatment is a recommended control that has not been implemented, and a control is a treatment that has been implemented. For the purpose of further discussion, both treatments and controls will be referred to as controls only.
@@ -106,7 +106,7 @@ The Penalties are used to enforce key controls. Where a control is mandatory, it
 e.g. The control “Multi-factor Authentication” may have a likelihood score of 11 and a penalty if 20 for “Information Disclosure”. If this control is implemented, it’d have a net effect of reducing the “Information Disclosure” likelihood rating by 31. If it is not implemented, the likelihood score is increased from it’s based value by 20.
 Security Components and Controls
 
-The Odin comes pre-configured with 1 security component named the "Baseline Control Set". This control set has ~60 controls that are pre-configured for the default DSRA setup.
+Odin comes pre-configured with 1 security component named the "Baseline Control Set". This control set has ~60 controls that are pre-configured for the default DSRA setup.
 
 ### DSRA Object Hierarchy
 The DSRA has:
@@ -121,7 +121,7 @@ e.g. You could have a Security Component called "Virtual Machines" that had cont
 ## Baseline Control Set
 The DSRA comes pre-configured with the "baseline control set". The control set has ~60 controls that are aligned to the New Zealand Information Security Manual (NZISM) “MUST” requirements for New Zealand Government Agencies.
 
-For each control, the Odin provides the user with:
+For each control, Odin provides the user with:
 * A description of what the control is and why it’s important.
 * Where possible, how to implement the control in line with Technology decisions (e.g. what type of multi-factor authentication to use).
 * The scores that the DSRA uses to change the risk

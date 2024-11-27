@@ -23,18 +23,18 @@ class HelpItemSeeder extends Seeder
         "summary" => "Odin is a web application self-service entry point for a quality assurance lifecycle process.",
         "content" => "
         <p>Odin is a web application self-service entry point for a quality assurance lifecycle process. This tool collects relevant information about a delivery,
-          determines the risk rating and generates the appropriate requirements. The tool tailors the list of requirements to the projects specific needs, without 
-          providing unnecessary unrelated requirements. The process is derived from a security centric perspective, allowing the security teams and non-security 
+          determines the risk rating and generates the appropriate requirements. The tool tailors the list of requirements to the projects specific needs, without
+          providing unnecessary unrelated requirements. The process is derived from a security centric perspective, allowing the security teams and non-security
           stakeholders (e.g., privacy, data, finance) to establish custom guidance and requirements as checklist items for all deliveries.</p>
         <p>&nbsp;</p>
-        <p>Odin is used as a guide and reference for deliverying high quality outcomes, be they software release or entire projects. This encourages a security 
-          mindset among project teams and can be used to easily track the completion of requirements for the project. Odin is a no-code solution, allowing quick 
+        <p>Odin is used as a guide and reference for deliverying high quality outcomes, be they software release or entire projects. This encourages a security
+          mindset among project teams and can be used to easily track the completion of requirements for the project. Odin is a no-code solution, allowing quick
           and easy deployment of workflows that support organisational delivery processes. You can be up and running in a few minutes with the pre-configured work-flows.</p>
         <p>&nbsp;</p>
         <p>Additionally, Odin comes pre-configured with:<br/>
-        - Basic workflows to illustrate common scenarios including tasks covering basic concerns like privacy, security and data management<br/>        
-        - Customisable approval flows with delegations<br/>        
-        - Digital security risk assessment and control validation audit capability<br/>        
+        - Basic workflows to illustrate common scenarios including tasks covering basic concerns like privacy, security and data management<br/>
+        - Customisable approval flows with delegations<br/>
+        - Digital security risk assessment and control validation audit capability<br/>
         - Usage Reporting<br/>
         </p>
         ",
@@ -48,7 +48,7 @@ class HelpItemSeeder extends Seeder
         <p>Odin is a change management and approval system. A user representing the change can complete the entire change management process by engaging with Odin.
         </p>
         <p>&nbsp;</p>
-        <p>The Odin process is a multi-stage process allowing for complete change management coverage. The change lifecycle includes:<br/>
+        <p>Odin process is a multi-stage process allowing for complete change management coverage. The change lifecycle includes:<br/>
         1. Entering basic information about the change.<br/>
         2. Getting assigned the appropriate requirements/tasks for the change.<br/>
         3. Completing the tasks and getting the required task approvals (e.g., privacy, procurement, legal).<br/>
@@ -66,7 +66,7 @@ class HelpItemSeeder extends Seeder
         "name" => "Do approvals get stored in Odin?",
         "summary" => "Odin has support for task and submission approvals, including customised approval flows.",
         "content" => "
-        <p>As Odin is designed to cover the entire change management lifecycle, it has been designed to support different levels of approval and user customised 
+        <p>As Odin is designed to cover the entire change management lifecycle, it has been designed to support different levels of approval and user customised
         approval flows. There are two types of approvals in Odin.</p>
         <p>&nbsp;</p>
         <p>A <b>Task Approval</b> is a required approval on a single task within a change submission. A change submission can have multiple tasks, and each task
@@ -88,10 +88,10 @@ class HelpItemSeeder extends Seeder
         "name" => "Can we have different change types and tasks?",
         "summary" => "Yes, the change types (pillars) and tasks are entirely customisable.",
         "content" => "
-        <p>Odin supports completely customisable pillars and tasks. They are fully customisable through the administration dashboard with no code changes required. 
+        <p>Odin supports completely customisable pillars and tasks. They are fully customisable through the administration dashboard with no code changes required.
         Odin is a no-code change management system that allows change managers the ability to easily update and improve the change management process.</p>
         <p>&nbsp;</p>
-        <p>The Odin change management process is designed to be iterative and updated as your organisation learns and enhances its processes.</p>        
+        <p>Odin change management process is designed to be iterative and updated as your organisation learns and enhances its processes.</p>
         ",
         "sort_order" => $sortOrder++
       ]);

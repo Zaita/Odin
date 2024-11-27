@@ -72,4 +72,4 @@ Control Sets can be imported as JSON files through the Admin Panel by going to C
 It is recommended that you export an existing control set, then edit that.
 Creating a Control Set Manually
 
-From the Admin Panel select Control Sets and Add Control Set. This will allow you to add a control set, then add new controls or link existing controls to it. If you link existing controls, you will need to specify new weights for each risk as these are unique per control set. The Odin provides full functionality for adding and editing controls within a control set through the Admin Panel.
+From the Admin Panel select Control Sets and Add Control Set. This will allow you to add a control set, then add new controls or link existing controls to it. If you link existing controls, you will need to specify new weights for each risk as these are unique per control set. Odin provides full functionality for adding and editing controls within a control set through the Admin Panel.

@@ -1,7 +1,7 @@
 # Advanced: More Approval Flow Information
 
 ## Overview
-The Odin uses a 3-stage approval flow. This becomes 4 stages when there is a certification and accreditation task.
+Odin uses a 3-stage approval flow. This becomes 4 stages when there is a certification and accreditation task.
 
 The stages are:
 
@@ -13,13 +13,13 @@ The stages are:
 ## Task Approvals
 Tasks can be configured to use a Odin user group as an approval group. When a task with this configured is completed by the user, the approval group will receive an email asking them to review and approve the task. Members of the approval group will have access to the entire submission and other allocated tasks to help with their review.
 
-Once the reviewer is happy with the task, they can click "approve" and it will be marked as "approved by X" on the submission summary screen. This will flag it as complete within the Odin and the user will be able to submit the full submission for approval if they have completed all tasks.
+Once the reviewer is happy with the task, they can click "approve" and it will be marked as "approved by X" on the submission summary screen. This will flag it as complete within Odin and the user will be able to submit the full submission for approval if they have completed all tasks.
 
 Note: The task approvers can see a list of outstanding task awaiting approval by going to the landing page, clicking "Awaiting Approvals" and selecting "Task Approvals".
 Security Architect Approval
 
 ## Submission Approval
-Once all tasks have been completed/approved, the user can submit the full submission for approval. The submission will be marked as "awaiting security architect" and the Odin-SecurityArchitects Odin user group will be emailed a notification asking them to review and approve. The Odin will not notify the business owner of CISO at this point. The Security Architect approval is a mandatory step for all submissions.
+Once all tasks have been completed/approved, the user can submit the full submission for approval. The submission will be marked as "awaiting security architect" and Odin-SecurityArchitects Odin user group will be emailed a notification asking them to review and approve. Odin will not notify the business owner of CISO at this point. The Security Architect approval is a mandatory step for all submissions.
 
 Once a member of the security architect group approves the submission, it will be marked as "awaiting approval" and the CISO and Business Owner will be emailed a notification asking them to review and approve.
 Chief Information Security Officer and Business Owner Approval

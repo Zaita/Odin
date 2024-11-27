@@ -4,7 +4,7 @@
 ```
 
 ## Okta
-The Odin supports integration with Okta via OIDC/OAuth2.
+Odin supports integration with Okta via OIDC/OAuth2.
 
 ### Okta Configuration
 In Okta, enter the Admin panel and create a new application integration.
@@ -19,8 +19,8 @@ The Login details:
 
 Create the application then save the Client ID, and Client Secret.
 
-### Preparing the Odin
-The Odin will require the installation of extra compose modules to integrate with Okta. The following two modules can be installed with `composer require` or added to the `composer.json` file.
+### Preparing Odin
+Odin will require the installation of extra compose modules to integrate with Okta. The following two modules can be installed with `composer require` or added to the `composer.json` file.
 
 1. "bigfork/silverstripe-oauth-login": "*
 2. "foxworth42/oauth2-okta": "^1.0"

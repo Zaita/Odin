@@ -30,7 +30,7 @@ class SecurityControl extends Model
 
     /**
      * Import this security control from JSON. Create any risks
-     * that have not been created in the Odin
+     * that have not been created in Odin
      */
     public function importFromJson(array $jsonArr) {
       // Strip out everything not relevant and update current object

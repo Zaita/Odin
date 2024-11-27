@@ -3,9 +3,9 @@
 :depth: 4
 ```
 
-This page will cover some of the basic administration tasks of operating the Odin. 
+This page will cover some of the basic administration tasks of operating Odin. 
 
-All configuration is done in the admin panel (or content management system/CMS). You will need to authenticate to the Odin as an admin and access the admin panel (http://127.0.0.1:8123/admin).
+All configuration is done in the admin panel (or content management system/CMS). You will need to authenticate to Odin as an admin and access the admin panel (http://127.0.0.1:8123/admin).
 
 All of the following sections assume you have loaded the admin panel. The following terms will be used to describe navigating around the admin panel:
 * The `SideBar` is the left navigation bar in the admin panel, it's the top level navigation element.
@@ -32,7 +32,7 @@ Select `Questionnaire Submissions` from the SideBar, then click the hourglass ic
 Alternatively, you can ask the submitter to go to the summary screen and click edit answers. If you have configured that questionnaire to expire then it will expire automatically that night if the time since it was started is longer than the expiration period.
 
 ## Delegating Business Owner Responsibilities
-When the Odin sends an email to the business owner for approval, this contains a secure link. Any persons with this secure link can authenticate against the Odin and approve on behalf of the business owner. Commonly, we'd say for the person who is acting as the business owner to get a forwarded copy of this email. When this is not possible, you can grab the secure URI from the Odin.
+When Odin sends an email to the business owner for approval, this contains a secure link. Any persons with this secure link can authenticate against Odin and approve on behalf of the business owner. Commonly, we'd say for the person who is acting as the business owner to get a forwarded copy of this email. When this is not possible, you can grab the secure URI from Odin.
 
 Start by selecting `Questionnaire Submissions` from the SideBar, then selecting the target submission. You can use the search box to search for the specific submission. Once you have selected the submission, select `Links` from the NavBar. The `Business Owner Approval Link` can be issued to any persons who can approve on behalf of the Business Owner. 
 
