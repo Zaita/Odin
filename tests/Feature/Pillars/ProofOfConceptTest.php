@@ -18,7 +18,7 @@ class ProofOfConceptTest extends TestCase {
 
   protected function setUp() : void {
     parent::setUp();
-    $this->user = User::where(['email' => 'admin@zaita.com'])->first();
+    $this->user = User::where(['email' => 'admin@zaita.io'])->first();
     $this->id = Pillar::where(["name" => "Proof of Concept"])->first()->id;
   }
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('sso')->default(false);
             $table->text('token')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

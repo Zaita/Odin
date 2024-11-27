@@ -28,18 +28,18 @@ class DatabaseSeeder extends Seeder
       $this->call([
         UserSeeder::class,
         ConfigurationSeeder::class,
-        HelpItemSeeder::class,        
+        HelpItemSeeder::class,
         GroupSeeder::class,
         GroupUserSeeder::class,
         ApprovalFlowSeeder::class,
-        RiskSeeder::class,        
-        SecurityCatalogueSeeder::class,        
-        ImpactThresholdSeeder::class,  
-        LikelihoodThresholdSeeder::class,      
+        RiskSeeder::class,
+        SecurityCatalogueSeeder::class,
+        ImpactThresholdSeeder::class,
+        LikelihoodThresholdSeeder::class,
         ReportSeeder::class,
         TaskSeeder::class,
         PillarSeeder::class,
-        SubmissionSeeder::class,        
+        SubmissionSeeder::class,
       ]);
     }
 }

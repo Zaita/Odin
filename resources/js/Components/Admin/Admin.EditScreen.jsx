@@ -9,6 +9,7 @@ import Admin_DropdownField from './Inputs/Admin.DropdownField';
 import Admin_TextAreaField from './Inputs/Admin.TextAreaField';
 import Admin_RichTextAreaField from './Inputs/Admin.RichTextAreaField';
 import Admin_CheckBox from './Inputs/Admin.Checkbox';
+import Admin_TextFieldReadOnly from './Inputs/Admin.TextFieldReadOnly';
 
 export default function Admin_EditScreen(props) {  
   let [errors, setErrors] = useState();
@@ -31,6 +32,8 @@ export default function Admin_EditScreen(props) {
     field.value = userAnswers.current[dbFormat(field.label)] ? userAnswers.current[dbFormat(field.label)] : field.value;
     if (field.type == "textfield" || field.type == "text") {
       inputFields.push(<Admin_TextField key={key} field={field} {...inputProps}/>)
+    } else if (field.type == "textfieldreadonly" || field.type == "textreadonly") {
+      inputFields.push(<Admin_TextFieldReadOnly key={key} field={field} {...inputProps}/>)      
     } else if (field.type == "textarea") {
       inputFields.push(<Admin_TextAreaField key={key} field={field} {...inputProps}/>)
     } else if (field.type == "richtextarea") {

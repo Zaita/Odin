@@ -18,7 +18,7 @@ class CloudProductOnboardingTest extends TestCase {
 
   protected function setUp() : void {
     parent::setUp();
-    self::$user = User::where(['email' => 'admin@zaita.com'])->first();
+    self::$user = User::where(['email' => 'admin@zaita.io'])->first();
     $this->id = Pillar::where(["name" => "Cloud Product Onboarding"])->first()->id;
   }
 

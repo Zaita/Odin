@@ -50,9 +50,9 @@ Route::get('/landing', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 /*
@@ -142,6 +142,7 @@ Route::middleware(['auth', 'can:isReadOnlyAdministrator'])->group(function() {
   // Security -> Users
   Route::get('/admin/security', [AdminController::class, 'index'])->name('admin.security');
   Route::get('/admin/security/users', [Admin_Security_User::class, 'index'])->name('admin.security.users');
+  Route::get('/admin/security/users/deleted', [Admin_Security_User::class, 'deleted'])->name('admin.security.users.deleted');
   // Security -> Groups
   Route::get('/admin/security/groups', [Admin_Security_Group::class, 'index'])->name('admin.security.groups');
   // Content -> Dashboard
@@ -158,6 +159,11 @@ Route::middleware(['auth', 'can:isReadOnlyAdministrator'])->group(function() {
   Route::get('/admin/content/pillars/{id}/risks', [Admin_Content_Pillar::class, 'pillar_risks'])->name('admin.content.pillar.risks');
   // Submissions -> Overview
   Route::get('/admin/records/submissions', [Admin_Records_Submissions::class, 'index'])->name('admin.records.submissions');
+  Route::get('/admin/records/submissions/inprogress', [Admin_Records_Submissions::class, 'in_progress'])->name('admin.records.submissions.inprogress');
+  Route::get('/admin/records/submissions/waitingforapproval', [Admin_Records_Submissions::class, 'waiting_for_approval'])->name('admin.records.submissions.waitingforapproval');
+  Route::get('/admin/records/submissions/approved', [Admin_Records_Submissions::class, 'approved'])->name('admin.records.submissions.approved');
+  Route::get('/admin/records/submissions/denied', [Admin_Records_Submissions::class, 'denied'])->name('admin.records.submissions.denied');
+  Route::get('/admin/records/submissions/expired', [Admin_Records_Submissions::class, 'expired'])->name('admin.records.submissions.expired');
   Route::get('/admin/records/submission/{id}', [Admin_Records_Submissions::class, 'view'])->name('admin.records.submission.view');
   Route::get('/admin/records/submissions/download', [Admin_Records_Submissions::class, 'index'])->name('admin.records.submission.download');
 });
@@ -284,7 +290,7 @@ Route::middleware(['auth', 'can:isContentAdministrator'])->group(function() {
  */
 Route::middleware(['auth', 'can:isAdministrator'])->group(function() {
   // Security -> Users  
-  Route::post('/admin/security/user/delete', [Admin_Security_User::class, 'delete'])->name('admin.security.user.delete');
+  Route::post('/admin/security/user/{id}/delete', [Admin_Security_User::class, 'delete'])->name('admin.security.user.delete');
   Route::get('/admin/security/user/add', [Admin_Security_User::class, 'add'])->name('admin.security.user.add');  
   Route::post('/admin/security/user/add', [Admin_Security_User::class, 'create'])->name('admin.security.user.create');
   Route::get('/admin/security/user/{id}/edit', [Admin_Security_User::class, 'edit'])->name('admin.security.user.edit');  

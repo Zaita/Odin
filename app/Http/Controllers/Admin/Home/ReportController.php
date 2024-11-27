@@ -3,10 +3,7 @@ namespace App\Http\Controllers\Admin\Home;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
 
 use App\Models\Configuration;
 use App\Models\AuditLog;
@@ -26,7 +23,14 @@ class ReportController extends Controller
     ]); 
   }
 
+  /**
+   * Execute the report with the parameter id
+   * GET /admin/home/report/{id}
+   * 
+   * @param id The database id of the report to execute
+   */
   public function execute(Request $request, $id) {
+    AuditLog::Log("Report($id).Execute", $request);
     $report = Report::findOrFail($id);
     $report->execute();
 

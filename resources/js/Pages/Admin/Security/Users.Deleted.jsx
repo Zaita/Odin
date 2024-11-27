@@ -8,39 +8,39 @@ import ThemedButton from '@/Components/ThemedButton';
 import DeleteModal from '@/Components/Admin/DeleteModal';
 import { SaveAnswersWithId } from '@/Components/Admin/SaveAnswers';
 
-export default function User(props) {  
-  let [saveErrors, setSaveErrors] = useState(props.errors ? props.errors : null);
-  let [saveOk, setSaveOk] = useState(null);
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+export default function Users_Deleted(props) {  
+  // let [saveErrors, setSaveErrors] = useState(props.errors ? props.errors : null);
+  // let [saveOk, setSaveOk] = useState(null);
+  // const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
-  let deleteTarget = useRef({});
+  // let deleteTarget = useRef({});
 
-  function openConfirmationModal(user) {
-    deleteTarget.current["id"] = user.id;
-    deleteTarget.current["type"] = "User";
-    deleteTarget.current["name"] = `${user.name} (${user.email})`;
-    setDialogIsOpen(true);
-  }
+  // function openConfirmationModal(user) {
+  //   deleteTarget.current["id"] = user.id;
+  //   deleteTarget.current["type"] = "User";
+  //   deleteTarget.current["name"] = `${user.name} (${user.email})`;
+  //   setDialogIsOpen(true);
+  // }
 
-  function confirmedDeletion() {
-    console.log("Deletion Confirmed");
-    SaveAnswersWithId("admin.security.user.delete", deleteTarget.current["id"], setSaveOk, setSaveErrors, deleteTarget.current);
-    setDialogIsOpen(false)
-  }
+  // function confirmedDeletion() {
+  //   console.log("Deletion Confirmed");
+  //   SaveAnswersWithId("admin.security.user.delete", deleteTarget.current["id"], setSaveOk, setSaveErrors, deleteTarget.current);
+  //   setDialogIsOpen(false)
+  // }
 
-  function cancelledDeletion() {
-    console.log("Deletion Cancelled");
-    setDialogIsOpen(false)
-  }
+  // function cancelledDeletion() {
+  //   console.log("Deletion Cancelled");
+  //   setDialogIsOpen(false)
+  // }
 
   function MyContent() {
     return (
       <>
-      <DeleteModal open={dialogIsOpen}
+      {/* <DeleteModal open={dialogIsOpen}
         itemInfo={deleteTarget.current} 
         onConfirm={confirmedDeletion}
         onCancel={cancelledDeletion}
-        {...props}/>
+        {...props}/> */}
       <div>
       <div className="pb-2 border-b-2"
           style={{borderColor: props.siteConfig.theme_admin_content_spacer}}>
@@ -56,9 +56,9 @@ export default function User(props) {
               <div className="w-1/6 float-left">{user.name}</div>
               <div className="w-1/6 float-left">{user.email}</div>
               <div className="w-6/12 float-left inline-block">{user.groups_string}</div>
-              <div> 
-                <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.security.user.edit', [user.id]))}/> 
-                <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(user)}/>
+              <div>-
+                {/* <EditIcon className="cursor-pointer" onClick={() => router.get(route('admin.security.user.edit', [user.id]))}/>  */}
+                {/* <DeleteForeverIcon className="cursor-pointer" onClick={() => openConfirmationModal(user)}/> */}
               </div>
             </div>
           )
@@ -72,12 +72,9 @@ export default function User(props) {
     );
   }
 
-  let actionMenuItems = [
-    <ThemedButton siteConfig={props.siteConfig} onClick={() => router.get(route('admin.security.user.add'))} children="Add User"/>,
-  ];
-
   let breadcrumb = [
-    ["Users", "admin.security.users"]
+    ["Users", "admin.security.users"],
+    ["Deleted", "admin.security.users.deleted"]
   ]
 
   let topMenuItems = [
@@ -87,6 +84,6 @@ export default function User(props) {
 
 
   return (
-    <AdminPanel {...props} breadcrumb={breadcrumb} topMenuItems={topMenuItems} actionMenuItems={actionMenuItems} content={<MyContent props/>}/>
+    <AdminPanel {...props} breadcrumb={breadcrumb} topMenuItems={topMenuItems} actionMenuItems={[]} content={<MyContent props/>}/>
   );
 }

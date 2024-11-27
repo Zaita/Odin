@@ -111,7 +111,7 @@
                       "label": "Email",
                       "required": true,
                       "input_type": "email",
-                      "min_length": 12,
+                      "min_length": 6,
                       "max_length": 0,
                       "placeholder": null,
                       "product_name": false,

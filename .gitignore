@@ -35,3 +35,9 @@ yarn-error.log
 
 artisan
 
+todolist.txt
+UsefulShit.txt
+ControlList.txt
+kubernetes/lewis_richards/odin-secrets.yml
+kubernetes/lewis_richards/odin-web.yml
+kubernetes/lewis_richards/odin-nodeport.yml

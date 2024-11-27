@@ -13,82 +13,52 @@ class UserSeeder extends Seeder
 {
   public function run(): void
   {
-    // \App\Models\User::factory()->create([
-    //   'name' => 'Admin Demonstration',
-    //   'email' => 'admin@zaita.io',
-    //   'password' => bcrypt('jJ9tm$1Oo80aQ%jk'),
-    // ]);
-
-    // \App\Models\User::factory()->create([
-    //   'name' => 'Security Architect Demonstration',
-    //   'email' => 'security@zaita.io',
-    //   'password' => bcrypt('7fCq%DEvc3145HOA'),
-    // ]);
-
-    // \App\Models\User::factory()->create([
-    //   'name' => 'User Demonstration',
-    //   'email' => 'user@zaita.io',
-    //   'password' => bcrypt('4qH^O!!yNadMASbP'),
-    // ]);
-
-    // \App\Models\User::factory()->create([
-    //   'name' => 'CISO Demonstration',
-    //   'email' => 'ciso@zaita.io',
-    //   'password' => bcrypt('Chrg5#ERAdBPMOFr'),
-    // ]);
-
-    // \App\Models\User::factory()->create([
-    //   'name' => 'Business Owner Demonstration',
-    //   'email' => 'bo@zaita.io',
-    //   'password' => bcrypt('uHB8sQ@OmdkBCDTa'),
-    // ]);
-
     \App\Models\User::factory()->create([
-      'name' => 'admin',
-      'email' => 'admin@zaita.com',
-      'password' => bcrypt('admin'),
+      'name' => 'Demo Admin User',
+      'email' => 'admin@zaita.io',
+      'password' => bcrypt('jJ9tm$1Oo80aQ%jk'),
     ]);
 
     \App\Models\User::factory()->create([
-      'name' => 'User One',
-      'email' => 'user@zaita.com',
-      'password' => bcrypt('user'),
+      'name' => 'Demo Security User',
+      'email' => 'security@zaita.io',
+      'password' => bcrypt('7fCq%DEvc3145HOA'),
     ]);
 
     \App\Models\User::factory()->create([
-      'name' => 'User Two',
-      'email' => 'usertwo@zaita.com',
-      'password' => bcrypt('user'),
+      'name' => 'Demon CISO User',
+      'email' => 'ciso@zaita.io',
+      'password' => bcrypt('Chrg5#ERAdBPMOFr'),
+    ]);
+
+    \App\Models\User::factory()->create([
+      'name' => 'Demo User One',
+      'email' => 'user@zaita.io',
+      'password' => bcrypt('Rizt0Ty%XRNY2l2c'),
+    ]);
+
+    \App\Models\User::factory()->create([
+      'name' => 'Demo User Two',
+      'email' => 'usertwo@zaita.io',
+      'password' => bcrypt('@6C8B9Y5oxIFsmaq'),
     ]);    
 
     \App\Models\User::factory()->create([
-      'name' => 'User Three',
-      'email' => 'userthree@zaita.com',
-      'password' => bcrypt('user'),
+      'name' => 'Demo User Three',
+      'email' => 'userthree@zaita.io',
+      'password' => bcrypt('m3XRG%WC2UGwoLRj'),
     ]);  
 
     \App\Models\User::factory()->create([
-      'name' => 'Scott Collab',
-      'email' => 'collab@zaita.com',
-      'password' => bcrypt('collab'),
+      'name' => 'Demo Bob Collaborator',
+      'email' => 'collab@zaita.io',
+      'password' => bcrypt('eKd2^Yf!v*M#rs^V'),
     ]);
 
     \App\Models\User::factory()->create([
-      'name' => 'Scott SecArch',
-      'email' => 'security@zaita.com',
-      'password' => bcrypt('sec'),
-    ]);
-
-    \App\Models\User::factory()->create([
-      'name' => 'Scott CISO',
-      'email' => 'ciso@zaita.com',
-      'password' => bcrypt('ciso'),
-    ]);
-
-    \App\Models\User::factory()->create([
-      'name' => 'Scott BO',
-      'email' => 'bo@zaita.com',
-      'password' => bcrypt('bo'),
+      'name' => 'Demo Joe Manager',
+      'email' => 'bo@zaita.io',
+      'password' => bcrypt('wX5@Mz5226nj82Yn'),
     ]);
 
     // \App\Models\User::factory(10)->create();

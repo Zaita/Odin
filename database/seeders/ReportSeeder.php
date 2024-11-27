@@ -24,8 +24,8 @@ class ReportSeeder extends Seeder
     Report::create(["name" => "Number of submissions approved by each member of SecurityArchitects group per year and pillar"]);
     Report::create(["name" => "Number of submissions approved by each member of SecurityArchitects group per year/month and pillar"]);
     Report::create(["name" => "Number of tasks completed per year by type"]);
-    Report::create(["name" => "Number of days between waiting for approval and approved"]);
-    Report::create(["name" => "Number of days between starting a submission and and approved"]);
+    // Report::create(["name" => "Number of days between waiting for approval and approved"]);
+    Report::create(["name" => "Number of days between starting a submission and approved"]);
   }
 }
 

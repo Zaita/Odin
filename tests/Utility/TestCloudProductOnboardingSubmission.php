@@ -23,9 +23,9 @@ class TestCloudProductOnboardingSubmission extends TestCase {
   protected function setUp() : void {
     parent::setUp();
     $this->user = User::Factory()->create();
-    $this->securityArchitect = User::where(['email' => 'security@zaita.com'])->first();
-    $this->ciso = User::where(['email' => 'ciso@zaita.com'])->first();
-    $this->businessOwner = User::where(['email' => 'bo@zaita.com'])->first();
+    $this->securityArchitect = User::where(['email' => 'security@zaita.io'])->first();
+    $this->ciso = User::where(['email' => 'ciso@zaita.io'])->first();
+    $this->businessOwner = User::where(['email' => 'bo@zaita.io'])->first();
     $this->pillarId = Pillar::where(["name" => "Cloud Product Onboarding"])->first()->id;
   }
 
@@ -109,7 +109,7 @@ class TestCloudProductOnboardingSubmission extends TestCase {
     $answers = array();
     $answers["answers"] = array();
     $answers["answers"]["Full Name"] = "Scott Rasmussen";
-    $answers["answers"]["Email"] = "bo@zaita.com";
+    $answers["answers"]["Email"] = "bo@zaita.io";
     $answers["question"] = "Business Owner";
     $response = $this->actingAs($this->user)->post("/inprogress/$this->uuid", $answers);
 
@@ -121,7 +121,7 @@ class TestCloudProductOnboardingSubmission extends TestCase {
       ->has("errors", 0)
       ->has("submission")
       ->where("submission.product_name", "Odin")
-      ->where("submission.business_owner", "bo@zaita.com")
+      ->where("submission.business_owner", "bo@zaita.io")
       ->where("submission.status", "in_progress")
       ->has("submission.answer_data")      
       ->where("submission.answer_data", function (string $value) { 
@@ -131,7 +131,7 @@ class TestCloudProductOnboardingSubmission extends TestCase {
         $this->assertEquals($json->answers[1]->data[0]->field, "Full Name");
         $this->assertEquals($json->answers[1]->data[0]->value, "Scott Rasmussen");
         $this->assertEquals($json->answers[1]->data[1]->field, "Email");
-        $this->assertEquals($json->answers[1]->data[1]->value, "bo@zaita.com");        
+        $this->assertEquals($json->answers[1]->data[1]->value, "bo@zaita.io");        
         $this->assertEquals($json->answers[1]->status, "complete");
         $this->assertEquals($json->answers[1]->question, "Business Owner");        
         return true;
@@ -154,7 +154,7 @@ class TestCloudProductOnboardingSubmission extends TestCase {
       ->has("errors", 0)
       ->has("submission")
       ->where("submission.product_name", "Odin")
-      ->where("submission.business_owner", "bo@zaita.com")
+      ->where("submission.business_owner", "bo@zaita.io")
       ->where("submission.status", "in_progress")
       ->has("submission.answer_data")      
       ->where("submission.answer_data", function (string $value) { 

@@ -32,23 +32,28 @@ class UserController extends Controller
   }
 
   /**
-   * Delete a group. We have some protected groups that we don't
-   * allow to be removed as they are necessary for the approval
-   * flows 
+   * Handle the default GET of /deleted for this controller
+   * 
+   * This will display all users that have been deleted
    */
-  public function delete(Request $request)  {  
-    AuditLog::Log("Security.User.Delete", $request);
-    $id = $request->input('id', -1);
-    $group = User::findOrFail($id); 
-    
-    if (false) {
-      // Add code to preventing the last admin, or the current user
-      $request->session()->flash('errors', "Cannot delete a protected group");
-    
-    } else {
-      $deleted = User::where('id', $id)->delete();   
-    }
+  public function deleted(Request $request) {
+    AuditLog::Log("Security.Users.Deleted", $request);
+    return Inertia::render('Admin/Security/Users.Deleted', [
+      'siteConfig' => Configuration::site_config(),
+      'users' => User::onlyTrashed()->orderBy('created_at')->paginate(20),
+    ]); 
+  }
 
+  /**
+   * POST /admin/security/user/{id}/delete
+   * 
+   * Delete the target user
+   * 
+   * @param userId the database id of the user to delete.
+   */
+  public function delete(Request $request, $userId)  {  
+    AuditLog::Log("Security.User($userId).Delete", $request);
+    User::where('id', $userId)->delete();  
     return Redirect::route('admin.security.users');
   }
 

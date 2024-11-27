@@ -36,6 +36,8 @@ class Report extends Model
         $this->SubmissionsApprovedByEachSecurityArchitectPerYearMonthAndPillar();
       } else if ($this->name == "Number of tasks completed per year by type") {
         $this->NumberOfTasksCompletedPerYearByType();
+      } else if ($this->name == "Number of days between starting a submission and approved") {
+        $this->NumberOfDaysBetweenStartingAndApproval();
       }
     }
 
@@ -112,7 +114,7 @@ class Report extends Model
           DB::raw('DATE_FORMAT(submissions.created_at, "%m") as month'),
           'pillar_name', DB::raw('count(submission_approval_flow_stages.id) as count'))
         ->where(['target' => "Security Architect"])
-        ->whereNot(['approved_by_user_name' => 'null'])
+        ->whereNotNull('approved_by_user_name')
         ->groupBy(['approved_by_user_name', 'pillar_name', 'year', 'month'])
         ->get();
 
@@ -136,6 +138,20 @@ class Report extends Model
       foreach( $submissions as $r ) {
         array_push($this->rows, [$r->name, $r->year, $r->count]);
       }        
+    }
+
+    public function NumberOfDaysBetweenStartingAndApproval() {
+      $submissions = DB::table('submissions')
+        ->select('pillar_name', DB::raw('datediff(approved_at, created_at) as days'), 
+          DB::raw('count(id) as count'))
+        ->whereNotNull('approved_at')
+        ->groupBy(['pillar_name', 'days'])
+        ->get();
+
+      $this->header = ["Pillar", "Days to Approve", "Number of Submissions"];
+      foreach( $submissions as $r ) {
+        array_push($this->rows, [$r->pillar_name, $r->days, $r->count]);
+      }          
     }
     
 }

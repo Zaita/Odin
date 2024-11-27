@@ -21,8 +21,9 @@ class GroupUserSeeder extends Seeder
    * Run the database seeds.
    */
   public function run(): void {
-    $this->addToGroup("admin@zaita.com", "Administrator");
-    $this->addToGroup("security@zaita.com", "Security Architect");
-    $this->addToGroup("ciso@zaita.com", "Chief Information Security Officer");
+    $this->addToGroup("admin@zaita.io", "Administrator");
+    $this->addToGroup("admin@zaita.io", "Security Architect");
+    $this->addToGroup("security@zaita.io", "Security Architect");
+    $this->addToGroup("ciso@zaita.io", "Chief Information Security Officer");
   }
 }

@@ -20,7 +20,7 @@ class TestProofOfConceptSubmission extends TestCase {
   protected function setUp() : void {
     parent::setUp();
     $this->user = User::Factory()->create();
-    $this->securityArchitect = User::where(['email' => 'security@zaita.com'])->first();
+    $this->securityArchitect = User::where(['email' => 'security@zaita.io'])->first();
 
     $this->pillarId = Pillar::where(["name" => "Proof of Concept"])->first()->id;
   }
