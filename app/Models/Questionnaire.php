@@ -81,7 +81,7 @@ class Questionnaire extends Model
     /**
      * Convert a JSON input string into a questionnaire
      */
-    public function importFromSDLTJson($jsonInput)
+    public function importFromOdinJson($jsonInput)
     {
         $this->name = $jsonInput->name;
         $this->type = $jsonInput->type;

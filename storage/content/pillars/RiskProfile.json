@@ -3,7 +3,7 @@
   "name": "Risk Profile",
   "caption": "Perform a pre initiation risk evaluation",
   "icon": "warning",
-  "key_information": "<p>This work flow will ask ontextual questions about a potential delivery to create a high level risk profile. This technique is used early in the planning to appropriate scope security resourcing and engagement.<\/p>\n<p>A risk profile is a useful tool for organisations that have large or long running delivery timelines and want to embrace increased planning and engagement.<\/p>\n<p>The questions here are only some sample questions. You should customise these for your organisation if you wish to implement a Risk Profile process.<\/p>\n<p>This questionnaire will not create any SDLT tasks and the submission will automatically be marked as approved<\/p>\n<p>If you do not complete this questionnaire within 14 days, it will automatically expire&nbsp;<\/p>",
+  "key_information": "<p>This work flow will ask ontextual questions about a potential delivery to create a high level risk profile. This technique is used early in the planning to appropriate scope security resourcing and engagement.<\/p>\n<p>A risk profile is a useful tool for organisations that have large or long running delivery timelines and want to embrace increased planning and engagement.<\/p>\n<p>The questions here are only some sample questions. You should customise these for your organisation if you wish to implement a Risk Profile process.<\/p>\n<p>This questionnaire will not create any Odin tasks and the submission will automatically be marked as approved<\/p>\n<p>If you do not complete this questionnaire within 14 days, it will automatically expire&nbsp;<\/p>",
   "auto_approve": true,
   "auto_submit_no_tasks": false,
   "auto_approve_no_tasks": false,

@@ -13,14 +13,14 @@ class SecurityControl extends Model
     use HasFactory;
     public $errors = array();
     protected $fillable = [
-        "name", 
-        "description", 
-        "implementation_guidance", 
-        "implementation_evidence", 
-        "audit_guidance", 
-        "reference_standards", 
+        "name",
+        "description",
+        "implementation_guidance",
+        "implementation_evidence",
+        "audit_guidance",
+        "reference_standards",
         "control_owner_name",
-        "control_owner_email", 
+        "control_owner_email",
         "tags",
      ];
 
@@ -30,14 +30,14 @@ class SecurityControl extends Model
 
     /**
      * Import this security control from JSON. Create any risks
-     * that have not been created in the SDLT
+     * that have not been created in the Odin
      */
     public function importFromJson(array $jsonArr) {
       // Strip out everything not relevant and update current object
-      $relevantJson = array_filter($jsonArr, function($k) { 
+      $relevantJson = array_filter($jsonArr, function($k) {
         return in_array($k, $this->fillable);
       }, ARRAY_FILTER_USE_KEY);
-      $this->fill($relevantJson); 
+      $this->fill($relevantJson);
       $this->save();
 
       // Add our Control Risk Weights
@@ -52,9 +52,9 @@ class SecurityControl extends Model
         $rw->save();
       }
     }
-    
+
     /**
-    * 
+    *
     */
     public function updateRisks(array $inputs) {
       Log::Info("Updating Risks For Security Control ($this->id)");
@@ -121,7 +121,7 @@ class SecurityControl extends Model
         }
         if (!isset($risk["impact_penalty"])) {
           continue;
-        }        
+        }
         $likelihood = (int)$risk["likelihood"];
         $likelihood_penalty = (int)$risk["likelihood_penalty"];
         $impact = (int)$risk["impact"];
