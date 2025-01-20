@@ -32,7 +32,7 @@
         "react-color": "^2.19.3",
         "react-datepicker": "^4.25.0",
         "react-draft-wysiwyg": "^1.15.0",
-        "react-select": "^5.8.0",
+        "react-select": "^5.9.0",
         "webpack": "^5.91.0"
     }
 }
